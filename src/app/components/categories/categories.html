@@ -1,0 +1,229 @@
+<!-- categories.component.html -->
+<section class="impact-cta-section">
+  <div class="container">
+    <!-- Mission & Vision Focus -->
+    <div class="mission-hero">
+      <div class="mission-content">
+        <h1 class="mission-title">Regenerating Agriculture,<br><span class="highlight">Transforming Lives</span></h1>
+        <p class="mission-statement">
+          Building smallholder farmers' resilience to climate change through innovative regenerative practices that restore ecosystems and empower communities.
+        </p>
+      </div>
+    </div>
+
+    <!-- Impact Stats - Animated -->
+    <div class="impact-stats" id="impact-stats">
+      <div class="stat-grid">
+        <div class="impact-stat">
+          <div class="stat-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2"/>
+              <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2"/>
+              <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </div>
+          <div class="stat-number">{{ formatStatValue(impactStats()[0]) }}</div>
+          <div class="stat-label">Tons of Waste Upcycled Monthly</div>
+        </div>
+        <div class="impact-stat">
+          <div class="stat-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+              <path d="M17 7H7C4.79086 7 3 8.79086 3 11V11C3 13.2091 4.79086 15 7 15H17C19.2091 15 21 13.2091 21 11V11C21 8.79086 19.2091 7 17 7Z" stroke="currentColor" stroke-width="2"/>
+              <path d="M7 15V18C7 19.6569 8.34315 21 10 21H14C15.6569 21 17 19.6569 17 18V15" stroke="currentColor" stroke-width="2"/>
+              <path d="M12 3V7" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </div>
+          <div class="stat-number">{{ formatStatValue(impactStats()[1]) }}</div>
+          <div class="stat-label">Liquid Biofertilizer Weekly</div>
+        </div>
+        <div class="impact-stat">
+          <div class="stat-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+              <path d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2Z" stroke="currentColor" stroke-width="2"/>
+              <path d="M14 2V8H20" stroke="currentColor" stroke-width="2"/>
+              <path d="M16 13H8" stroke="currentColor" stroke-width="2"/>
+              <path d="M16 17H8" stroke="currentColor" stroke-width="2"/>
+              <path d="M10 9H8" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </div>
+          <div class="stat-number">{{ formatStatValue(impactStats()[2]) }}</div>
+          <div class="stat-label">Solid Fertilizer Monthly</div>
+        </div>
+        <div class="impact-stat">
+          <div class="stat-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2V22" stroke="currentColor" stroke-width="2"/>
+              <path d="M17 5H9.5C8.57174 5 7.6815 5.36875 7.02513 6.02513C6.36875 6.6815 6 7.57174 6 8.5C6 9.42826 6.36875 10.3185 7.02513 10.9749C7.6815 11.6313 8.57174 12 9.5 12H14.5C15.4283 12 16.3185 12.3687 16.9749 13.0251C17.6313 13.6815 18 14.5717 18 15.5C18 16.4283 17.6313 17.3185 16.9749 17.9749C16.3185 18.6313 15.4283 19 14.5 19H6" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </div>
+          <div class="stat-number">{{ formatStatValue(impactStats()[3]) }}</div>
+          <div class="stat-label">Farmer Input Savings</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rest of your HTML remains the same -->
+    <!-- Core Solutions -->
+    <div class="solutions-showcase">
+      <div class="section-header">
+        <h2>Our Innovative Solutions</h2>
+        <p>Transforming challenges into opportunities through sustainable technology</p>
+      </div>
+      
+      <div class="solutions-grid">
+        <div class="solution-card bioconversion">
+          <div class="solution-header">
+            <div class="solution-icon">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2"/>
+                <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2"/>
+                <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2"/>
+              </svg>
+            </div>
+            <h3>Bioconversion Technology</h3>
+          </div>
+          <p>Transforming organic waste into premium biofertilizers using Black Soldier Fly Larvae and vermicomposting systems</p>
+          <ul class="benefits">
+            <li>
+              <span class="check-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              Sustainable waste management
+            </li>
+            <li>
+              <span class="check-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              Soil health regeneration
+            </li>
+            <li>
+              <span class="check-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              High-value protein production
+            </li>
+          </ul>
+        </div>
+
+        <div class="solution-card precision">
+          <div class="solution-header">
+            <div class="solution-icon">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2"/>
+                <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2"/>
+                <path d="M12 12L9 9" stroke="currentColor" stroke-width="2"/>
+              </svg>
+            </div>
+            <h3>Precision Agriculture</h3>
+          </div>
+          <p>Data-driven farming optimization with smart dosing technology for maximum efficiency and yield</p>
+          <ul class="benefits">
+            <li>
+              <span class="check-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              Optimized input usage
+            </li>
+            <li>
+              <span class="check-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              Increased productivity
+            </li>
+            <li>
+              <span class="check-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              Environmental protection
+            </li>
+          </ul>
+        </div>
+
+        <div class="solution-card regen-kilimo">
+          <div class="solution-header">
+            <div class="solution-icon">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2L3 7L12 12L21 7L12 2Z" stroke="currentColor" stroke-width="2"/>
+                <path d="M3 17L12 22L21 17" stroke="currentColor" stroke-width="2"/>
+                <path d="M3 12L12 17L21 12" stroke="currentColor" stroke-width="2"/>
+                <path d="M12 2V12" stroke="currentColor" stroke-width="2"/>
+                <path d="M12 12V22" stroke="currentColor" stroke-width="2"/>
+              </svg>
+            </div>
+            <h3>Farmer Empowerment</h3>
+          </div>
+          <p>Comprehensive training and market access programs for sustainable agricultural practices</p>
+          <ul class="benefits">
+            <li>
+              <span class="check-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              Knowledge transfer
+            </li>
+            <li>
+              <span class="check-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              Market linkages
+            </li>
+            <li>
+              <span class="check-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              Community development
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SDG Alignment -->
+    <div class="sdg-section">
+      <div class="sdg-header">
+        <h2>Aligning with Global Sustainability Goals</h2>
+        <p>Contributing to 9 UN Sustainable Development Goals through our regenerative practices</p>
+      </div>
+      <div class="sdg-grid">
+        <div class="sdg-item" *ngFor="let sdg of sdgs">
+          <div class="sdg-number">{{ sdg.number }}</div>
+          <div class="sdg-title">{{ sdg.title }}</div>
+          <div class="sdg-desc">{{ sdg.description }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Final CTA -->
+    <div class="cta-final">
+      <div class="cta-content">
+        <h2>Join the Regenerative Agriculture Movement</h2>
+        <p>Partner with us to build a sustainable future for African agriculture and beyond</p>
+        <div class="cta-buttons">
+          <button class="btn-primary" routerLink="/contact">
+            Start Partnership
+          </button>
+          <button class="btn-secondary" routerLink="/about">
+            Explore Impact
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

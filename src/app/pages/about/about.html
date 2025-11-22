@@ -1,0 +1,196 @@
+<!-- about.component.html -->
+<section class="about-section">
+  <div class="container">
+    <!-- Hero Section with Shared Image -->
+    <div class="about-hero">
+      <div class="hero-image">
+        <img src="/images/aboutus.jpg" alt="Transforming Agriculture Through Innovation" class="hero-img">
+        <div class="hero-overlay"></div>
+      </div>
+      <div class="hero-content">
+        <div class="hero-text-content">
+          <div class="hero-pre-title">transforming</div>
+          <h1 class="hero-title">Agriculture<br>Through</h1>
+          <p class="hero-subtitle">Building resilient food systems for smallholder farmers through regenerative practices</p>
+        </div>
+        <div class="hero-scroll-indicator">
+          <span>Scroll to explore</span>
+          <div class="scroll-arrow"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mission & Vision -->
+    <div class="mission-vision-section">
+      <div class="mission-vision-grid">
+        <div class="mission-card">
+          <div class="card-icon">
+            <div class="icon-wrapper">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2"/>
+                <path d="M12 16V12" stroke="currentColor" stroke-width="2"/>
+                <path d="M12 8H12.01" stroke="currentColor" stroke-width="2"/>
+              </svg>
+            </div>
+          </div>
+          <h2>{{ mission.title }}</h2>
+          <p>{{ mission.description }}</p>
+        </div>
+
+        <div class="vision-card">
+          <div class="card-icon">
+            <div class="icon-wrapper">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                <path d="M1 12S5 4 12 4S23 12 23 12S19 20 12 20S1 12 1 12Z" stroke="currentColor" stroke-width="2"/>
+                <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-width="2"/>
+              </svg>
+            </div>
+          </div>
+          <h2>{{ vision.title }}</h2>
+          <p>{{ vision.description }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Problems Section -->
+    <div class="problems-section">
+      <div class="section-header">
+        <h2>The Challenges We Address</h2>
+        <p>Transforming agricultural obstacles into opportunities for growth</p>
+      </div>
+      
+      <div class="problems-grid">
+        <div class="problem-card" *ngFor="let problem of problems; let i = index">
+          <div class="problem-icon" [innerHTML]="getIcon(problem.icon)"></div>
+          <div class="problem-number">0{{ i + 1 }}</div>
+          <h3>{{ problem.title }}</h3>
+          <p>{{ problem.description }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Solutions Section -->
+    <div class="solutions-section">
+      <div class="section-header">
+        <h2>Our Innovative Solutions</h2>
+        <p>Comprehensive approaches to sustainable agriculture</p>
+      </div>
+      
+      <div class="solutions-grid">
+        <div class="solution-card" *ngFor="let solution of solutions">
+          <div class="solution-header">
+            <div class="solution-icon" [innerHTML]="getIcon(solution.icon)"></div>
+            <div class="solution-title">
+              <h3>{{ solution.title }}</h3>
+              <p class="solution-subtitle">{{ solution.subtitle }}</p>
+            </div>
+          </div>
+          <p class="solution-description">{{ solution.description }}</p>
+          <ul class="solution-features">
+            <li *ngFor="let feature of solution.features">
+              <span class="feature-check">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              {{ feature }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Products Section -->
+    <div class="products-section">
+      <div class="section-header">
+        <h2>Our Products & Services</h2>
+        <p>High-quality solutions for sustainable farming</p>
+      </div>
+      
+      <div class="products-grid">
+        <div class="product-card" *ngFor="let product of products">
+          <div class="product-icon" [innerHTML]="getIcon(product.icon)"></div>
+          <h3>{{ product.title }}</h3>
+          <p>{{ product.description }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Impact & Outcomes -->
+    <div class="impact-section">
+      <div class="impact-grid">
+        <div class="impact-content">
+          <h2>Our Impact</h2>
+          <div class="impact-items">
+            <div class="impact-item" *ngFor="let impact of impacts">
+              <div class="impact-icon" [innerHTML]="getIcon(impact.icon)"></div>
+              <div class="impact-text">
+                <h4>{{ impact.title }}</h4>
+                <p>{{ impact.description }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="outcomes-content">
+          <h2>Measurable Outcomes</h2>
+          <div class="outcomes-list">
+            <div class="outcome-item" *ngFor="let outcome of outcomes">
+              <div class="outcome-icon" [innerHTML]="getIcon(outcome.icon)"></div>
+              <span>{{ outcome.description }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SDG Alignment -->
+    <div class="sdg-section">
+      <div class="section-header">
+        <h2>Global Sustainability Alignment</h2>
+        <p>Contributing to United Nations Sustainable Development Goals</p>
+      </div>
+      
+      <div class="sdg-grid">
+        <div class="sdg-card" *ngFor="let sdg of sdgs">
+          <div class="sdg-header">
+            <div class="sdg-icon" [innerHTML]="getIcon(sdg.icon)"></div>
+            <div class="sdg-number">SDG {{ sdg.number }}</div>
+          </div>
+          <h3>{{ sdg.title }}</h3>
+          <p>{{ sdg.description }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact CTA -->
+    <div class="contact-cta">
+      <div class="cta-content">
+        <h2>Join Our Mission</h2>
+        <p>Partner with us to build a sustainable future for agriculture</p>
+        <div class="contact-info">
+          <div class="contact-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M22 16.92V19.92C22 20.52 21.53 21 20.93 21H3.07C2.47 21 2 20.52 2 19.92V16.92C2 16.32 2.47 15.85 3.07 15.85H20.93C21.53 15.85 22 16.32 22 16.92Z" stroke="currentColor" stroke-width="2"/>
+              <path d="M4 15.85L12 9.85L20 15.85" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            <span>{{ contactInfo.email }}</span>
+          </div>
+          <div class="contact-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M2 6C2 4.89543 2.89543 4 4 4H8C9.10457 4 10 4.89543 10 6V18C10 19.1046 9.10457 20 8 20H4C2.89543 20 2 19.1046 2 18V6Z" stroke="currentColor" stroke-width="2"/>
+              <path d="M14 6C14 4.89543 14.8954 4 16 4H20C21.1046 4 22 4.89543 22 6V18C22 19.1046 21.1046 20 20 20H16C14.8954 20 14 19.1046 14 18V6Z" stroke="currentColor" stroke-width="2"/>
+              <path d="M10 8H14" stroke="currentColor" stroke-width="2"/>
+              <path d="M10 12H14" stroke="currentColor" stroke-width="2"/>
+              <path d="M10 16H14" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            <span>{{ contactInfo.phone }}</span>
+          </div>
+        </div>
+        <button class="btn-primary" routerLink="/contact">
+          Get In Touch
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
