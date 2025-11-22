@@ -15,8 +15,8 @@ interface Feature {
   selector: 'app-features',
   standalone: true,
   imports: [CommonModule, RouterModule],
-  templateUrl: './features.html',
-  styleUrls: ['./features.css']
+  templateUrl: './features.component.html',
+  styleUrls: ['./features.component.css']
 })
 export class FeaturesComponent implements OnInit, AfterViewInit {
   features: Feature[] = [
@@ -72,9 +72,6 @@ export class FeaturesComponent implements OnInit, AfterViewInit {
   private initAnimations(): void {
     // Initialize counter animation for stats
     this.animateStats();
-    
-    // Initialize intersection observer for scroll animations
-    this.initScrollAnimations();
   }
 
   private animateStats(): void {
@@ -87,51 +84,43 @@ export class FeaturesComponent implements OnInit, AfterViewInit {
           this.startCountingAnimation();
         }
       });
-    });
+    }, { threshold: 0.5 }); // Increased threshold for better detection
 
     const statsElement = document.querySelector('.features-stats');
     if (statsElement) {
       observer.observe(statsElement);
+    } else {
+      console.warn('Stats element not found');
     }
   }
 
   private startCountingAnimation(): void {
-    const statNumbers = document.querySelectorAll('.stat-number');
+    const statElements = document.querySelectorAll('.stat-number');
     
-    statNumbers.forEach((statElement, index) => {
+    statElements.forEach((statElement, index) => {
       const targetValue = this.stats[index].value;
-      const duration = 2000;
-      const steps = 60;
-      const increment = targetValue / steps;
-      let current = 0;
+      const duration = 2000; // 2 seconds
+      const frameDuration = 1000 / 60; // 60fps
+      const totalFrames = Math.round(duration / frameDuration);
+      let frame = 0;
       
-      const timer = setInterval(() => {
-        current += increment;
-        if (current >= targetValue) {
-          statElement.textContent = targetValue.toString();
-          clearInterval(timer);
-        } else {
-          statElement.textContent = Math.floor(current).toString();
+      const counter = setInterval(() => {
+        frame++;
+        const progress = frame / totalFrames;
+        const currentValue = Math.round(targetValue * progress);
+        
+        if (statElement) {
+          statElement.textContent = currentValue.toString();
         }
-      }, duration / steps);
-    });
-  }
-
-  private initScrollAnimations(): void {
-    // This would typically use a library like AOS (Animate On Scroll)
-    // For now, we'll use a simple intersection observer
-    const featureCards = document.querySelectorAll('.feature-card');
-    
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('animate-in');
+        
+        if (frame === totalFrames) {
+          clearInterval(counter);
+          // Add plus sign for all except the last one
+          if (index !== 3 && statElement) {
+            statElement.textContent = targetValue.toString() + '+';
+          }
         }
-      });
-    }, { threshold: 0.1 });
-
-    featureCards.forEach(card => {
-      observer.observe(card);
+      }, frameDuration);
     });
   }
 
