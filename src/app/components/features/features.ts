@@ -1,143 +1,72 @@
 // features.component.ts
-import { Component, OnInit, AfterViewInit, Inject, PLATFORM_ID } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { RouterModule } from '@angular/router';
-
-interface Feature {
-  icon: string;
-  title: string;
-  description: string;
-  badge: string;
-  badgeType: string;
-}
+import { Component, OnInit, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-features',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule],
   templateUrl: './features.html',
   styleUrls: ['./features.css']
 })
-export class FeaturesComponent implements OnInit, AfterViewInit {
-  features: Feature[] = [
+export class FeaturesComponent implements OnInit {
+  features = [
     {
-      icon: 'delivery',
       title: 'Free Delivery',
-      description: 'Free delivery on orders over KSh 2,000 within Nairobi and major towns',
-      badge: 'Most Popular',
-      badgeType: 'popular'
+      description: 'Enjoy free delivery on all orders over $50, straight to your doorstep.',
+      badge: 'FREE'
     },
     {
-      icon: 'organic',
-      title: '100% Organic Certified',
-      description: 'Certified organic produce from trusted local farmers with full traceability',
-      badge: 'Certified',
-      badgeType: 'certified'
+      title: '100% Organic',
+      description: 'All our products are certified organic with no harmful chemicals or pesticides.',
+      badge: 'CERTIFIED'
     },
     {
-      icon: 'guarantee',
-      title: 'Freshness Guaranteed',
-      description: 'Farm-fresh quality guaranteed or your money back - no questions asked',
-      badge: 'Guarantee',
-      badgeType: 'guarantee'
+      title: 'Fresh Guarantee',
+      description: 'We guarantee the freshness of all our products with our farm-to-table process.',
+      badge: 'GUARANTEED'
     },
     {
-      icon: 'support',
-      title: 'Direct Farmer Support',
-      description: 'Your purchase directly supports local farming communities and sustainable agriculture',
-      badge: 'Community Impact',
-      badgeType: 'impact'
+      title: 'Support Farmers',
+      description: 'Your purchase directly supports local farmers and sustainable agriculture.',
+      badge: 'IMPACT'
     }
   ];
 
   stats = [
-    { value: 5000, label: 'Happy Customers' },
-    { value: 150, label: 'Local Farmers' },
-    { value: 98, label: 'Satisfaction Rate' },
-    { value: 24, label: 'Delivery Hours' }
+    { value: 100, label: 'Happy Customers', target: 10000 },
+    { value: 3000, label: 'Organic Products', target: 5000 },
+    { value: 7000, label: 'Farm Partners', target: 10000 },
+    { value: 10, label: 'Years Experience', target: 20 }
   ];
 
-  private animatedStats = false;
-
-  constructor(@Inject(PLATFORM_ID) private platformId: any) {}
-
-  ngOnInit(): void {}
-
-  ngAfterViewInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      this.initAnimations();
-    }
-  }
-
-  private initAnimations(): void {
-    // Initialize counter animation for stats
+  ngOnInit() {
     this.animateStats();
   }
 
-  private animateStats(): void {
-    if (this.animatedStats) return;
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting && !this.animatedStats) {
-          this.animatedStats = true;
-          this.startCountingAnimation();
-        }
-      });
-    }, { threshold: 0.5 }); // Increased threshold for better detection
-
-    const statsElement = document.querySelector('.features-stats');
-    if (statsElement) {
-      observer.observe(statsElement);
-    } else {
-      console.warn('Stats element not found');
-    }
+  onFeatureClick(feature: any) {
+    // Handle feature click - could open modal or navigate
+    console.log('Feature clicked:', feature);
   }
 
-  private startCountingAnimation(): void {
-    const statElements = document.querySelectorAll('.stat-number');
+  animateStats() {
+    const duration = 2000; // Animation duration in ms
+    const steps = 60; // Number of animation steps
+    const stepDuration = duration / steps;
     
-    statElements.forEach((statElement, index) => {
-      const targetValue = this.stats[index].value;
-      const duration = 2000; // 2 seconds
-      const frameDuration = 1000 / 60; // 60fps
-      const totalFrames = Math.round(duration / frameDuration);
-      let frame = 0;
+    this.stats.forEach(stat => {
+      let currentStep = 0;
+      const increment = stat.target / steps;
       
-      const counter = setInterval(() => {
-        frame++;
-        const progress = frame / totalFrames;
-        const currentValue = Math.round(targetValue * progress);
+      const timer = setInterval(() => {
+        currentStep++;
+        stat.value = Math.round(increment * currentStep);
         
-        if (statElement) {
-          statElement.textContent = currentValue.toString();
+        if (currentStep >= steps) {
+          stat.value = stat.target;
+          clearInterval(timer);
         }
-        
-        if (frame === totalFrames) {
-          clearInterval(counter);
-          // Add plus sign for all except the last one
-          if (index !== 3 && statElement) {
-            statElement.textContent = targetValue.toString() + '+';
-          }
-        }
-      }, frameDuration);
+      }, stepDuration);
     });
-  }
-
-  // Method to handle feature card clicks
-  onFeatureClick(feature: Feature): void {
-    console.log('Feature clicked:', feature.title);
-    // You can add navigation or modal opening logic here
-  }
-
-  // Method to get feature icon based on type
-  getFeatureIcon(iconType: string): string {
-    const icons = {
-      delivery: '🚚',
-      organic: '🌱',
-      guarantee: '💚',
-      support: '🤝'
-    };
-    return icons[iconType as keyof typeof icons] || '⭐';
   }
 }

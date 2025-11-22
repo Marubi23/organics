@@ -10,10 +10,10 @@
     <!-- Features Grid -->
     <div class="features-grid">
       <!-- Free Delivery -->
-      <div class="feature-card">
+      <div class="feature-card" (click)="onFeatureClick(features[0])">
         <div class="feature-icon-wrapper">
           <div class="feature-icon">
-            <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
               <path d="M3 4H16C16.5304 4 17.0391 4.21071 17.4142 4.58579C17.7893 4.96086 18 5.46957 18 6V14C18 14.5304 17.7893 15.0391 17.4142 15.4142C17.0391 15.7893 16.5304 16 16 16H3C2.46957 16 1.96086 15.7893 1.58579 15.4142C1.21071 15.0391 1 14.5304 1 14V6C1 5.46957 1.21071 4.96086 1.58579 4.58579C1.96086 4.21071 2.46957 4 3 4Z" stroke="currentColor" stroke-width="2"/>
               <path d="M18 6H21C21.5304 6 22.0391 6.21071 22.4142 6.58579C22.7893 6.96086 23 7.46957 23 8V12C23 12.5304 22.7893 13.0391 22.4142 13.4142C22.0391 13.7893 21.5304 14 21 14H18" stroke="currentColor" stroke-width="2"/>
               <path d="M7 20C7.55228 20 8 19.5523 8 19C8 18.4477 7.55228 18 7 18C6.44772 18 6 18.4477 6 19C6 19.5523 6.44772 20 7 20Z" stroke="currentColor" stroke-width="2"/>
@@ -22,18 +22,17 @@
               <path d="M16 12H8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
             </svg>
           </div>
-          <div class="icon-bg"></div>
         </div>
-        <h3 class="feature-title">Free Delivery</h3>
-        <p class="feature-description">Free delivery on orders over KSh 2,000 within Nairobi and major towns</p>
-        <div class="feature-badge">Most Popular</div>
+        <h3 class="feature-title">{{ features[0].title }}</h3>
+        <p class="feature-description">{{ features[0].description }}</p>
+        <div class="feature-badge">{{ features[0].badge }}</div>
       </div>
 
       <!-- 100% Organic -->
-      <div class="feature-card">
+      <div class="feature-card" (click)="onFeatureClick(features[1])">
         <div class="feature-icon-wrapper">
           <div class="feature-icon">
-            <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
               <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2"/>
               <path d="M7.5 12L10.5 15L16.5 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M8 8H8.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -41,67 +40,52 @@
               <path d="M12 8H12.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
             </svg>
           </div>
-          <div class="icon-bg"></div>
         </div>
-        <h3 class="feature-title">100% Organic Certified</h3>
-        <p class="feature-description">Certified organic produce from trusted local farmers with full traceability</p>
-        <div class="feature-badge certified">Certified</div>
+        <h3 class="feature-title">{{ features[1].title }}</h3>
+        <p class="feature-description">{{ features[1].description }}</p>
+        <div class="feature-badge certified">{{ features[1].badge }}</div>
       </div>
 
       <!-- Fresh Guarantee -->
-      <div class="feature-card">
+      <div class="feature-card" (click)="onFeatureClick(features[2])">
         <div class="feature-icon-wrapper">
           <div class="feature-icon">
-            <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
               <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2"/>
               <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M8 7C8 7 9 9 12 9C15 9 16 7 16 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
               <path d="M16 17C16 17 15 15 12 15C9 15 8 17 8 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
             </svg>
           </div>
-          <div class="icon-bg"></div>
         </div>
-        <h3 class="feature-title">Freshness Guaranteed</h3>
-        <p class="feature-description">Farm-fresh quality guaranteed or your money back - no questions asked</p>
-        <div class="feature-badge guarantee">Guarantee</div>
+        <h3 class="feature-title">{{ features[2].title }}</h3>
+        <p class="feature-description">{{ features[2].description }}</p>
+        <div class="feature-badge guarantee">{{ features[2].badge }}</div>
       </div>
 
       <!-- Support Farmers -->
-      <div class="feature-card">
+      <div class="feature-card" (click)="onFeatureClick(features[3])">
         <div class="feature-icon-wrapper">
           <div class="feature-icon">
-            <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
               <path d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21" stroke="currentColor" stroke-width="2"/>
               <path d="M9 11C11.2091 11 13 9.20914 13 7C13 4.79086 11.2091 3 9 3C6.79086 3 5 4.79086 5 7C5 9.20914 6.79086 11 9 11Z" stroke="currentColor" stroke-width="2"/>
               <path d="M23 21V19C22.9993 18.1137 22.7044 17.2528 22.1614 16.5523C21.6184 15.8519 20.8581 15.3516 20 15.13" stroke="currentColor" stroke-width="2"/>
               <path d="M16 3.13C16.8604 3.35031 17.623 3.85071 18.1676 4.55232C18.7122 5.25392 19.0078 6.11683 19.0078 7.005C19.0078 7.89318 18.7122 8.75608 18.1676 9.45769C17.623 10.1593 16.8604 10.6597 16 10.88" stroke="currentColor" stroke-width="2"/>
             </svg>
           </div>
-          <div class="icon-bg"></div>
         </div>
-        <h3 class="feature-title">Direct Farmer Support</h3>
-        <p class="feature-description">Your purchase directly supports local farming communities and sustainable agriculture</p>
-        <div class="feature-badge impact">Community Impact</div>
+        <h3 class="feature-title">{{ features[3].title }}</h3>
+        <p class="feature-description">{{ features[3].description }}</p>
+        <div class="feature-badge impact">{{ features[3].badge }}</div>
       </div>
     </div>
 
     <!-- Stats Counter -->
     <div class="features-stats">
-      <div class="stat-item">
-        <div class="stat-number">0</div>
-        <div class="stat-label">Happy Customers</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-number">0</div>
-        <div class="stat-label">Local Farmers</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-number">0</div>
-        <div class="stat-label">Satisfaction Rate</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-number">0</div>
-        <div class="stat-label">Delivery Hours</div>
+      <div class="stat-item" *ngFor="let stat of stats">
+        <div class="stat-number">{{ stat.value }}</div>
+        <div class="stat-label">{{ stat.label }}</div>
       </div>
     </div>
   </div>
