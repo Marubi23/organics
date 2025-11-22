@@ -15,8 +15,8 @@ interface Feature {
   selector: 'app-features',
   standalone: true,
   imports: [CommonModule, RouterModule],
-  templateUrl: './features.component.html',
-  styleUrls: ['./features.component.css']
+  templateUrl: './features.html',
+  styleUrls: ['./features.css']
 })
 export class FeaturesComponent implements OnInit, AfterViewInit {
   features: Feature[] = [
