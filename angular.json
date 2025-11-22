@@ -21,13 +21,14 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "public"
+                "input": "public",
+                "output": "/"
               }
             ],
-         "styles": [
-  "src/styles.css",
-  "node_modules/@fortawesome/fontawesome-free/css/all.min.css"
-],
+            "styles": [
+              "src/styles.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css"
+            ],
             "server": "src/main.server.ts",
             "outputMode": "server",
             "ssr": {
@@ -35,21 +36,24 @@
             }
           },
           "configurations": {
-            "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
-                }
-              ],
-              "outputHashing": "all"
-            },
+     "production": {
+  "budgets": [
+    {
+      "type": "initial",
+      "maximumWarning": "1MB",
+      "maximumError": "2MB"
+    },
+    {
+      "type": "anyComponentStyle",
+      "maximumWarning": "50kB",
+      "maximumError": "100kB"
+    }
+  ],
+  "outputHashing": "all",
+  "optimization": true,
+  "sourceMap": false
+},
+
             "development": {
               "optimization": false,
               "extractLicenses": false,
