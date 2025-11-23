@@ -1,7 +1,7 @@
 <section class="hero-slider">
   <div class="slider-container">
     <!-- Slides -->
-    <div class="slides" [style.transform]="'translateX(-' + (currentSlide * 100) + '%)'">
+    <div class="slides" [style.transform]="transformValue">
       <div *ngFor="let slide of slides; let i = index" class="slide" [class.active]="i === currentSlide">
         <div class="slide-background">
           <div *ngIf="slide.isVideo; else imageSlide" class="video-container">

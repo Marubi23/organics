@@ -726,3 +726,317 @@
     grid-template-columns: 1fr;
   }
 }
+/* Enhanced Mobile Responsiveness for Impact Component */
+@media (max-width: 1200px) {
+  .container {
+    padding: 0 2rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .overview-grid,
+  .sdg-impact-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .stories-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 968px) {
+  .outcomes-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .environmental-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .impact-hero {
+    padding: 4rem 0 3rem;
+  }
+  
+  .hero-content h1 {
+    font-size: 2.5rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.1rem;
+    padding: 0 1rem;
+  }
+  
+  .section-header {
+    margin-bottom: 3rem;
+  }
+  
+  .section-header h2 {
+    font-size: 2rem;
+  }
+  
+  .section-header p {
+    font-size: 1.1rem;
+    padding: 0 1rem;
+  }
+  
+  .impact-overview,
+  .key-metrics,
+  .outcomes-results,
+  .sdg-impact,
+  .success-stories,
+  .environmental-impact,
+  .future-goals,
+  .impact-cta {
+    padding: 4rem 0;
+  }
+  
+  .overview-card,
+  .outcome-category,
+  .story-content {
+    padding: 2rem 1.5rem;
+  }
+  
+  .metric-card,
+  .sdg-impact-card,
+  .environmental-card {
+    padding: 2rem 1.5rem;
+  }
+  
+  .overview-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 1rem;
+  }
+  
+  .overview-icon svg {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .metric-value {
+    font-size: 2rem;
+  }
+  
+  .category-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+  }
+  
+  .category-icon {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .category-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .story-results {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .goals-timeline::before {
+    left: 20px;
+  }
+  
+  .timeline-item {
+    gap: 1rem;
+  }
+  
+  .timeline-marker {
+    width: 40px;
+    height: 40px;
+    font-size: 0.8rem;
+  }
+  
+  .timeline-content {
+    padding: 1.5rem;
+  }
+  
+  .goal-metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .btn {
+    width: 100%;
+    max-width: 280px;
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 0 1.5rem;
+  }
+  
+  .hero-content h1 {
+    font-size: 2.25rem;
+  }
+  
+  .section-header h2 {
+    font-size: 1.75rem;
+  }
+  
+  .overview-card h3,
+  .category-header h3,
+  .story-content h3,
+  .timeline-content h4 {
+    font-size: 1.2rem;
+  }
+  
+  .sdg-impact-card h4,
+  .environmental-card h4 {
+    font-size: 1.1rem;
+  }
+  
+  .metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .story-results {
+    grid-template-columns: 1fr;
+  }
+  
+  .goal-metrics {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 1rem;
+  }
+  
+  .impact-hero {
+    padding: 3rem 0 2rem;
+  }
+  
+  .hero-content h1 {
+    font-size: 2rem;
+    line-height: 1.2;
+  }
+  
+  .hero-subtitle {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  
+  .impact-overview,
+  .key-metrics,
+  .outcomes-results,
+  .sdg-impact,
+  .success-stories,
+  .environmental-impact,
+  .future-goals,
+  .impact-cta {
+    padding: 3rem 0;
+  }
+  
+  .overview-grid,
+  .metrics-grid,
+  .sdg-impact-grid,
+  .stories-grid,
+  .environmental-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .overview-card,
+  .metric-card,
+  .outcome-category,
+  .sdg-impact-card,
+  .environmental-card,
+  .story-content,
+  .timeline-content {
+    padding: 1.5rem;
+    border-radius: 12px;
+  }
+  
+  .overview-icon,
+  .environmental-icon {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .overview-icon svg,
+  .environmental-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .metric-value {
+    font-size: 1.75rem;
+  }
+  
+  .sdg-number {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 1rem;
+  }
+  
+  .outcome-item {
+    gap: 0.75rem;
+  }
+  
+  .story-image {
+    height: 100px;
+  }
+  
+  .image-placeholder {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .image-placeholder svg {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .cta-content h2 {
+    font-size: 2rem;
+  }
+  
+  .cta-content p {
+    font-size: 1.1rem;
+  }
+  
+  .btn {
+    padding: 0.875rem 2rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .overview-card:hover,
+  .metric-card:hover,
+  .sdg-impact-card:hover,
+  .story-card:hover,
+  .environmental-card:hover {
+    transform: none;
+  }
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .overview-icon,
+  .category-icon,
+  .environmental-icon {
+    animation: none;
+  }
+  
+  .metric-value {
+    animation: none;
+  }
+}

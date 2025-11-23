@@ -1,5 +1,5 @@
 // features.component.ts
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -9,7 +9,9 @@ import { CommonModule } from '@angular/common';
   templateUrl: './features.html',
   styleUrls: ['./features.css']
 })
-export class FeaturesComponent implements OnInit {
+export class FeaturesComponent implements AfterViewInit {
+  private cdr = inject(ChangeDetectorRef);
+
   features = [
     {
       title: 'Free Delivery',
@@ -40,30 +42,39 @@ export class FeaturesComponent implements OnInit {
     { value: 10, label: 'Years Experience', target: 20 }
   ];
 
-  ngOnInit() {
-    this.animateStats();
+  ngAfterViewInit() {
+    // Use setTimeout to ensure this runs after the current change detection cycle
+    setTimeout(() => {
+      this.animateStats();
+    });
   }
 
   onFeatureClick(feature: any) {
-    // Handle feature click - could open modal or navigate
     console.log('Feature clicked:', feature);
   }
 
   animateStats() {
-    const duration = 2000; // Animation duration in ms
-    const steps = 60; // Number of animation steps
+    console.log('Starting stats animation');
+    
+    const duration = 2000;
+    const steps = 60;
     const stepDuration = duration / steps;
     
     this.stats.forEach(stat => {
+      const startValue = stat.value;
+      const targetValue = stat.target;
+      const increment = (targetValue - startValue) / steps;
       let currentStep = 0;
-      const increment = stat.target / steps;
       
       const timer = setInterval(() => {
         currentStep++;
-        stat.value = Math.round(increment * currentStep);
+        stat.value = Math.round(startValue + (increment * currentStep));
+        
+        // Manually trigger change detection
+        this.cdr.detectChanges();
         
         if (currentStep >= steps) {
-          stat.value = stat.target;
+          stat.value = targetValue;
           clearInterval(timer);
         }
       }, stepDuration);

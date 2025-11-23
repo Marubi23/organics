@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
@@ -18,8 +18,11 @@ interface Slide {
   templateUrl: './hero.html',
   styleUrls: ['./hero.css']
 })
-export class HeroComponent implements OnInit, OnDestroy {
+export class HeroComponent implements AfterViewInit, OnDestroy {
+  private cdr = inject(ChangeDetectorRef);
+  
   currentSlide = 0;
+  transformValue = 'translateX(0%)';
   private slideInterval: any;
   private isUserInteracting = false;
 
@@ -69,8 +72,11 @@ export class HeroComponent implements OnInit, OnDestroy {
     }
   ];
 
-  ngOnInit() {
-    this.startAutoSlide();
+  ngAfterViewInit() {
+    // Start auto-slide after the view is initialized
+    setTimeout(() => {
+      this.startAutoSlide();
+    });
   }
 
   ngOnDestroy() {
@@ -82,7 +88,7 @@ export class HeroComponent implements OnInit, OnDestroy {
       if (!this.isUserInteracting) {
         this.nextSlide();
       }
-    }, 5000);
+    }, 3000);
   }
 
   stopAutoSlide() {
@@ -91,18 +97,26 @@ export class HeroComponent implements OnInit, OnDestroy {
     }
   }
 
+  updateTransform() {
+    this.transformValue = `translateX(-${this.currentSlide * 100}%)`;
+    this.cdr.detectChanges();
+  }
+
   nextSlide() {
     this.currentSlide = (this.currentSlide + 1) % this.slides.length;
+    this.updateTransform();
     this.resetAutoSlide();
   }
 
   prevSlide() {
     this.currentSlide = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
+    this.updateTransform();
     this.resetAutoSlide();
   }
 
   goToSlide(index: number) {
     this.currentSlide = index;
+    this.updateTransform();
     this.resetAutoSlide();
   }
 
