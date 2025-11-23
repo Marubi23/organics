@@ -5,7 +5,16 @@
       <div *ngFor="let slide of slides; let i = index" class="slide" [class.active]="i === currentSlide">
         <div class="slide-background">
           <div *ngIf="slide.isVideo; else imageSlide" class="video-container">
-            <video autoplay muted loop playsinline class="background-video">
+            <video 
+              #videoElement
+              autoplay 
+              muted 
+              loop 
+              playsinline 
+              class="background-video"
+              (play)="onVideoPlay()"
+              (pause)="onVideoPause()"
+              (ended)="onVideoEnded()">
               <source [src]="slide.image" type="video/mp4">
               Your browser does not support the video tag.
             </video>
@@ -23,7 +32,7 @@
               <h1 class="slide-title">{{ slide.title }}</h1>
               <p class="slide-description">{{ slide.description }}</p>
               <div class="slide-buttons">
-                <a [routerLink]="slide.buttonLink" class="btn btn-primary">
+                <a [routerLink]="slide.buttonLink" class="btn btn-primary" (click)="onUserInteraction()">
                   {{ slide.buttonText }}
                 </a>
               </div>
@@ -34,10 +43,10 @@
     </div>
 
     <!-- Navigation Arrows -->
-    <button class="slider-nav prev" (click)="prevSlide()">
+    <button class="slider-nav prev" (click)="prevSlide(); onUserInteraction()">
       <i class="fas fa-chevron-left"></i>
     </button>
-    <button class="slider-nav next" (click)="nextSlide()">
+    <button class="slider-nav next" (click)="nextSlide(); onUserInteraction()">
       <i class="fas fa-chevron-right"></i>
     </button>
 
@@ -47,7 +56,8 @@
         *ngFor="let slide of slides; let i = index" 
         class="indicator" 
         [class.active]="i === currentSlide"
-        (click)="goToSlide(i)">
+        (click)="goToSlide(i); onUserInteraction()">
+        <div class="indicator-progress" *ngIf="i === currentSlide"></div>
       </button>
     </div>
   </div>

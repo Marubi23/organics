@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
@@ -23,8 +23,6 @@ export class HeroComponent implements OnInit, OnDestroy {
   private slideInterval: any;
   private isUserInteracting = false;
 
-  @ViewChild('videoElement') videoElement!: ElementRef<HTMLVideoElement>;
-
   slides: Slide[] = [
     {
       image: 'images/greens1.jpg',
@@ -40,15 +38,14 @@ export class HeroComponent implements OnInit, OnDestroy {
       buttonText: 'Our Products',
       buttonLink: '/products'
     },
-   {
-  image: 'https://drive.google.com/uc?export=download&id=1R0XrzGiPAtBcfGYPnIJZPFmiEVfOXXEa',
-  title: 'Transforming Agriculture',
-  description: 'Watch how we\'re revolutionizing farming with sustainable methods and community empowerment.',
-  buttonText: 'Watch Our Story',
-  buttonLink: '/about',
-  isVideo: true
-   },
-
+    {
+      image: 'https://drive.google.com/uc?export=download&id=1R0XrzGiPAtBcfGYPnIJZPFmiEVfOXXEa',
+      title: 'Transforming Agriculture',
+      description: 'Watch how we\'re revolutionizing farming with sustainable methods and community empowerment.',
+      buttonText: 'Watch Our Story',
+      buttonLink: '/about',
+      isVideo: true
+    },
     {
       image: 'images/greens3.jpg',
       title: 'Organic Biofertilizers',
@@ -85,82 +82,43 @@ export class HeroComponent implements OnInit, OnDestroy {
       if (!this.isUserInteracting) {
         this.nextSlide();
       }
-    }, 5000); // Increased to 5 seconds for better UX
+    }, 5000);
   }
 
   stopAutoSlide() {
     if (this.slideInterval) {
       clearInterval(this.slideInterval);
-      this.slideInterval = null;
     }
   }
 
   nextSlide() {
-    // Pause video if current slide is video
-    if (this.slides[this.currentSlide].isVideo && this.videoElement) {
-      this.videoElement.nativeElement.pause();
-    }
-
     this.currentSlide = (this.currentSlide + 1) % this.slides.length;
-    
-    // Play video if next slide is video
-    this.playCurrentVideo();
+    this.resetAutoSlide();
   }
 
   prevSlide() {
-    // Pause video if current slide is video
-    if (this.slides[this.currentSlide].isVideo && this.videoElement) {
-      this.videoElement.nativeElement.pause();
-    }
-
     this.currentSlide = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
-    
-    // Play video if previous slide is video
-    this.playCurrentVideo();
+    this.resetAutoSlide();
   }
 
   goToSlide(index: number) {
-    // Pause video if current slide is video
-    if (this.slides[this.currentSlide].isVideo && this.videoElement) {
-      this.videoElement.nativeElement.pause();
-    }
-
     this.currentSlide = index;
-    
-    // Play video if new slide is video
-    this.playCurrentVideo();
-    
-    // Restart auto-slide with delay
-    this.restartAutoSlide();
+    this.resetAutoSlide();
   }
 
-  private playCurrentVideo() {
-    if (this.slides[this.currentSlide].isVideo && this.videoElement) {
-      setTimeout(() => {
-        this.videoElement.nativeElement.play().catch(e => {
-          console.log('Video play failed:', e);
-        });
-      }, 100);
-    }
-  }
-
-  private restartAutoSlide() {
-    this.stopAutoSlide();
-    setTimeout(() => {
-      this.startAutoSlide();
-    }, 3000);
-  }
-
-  // Handle user interaction
-  onUserInteraction() {
+  private resetAutoSlide() {
     this.isUserInteracting = true;
     this.stopAutoSlide();
     
-    // Restart auto-slide after 10 seconds of inactivity
     setTimeout(() => {
       this.isUserInteracting = false;
       this.startAutoSlide();
     }, 10000);
+  }
+
+  // Handle user interaction
+  onUserInteraction() {
+    this.resetAutoSlide();
   }
 
   // Video event handlers

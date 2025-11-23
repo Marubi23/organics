@@ -1,0 +1,237 @@
+<!-- what-we-do.component.html -->
+<section class="page-hero" @fadeIn>
+  <div class="container">
+    <div class="hero-content">
+      <h1>What We Do</h1>
+      <p class="hero-subtitle">Building farmer resilience through regenerative agriculture</p>
+    </div>
+  </div>
+</section>
+
+<section class="mission-vision">
+  <div class="container">
+    <div class="mission-grid">
+      <div class="mission-card" @slideInLeft>
+        <div class="card-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="2"/>
+            <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h2>Our Mission</h2>
+        <p>Our mission is to build smallholder farmers' resilience to climate change through the promotion of regenerative agricultural practices.</p>
+      </div>
+      
+      <div class="vision-card" @slideInRight>
+        <div class="card-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="2"/>
+            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+          </svg>
+        </div>
+        <h2>Our Vision</h2>
+        <p>We envision a world where smallholder farmers are empowered to thrive in the face of climate change, producing healthy crops, increasing their income, and protecting the environment for generations to come.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="problems-section">
+  <div class="container">
+    <div class="section-header" @fadeInUp>
+      <h2>The Challenges We Address</h2>
+      <p>Our efforts are directed towards four critical challenges facing smallholder farmers</p>
+    </div>
+    <div class="problems-grid">
+      <div class="problem-card" *ngFor="let problem of problems; let i = index" @staggerAnimation>
+        <div class="problem-number">{{ problem.number }}</div>
+        <h3>{{ problem.title }}</h3>
+        <p>{{ problem.description }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="solutions-section">
+  <div class="container">
+    <div class="section-header" @fadeInUp>
+      <h2>Our Innovative Solutions</h2>
+      <p>Transforming challenges into opportunities through sustainable innovation</p>
+    </div>
+    <div class="solutions-grid">
+      <div class="solution-card" @slideInUp>
+        <div class="solution-icon">
+          <svg width="56" height="56" viewBox="0 0 24 24" fill="none">
+            <path d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a2 2 0 01-2-2v-1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M7 16H5a2 2 0 01-2-2v-6a2 2 0 012-2h2V2l4 4h4a2 2 0 012 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M12 11v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M12 7v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Bioconversion Initiative</h3>
+        <p class="solution-subtitle">Sustainable Waste Management & Soil Regeneration</p>
+        <p>Leveraging Black Soldier Fly Larvae and red worms to convert organic waste into nutrient-rich biofertilizers, regenerating soil health while producing high-quality insect protein for animal feed.</p>
+        <ul class="solution-features">
+          <li>Organic waste conversion</li>
+          <li>Soil nutrient regeneration</li>
+          <li>Insect protein production</li>
+          <li>Environmental cleanup</li>
+        </ul>
+      </div>
+      
+      <div class="solution-card" @slideInUp>
+        <div class="solution-icon">
+          <svg width="56" height="56" viewBox="0 0 24 24" fill="none">
+            <path d="M12 20l-7-7c-1.5-1.5-1.5-4 0-5.5s4-1.5 5.5 0l1.5 1.5 1.5-1.5c1.5-1.5 4-1.5 5.5 0s1.5 4 0 5.5l-7 7z" stroke="currentColor" stroke-width="2"/>
+            <circle cx="12" cy="12" r="2" stroke="currentColor" stroke-width="2"/>
+            <path d="M12 8v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M8 12h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>PREFarm Initiative</h3>
+        <p class="solution-subtitle">Precision Dosing for Enhanced Productivity</p>
+        <p>Optimizing fertilizer use through data-based precision dosing technology, ensuring crops receive exact nutrients while reducing costs and environmental impact.</p>
+        <ul class="solution-features">
+          <li>Data-driven precision farming</li>
+          <li>Reduced input costs</li>
+          <li>Maximized crop yields</li>
+          <li>Environmental protection</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="products-section">
+  <div class="container">
+    <div class="section-header" @fadeInUp>
+      <h2>Our Products</h2>
+      <p>Sustainable solutions for modern agriculture</p>
+    </div>
+    <div class="products-grid">
+      <div class="product-card" @slideInLeft>
+        <div class="product-image">
+          <svg width="80" height="80" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2s8 4 8 10-8 10-8 10-8-4-8-10 8-10 8-10z" stroke="currentColor" stroke-width="2"/>
+            <path d="M12 6v4l2 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="12" cy="12" r="2" stroke="currentColor" stroke-width="2"/>
+          </svg>
+        </div>
+        <div class="product-content">
+          <h3>Organic Biofertilizers</h3>
+          <p>100% organic fertilizers rich in essential nutrients and living microbes that enhance soil health and plant nutrition.</p>
+          <ul class="product-features">
+            <li>Nitrogen, Potassium, Phosphorus</li>
+            <li>Magnesium, Calcium, Sulphur</li>
+            <li>Iron, Manganese & trace elements</li>
+            <li>Beneficial living microbes</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="product-card" @slideInRight>
+        <div class="product-image">
+          <svg width="80" height="80" viewBox="0 0 24 24" fill="none">
+            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke="currentColor" stroke-width="2"/>
+            <circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+            <path d="M23 21v-2a4 4 0 00-3-3.87" stroke="currentColor" stroke-width="2"/>
+            <path d="M16 3.13a4 4 0 010 7.75" stroke="currentColor" stroke-width="2"/>
+          </svg>
+        </div>
+        <div class="product-content">
+          <h3>Insect-based Protein Animal Feeds</h3>
+          <p>High-protein feed containing up to 50% protein and 35% fat from Black Soldier Fly Larvae.</p>
+          <ul class="product-features">
+            <li>Excellent for Chicken, Fish, Pigs</li>
+            <li>High digestibility</li>
+            <li>Immunity boosting</li>
+            <li>Promotes fast growth</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="regen-kilimo">
+  <div class="container">
+    <div class="regen-content">
+      <div class="regen-text">
+        <h2 @fadeInUp>Regen-Kilimo Initiative</h2>
+        <p class="regen-subtitle" @fadeInUp>Empowering Farmers Through Comprehensive Support</p>
+        <div class="regen-features">
+          <div class="regen-feature" *ngFor="let feature of regenFeatures; let i = index" @staggerAnimation>
+            <div class="feature-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                <path [attr.d]="feature.icon" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="feature-text">
+              <h4>{{ feature.title }}</h4>
+              <p>{{ feature.description }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="impact-section">
+  <div class="container">
+    <div class="section-header" @fadeInUp>
+      <h2>Our Impact & Outcomes</h2>
+      <p>Measuring success through tangible results and sustainable change</p>
+    </div>
+    <div class="impact-grid">
+      <div class="impact-stats">
+        <div class="stat-item" *ngFor="let stat of impactStats; let i = index" @countUp [@countUp]="{value: stat.value, params: {duration: 2000, delay: i * 200}}">
+          <div class="stat-number">{{ stat.value }}</div>
+          <div class="stat-label">{{ stat.label }}</div>
+        </div>
+      </div>
+      <div class="impact-outcomes" @slideInRight>
+        <h3>Key Outcomes</h3>
+        <ul class="outcomes-list">
+          <li *ngFor="let outcome of outcomes; let i = index" @staggerAnimation>
+            <span class="outcome-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            {{ outcome }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sdg-section">
+  <div class="container">
+    <div class="section-header" @fadeInUp>
+      <h2>UN Sustainable Development Goals</h2>
+      <p>Our alignment with global sustainability targets</p>
+    </div>
+    <div class="sdg-grid">
+      <div class="sdg-card" *ngFor="let sdg of sdgs; let i = index" @staggerAnimation>
+        <div class="sdg-icon">SDG{{ sdg.number }}</div>
+        <h3>SDG {{ sdg.number }} - {{ sdg.title }}</h3>
+        <p>{{ sdg.description }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" @fadeInUp>
+  <div class="container">
+    <div class="cta-content">
+      <h2>Join Our Mission</h2>
+      <p>Be part of the movement transforming agriculture and empowering farmers across Kenya.</p>
+      <div class="cta-buttons">
+        <a routerLink="/contact" class="btn btn-primary">Get In Touch</a>
+        <a routerLink="/products" class="btn btn-secondary">Our Products</a>
+      </div>
+    </div>
+  </div>
+</section>
