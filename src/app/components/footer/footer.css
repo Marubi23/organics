@@ -1,8 +1,8 @@
 /* footer.component.css */
 .footer {
-  background: #242410;
-  color: #e8f5e9;
-  border-top: 1px solid #2d5016;
+  background: rgb(32, 94, 39);
+  color: #ffffff;
+  border-top: 1px solid #aeac33;
 }
 
 .container {
@@ -41,12 +41,12 @@
 .logo-text {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #8bc34a;
+  color: #ffffff;
 }
 
 .brand-tagline {
   font-size: 0.875rem;
-  color: #c8e6c9;
+  color: #cdd3cd;
   line-height: 1.4;
   margin: 0;
 }
@@ -72,7 +72,7 @@
 }
 
 .social-link:hover {
-  background: #8bc34a;
+  background: #92830e;
   color: white;
   transform: translateY(-1px);
 }
@@ -90,7 +90,7 @@
 }
 
 .link-group h4 {
-  color: #8bc34a;
+  color: #b3b820;
   font-size: 0.875rem;
   font-weight: 600;
   margin: 0 0 0.25rem 0;
@@ -142,7 +142,7 @@
 .newsletter-input {
   flex: 1;
   padding: 0.5rem 0.75rem;
-  border: 1px solid rgba(139, 195, 74, 0.3);
+  border: 1px solid rgba(180, 160, 36, 0.3);
   border-radius: 6px;
   background: rgba(255, 255, 255, 0.05);
   color: white;
@@ -162,7 +162,7 @@
 
 .newsletter-btn {
   padding: 0.5rem;
-  background: #8bc34a;
+  background: #22a13e;
   border: none;
   border-radius: 6px;
   color: white;
@@ -175,7 +175,7 @@
 }
 
 .newsletter-btn:hover {
-  background: #689f38;
+  background: #92830e;
   transform: translateY(-1px);
 }
 
