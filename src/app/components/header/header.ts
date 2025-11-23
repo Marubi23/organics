@@ -1,19 +1,27 @@
-import { Component, HostListener } from '@angular/core';
+// header.component.ts
+import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
+import { CartService } from '../../services/cart';
+import { CartComponent } from '../../pages/cart/cart';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, CartComponent], // ADD CartComponent HERE
   templateUrl: './header.html',
   styleUrls: ['./header.css']
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit, OnDestroy {
   cartCount = 0;
   isMobileMenuOpen = false;
+  isCartOpen = false; // ADD THIS PROPERTY
+  private cartSubscription: any;
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private cartService: CartService // ADD CartService
+  ) {
     // Close mobile menu when route changes
     this.router.events.subscribe(() => {
       this.isMobileMenuOpen = false;
@@ -21,9 +29,29 @@ export class HeaderComponent {
     });
   }
 
+  ngOnInit() {
+    // Subscribe to cart updates
+    this.cartSubscription = this.cartService.cartItems$.subscribe(items => {
+      this.cartCount = this.cartService.getTotalItems();
+    });
+
+    // Load cart from localStorage
+    this.cartService.loadFromLocalStorage();
+  }
+
+  ngOnDestroy() {
+    // Clean up subscription
+    if (this.cartSubscription) {
+      this.cartSubscription.unsubscribe();
+    }
+  }
+
   toggleCart() {
-    console.log('Cart toggled');
-    // Cart functionality will be implemented later
+    this.isCartOpen = !this.isCartOpen;
+    console.log('Cart toggled, is open:', this.isCartOpen);
+    
+    // Prevent body scroll when cart is open
+    document.body.style.overflow = this.isCartOpen ? 'hidden' : '';
   }
 
   toggleMobileMenu() {
@@ -50,8 +78,16 @@ export class HeaderComponent {
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: Event) {
     const target = event.target as HTMLElement;
+    
+    // Close mobile menu when clicking outside
     if (this.isMobileMenuOpen && !target.closest('.mobile-menu') && !target.closest('.hamburger-menu')) {
       this.isMobileMenuOpen = false;
+      document.body.style.overflow = '';
+    }
+    
+    // Close cart when clicking outside
+    if (this.isCartOpen && !target.closest('.cart-sidebar') && !target.closest('.cart-btn')) {
+      this.isCartOpen = false;
       document.body.style.overflow = '';
     }
   }
@@ -61,6 +97,10 @@ export class HeaderComponent {
   onEscapeKey() {
     if (this.isMobileMenuOpen) {
       this.isMobileMenuOpen = false;
+      document.body.style.overflow = '';
+    }
+    if (this.isCartOpen) {
+      this.isCartOpen = false;
       document.body.style.overflow = '';
     }
   }

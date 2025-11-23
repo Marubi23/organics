@@ -6,6 +6,7 @@ import { ContactComponent } from './pages/contact/contact';
 import { ProductsComponent } from './components/products/products';
 import { WhatWeDoComponent } from './pages/what-we-do/what-we-do';
 import { ImpactComponent } from './components/impacts/impacts';
+import { CartComponent } from './pages/cart/cart';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -16,5 +17,6 @@ export const routes: Routes = [
   { path: 'products', component: ProductsComponent },
   { path: 'what-we-do', component: WhatWeDoComponent },
   {path: 'impacts', component: ImpactComponent},
+  {path:'cart', component: CartComponent},
   { path: '**', redirectTo: '' } // Wildcard route for 404 pages
 ];

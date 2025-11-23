@@ -5,11 +5,13 @@ import {
   OnDestroy,
   signal,
   Inject,
-  PLATFORM_ID
+  PLATFORM_ID,
+  OnInit
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
+import { CartService } from '../../services/cart';
 
 interface Product {
   id: number;
@@ -40,7 +42,7 @@ interface Stat {
   templateUrl: './products.html',
   styleUrls: ['./products.css']
 })
-export class ProductsComponent implements AfterViewInit, OnDestroy {
+export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
   // Horizontal stats like CIC insurance
   stats = signal<Stat[]>([
     { value: 125, suffix: '', label: 'Products', current: 0 },
@@ -134,9 +136,23 @@ export class ProductsComponent implements AfterViewInit, OnDestroy {
     }
   ]);
 
+  cartItemCount = signal(0); // Add cart count signal
   private statsAnimated = false;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: any) {}
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: any,
+    private cartService: CartService // Inject cart service
+  ) {}
+
+  ngOnInit() {
+    // Load cart from localStorage and subscribe to cart updates
+    if (isPlatformBrowser(this.platformId)) {
+      this.cartService.loadFromLocalStorage();
+      this.cartService.cartItems$.subscribe(items => {
+        this.cartItemCount.set(this.cartService.getTotalItems());
+      });
+    }
+  }
 
   ngAfterViewInit(): void {
     // Only initialize animation in browser environment
@@ -199,11 +215,51 @@ export class ProductsComponent implements AfterViewInit, OnDestroy {
     });
   }
 
+  // UPDATED: Add to cart with cart service integration
   addToCart(product: Product): void {
-    console.log('Added to cart:', product.name);
-    // You can implement cart service integration here
-    // For now, we'll show a simple alert
-    alert(`Added ${product.name} to cart!`);
+    this.cartService.addToCart(product);
+    this.showAddToCartNotification(product.name);
+  }
+
+  private showAddToCartNotification(productName: string): void {
+    // Create a temporary notification
+    if (isPlatformBrowser(this.platformId)) {
+      const notification = document.createElement('div');
+      notification.textContent = `✓ Added ${productName} to cart!`;
+      notification.style.cssText = `
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        background: #8bc34a;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 10000;
+        font-weight: 600;
+        animation: slideIn 0.3s ease;
+      `;
+      
+      // Add CSS animation
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes slideIn {
+          from { transform: translateX(100%); opacity: 0; }
+          to { transform: translateX(0); opacity: 1; }
+        }
+      `;
+      document.head.appendChild(style);
+      
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => {
+          notification.remove();
+          style.remove();
+        }, 300);
+      }, 2000);
+    }
   }
 
   quickView(product: Product): void {
@@ -255,5 +311,10 @@ export class ProductsComponent implements AfterViewInit, OnDestroy {
   // Optional: Method to get featured products
   getFeaturedProducts(): Product[] {
     return this.products().filter(product => product.isNew || product.rating >= 4.7);
+  }
+
+  // NEW: Method to get cart items count for display
+  getCartItemsCount(): number {
+    return this.cartItemCount();
   }
 }
