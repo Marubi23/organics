@@ -445,3 +445,143 @@
     transform: none; /* Remove hover effects on touch */
   }
 }
+/* Enhanced Hero CTA Buttons */
+.slide-buttons {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+/* Primary Shop Now Button */
+.shop-now-btn {
+  background: linear-gradient(135deg, #8cc64b 0%, #7fb744 100%);
+  color: white;
+  padding: 16px 32px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 8px 25px rgba(139, 195, 74, 0.3);
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.shop-now-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+
+.shop-now-btn:hover {
+  background-color: #358720f9;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(13, 119, 96, 0.671);
+  border-color: #b8bb1b;
+}
+
+.shop-now-btn:hover::before {
+  left: 100%;
+}
+
+.shop-now-btn i {
+  font-size: 1.1rem;
+  transition: transform 0.3s ease;
+}
+
+.shop-now-btn:hover i {
+  transform: scale(1.1);
+}
+
+/* Secondary Button */
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  padding: 14px 28px;
+  border-radius: 50px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background: rgba(24, 88, 27, 0.25);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+}
+
+/* Floating CTA for Mobile */
+.floating-mobile-cta {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: none;
+}
+
+.floating-mobile-cta .shop-now-btn {
+  padding: 14px 28px;
+  font-size: 1rem;
+  box-shadow: 0 6px 20px rgba(139, 195, 74, 0.4);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .slide-buttons {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  
+  .shop-now-btn,
+  .btn-secondary {
+    text-align: center;
+    justify-content: center;
+  }
+  
+  .floating-mobile-cta {
+    display: block;
+  }
+}
+
+@media (max-width: 480px) {
+  .shop-now-btn {
+    padding: 14px 24px;
+    font-size: 1rem;
+  }
+  
+  .btn-secondary {
+    padding: 12px 20px;
+  }
+}
+
+/* Animation for CTA */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 8px 25px rgba(139, 195, 74, 0.3);
+  }
+  50% {
+    box-shadow: 0 8px 30px rgba(139, 195, 74, 0.5);
+  }
+  100% {
+    box-shadow: 0 8px 25px rgba(139, 195, 74, 0.3);
+  }
+}
+
+.shop-now-btn {
+  animation: pulse 2s infinite;
+}
