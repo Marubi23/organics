@@ -830,3 +830,373 @@
     height: 32px;
   }
 }
+/* Enhanced Mobile Responsiveness - Keeping Your Structure Intact */
+@media (max-width: 1200px) {
+  .container {
+    padding: 0 2rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .mission-grid {
+    gap: 2rem;
+  }
+  
+  .solutions-grid,
+  .products-grid {
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+  }
+  
+  .impact-grid {
+    gap: 3rem;
+  }
+}
+
+@media (max-width: 968px) {
+  .mission-grid,
+  .impact-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .solutions-grid,
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .impact-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .regen-features {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .page-hero {
+    padding: 4rem 0 3rem;
+  }
+  
+  .hero-content h1 {
+    font-size: 2.5rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.1rem;
+    padding: 0 1rem;
+  }
+  
+  .section-header {
+    margin-bottom: 3rem;
+  }
+  
+  .section-header h2 {
+    font-size: 2rem;
+  }
+  
+  .section-header p {
+    font-size: 1.1rem;
+    padding: 0 1rem;
+  }
+  
+  .mission-vision,
+  .problems-section,
+  .solutions-section,
+  .products-section,
+  .regen-kilimo,
+  .impact-section,
+  .sdg-section,
+  .cta-section {
+    padding: 4rem 0;
+  }
+  
+  .mission-card, 
+  .vision-card {
+    padding: 2.5rem 2rem;
+  }
+  
+  .solution-card {
+    padding: 2.5rem;
+  }
+  
+  .product-content {
+    padding: 2rem;
+  }
+  
+  .impact-stats {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .stat-item {
+    padding: 1.5rem;
+  }
+  
+  .stat-number {
+    font-size: 2rem;
+  }
+  
+  .regen-feature {
+    gap: 1rem;
+  }
+  
+  .feature-icon {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .feature-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .feature-text h4 {
+    font-size: 1.2rem;
+  }
+  
+  .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .btn {
+    width: 100%;
+    max-width: 280px;
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 0 1.5rem;
+  }
+  
+  .hero-content h1 {
+    font-size: 2.25rem;
+  }
+  
+  .section-header h2 {
+    font-size: 1.75rem;
+  }
+  
+  .mission-card h2, 
+  .vision-card h2 {
+    font-size: 1.5rem;
+  }
+  
+  .solution-card h3 {
+    font-size: 1.3rem;
+  }
+  
+  .product-content h3 {
+    font-size: 1.3rem;
+  }
+  
+  .regen-content h2 {
+    font-size: 2rem;
+  }
+  
+  .cta-content h2 {
+    font-size: 2rem;
+  }
+  
+  .problems-grid,
+  .sdg-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .problem-card,
+  .sdg-card {
+    padding: 2rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 1rem;
+  }
+  
+  .page-hero {
+    padding: 3rem 0 2rem;
+  }
+  
+  .hero-content h1 {
+    font-size: 2rem;
+    line-height: 1.2;
+  }
+  
+  .hero-subtitle {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  
+  .mission-vision,
+  .problems-section,
+  .solutions-section,
+  .products-section,
+  .regen-kilimo,
+  .impact-section,
+  .sdg-section,
+  .cta-section {
+    padding: 3rem 0;
+  }
+  
+  .mission-card, 
+  .vision-card,
+  .solution-card {
+    padding: 2rem 1.5rem;
+    border-radius: 12px;
+  }
+  
+  .product-content {
+    padding: 1.5rem;
+  }
+  
+  .card-icon,
+  .solution-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 1.5rem;
+  }
+  
+  .card-icon svg,
+  .solution-icon svg {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .mission-card h2, 
+  .vision-card h2 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+  }
+  
+  .mission-card p, 
+  .vision-card p,
+  .problem-card p,
+  .solution-card p,
+  .product-content p,
+  .sdg-card p {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  
+  .problem-number {
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .problem-card h3 {
+    font-size: 1.2rem;
+  }
+  
+  .solution-features li,
+  .product-features li {
+    padding-left: 1.5rem;
+    font-size: 0.95rem;
+  }
+  
+  .regen-feature {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+  
+  .feature-text h4 {
+    font-size: 1.1rem;
+  }
+  
+  .feature-text p {
+    font-size: 0.95rem;
+  }
+  
+  .stat-item {
+    padding: 1.25rem;
+  }
+  
+  .stat-number {
+    font-size: 1.75rem;
+  }
+  
+  .stat-label {
+    font-size: 0.9rem;
+  }
+  
+  .outcomes-list li {
+    padding: 0.5rem 0;
+    font-size: 0.95rem;
+  }
+  
+  .sdg-icon {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 1rem;
+  }
+  
+  .sdg-card h3 {
+    font-size: 1.1rem;
+  }
+  
+  .cta-content h2 {
+    font-size: 1.75rem;
+  }
+  
+  .cta-content p {
+    font-size: 1.1rem;
+  }
+  
+  .btn {
+    padding: 0.875rem 2rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .mission-card:hover, 
+  .vision-card:hover,
+  .problem-card:hover,
+  .solution-card:hover,
+  .product-card:hover,
+  .stat-item:hover,
+  .sdg-card:hover {
+    transform: none;
+  }
+  
+  .solution-features li:hover,
+  .product-features li:hover,
+  .outcomes-list li:hover {
+    transform: none;
+  }
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .page-hero,
+  .section-header,
+  .mission-card,
+  .vision-card,
+  .problem-card,
+  .solution-card,
+  .product-card,
+  .stat-item,
+  .sdg-card,
+  .regen-feature,
+  .outcomes-list li {
+    animation: none;
+  }
+  
+  .card-icon,
+  .solution-icon,
+  .feature-icon {
+    animation: none;
+  }
+  
+  .btn::before {
+    display: none;
+  }
+}
