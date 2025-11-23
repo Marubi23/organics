@@ -1,4 +1,4 @@
-/* about.component.css */
+/* about.component.css - Mobile Responsive */
 .about-section {
   padding: 0;
   background: var(--cream);
@@ -971,7 +971,9 @@
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
 }
 
-/* Responsive Design */
+/* ========== MOBILE RESPONSIVE DESIGN ========== */
+
+/* Tablet Breakpoint (1024px) */
 @media (max-width: 1024px) {
   .hero-title {
     font-size: 3.2rem;
@@ -980,12 +982,24 @@
   .impact-grid {
     gap: 50px;
   }
+  
+  .mission-vision-grid {
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 40px;
+  }
+  
+  .solutions-grid {
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 35px;
+  }
 }
 
+/* Large Mobile Breakpoint (768px) */
 @media (max-width: 768px) {
   .about-hero {
     height: 70vh;
     min-height: 500px;
+    margin-bottom: 80px;
   }
   
   .hero-content {
@@ -999,11 +1013,17 @@
   
   .hero-title {
     font-size: 2.5rem;
+    margin-bottom: 20px;
   }
   
   .hero-subtitle {
     font-size: 1.2rem;
-    margin: 0 auto 40px;
+    margin: 0 auto 30px;
+  }
+  
+  .hero-pre-title {
+    font-size: 1.1rem;
+    letter-spacing: 2px;
   }
   
   .mission-vision-grid {
@@ -1015,6 +1035,10 @@
     padding: 40px 30px;
   }
   
+  .mission-card h2, .vision-card h2 {
+    font-size: 1.8rem;
+  }
+  
   .impact-grid {
     grid-template-columns: 1fr;
     gap: 40px;
@@ -1023,33 +1047,29 @@
   .contact-info {
     flex-direction: column;
     gap: 15px;
+    align-items: center;
+  }
+  
+  .contact-item {
+    font-size: 1.1rem;
+    padding: 10px 18px;
   }
   
   .section-header h2 {
     font-size: 2.5rem;
   }
   
-  .solutions-grid, .products-grid, .problems-grid, .sdg-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 480px) {
-  .about-hero {
-    height: 60vh;
-    min-height: 400px;
-  }
-  
-  .hero-title {
-    font-size: 2rem;
-  }
-  
-  .hero-subtitle {
+  .section-header p {
     font-size: 1.1rem;
   }
   
-  .mission-card, .vision-card {
-    padding: 30px 25px;
+  .solutions-grid, .products-grid, .problems-grid, .sdg-grid {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+  
+  .solution-card, .product-card, .problem-card, .sdg-card {
+    padding: 35px 25px;
   }
   
   .solution-header {
@@ -1058,20 +1078,264 @@
     gap: 15px;
   }
   
+  .solution-icon {
+    margin: 0 auto;
+  }
+  
   .contact-cta {
-    padding: 50px 25px;
+    padding: 60px 30px;
+    margin: 0 15px 40px;
   }
   
   .cta-content h2 {
-    font-size: 2.2rem;
+    font-size: 2.5rem;
+  }
+  
+  .cta-content p {
+    font-size: 1.1rem;
+  }
+  
+  .btn-primary {
+    padding: 16px 35px;
+    font-size: 1.1rem;
+  }
+  
+  .hero-scroll-indicator {
+    bottom: 30px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Small Mobile Breakpoint (480px) */
+@media (max-width: 480px) {
+  .about-hero {
+    height: 60vh;
+    min-height: 400px;
+    margin-bottom: 60px;
+  }
+  
+  .hero-title {
+    font-size: 2rem;
+    margin-bottom: 15px;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+  }
+  
+  .hero-pre-title {
+    font-size: 1rem;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+  
+  .mission-card, .vision-card {
+    padding: 30px 25px;
+    border-radius: 20px;
+  }
+  
+  .icon-wrapper {
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+    margin-bottom: 25px;
+  }
+  
+  .card-icon svg {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .mission-card h2, .vision-card h2 {
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+  }
+  
+  .mission-card p, .vision-card p {
+    font-size: 1rem;
+  }
+  
+  .section-header {
+    margin-bottom: 60px;
   }
   
   .section-header h2 {
     font-size: 2rem;
   }
   
-  .hero-pre-title {
+  .section-header p {
     font-size: 1rem;
-    letter-spacing: 2px;
+  }
+  
+  .problem-card, .product-card, .sdg-card {
+    padding: 25px 20px;
+  }
+  
+  .problem-icon, .product-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 20px;
+  }
+  
+  .problem-number {
+    font-size: 2.5rem;
+    top: 15px;
+    right: 20px;
+  }
+  
+  .solution-card {
+    padding: 30px 20px;
+  }
+  
+  .solution-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 15px;
+  }
+  
+  .solution-icon svg {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .solution-title h3 {
+    font-size: 1.3rem;
+  }
+  
+  .solution-description {
+    font-size: 1rem;
+  }
+  
+  .impact-item, .outcome-item {
+    padding: 20px;
+    gap: 15px;
+  }
+  
+  .impact-icon {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .outcome-icon {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .impact-text h4 {
+    font-size: 1.2rem;
+  }
+  
+  .contact-cta {
+    padding: 40px 20px;
+    border-radius: 20px;
+    margin: 0 10px 30px;
+  }
+  
+  .cta-content h2 {
+    font-size: 2rem;
+  }
+  
+  .cta-content p {
+    font-size: 1rem;
+    margin-bottom: 30px;
+  }
+  
+  .btn-primary {
+    padding: 14px 30px;
+    font-size: 1rem;
+  }
+  
+  .hero-scroll-indicator {
+    bottom: 20px;
+    font-size: 0.75rem;
+  }
+}
+
+/* Extra Small Mobile Breakpoint (360px) */
+@media (max-width: 360px) {
+  .hero-content {
+    padding: 0 15px;
+  }
+  
+  .hero-title {
+    font-size: 1.8rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+  
+  .mission-vision-section,
+  .problems-section,
+  .solutions-section,
+  .products-section,
+  .impact-section,
+  .sdg-section {
+    padding: 0 15px;
+    margin-bottom: 80px;
+  }
+  
+  .mission-card, .vision-card {
+    padding: 25px 20px;
+  }
+  
+  .section-header h2 {
+    font-size: 1.8rem;
+  }
+  
+  .problem-card h3,
+  .product-card h3,
+  .sdg-card h3 {
+    font-size: 1.2rem;
+  }
+  
+  .solution-title h3 {
+    font-size: 1.2rem;
+  }
+}
+
+/* Landscape Mobile Optimization */
+@media (max-height: 500px) and (orientation: landscape) {
+  .about-hero {
+    height: 100vh;
+    min-height: 350px;
+  }
+  
+  .hero-title {
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+  
+  .hero-subtitle {
+    font-size: 1rem;
+    margin-bottom: 20px;
+  }
+  
+  .hero-pre-title {
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+  }
+  
+  .hero-scroll-indicator {
+    display: none;
+  }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .mission-card:hover,
+  .vision-card:hover,
+  .problem-card:hover,
+  .solution-card:hover,
+  .product-card:hover,
+  .sdg-card:hover,
+  .impact-item:hover,
+  .outcome-item:hover {
+    transform: none;
+  }
+  
+  .btn-primary:hover {
+    transform: none;
   }
 }
