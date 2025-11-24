@@ -2,8 +2,8 @@
 <section class="impact-hero">
   <div class="container">
     <div class="hero-content">
-      <h1>Our Impact</h1>
-      <p class="hero-subtitle">Transforming agriculture, empowering farmers, and building sustainable communities across Kenya</p>
+      <h1>Mzuri Organics Impact in Kenya</h1>
+      <p class="hero-subtitle">Transforming Kenyan agriculture, empowering local farmers, and building sustainable communities across East Africa</p>
     </div>
   </div>
 </section>
@@ -18,8 +18,11 @@
             <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
-        <h3>Proven Results</h3>
-        <p>Measurable outcomes demonstrating sustainable agricultural transformation</p>
+        <h3>Proven Kenyan Results</h3>
+        <p>Measurable outcomes demonstrating sustainable agricultural transformation across Kenyan farming communities</p>
+        <div class="overview-context">
+          <small>Verified impact in East Africa</small>
+        </div>
       </div>
       
       <div class="overview-card" @fadeInUp>
@@ -31,8 +34,11 @@
             <path d="M16 3.13a4 4 0 010 7.75" stroke="currentColor" stroke-width="2"/>
           </svg>
         </div>
-        <h3>Community Impact</h3>
-        <p>Empowering smallholder farmers and building resilient communities</p>
+        <h3>Kenyan Community Impact</h3>
+        <p>Empowering Kenyan smallholder farmers and building resilient communities across East Africa</p>
+        <div class="overview-context">
+          <small>Local community development</small>
+        </div>
       </div>
       
       <div class="overview-card" @fadeInUp>
@@ -43,8 +49,11 @@
             <circle cx="12" cy="12" r="2" stroke="currentColor" stroke-width="2"/>
           </svg>
         </div>
-        <h3>Environmental Change</h3>
-        <p>Reducing environmental impact while increasing agricultural productivity</p>
+        <h3>Environmental Change in Kenya</h3>
+        <p>Reducing environmental impact while increasing agricultural productivity in Kenyan ecosystems</p>
+        <div class="overview-context">
+          <small>Sustainable Kenyan agriculture</small>
+        </div>
       </div>
     </div>
   </div>
@@ -53,14 +62,17 @@
 <section class="key-metrics">
   <div class="container">
     <div class="section-header" @fadeInUp>
-      <h2>Key Performance Indicators</h2>
-      <p>Quantifiable results demonstrating our sustainable impact</p>
+      <h2>Mzuri Organics Key Performance Indicators</h2>
+      <p>Quantifiable results demonstrating our sustainable impact across Kenyan agriculture</p>
     </div>
     
     <div class="metrics-grid">
       <div class="metric-card" *ngFor="let metric of keyMetrics" @staggerAnimation>
         <div class="metric-value">{{ metric.value }}</div>
         <div class="metric-label">{{ metric.label }}</div>
+        <div class="metric-context">
+          <small>Across Kenyan farms</small>
+        </div>
         <div class="metric-trend" [class.positive]="metric.trend === 'positive'" [class.negative]="metric.trend === 'negative'">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
             <path *ngIf="metric.trend === 'positive'" d="M18 15l-6-6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -76,8 +88,8 @@
 <section class="outcomes-results">
   <div class="container">
     <div class="section-header" @fadeInUp>
-      <h2>Outcomes & Results</h2>
-      <p>Transforming agricultural practices and improving livelihoods</p>
+      <h2>Kenyan Outcomes & Results</h2>
+      <p>Transforming agricultural practices and improving livelihoods across East African communities</p>
     </div>
     
     <div class="outcomes-grid">
@@ -96,6 +108,9 @@
             {{ outcome }}
           </div>
         </div>
+        <div class="category-context">
+          <small>Verified in Kenyan farming communities</small>
+        </div>
       </div>
     </div>
   </div>
@@ -104,8 +119,8 @@
 <section class="sdg-impact">
   <div class="container">
     <div class="section-header" @fadeInUp>
-      <h2>Sustainable Development Goals Alignment</h2>
-      <p>Contributing to global sustainability targets through local action</p>
+      <h2>Contributing to Kenya's SDG Progress</h2>
+      <p>Advancing global sustainability targets through local action in Kenyan communities</p>
     </div>
     
     <div class="sdg-impact-grid">
@@ -117,7 +132,7 @@
           <div class="progress-bar">
             <div class="progress-fill" [style.width.%]="sdg.progress"></div>
           </div>
-          <span class="progress-text">{{ sdg.progress }}% Contribution</span>
+          <span class="progress-text">{{ sdg.progress }}% Contribution in Kenya</span>
         </div>
       </div>
     </div>
@@ -127,8 +142,8 @@
 <section class="success-stories">
   <div class="container">
     <div class="section-header" @fadeInUp>
-      <h2>Success Stories</h2>
-      <p>Real stories of transformation from our farming communities</p>
+      <h2>Kenyan Success Stories</h2>
+      <p>Real stories of transformation from our Kenyan farming communities</p>
     </div>
     
     <div class="stories-grid">
@@ -140,15 +155,19 @@
               <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
             </svg>
           </div>
+          <div class="kenyan-flag">🇰🇪</div>
         </div>
         <div class="story-content">
           <h3>{{ story.farmer }}</h3>
-          <p class="story-location">{{ story.location }}</p>
+          <p class="story-location">{{ story.location }}, Kenya</p>
           <p class="story-quote">"{{ story.quote }}"</p>
           <div class="story-results">
             <div class="result-item" *ngFor="let result of story.results">
               <strong>{{ result.value }}</strong> {{ result.label }}
             </div>
+          </div>
+          <div class="story-context">
+            <small>Mzuri Organics Kenyan Farmer</small>
           </div>
         </div>
       </div>
@@ -159,8 +178,8 @@
 <section class="environmental-impact">
   <div class="container">
     <div class="section-header" @fadeInUp>
-      <h2>Environmental Impact</h2>
-      <p>Creating positive environmental change through sustainable practices</p>
+      <h2>Environmental Impact in Kenya</h2>
+      <p>Creating positive environmental change through sustainable practices in Kenyan ecosystems</p>
     </div>
     
     <div class="environmental-grid">
@@ -173,6 +192,9 @@
         <h4>{{ impact.title }}</h4>
         <p>{{ impact.description }}</p>
         <div class="impact-value">{{ impact.value }}</div>
+        <div class="impact-context">
+          <small>In Kenyan context</small>
+        </div>
       </div>
     </div>
   </div>
@@ -181,8 +203,8 @@
 <section class="future-goals">
   <div class="container">
     <div class="section-header" @fadeInUp>
-      <h2>Future Goals & Expansion</h2>
-      <p>Our roadmap for scaling impact and reaching more communities</p>
+      <h2>Mzuri Organics Future Goals & Expansion</h2>
+      <p>Our Kenyan roadmap for scaling impact and reaching more East African communities</p>
     </div>
     
     <div class="goals-timeline">
@@ -197,6 +219,9 @@
               <span class="metric-label">{{ metric.label }}</span>
             </div>
           </div>
+          <div class="goal-context">
+            <small>Focus on Kenyan agriculture</small>
+          </div>
         </div>
       </div>
     </div>
@@ -206,11 +231,14 @@
 <section class="impact-cta">
   <div class="container">
     <div class="cta-content" @fadeInUp>
-      <h2>Join Our Impact Journey</h2>
-      <p>Be part of the movement transforming agriculture and creating sustainable livelihoods across Kenya.</p>
+      <h2>Join Mzuri Organics' Impact Journey in Kenya</h2>
+      <p>Be part of the movement transforming Kenyan agriculture and creating sustainable livelihoods across East Africa.</p>
+      <div class="contact-highlight">
+        <p>📞 <strong>+254 701 934 918</strong> | 📧 <strong>info@mzuriorganics.co.ke</strong></p>
+      </div>
       <div class="cta-buttons">
-        <a routerLink="/contact" class="btn btn-primary">Partner With Us</a>
-        <a routerLink="/what-we-do" class="btn btn-secondary">Learn More</a>
+        <a routerLink="/contact" class="btn btn-primary">Partner With Us in Kenya</a>
+        <a routerLink="/what-we-do" class="btn btn-secondary">Learn About Our Kenyan Work</a>
       </div>
     </div>
   </div>
