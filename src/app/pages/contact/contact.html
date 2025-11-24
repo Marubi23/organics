@@ -87,6 +87,59 @@
           </div>
         </div>
       </div>
+      <!-- Add this right after the Social Media section in contact-info -->
+<div class="info-section">
+  <h2>Stay Updated</h2>
+  <div class="newsletter-card">
+    <div class="newsletter-icon">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+        <path d="M19 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M3 7L12 13L21 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <h3>Join Our Newsletter</h3>
+    <p>Get farming insights, product updates, and exclusive offers</p>
+    
+    <form [formGroup]="newsletterForm" (ngSubmit)="onNewsletterSubmit()" class="newsletter-form">
+      <div class="form-group">
+        <input 
+          type="email" 
+          formControlName="email"
+          placeholder="Enter your email"
+          class="newsletter-input"
+        >
+        <button 
+          type="submit" 
+          class="newsletter-btn"
+          [disabled]="!newsletterForm.valid || newsletterSubmitted"
+          [class.success]="newsletterSubmitted"
+        >
+          <span *ngIf="!newsletterSubmitted">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M22 2L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Subscribe
+          </span>
+          <span *ngIf="newsletterSubmitted">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Subscribed!
+          </span>
+        </button>
+      </div>
+    </form>
+    
+    <p class="privacy-note">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+        <path d="M12 22C12 22 21 18 21 12C21 6 17 2 12 2C7 2 3 6 3 12C3 18 12 22 12 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      We respect your privacy. Unsubscribe anytime.
+    </p>
+  </div>
+</div>
 
       <!-- Contact Form -->
       <div class="contact-form-section">

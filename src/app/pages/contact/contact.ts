@@ -13,27 +13,51 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 })
 export class ContactComponent {
   contactForm: FormGroup;
+  newsletterForm: FormGroup;
+  isSubmitting = false;
+  newsletterSubmitted = false;
 
   constructor(private fb: FormBuilder) {
     this.contactForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
       phone: [''],
+      subject: ['general'],
       message: ['', [Validators.required, Validators.minLength(10)]]
+    });
+
+    this.newsletterForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]]
     });
   }
 
   onSubmit() {
     if (this.contactForm.valid) {
-      console.log('Form submitted:', this.contactForm.value);
-      // Here you would typically send the form data to your backend
-      alert('Thank you for your message! We will get back to you soon.');
-      this.contactForm.reset();
+      this.isSubmitting = true;
+      console.log('Contact form submitted:', this.contactForm.value);
+      
+      // Simulate API call
+      setTimeout(() => {
+        alert('Thank you for your message! We will get back to you within 24 hours.');
+        this.contactForm.reset();
+        this.isSubmitting = false;
+      }, 1000);
     } else {
-      // Mark all fields as touched to show validation errors
       Object.keys(this.contactForm.controls).forEach(key => {
         this.contactForm.get(key)?.markAsTouched();
       });
+    }
+  }
+
+  onNewsletterSubmit() {
+    if (this.newsletterForm.valid) {
+      this.newsletterSubmitted = true;
+      console.log('Newsletter subscription:', this.newsletterForm.value.email);
+      
+      setTimeout(() => {
+        this.newsletterForm.reset();
+        this.newsletterSubmitted = false;
+      }, 3000);
     }
   }
 }
