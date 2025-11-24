@@ -51,8 +51,14 @@ export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
     { value: 24, suffix: 'hr', label: 'Delivery Time', current: 0 }
   ]);
 
-  // Products data
-  products = signal<Product[]>([
+  // Filtering properties
+  selectedCategory = 'all';
+  selectedPriceRange = 'all';
+  selectedSort = 'featured';
+  searchQuery = '';
+
+  // All products data
+  private allProducts: Product[] = [
     {
       id: 1,
       name: 'Fresh Organic Avocados',
@@ -134,17 +140,23 @@ export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
       units: 'per 10kg bag',
       inStock: true
     }
-  ]);
+  ];
 
-  cartItemCount = signal(0); // Add cart count signal
+  // Displayed products signal
+  products = signal<Product[]>([]);
+
+  cartItemCount = signal(0);
   private statsAnimated = false;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: any,
-    private cartService: CartService // Inject cart service
+    private cartService: CartService
   ) {}
 
   ngOnInit() {
+    // Initialize with all products
+    this.products.set([...this.allProducts]);
+    
     // Load cart from localStorage and subscribe to cart updates
     if (isPlatformBrowser(this.platformId)) {
       this.cartService.loadFromLocalStorage();
@@ -215,7 +227,126 @@ export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
     });
   }
 
-  // UPDATED: Add to cart with cart service integration
+  // FILTERING METHODS
+  onCategoryChange(event: any): void {
+    this.selectedCategory = event.target.value;
+    this.applyFilters();
+  }
+
+  onPriceRangeChange(event: any): void {
+    this.selectedPriceRange = event.target.value;
+    this.applyFilters();
+  }
+
+  onSortChange(event: any): void {
+    this.selectedSort = event.target.value;
+    this.applyFilters();
+  }
+
+  onSearchChange(event: any): void {
+    this.searchQuery = event.target.value;
+    this.applyFilters();
+  }
+
+  applyFilters(): void {
+    let filteredProducts = [...this.allProducts];
+
+    // Category filter
+    if (this.selectedCategory !== 'all') {
+      filteredProducts = filteredProducts.filter(product => 
+        product.category === this.selectedCategory
+      );
+    }
+
+    // Price range filter
+    if (this.selectedPriceRange !== 'all') {
+      filteredProducts = filteredProducts.filter(product => {
+        switch (this.selectedPriceRange) {
+          case '0-100': return product.price <= 100;
+          case '100-500': return product.price > 100 && product.price <= 500;
+          case '500-1000': return product.price > 500 && product.price <= 1000;
+          case '1000+': return product.price > 1000;
+          default: return true;
+        }
+      });
+    }
+
+    // Search filter
+    if (this.searchQuery.trim()) {
+      const query = this.searchQuery.toLowerCase().trim();
+      filteredProducts = filteredProducts.filter(product =>
+        product.name.toLowerCase().includes(query) ||
+        product.description.toLowerCase().includes(query) ||
+        product.category.toLowerCase().includes(query)
+      );
+    }
+
+    // Sort products
+    filteredProducts = this.sortProducts(filteredProducts);
+
+    // Update the displayed products
+    this.products.set(filteredProducts);
+  }
+
+  sortProducts(products: Product[]): Product[] {
+    return [...products].sort((a, b) => {
+      switch (this.selectedSort) {
+        case 'price-low':
+          return a.price - b.price;
+        case 'price-high':
+          return b.price - a.price;
+        case 'name':
+          return a.name.localeCompare(b.name);
+        case 'rating':
+          return b.rating - a.rating;
+        case 'newest':
+          // Assuming newer products have higher IDs
+          return b.id - a.id;
+        default: // featured
+          // Featured: new items first, then by rating
+          if (a.isNew && !b.isNew) return -1;
+          if (!a.isNew && b.isNew) return 1;
+          return b.rating - a.rating;
+      }
+    });
+  }
+
+  // Helper methods for active filters
+  hasActiveFilters(): boolean {
+    return this.selectedCategory !== 'all' || 
+           this.selectedPriceRange !== 'all' || 
+           this.searchQuery.trim() !== '';
+  }
+
+  getPriceRangeLabel(): string {
+    const labels: {[key: string]: string} = {
+      '0-100': 'Under KSh 100',
+      '100-500': 'KSh 100 - 500',
+      '500-1000': 'KSh 500 - 1,000',
+      '1000+': 'Over KSh 1,000'
+    };
+    return labels[this.selectedPriceRange] || this.selectedPriceRange;
+  }
+
+  clearCategory(): void {
+    this.selectedCategory = 'all';
+    this.applyFilters();
+  }
+
+  clearPriceRange(): void {
+    this.selectedPriceRange = 'all';
+    this.applyFilters();
+  }
+
+  clearAllFilters(): void {
+    this.selectedCategory = 'all';
+    this.selectedPriceRange = 'all';
+    this.selectedSort = 'featured';
+    this.searchQuery = '';
+    this.applyFilters();
+  }
+
+  // Add to cart with cart service integration
   addToCart(product: Product): void {
     this.cartService.addToCart(product);
     this.showAddToCartNotification(product.name);
@@ -300,20 +431,20 @@ export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
 
   // Optional: Method to get product by ID
   getProductById(id: number): Product | undefined {
-    return this.products().find(product => product.id === id);
+    return this.allProducts.find(product => product.id === id);
   }
 
   // Optional: Method to filter products by category
   getProductsByCategory(category: string): Product[] {
-    return this.products().filter(product => product.category === category);
+    return this.allProducts.filter(product => product.category === category);
   }
 
   // Optional: Method to get featured products
   getFeaturedProducts(): Product[] {
-    return this.products().filter(product => product.isNew || product.rating >= 4.7);
+    return this.allProducts.filter(product => product.isNew || product.rating >= 4.7);
   }
 
-  // NEW: Method to get cart items count for display
+  // Method to get cart items count for display
   getCartItemsCount(): number {
     return this.cartItemCount();
   }
