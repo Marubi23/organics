@@ -29,46 +29,46 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   slides: Slide[] = [
     {
       image: 'images/greens1.jpg',
-      title: 'Championing Regenerative Agriculture',
-      description: 'Our mission is to build smallholder farmers\' resilience to climate change through regenerative practices.',
-      buttonText: 'Shop Fresh Produce',
-      buttonLink: '/shop'
-    },
-    {
-      image: 'images/greens2.jpg',
-      title: 'Sustainable Farming Solutions',
-      description: 'Transforming agriculture with eco-friendly practices that benefit farmers and the environment.',
-      buttonText: 'Our Products',
+      title: 'Regenerating Kenyan Soil Health',
+      description: 'Building smallholder farmers\' resilience to climate change through regenerative agricultural practices across Kenya.',
+      buttonText: 'Our Biofertilizers',
       buttonLink: '/products'
     },
     {
+      image: 'images/greens2.jpg',
+      title: 'Organic Waste to Nutrient-Rich Fertilizers',
+      description: 'Transforming farm and market waste into premium organic fertilizers using Black Soldier Fly Larvae technology.',
+      buttonText: 'Our Process',
+      buttonLink: '/bioconversion'
+    },
+    {
       image: 'videos/agricvid.webm',
-      title: 'Transforming Agriculture',
-      description: 'Watch how we\'re revolutionizing farming with sustainable methods and community empowerment.',
+      title: 'Circular Economy in Action',
+      description: 'See how we convert organic waste into valuable resources while creating sustainable livelihoods for Kenyan farmers.',
       buttonText: 'Watch Our Story',
       buttonLink: '/about',
       isVideo: true
     },
     {
       image: 'images/greens3.jpg',
-      title: 'Organic Biofertilizers',
-      description: 'High-quality organic fertilizers for healthier soil and better crop yields.',
-      buttonText: 'Learn More',
-      buttonLink: '/products/biofertilizers'
+      title: 'High-Protein Animal Feed Solutions',
+      description: 'Insect-based protein feeds containing up to 50% protein - perfect for poultry, fish, and livestock farming.',
+      buttonText: 'Animal Feeds',
+      buttonLink: '/products/feeds'
     },
     {
       image: 'images/greens4.jpg',
-      title: 'Farmer Empowerment',
-      description: 'Empowering smallholder farmers with training and sustainable agricultural practices.',
-      buttonText: 'Join Our Program',
+      title: 'Empowering Smallholder Farmers',
+      description: 'Training programs in regenerative agriculture, vermicomposting, and market access for sustainable livelihoods.',
+      buttonText: 'Join Regen-Kilimo',
       buttonLink: '/regen-kilimo'
     },
     {
       image: 'images/greens5.jpg',
-      title: 'Climate Resilience',
-      description: 'Building resilient farming communities that thrive despite climate challenges.',
-      buttonText: 'Our Impact',
-      buttonLink: '/impact'
+      title: 'Precision Farming Technology',
+      description: 'Data-driven precision dosing to optimize fertilizer use and maximize yields for Kenyan farmers.',
+      buttonText: 'PREFarm Initiative',
+      buttonLink: '/prefarm'
     }
   ];
 
