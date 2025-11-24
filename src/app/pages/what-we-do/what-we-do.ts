@@ -85,7 +85,20 @@ export class WhatWeDoComponent {
       description: 'Poor organic waste management at farm and market levels leading to environmental issues.'
     }
   ];
+// Add to existing component class
+getKenyanContext(): string {
+  return "Serving Kenyan farmers with locally-adapted regenerative agricultural solutions";
+}
 
+getFocusRegions(): string[] {
+  return [
+    "Central Kenya Highlands",
+    "Rift Valley Region", 
+    "Western Kenya",
+    "Coastal Region",
+    "Eastern Kenya"
+  ];
+}
   impactStats = [
     { value: '5+ tons', label: 'Organic waste processed monthly' },
     { value: '1000L', label: 'Liquid fertilizer produced weekly' },
