@@ -1,1 +1,173 @@
-<p>testimonials works!</p>
+<section class="testimonials-hero">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-text">
+        <h1 class="hero-title">
+          <i class="fas fa-heart"></i>
+          Stories That Inspire
+        </h1>
+        <p class="hero-subtitle">Real people, real results. Discover how Mzuri Organics is transforming lives and communities across Kenya.</p>
+        <div class="impact-stats">
+          <div class="stat">
+            <i class="fas fa-user-friends"></i>
+            <div>
+              <span class="stat-number">500+</span>
+              <span class="stat-label">Farmers Empowered</span>
+            </div>
+          </div>
+          <div class="stat">
+            <i class="fas fa-chart-line"></i>
+            <div>
+              <span class="stat-number">60%</span>
+              <span class="stat-label">Average Yield Increase</span>
+            </div>
+          </div>
+          <div class="stat">
+            <i class="fas fa-leaf"></i>
+            <div>
+              <span class="stat-number">100%</span>
+              <span class="stat-label">Organic Success</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="testimonials-section">
+  <div class="container">
+    <!-- Category Filters -->
+    <div class="category-filters">
+      <button 
+        class="filter-btn" 
+        [class.active]="activeCategory === 'all'"
+        (click)="filterTestimonials('all')">
+        <i class="fas fa-star"></i>
+        All Stories
+      </button>
+      <button 
+        class="filter-btn" 
+        [class.active]="activeCategory === 'farmer'"
+        (click)="filterTestimonials('farmer')">
+        <i class="fas fa-tractor"></i>
+        Farmer Stories
+      </button>
+      <button 
+        class="filter-btn" 
+        [class.active]="activeCategory === 'customer'"
+        (click)="filterTestimonials('customer')">
+        <i class="fas fa-shopping-bag"></i>
+        Customer Reviews
+      </button>
+      <button 
+        class="filter-btn" 
+        [class.active]="activeCategory === 'partner'"
+        (click)="filterTestimonials('partner')">
+        <i class="fas fa-handshake"></i>
+        Partner Stories
+      </button>
+    </div>
+
+    <!-- Testimonials Grid -->
+    <div class="testimonials-grid">
+      <div *ngFor="let testimonial of filteredTestimonials" class="testimonial-card">
+        <!-- Card Header -->
+        <div class="card-header">
+          <div class="user-info">
+            <div class="avatar-container">
+              <img [src]="testimonial.image" [alt]="testimonial.name" class="user-avatar">
+              <div class="verified-badge">
+                <i class="fas fa-check"></i>
+              </div>
+            </div>
+            <div class="user-details">
+              <h3 class="user-name">{{ testimonial.name }}</h3>
+              <p class="user-role">
+                <i class="fas fa-map-marker-alt"></i>
+                {{ testimonial.location }}
+              </p>
+              <p class="user-title">
+                <i class="fas fa-briefcase"></i>
+                {{ testimonial.role }}
+              </p>
+            </div>
+          </div>
+          <div class="rating">
+            <span class="stars">
+              <i *ngFor="let star of getRatingStars(testimonial.rating)" class="fas fa-star"></i>
+            </span>
+            <span class="member-since">
+              <i class="fas fa-calendar"></i>
+              Member since {{ testimonial.joinDate }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Main Quote -->
+        <div class="quote-section">
+          <div class="quote-icon">
+            <i class="fas fa-quote-left"></i>
+          </div>
+          <blockquote class="main-quote">
+            "{{ testimonial.quote }}"
+          </blockquote>
+        </div>
+
+        <!-- Full Story -->
+        <div class="story-section">
+          <h4>
+            <i class="fas fa-book-open"></i>
+            Their Journey
+          </h4>
+          <p class="full-story">{{ testimonial.story }}</p>
+        </div>
+
+        <!-- Results -->
+        <div class="results-section">
+          <h4>
+            <i class="fas fa-trophy"></i>
+            Amazing Results
+          </h4>
+          <div class="results-grid">
+            <div *ngFor="let result of testimonial.results" class="result-item">
+              <div class="result-icon">
+                <i [class]="result.icon"></i>
+              </div>
+              <div class="result-content">
+                <span class="result-value">{{ result.value }}</span>
+                <span class="result-label">{{ result.label }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Category Badge -->
+        <div class="category-badge" [class]="testimonial.category">
+          <i [class]="getCategoryIcon(testimonial.category)"></i>
+          {{ testimonial.category | titlecase }}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="testimonials-cta">
+  <div class="container">
+    <div class="cta-content">
+      <h2>Ready to Write Your Success Story?</h2>
+      <p>Join hundreds of farmers and customers who are transforming their lives with Mzuri Organics.</p>
+      <div class="cta-buttons">
+        <a routerLink="/products" class="btn btn-primary">
+          <i class="fas fa-shopping-bag"></i>
+          Shop Our Products
+        </a>
+        <a routerLink="/contact" class="btn btn-secondary">
+          <i class="fas fa-user-plus"></i>
+          Become a Partner
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
