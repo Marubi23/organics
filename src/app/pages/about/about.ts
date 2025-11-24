@@ -140,6 +140,7 @@ export class AboutComponent implements OnInit {
       icon: 'protein'
     }
   ];
+  
 
   // Impact & Outcomes
   impacts: Impact[] = [
