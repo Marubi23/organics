@@ -42,7 +42,7 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
       buttonLink: '/products'
     },
     {
-      image: 'https://drive.google.com/uc?export=download&id=1R0XrzGiPAtBcfGYPnIJZPFmiEVfOXXEa',
+      image: 'videos/agricvid.webm',
       title: 'Transforming Agriculture',
       description: 'Watch how we\'re revolutionizing farming with sustainable methods and community empowerment.',
       buttonText: 'Watch Our Story',
