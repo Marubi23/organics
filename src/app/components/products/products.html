@@ -4,9 +4,9 @@
     <!-- Hero Header -->
     <div class="products-hero">
       <div class="hero-content">
-        <h1 class="hero-title">Our Products</h1>
+        <h1 class="hero-title">Mzuri Organics Products</h1>
         <p class="hero-subtitle">
-          Organic products prepared from plant residue & animal waste, composted with the help of Black Soldier Fly Larvae & Red Wigglers' Biological Activity. Check them out and make your order today.
+          Premium organic products prepared from Kenyan plant residue & animal waste, composted with Black Soldier Fly Larvae & Red Wigglers' Biological Activity. Sustainably produced for Kenyan farmers. Check them out and make your order today.
         </p>
       </div>
     </div>
@@ -14,8 +14,8 @@
     <!-- Production Process -->
     <div class="process-section">
       <div class="section-header">
-        <h2>Our Sustainable Production Process</h2>
-        <p>Transforming waste into valuable organic products through innovative bioconversion</p>
+        <h2>Mzuri Organics Sustainable Production Process</h2>
+        <p>Transforming Kenyan agricultural waste into valuable organic products through innovative bioconversion</p>
       </div>
       
       <div class="process-steps">
@@ -27,8 +27,11 @@
               <path d="M19 6V20C19 21.1046 18.1046 22 17 22H7C5.89543 22 5 21.1046 5 20V6" stroke="currentColor" stroke-width="2"/>
             </svg>
           </div>
-          <h3>Waste Collection</h3>
-          <p>Gathering plant residue and animal waste from sustainable sources</p>
+          <h3>Kenyan Waste Collection</h3>
+          <p>Gathering plant residue and animal waste from sustainable Kenyan farms and markets</p>
+          <div class="step-context">
+            <small>Sourced locally across Kenya</small>
+          </div>
         </div>
         
         <div class="process-step">
@@ -40,7 +43,10 @@
             </svg>
           </div>
           <h3>BSFL Bioconversion</h3>
-          <p>Black Soldier Fly Larvae efficiently convert organic waste into nutrient-rich biomass</p>
+          <p>Black Soldier Fly Larvae efficiently convert Kenyan organic waste into nutrient-rich biomass</p>
+          <div class="step-context">
+            <small>Locally adapted technology</small>
+          </div>
         </div>
         
         <div class="process-step">
@@ -52,7 +58,10 @@
             </svg>
           </div>
           <h3>Vermicomposting</h3>
-          <p>Red Wigglers enhance compost quality and accelerate decomposition</p>
+          <p>Red Wigglers enhance compost quality and accelerate decomposition for Kenyan soil conditions</p>
+          <div class="step-context">
+            <small>Optimized for African soils</small>
+          </div>
         </div>
         
         <div class="process-step">
@@ -64,7 +73,10 @@
             </svg>
           </div>
           <h3>Quality Packaging</h3>
-          <p>Eco-friendly packaging ensuring product freshness and sustainability</p>
+          <p>Eco-friendly packaging ensuring product freshness and sustainability for Kenyan market</p>
+          <div class="step-context">
+            <small>Made for Kenyan conditions</small>
+          </div>
         </div>
       </div>
     </div>
@@ -75,6 +87,9 @@
         <div class="stat-card" *ngFor="let stat of stats()">
           <div class="stat-value">{{ formatStatValue(stat) }}</div>
           <div class="stat-label">{{ stat.label }}</div>
+          <div class="stat-context">
+            <small>Across Kenya</small>
+          </div>
         </div>
       </div>
     </div>
@@ -82,8 +97,8 @@
     <!-- Products Grid -->
     <div class="products-main-section">
       <div class="section-header">
-        <h2>Premium Organic Products</h2>
-        <p>High-quality, sustainably produced agricultural solutions</p>
+        <h2>Mzuri Organics Premium Products</h2>
+        <p>High-quality, sustainably produced agricultural solutions for Kenyan farmers</p>
       </div>
       
       <!-- Products Filters -->
@@ -94,17 +109,17 @@
             <label>Category</label>
             <select (change)="onCategoryChange($event)" class="filter-select">
               <option value="all">All Categories</option>
-              <option value="Fruits">Fruits</option>
-              <option value="Vegetables">Vegetables</option>
-              <option value="Pantry">Pantry</option>
-              <option value="Agricultural Inputs">Agricultural Inputs</option>
-              <option value="Animal Feed">Animal Feed</option>
+              <option value="Fruits">Kenyan Fruits</option>
+              <option value="Vegetables">Local Vegetables</option>
+              <option value="Pantry">Farm Products</option>
+              <option value="Agricultural Inputs">Farm Inputs</option>
+              <option value="Animal Feed">Livestock Feeds</option>
             </select>
           </div>
 
           <!-- Price Filter -->
           <div class="filter-group">
-            <label>Price Range</label>
+            <label>Price Range (KSh)</label>
             <select (change)="onPriceRangeChange($event)" class="filter-select">
               <option value="all">All Prices</option>
               <option value="0-100">Under KSh 100</option>
@@ -150,7 +165,7 @@
             </svg>
             <input 
               type="text" 
-              placeholder="Search products..." 
+              placeholder="Search Mzuri Organics products..." 
               [value]="searchQuery"
               (input)="onSearchChange($event)"
               class="search-input"
@@ -161,7 +176,7 @@
 
       <!-- Products Count -->
       <div class="products-count" *ngIf="products().length > 0">
-        Showing {{ products().length }} product{{ products().length !== 1 ? 's' : '' }}
+        Showing {{ products().length }} Mzuri Organics product{{ products().length !== 1 ? 's' : '' }}
         <span *ngIf="hasActiveFilters()"> (filtered)</span>
       </div>
       
@@ -173,7 +188,8 @@
             <img [src]="product.image" [alt]="product.name" loading="lazy">
             <div class="product-badges">
               <span class="badge new" *ngIf="product.isNew">New</span>
-              <span class="badge organic" *ngIf="product.isOrganic">Organic</span>
+              <span class="badge organic" *ngIf="product.isOrganic">100% Organic</span>
+              <span class="badge local">Kenyan Made</span>
             </div>
             <div class="product-overlay">
               <button class="btn-quick-view" (click)="quickView(product)">
@@ -191,6 +207,10 @@
             <h3 class="product-name">{{ product.name }}</h3>
             <p class="product-description">{{ product.description }}</p>
             
+            <div class="product-origin">
+              <small>🇰🇪 Produced in Kenya</small>
+            </div>
+            
             <div class="product-rating">
               <span class="stars">
                 <span class="star" *ngFor="let star of getRatingStars(product.rating)">
@@ -199,6 +219,7 @@
                 </span>
               </span>
               <span class="rating-value">{{ product.rating }}</span>
+              <span class="rating-count">(Kenyan farmers)</span>
             </div>
             
             <div class="product-price">
@@ -227,9 +248,9 @@
               <path d="M21 21L16.65 16.65M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z" stroke="currentColor" stroke-width="2"/>
             </svg>
           </div>
-          <h3>No products found</h3>
-          <p>Try adjusting your filters or search terms</p>
-          <button class="clear-all" (click)="clearAllFilters()">Clear All Filters</button>
+          <h3>No Mzuri Organics products found</h3>
+          <p>Try adjusting your filters or search terms for our Kenyan products</p>
+          <button class="clear-all" (click)="clearAllFilters()">Show All Products</button>
         </div>
       </div>
     </div>
@@ -237,11 +258,14 @@
     <!-- CTA Section -->
     <div class="cta-section">
       <div class="cta-content">
-        <h2>Ready to Transform Your Agriculture?</h2>
-        <p>Join thousands of farmers using our sustainable organic products</p>
+        <h2>Ready to Transform Your Kenyan Farm?</h2>
+        <p>Join thousands of Kenyan farmers using our sustainable organic products for better yields and healthier soil</p>
+        <div class="contact-info">
+          <p>📞 <strong>Call: +254 701 934 918</strong> | 📧 <strong>info@mzuriorganics.co.ke</strong></p>
+        </div>
         <div class="cta-buttons">
-          <button class="btn-primary" routerLink="/contact">Contact Sales</button>
-          <button class="btn-secondary" routerLink="/about">Learn More</button>
+          <button class="btn-primary" routerLink="/contact">Contact Our Sales Team</button>
+          <button class="btn-secondary" routerLink="/about">Learn About Our Process</button>
         </div>
       </div>
     </div>

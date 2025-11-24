@@ -26,6 +26,7 @@ interface Product {
   rating: number;
   units: string;
   inStock: boolean;
+  origin?: string;
 }
 
 interface Stat {
@@ -43,12 +44,12 @@ interface Stat {
   styleUrls: ['./products.css']
 })
 export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
-  // Horizontal stats like CIC insurance
+  // Horizontal stats like CIC insurance - Updated with Kenyan context
   stats = signal<Stat[]>([
-    { value: 125, suffix: '', label: 'Products', current: 0 },
-    { value: 46.7, suffix: 'm', label: 'Total Sales', current: 0 },
-    { value: 8.1, suffix: '%', label: 'Market Share', current: 0 },
-    { value: 24, suffix: 'hr', label: 'Delivery Time', current: 0 }
+    { value: 125, suffix: '+', label: 'Organic Products', current: 0 },
+    { value: 46.7, suffix: 'm+', label: 'Total Sales in Kenya', current: 0 },
+    { value: 8.1, suffix: 'k+', label: 'Kenyan Farmers Served', current: 0 },
+    { value: 24, suffix: 'hr', label: 'Delivery in Kenya', current: 0 }
   ]);
 
   // Filtering properties
@@ -57,12 +58,12 @@ export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
   selectedSort = 'featured';
   searchQuery = '';
 
-  // All products data
+  // All products data - Enhanced with Kenyan context
   private allProducts: Product[] = [
     {
       id: 1,
-      name: 'Fresh Organic Avocados',
-      description: 'Creamy, nutrient-rich avocados straight from our farms',
+      name: 'Fresh Organic Avocados from Kenyan Highlands',
+      description: 'Creamy, nutrient-rich avocados straight from our Kenyan farms in the Rift Valley',
       price: 120,
       originalPrice: 150,
       image: '/images/avacado.jpg',
@@ -71,12 +72,13 @@ export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
       isOrganic: true,
       rating: 4.8,
       units: 'per piece',
-      inStock: true
+      inStock: true,
+      origin: 'Kenyan Highlands'
     },
     {
       id: 2,
-      name: 'Organic Kale Bundle',
-      description: 'Fresh, crisp kale packed with vitamins and minerals',
+      name: 'Organic Kale Bundle - Kenyan Grown',
+      description: 'Fresh, crisp kale packed with vitamins and minerals from Central Kenya farms',
       price: 180,
       image: '/images/kales.jpg',
       category: 'Vegetables',
@@ -84,12 +86,13 @@ export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
       isOrganic: true,
       rating: 4.6,
       units: 'per bundle',
-      inStock: true
+      inStock: true,
+      origin: 'Central Kenya'
     },
     {
       id: 3,
-      name: 'Pure Honey 500g',
-      description: 'Raw, unfiltered honey from our bee farms',
+      name: 'Pure Kenyan Honey 500g',
+      description: 'Raw, unfiltered honey from our Kenyan bee farms in the Aberdare ranges',
       price: 450,
       originalPrice: 520,
       image: '/images/honey.jpg',
@@ -98,12 +101,13 @@ export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
       isOrganic: true,
       rating: 4.9,
       units: 'per jar',
-      inStock: true
+      inStock: true,
+      origin: 'Aberdare Ranges'
     },
     {
       id: 4,
-      name: 'Organic Tomatoes',
-      description: 'Vine-ripened tomatoes with rich flavor',
+      name: 'Organic Kenyan Tomatoes',
+      description: 'Vine-ripened tomatoes with rich flavor from Eastern Kenya farms',
       price: 90,
       image: '/images/tomatoes.jpg',
       category: 'Vegetables',
@@ -111,12 +115,13 @@ export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
       isOrganic: true,
       rating: 4.5,
       units: 'per kg',
-      inStock: true
+      inStock: true,
+      origin: 'Eastern Kenya'
     },
     {
       id: 5,
-      name: 'Organic Biofertilizer',
-      description: 'Nutrient-rich fertilizer from BSFL bioconversion process',
+      name: 'Organic Biofertilizer for Kenyan Soil',
+      description: 'Nutrient-rich fertilizer from BSFL bioconversion process, specially formulated for Kenyan soil conditions',
       price: 850,
       image: '/images/ferterlizer.jpg',
       category: 'Agricultural Inputs',
@@ -124,12 +129,13 @@ export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
       isOrganic: true,
       rating: 4.7,
       units: 'per 5kg bag',
-      inStock: true
+      inStock: true,
+      origin: 'Mzuri Organics Kenya'
     },
     {
       id: 6,
-      name: 'Insect Protein Feed',
-      description: 'High-protein animal feed from Black Soldier Fly Larvae',
+      name: 'Insect Protein Feed for Kenyan Livestock',
+      description: 'High-protein animal feed from Black Soldier Fly Larvae - perfect for Kenyan poultry and fish farms',
       price: 1200,
       originalPrice: 1400,
       image: '/images/insectifood.jpg',
@@ -138,7 +144,37 @@ export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
       isOrganic: true,
       rating: 4.8,
       units: 'per 10kg bag',
-      inStock: true
+      inStock: true,
+      origin: 'Mzuri Organics Kenya'
+    },
+    {
+      id: 7,
+      name: 'Kenyan Organic Spinach',
+      description: 'Fresh, tender spinach leaves grown using sustainable methods in Kenyan highlands',
+      price: 150,
+      image: '/images/spinach.jpeg',
+      category: 'Vegetables',
+      isNew: true,
+      isOrganic: true,
+      rating: 4.6,
+      units: 'per bunch',
+      inStock: true,
+      origin: 'Kenyan Highlands'
+    },
+    {
+      id: 8,
+      name: 'Organic Carrots from Nakuru',
+      description: 'Sweet, crunchy carrots grown in the rich volcanic soils of Nakuru, Kenya',
+      price: 200,
+      originalPrice: 240,
+      image: '/images/carrots.jpeg',
+      category: 'Vegetables',
+      isNew: false,
+      isOrganic: true,
+      rating: 4.7,
+      units: 'per kg',
+      inStock: true,
+      origin: 'Nakuru, Kenya'
     }
   ];
 
@@ -277,7 +313,8 @@ export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
       filteredProducts = filteredProducts.filter(product =>
         product.name.toLowerCase().includes(query) ||
         product.description.toLowerCase().includes(query) ||
-        product.category.toLowerCase().includes(query)
+        product.category.toLowerCase().includes(query) ||
+        (product.origin && product.origin.toLowerCase().includes(query))
       );
     }
 
@@ -395,9 +432,24 @@ export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
 
   quickView(product: Product): void {
     console.log('Quick view:', product.name);
-    // Implement quick view modal logic here
-    // For now, we'll show product details in an alert
-    alert(`Quick View: ${product.name}\n\nPrice: KSh ${product.price}\nCategory: ${product.category}\nRating: ${product.rating}/5\n\n${product.description}`);
+    // Enhanced quick view with Kenyan context
+    const message = `
+🌱 Mzuri Organics Quick View:
+
+${product.name}
+📍 Origin: ${product.origin || 'Kenya'}
+
+💰 Price: KSh ${product.price}
+${product.originalPrice ? `💸 Original: KSh ${product.originalPrice}` : ''}
+📦 ${product.units}
+
+⭐ Rating: ${product.rating}/5 from Kenyan farmers
+
+${product.description}
+
+🇰🇪 100% Kenyan Organic Product
+    `;
+    alert(message);
   }
 
   getRatingStars(rating: number): number[] {
@@ -429,6 +481,20 @@ export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
     return stat.current.toFixed(1) + stat.suffix;
   }
 
+  // New method to get Kenyan products only
+  getKenyanProducts(): Product[] {
+    return this.allProducts.filter(product => 
+      product.origin?.includes('Kenya') || product.name.includes('Kenya')
+    );
+  }
+
+  // New method to get products by Kenyan region
+  getProductsByRegion(region: string): Product[] {
+    return this.allProducts.filter(product => 
+      product.origin?.includes(region)
+    );
+  }
+
   // Optional: Method to get product by ID
   getProductById(id: number): Product | undefined {
     return this.allProducts.find(product => product.id === id);
@@ -447,5 +513,10 @@ export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
   // Method to get cart items count for display
   getCartItemsCount(): number {
     return this.cartItemCount();
+  }
+
+  // New method to get Kenyan context
+  getKenyanContext(): string {
+    return "All products sustainably produced in Kenya for Kenyan farmers";
   }
 }
