@@ -1,8 +1,22 @@
 <!-- about.component.html -->
 <section class="about-section">
+  <!-- Sticky Navigation -->
+  <div class="page-navigation">
+    <div class="nav-container">
+      <a (click)="scrollToSection('home')" class="nav-link">Home</a>
+      <a (click)="scrollToSection('mission-vision')" class="nav-link">Mission & Vision</a>
+      <a (click)="scrollToSection('challenges')" class="nav-link">Challenges</a>
+      <a (click)="scrollToSection('solutions')" class="nav-link">Solutions</a>
+      <a (click)="scrollToSection('products')" class="nav-link">Products</a>
+      <a (click)="scrollToSection('impact')" class="nav-link">Impact</a>
+      <a (click)="scrollToSection('sdg')" class="nav-link">SDG Alignment</a>
+      <a (click)="scrollToSection('contact')" class="nav-link">Contact</a>
+    </div>
+  </div>
+
   <div class="container">
     <!-- Hero Section with Shared Image -->
-    <div class="about-hero">
+    <div class="about-hero" id="home">
       <div class="hero-image">
         <img src="/images/aboutus.jpg" alt="Transforming Agriculture Through Innovation" class="hero-img">
         <div class="hero-overlay"></div>
@@ -13,7 +27,7 @@
           <h1 class="hero-title">Agriculture<br>Through</h1>
           <p class="hero-subtitle">Building resilient food systems for smallholder farmers through regenerative practices</p>
         </div>
-        <div class="hero-scroll-indicator">
+        <div class="hero-scroll-indicator" (click)="scrollToSection('mission-vision')">
           <span>Scroll to explore</span>
           <div class="scroll-arrow"></div>
         </div>
@@ -21,7 +35,7 @@
     </div>
 
     <!-- Mission & Vision -->
-    <div class="mission-vision-section">
+    <div class="mission-vision-section" id="mission-vision">
       <div class="mission-vision-grid">
         <div class="mission-card">
           <div class="card-icon">
@@ -53,7 +67,7 @@
     </div>
 
     <!-- Problems Section -->
-    <div class="problems-section">
+    <div class="problems-section" id="challenges">
       <div class="section-header">
         <h2>The Challenges We Address</h2>
         <p>Transforming agricultural obstacles into opportunities for growth</p>
@@ -70,7 +84,7 @@
     </div>
 
     <!-- Solutions Section -->
-    <div class="solutions-section">
+    <div class="solutions-section" id="solutions">
       <div class="section-header">
         <h2>Our Innovative Solutions</h2>
         <p>Comprehensive approaches to sustainable agriculture</p>
@@ -101,7 +115,7 @@
     </div>
 
     <!-- Products Section -->
-    <div class="products-section">
+    <div class="products-section" id="products">
       <div class="section-header">
         <h2>Our Products & Services</h2>
         <p>High-quality solutions for sustainable farming</p>
@@ -117,7 +131,7 @@
     </div>
 
     <!-- Impact & Outcomes -->
-    <div class="impact-section">
+    <div class="impact-section" id="impact">
       <div class="impact-grid">
         <div class="impact-content">
           <h2>Our Impact</h2>
@@ -145,7 +159,7 @@
     </div>
 
     <!-- SDG Alignment -->
-    <div class="sdg-section">
+    <div class="sdg-section" id="sdg">
       <div class="section-header">
         <h2>Global Sustainability Alignment</h2>
         <p>Contributing to United Nations Sustainable Development Goals</p>
@@ -164,7 +178,7 @@
     </div>
 
     <!-- Contact CTA -->
-    <div class="contact-cta">
+    <div class="contact-cta" id="contact">
       <div class="cta-content">
         <h2>Join Our Mission</h2>
         <p>Partner with us to build a sustainable future for agriculture</p>

@@ -1,6 +1,6 @@
 // about.component.ts
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, HostListener, Inject } from '@angular/core';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 interface Problem {
@@ -220,15 +220,59 @@ export class AboutComponent implements OnInit {
     email: 'info@mzuriorganics.co.ke'
   };
 
+  // Navigation active state
+  activeSection: string = 'home';
+  isScrolled: boolean = false;
+
+  constructor(@Inject(DOCUMENT) private document: Document) {}
+
   ngOnInit() {
-    // Add scroll animations
-    this.initializeAnimations();
+    this.setupIntersectionObserver();
   }
 
-  initializeAnimations() {
-    // This would typically be implemented with a library like AOS (Animate On Scroll)
-    // For now, we'll just ensure the component is ready for animations
-    console.log('About component initialized with enhanced animations');
+  // Smooth scroll function
+  scrollToSection(sectionId: string): void {
+    const element = this.document.getElementById(sectionId);
+    if (element) {
+      const offset = 80; // Adjust based on your navigation height
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+
+      this.activeSection = sectionId;
+    }
+  }
+
+  // Track active section while scrolling
+  setupIntersectionObserver(): void {
+    const sections = this.document.querySelectorAll('[id]');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          this.activeSection = entry.target.id;
+        }
+      });
+    }, { 
+      rootMargin: '-20% 0px -70% 0px',
+      threshold: 0.1
+    });
+
+    sections.forEach(section => {
+      if (section.id) {
+        observer.observe(section);
+      }
+    });
+  }
+
+  // Handle scroll events for navigation styling
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    this.isScrolled = window.pageYOffset > 100;
   }
 
   // Method to get SVG icon based on type
