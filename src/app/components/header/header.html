@@ -93,9 +93,9 @@
         </a>
       </div>
 
-      <!-- Right Section -->
+      <!-- Right Section - KEEP EXACTLY THE SAME -->
       <div class="nav-right">
-        <button class="icon-btn search-btn">
+        <button class="icon-btn search-btn" (click)="openSearch()">
           <i class="fas fa-search"></i>
         </button>
         
@@ -217,7 +217,7 @@
 
     <!-- Mobile Right Section -->
     <div class="mobile-nav-right">
-      <button class="mobile-nav-btn search-btn" (click)="toggleMobileMenu()">
+      <button class="mobile-nav-btn search-btn" (click)="openSearch(); toggleMobileMenu()">
         <i class="fas fa-search"></i> Search
       </button>
       
@@ -232,6 +232,85 @@
     </div>
   </div>
 
-  <!-- 🛒🛒🛒 ADD THIS LINE - CART COMPONENT 🛒🛒🛒 -->
+  <!-- Cart Component -->
   <app-cart [isOpen]="isCartOpen" (closeCart)="toggleCart()"></app-cart>
+
+  <!-- Search Overlay - ADD THIS AT THE END -->
+  <div class="search-overlay" [class.active]="isSearchOpen">
+    <div class="search-container">
+      <div class="search-header">
+        <h3>Search Mzuri Organics</h3>
+        <button class="search-close-btn" (click)="closeSearch()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      
+      <div class="search-input-group">
+        <input 
+          type="text" 
+          #searchInput
+          placeholder="Search for organic fertilizers, BSF larvae, products..." 
+          class="search-input"
+          (input)="onSearchInput($event)"
+          (keyup.enter)="performSearch()"
+        />
+        <button class="search-submit-btn" (click)="performSearch()">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+
+      <!-- Search Results -->
+      <div class="search-results" *ngIf="searchResults.length > 0">
+        <div class="search-result-item" 
+             *ngFor="let result of searchResults" 
+             (click)="navigateToSearchResult(result)">
+          <div class="result-icon">
+            <i [class]="getResultIcon(result.category)"></i>
+          </div>
+          <div class="result-content">
+            <h4>{{ result.name }}</h4>
+            <p>{{ result.description }}</p>
+            <div class="result-meta">
+              <span class="result-price">KSh {{ result.price }}</span>
+              <span class="result-category">{{ result.category }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Popular Searches -->
+      <div class="popular-searches" *ngIf="searchTerm === ''">
+        <h4>Popular Kenyan Products</h4>
+        <div class="popular-tags">
+          <span class="tag" (click)="searchByTag('NPK')">NPK Fertilizers</span>
+          <span class="tag" (click)="searchByTag('BSF')">BSF Larvae</span>
+          <span class="tag" (click)="searchByTag('Urea')">Urea Plus</span>
+          <span class="tag" (click)="searchByTag('Growing Media')">Growing Media</span>
+          <span class="tag" (click)="searchByTag('Protein')">Protein Feeds</span>
+          <span class="tag" (click)="searchByTag('Worms')">Red Wigglers</span>
+          <span class="tag" (click)="searchByTag('Avocados')">Avocados</span>
+          <span class="tag" (click)="searchByTag('Kale')">Kale</span>
+        </div>
+      </div>
+
+      <!-- No Results -->
+      <div class="no-results" *ngIf="searchTerm !== '' && searchResults.length === 0">
+        <i class="fas fa-search"></i>
+        <p>No products found for "{{ searchTerm }}"</p>
+        <span>Try searching with different keywords</span>
+      </div>
+
+      <!-- Quick Stats -->
+      <div class="search-stats" *ngIf="searchTerm === ''">
+        <div class="stat-item">
+          <strong>9+</strong>
+          <span>Organic Products</span>
+        </div>
+        <div class="stat-item">
+          <strong>100%</strong>
+          <span>Kenyan Made</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </nav>
