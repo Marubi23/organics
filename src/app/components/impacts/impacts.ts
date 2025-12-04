@@ -89,13 +89,13 @@ export class ImpactComponent {
   ];
 
   sdgImpacts = [
-    { number: 1, title: 'No Poverty', impact: 'Increased Kenyan farmer incomes and economic resilience', progress: 85 },
-    { number: 2, title: 'Zero Hunger', impact: 'Improved Kenyan food security through sustainable production', progress: 90 },
+    { number: 1, title: 'No Poverty', impact: 'Creating new income streams for farmers, youth, and women through buy-back models and waste-to-value enterprises.', progress: 85 },
+    { number: 2, title: 'Zero Hunger', impact: 'Boosting food security by regenerating soils, increasing yields, and improving crop nutrition through biological and organo-mineral fertilizers.', progress: 90 },
     { number: 5, title: 'Gender Equality', impact: 'Equal participation of Kenyan women in farming initiatives', progress: 75 },
-    { number: 8, title: 'Decent Work', impact: 'Job creation and sustainable economic growth in Kenya', progress: 80 },
-    { number: 12, title: 'Responsible Consumption', impact: 'Sustainable waste management and production in Kenya', progress: 95 },
-    { number: 13, title: 'Climate Action', impact: 'Climate-resilient agricultural practices in East Africa', progress: 85 },
-    { number: 15, title: 'Life on Land', impact: 'Kenyan soil regeneration and biodiversity conservation', progress: 90 }
+    { number: 8, title: 'Decent Work & Economic Growth', impact: 'Driving green job creation across regenerative farming, composting, bioconversion, and biofertilizer production', progress: 80 },
+    { number: 12, title: 'Responsible Consumption & Production', impact: 'Transforming organic waste into high-value fertilizers and creating circular, zero-waste farming systems', progress: 95 },
+    { number: 13, title: 'Climate Action', impact: 'Reducing emissions, enhancing soil carbon, and building climate-resilient farms through regenerative agriculture', progress: 85 },
+    { number: 15, title: 'Life on Land', impact: 'Restoring degraded soils, improving biodiversity, and strengthening ecosystem health with microbe-rich inputs.', progress: 90 }
   ];
 
   successStories = [
