@@ -27,21 +27,22 @@ interface SDG {
 export class CategoriesComponent implements AfterViewInit, OnDestroy {
   // Impact stats for the new CTA section
   impactStats = signal<ImpactStat[]>([
-    { value: 5, suffix: '+', label: 'Tons of Waste Upcycled Monthly', current: 0 },
-    { value: 1000, suffix: 'L', label: 'Liquid Biofertilizer Weekly', current: 0 },
-    { value: 1.5, suffix: 'T', label: 'Solid Fertilizer Monthly', current: 0 },
-    { value: 60, suffix: '%', label: 'Farmer Input Savings', current: 0 }
+    { value: 55, suffix: '+', label: 'Tons of Waste Upcycled Monthly', current: 0 },
+    { value: 1000, suffix: 'L+', label: 'Liquid Biofertilizer Weekly', current: 0 },
+    { value: 5, suffix: 'T+', label: 'Solid Fertilizer Monthly', current: 0 },
+    { value: 40, suffix: '%', label: 'Savings on Farm Input Costs', current: 0 },
+    { value: 60, suffix:'%', label:'increase in farm yields ', current:0}
   ]);
 
   // SDG data
   sdgs: SDG[] = [
-    { number: '1', title: 'No Poverty', description: 'Building farmer resilience and economic stability' },
-    { number: '2', title: 'Zero Hunger', description: 'Sustainable food production systems' },
+    { number: '1', title: 'No Poverty', description: 'Creating new income streams for farmers, youth, and women through buy-back models and waste-to-value enterprises' },
+    { number: '2', title: 'Zero Hunger', description: 'Boosting food security by regenerating soils, increasing yields, and improving crop nutrition through biological and organo-mineral fertilizers.' },
     { number: '5', title: 'Gender Equality', description: 'Empowering women in agriculture' },
-    { number: '8', title: 'Decent Work', description: 'Creating sustainable employment' },
-    { number: '12', title: 'Responsible Consumption', description: 'Circular economy practices' },
-    { number: '13', title: 'Climate Action', description: 'Climate-resilient agriculture' },
-    { number: '15', title: 'Life on Land', description: 'Ecosystem restoration' }
+    { number: '8', title: 'Decent Work', description: 'Driving green job creation across regenerative farming, composting, bioconversion, and biofertilizer production' },
+    { number: '12', title: 'Responsible Consumption and Production', description: 'Transforming organic waste into high-value fertilizers and creating circular, zero-waste farming systems' },
+    { number: '13', title: 'Climate Action', description: 'Reducing emissions, enhancing soil carbon, and building climate-resilient farms through regenerative agriculture' },
+    { number: '15', title: 'Life on Land', description: 'Restoring degraded soils, improving biodiversity, and strengthening ecosystem health with microbe-rich inputs' }
   ];
 
   private statsAnimated = false;

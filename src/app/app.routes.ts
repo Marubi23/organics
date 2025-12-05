@@ -9,9 +9,12 @@ import { ImpactComponent } from './components/impacts/impacts';
 import { CartComponent } from './pages/cart/cart';
 import { TestimonialsComponent } from './components/testimonials/testimonials';
 import { BlogComponent } from './components/blog/blog';
+import {ProblemsComponent} from './components/problems/problems';
+import path from 'path';
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
+  {path: 'challenges', component: ProblemsComponent},
   { path: 'shop', component: HomeComponent }, // or create a separate ShopComponent if needed
   { path: 'about', component: AboutComponent },
   { path: 'contact', component: ContactComponent },
@@ -21,5 +24,6 @@ export const routes: Routes = [
   {path:'cart', component: CartComponent},
   {path: 'testimonials', component: TestimonialsComponent},
   {path:'blog',component: BlogComponent},
+  
   { path: '**', redirectTo: '' } // Wildcard route for 404 pages
 ];

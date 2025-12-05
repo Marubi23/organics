@@ -23,7 +23,7 @@
             <a routerLink="/about" class="dropdown-item">
               <i class="fas fa-eye"></i> Overview
             </a>
-            <a routerLink="/about" class="dropdown-item">
+            <a routerLink="/about" fragment="mission-vision" class="dropdown-item">
               <i class="fas fa-bullseye"></i> Mission & Vision
             </a>
             <a routerLink="/blog" class="dropdown-item">
@@ -37,18 +37,20 @@
             <i class="fas fa-hands-helping"></i> What We Do
           </a>
           <div class="dropdown-menu">
-            <a routerLink="/what-we-do" class="dropdown-item">
+            <a routerLink="/challenges" class="dropdown-item">
               <i class="fas fa-exclamation-triangle"></i> The Problems
             </a>
             <div class="dropdown-divider"></div>
             <span class="dropdown-header">OUR SOLUTIONS</span>
-            <a routerLink="/what-we-do" class="dropdown-item">
-              <i class="fas fa-recycle"></i> Bioconversion Initiative
+            <a routerLink="/what-we-do" fragment="circular-model"  class="dropdown-item">
+              <i class="fas fa-recycle"></i> Our Circular Model
             </a>
-            <a routerLink="/what-we-do" class="dropdown-item">
+            <!-- Updated: PREFarm Initiative with fragment -->
+            <a routerLink="/what-we-do" fragment="prefarm-initiative" class="dropdown-item">
               <i class="fas fa-tachometer-alt"></i> PREFarm Initiative
             </a>
-            <a routerLink="/what-we-do" class="dropdown-item">
+            <!-- Updated: Regen-Kilimo Initiative with fragment -->
+            <a routerLink="/what-we-do" fragment="regen-kilimo" class="dropdown-item">
               <i class="fas fa-seedling"></i> Regen-Kilimo Initiative
             </a>
           </div>
@@ -139,7 +141,7 @@
           <a routerLink="/about" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
             <i class="fas fa-eye"></i> Overview
           </a>
-          <a routerLink="/about" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
+          <a routerLink="/about" fragment="mission-vision" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
             <i class="fas fa-bullseye"></i> Mission & Vision
           </a>
           <a routerLink="/about" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
@@ -155,7 +157,7 @@
           <span class="dropdown-arrow">⌄</span>
         </button>
         <div class="mobile-dropdown-menu">
-          <a routerLink="/what-we-do" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
+          <a routerLink="/challenges" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
             <i class="fas fa-exclamation-triangle"></i> The Problems
           </a>
           <div class="mobile-dropdown-divider"></div>
@@ -163,10 +165,12 @@
           <a routerLink="/what-we-do" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
             <i class="fas fa-recycle"></i> Bioconversion Initiative
           </a>
-          <a routerLink="/what-we-do" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
+          <!-- Updated: PREFarm Initiative with fragment -->
+          <a routerLink="/what-we-do" fragment="prefarm-initiative" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
             <i class="fas fa-tachometer-alt"></i> PREFarm Initiative
           </a>
-          <a routerLink="/what-we-do" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
+          <!-- Updated: Regen-Kilimo Initiative with fragment -->
+          <a routerLink="/what-we-do" fragment="regen-kilimo" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
             <i class="fas fa-seedling"></i> Regen-Kilimo Initiative
           </a>
         </div>

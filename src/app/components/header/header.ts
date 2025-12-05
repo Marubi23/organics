@@ -1,7 +1,8 @@
 // header.component.ts
 import { Component, HostListener, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Router } from '@angular/router';
+import { RouterModule, Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators'; // ADD THIS IMPORT
 import { CartService } from '../../services/cart';
 import { CartComponent } from '../../pages/cart/cart';
 
@@ -134,12 +135,49 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.cartCount = this.cartService.getTotalItems();
     });
     this.cartService.loadFromLocalStorage();
+    
+    // ADD THIS SECTION FOR FRAGMENT NAVIGATION
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
+      this.handleFragmentNavigation(event.url);
+    });
   }
 
   ngOnDestroy() {
     if (this.cartSubscription) {
       this.cartSubscription.unsubscribe();
     }
+  }
+
+  // ADD THIS METHOD FOR FRAGMENT NAVIGATION
+  private handleFragmentNavigation(url: string): void {
+    const fragment = this.router.parseUrl(url).fragment;
+    if (fragment) {
+      setTimeout(() => {
+        this.scrollToFragment(fragment);
+      }, 100);
+    }
+  }
+
+  // ADD THIS METHOD TO SCROLL TO FRAGMENT
+  private scrollToFragment(fragment: string): void {
+    const element = document.getElementById(fragment);
+    if (element) {
+      const offset = 100; // Adjust based on your header height
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  }
+
+  // ADD THIS METHOD FOR DROPDOWN ITEMS THAT NEED FRAGMENT NAVIGATION
+  navigateToAboutWithFragment(fragment: string): void {
+    this.router.navigate(['/about'], { fragment: fragment });
   }
 
   // Search functionality

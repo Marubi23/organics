@@ -1,7 +1,15 @@
 // about.component.ts
-import { Component, OnInit, HostListener, Inject } from '@angular/core';
-import { CommonModule, DOCUMENT } from '@angular/common';
+import { Component, OnInit, HostListener } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { 
+  trigger, 
+  transition, 
+  style, 
+  animate, 
+  stagger, 
+  query
+} from '@angular/animations';
 
 interface Problem {
   title: string;
@@ -47,172 +55,272 @@ interface Product {
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './about.html',
-  styleUrls: ['./about.css']
+  styleUrls: ['./about.css'],
+  animations: [
+    trigger('fadeIn', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(30px)' }),
+        animate('800ms ease-out', 
+          style({ opacity: 1, transform: 'translateY(0)' }))
+      ])
+    ]),
+    trigger('staggerAnimation', [
+      transition(':enter', [
+        query('.problem-card, .solution-card, .product-card', [
+          style({ opacity: 0, transform: 'translateY(40px) scale(0.95)' }),
+          stagger('100ms', [
+            animate('600ms cubic-bezier(0.25, 0.46, 0.45, 0.94)', 
+              style({ opacity: 1, transform: 'translateY(0) scale(1)' }))
+          ])
+        ], { optional: true })
+      ])
+    ])
+  ]
 })
 export class AboutComponent implements OnInit {
-  // Mission & Vision
+  // Mission & Vision - Updated to match new content
   mission = {
     title: 'Our Mission',
-    description: 'To build smallholder farmers\' resilience to climate change through the promotion of regenerative agricultural practices.'
+    description: 'To build smallholder farmers\' resilience to climate change through regenerative agricultural practices.'
   };
 
   vision = {
     title: 'Our Vision', 
-    description: 'To create a world where smallholder farmers are empowered to thrive in the face of climate change. We strive to promote sustainable regenerative agricultural practices that enable farmers to produce healthy crops, increase their income, and protect the environment. Our goal is to build a resilient food system that supports the well-being of farmers, communities, and the planet for generations to come.'
+    description: 'To create a world where smallholder farmers are empowered to thrive through sustainable regenerative agriculture that enables them to produce healthy crops, increase income, and protect the environment, building a resilient food system for generations to come.'
   };
 
-  // Problems
+  // Updated Problems based on the 7 core challenges
   problems: Problem[] = [
     {
-      title: 'Poor Soil Health',
-      description: 'High acidity and low humus due to degradation by farm related activities, affecting productivity.',
-      icon: 'soil-health'
+      title: 'Declining Soil Fertility & Chemical Dependence',
+      description: 'Kenyan soils severely depleted of organic matter. Farmers rely on costly synthetic fertilizers with diminishing returns, leading to nutrient imbalance and reduced yields.',
+      icon: 'soil'
     },
     {
-      title: 'Unaffordable Inputs',
-      description: 'Limited access to quality farm inputs for smallholder farmers.',
-      icon: 'cost'
-    },
-    {
-      title: 'Resource Competition', 
-      description: 'Increasing competition for limited food resources between humans and domesticated animals.',
-      icon: 'resources'
-    },
-    {
-      title: 'Waste Management',
-      description: 'Inefficient organic waste management at farm and market levels.',
+      title: 'Organic Waste Mismanagement',
+      description: 'Household, market, and farm waste poorly managed. Valuable biomass burned or dumped, contributing to pollution and climate risks.',
       icon: 'waste'
+    },
+    {
+      title: 'Lack of Accessible Regenerative Inputs', 
+      description: 'Smallholders cannot access microbe-rich fertilizers, soil tests, or precision dosing tools. Available organic fertilizers are inconsistent and poor quality.',
+      icon: 'access'
+    },
+    {
+      title: 'Farmer Poverty & Missing Income Streams',
+      description: 'Farmers earn nothing from waste streams. Youth lack dignified income opportunities in circular bioeconomy. No guaranteed buy-back pathways.',
+      icon: 'poverty'
+    },
+    {
+      title: 'Limited Knowledge on Regenerative Agriculture',
+      description: 'Most farmers unaware of biological soil restoration and composting techniques. Training and extension services are fragmented.',
+      icon: 'knowledge'
+    },
+    {
+      title: 'Pesticide Dependence & Food Safety Risks',
+      description: 'Chemical pesticide use dangerously high and poorly regulated. Soils lack biological resilience, forcing more spraying. Communities face health risks.',
+      icon: 'safety'
+    },
+    {
+      title: 'Climate Vulnerability',
+      description: 'Degraded soils worsen drought and crop failure. Farmers lack climate-resilient models integrating waste reuse and biological fertilizers.',
+      icon: 'climate'
     }
   ];
 
-  // Solutions
+  // Updated Solutions - 8 innovative solutions
   solutions: Solution[] = [
     {
-      title: 'Bioconversion Initiative',
-      subtitle: 'Sustainable Waste Management & Soil Regeneration',
-      description: 'Leveraging Black Soldier Fly Larvae and red worms to convert organic waste into nutrient-rich biofertilizers while producing high-value insect protein for animal feed.',
+      title: 'Circular Biofertilizer Production',
+      subtitle: 'Transforming waste into high-value regenerative fertilizers',
+      description: 'Using BSF bioconversion, vermicomposting, and microbial-rich composting to create premium biofertilizers including Vermi-Frass, BioVeg, BioFruity blends, and liquid frass concentrates.',
       features: [
-        'Sustainable waste management',
-        'Soil health regeneration', 
-        'High-value protein production',
-        'Circular economy approach'
+        'Vermi-Frass (microbe-rich biofertilizer)',
+        'BioVeg and BioFruity precision blends',
+        'Liquid frass concentrates (3.5% N)',
+        'Insect protein-based animal feed'
       ],
       icon: 'bioconversion'
     },
     {
-      title: 'PREFarm Initiative',
-      subtitle: 'Precision Dosing for Enhanced Productivity',
-      description: 'Data-driven precision dosing technology that optimizes fertilizer use, reduces input costs, and maximizes yields while protecting the environment.',
+      title: 'PREFarm Precision Soil Management',
+      subtitle: 'Science-guided soil regeneration',
+      description: 'One of Kenya\'s most innovative models integrating organics + mineral fertilizers with instant soil testing, localized blending centers, and precision dosing.',
       features: [
-        'Optimized input usage',
-        'Real-time data analytics',
-        'Environmental protection',
-        'Cost reduction'
+        'Instant and wet-lab soil testing',
+        'Localized blending centers',
+        'Precision dosing recommendations',
+        'Pre-farm soil regeneration'
       ],
       icon: 'precision'
     },
     {
-      title: 'Regen-Kilimo Initiative',
-      subtitle: 'Farmer Empowerment & Market Access',
-      description: 'Comprehensive training programs in regenerative agriculture, vermicomposting, and market linkages for sustainable livelihoods.',
+      title: 'Regen-Kilimo Circular Economy Model',
+      subtitle: 'Community empowerment system',
+      description: 'Unique model where youth, women, and farmers produce vermicompost, we buy back at guaranteed prices, and process into premium fertilizers sold back to communities.',
       features: [
-        'Farmer training & capacity building',
-        'Market access & off-taking',
-        'Crop diversification',
-        'Agricultural extension services'
+        'Guaranteed buy-back system',
+        'New income streams from waste',
+        'Soil restoration and reduced chemicals',
+        'Community-led circular economy'
       ],
-      icon: 'empowerment'
+      icon: 'circular'
+    },
+    {
+      title: 'Easy Drop Urban Circularity',
+      subtitle: 'Compact domestic food systems',
+      description: 'Turns small urban spaces into self-sustaining food production systems combining kitchen waste conversion, tower gardens, and BSFL chicken feed production.',
+      features: [
+        'Kitchen waste → BSF → fertilizer',
+        'Tower gardens with drip irrigation',
+        'Leafy greens & strawberries',
+        'BSFL as chicken feed'
+      ],
+      icon: 'urban'
+    },
+    {
+      title: 'Integrated Post-Harvest Systems',
+      subtitle: 'Market-level circular innovation',
+      description: 'Developing systems for fresh food markets combining solar cold rooms, composting units, waste-to-fertilizer conversion, and value addition.',
+      features: [
+        'Solar-powered cold rooms',
+        'Onsite waste-to-fertilizer',
+        'Surplus produce recovery',
+        'Value addition (avocado oil press)'
+      ],
+      icon: 'postharvest'
+    },
+    {
+      title: 'Youth BSF & Vermicomposting Enterprises',
+      subtitle: 'Scalable micro-enterprise model',
+      description: 'Training youth groups, setting up decentralized production hubs, and creating micro-enterprises within Kenya\'s circular bioeconomy.',
+      features: [
+        'Youth training and capacity building',
+        'Decentralized production hubs',
+        'Micro-enterprise creation',
+        'Buy-back markets and mentoring'
+      ],
+      icon: 'youth'
+    },
+    {
+      title: 'i-Regen Institutional Model',
+      subtitle: 'Cooperatives and SACCOs partnership',
+      description: 'Working through cooperatives and SACCOs to mobilize farmers into circular waste-to-value practices with complete buy-back and processing.',
+      features: [
+        'Cooperatives and SACCOs partnership',
+        'Complete waste-to-value system',
+        'Premium biofertilizer production',
+        'Affordable blends for communities'
+      ],
+      icon: 'institutional'
+    },
+    {
+      title: 'Avocado Oil Pressing & Circular Utilization',
+      subtitle: '100% upcycling of by-products',
+      description: 'Cold-extracting premium avocado oil while fully upcycling all by-products through BSF and vermicomposting systems.',
+      features: [
+        'Premium avocado oil extraction',
+        '100% upcycling of by-products',
+        'Additional farmer income',
+        'Strengthened circular bioeconomy'
+      ],
+      icon: 'avocado'
     }
   ];
 
-  // Products & Services
+  // Updated Products
   products: Product[] = [
     {
-      title: 'Organic Biofertilizers',
-      description: 'Superior 100% organic fertilizers rich in macro and micro nutrients including Nitrogen, Potassium, Phosphorus, Magnesium, Calcium, Sulphur, Iron, and Manganese. Contains living microbes that enhance plant nutrition.',
-      type: 'liquid-solid',
+      title: 'Compost-based Biofertilizers',
+      description: 'Superior 100% organic fertilizers rich in macro and micro nutrients with living microbes that enhance plant nutrition.',
+      type: 'biofertilizer',
       icon: 'fertilizer'
     },
     {
-      title: 'Insect-Based Protein Feeds',
-      description: 'High-protein animal feed containing up to 50% protein and 35% fat with amino acid profile comparable to fish meal. Excellent for poultry, fish, pigs, and pet food.',
+      title: 'NPK ActivePlus',
+      description: 'Precision-engineered organo-mineral fertilizer blending living organic biology with targeted mineral nutrition for fast, balanced nutrients.',
+      type: 'blended',
+      icon: 'npk'
+    },
+    {
+      title: 'Insect-based Protein Feeds',
+      description: 'High-protein animal feed containing up to 50% protein and 35% fat with amino acid profile comparable to fish meal.',
       type: 'animal-feed',
       icon: 'protein'
     }
   ];
-  
 
-  // Impact & Outcomes
+  // Updated Impacts
   impacts: Impact[] = [
     {
-      title: 'Increased Land Productivity',
-      description: 'Farmland regeneration through reintroduction of beneficial microorganisms and humus into soil ecosystems.',
-      icon: 'productivity'
+      title: 'Soil Health Restoration',
+      description: 'Regenerating depleted soils by returning living microbes, organic matter, and balanced nutrients; improving structure and fertility.',
+      icon: 'soil-restore'
     },
     {
-      title: 'Improved Livelihoods', 
-      description: 'Lower farming costs and better yields leading to improved standards of living for smallholder farmers.',
-      icon: 'livelihoods'
+      title: 'Reduced Chemical Dependence', 
+      description: 'Helping farmers cut pesticide and synthetic fertilizer use by up to 80%, improving food safety and environmental health.',
+      icon: 'chemical-reduce'
     },
     {
-      title: 'Environmental Benefits',
-      description: 'Cleaner environment and reduced GHG emissions through efficient organic waste management.',
-      icon: 'environment'
+      title: 'Circular Waste Management',
+      description: 'Transforming household, market, and farm waste into valuable inputs while creating new income streams.',
+      icon: 'waste-manage'
+    },
+    {
+      title: 'Economic Empowerment',
+      description: 'Creating consistent income for farmers, youth, and women through guaranteed buy-back systems and waste-to-value enterprises.',
+      icon: 'empowerment'
     }
   ];
 
+  // Updated Outcomes based on measurable outcomes
   outcomes: Outcome[] = [
-    { description: '5+ tons of organic waste processed monthly', icon: 'waste-processing' },
-    { description: '1000+ liters of liquid fertilizer produced weekly', icon: 'liquid-production' },
-    { description: '1.5+ tons of solid fertilizer produced monthly', icon: 'solid-production' },
-    { description: '60% savings on farm input costs', icon: 'savings' },
-    { description: 'Increased quantity and quality of farm yields', icon: 'yield' },
-    { description: 'Reduced livestock mortality and improved growth', icon: 'livestock' }
+    { description: '55+ tons of organic waste processed monthly', icon: 'waste' },
+    { description: '1000+ liters of liquid fertilizer produced monthly', icon: 'liquid' },
+    { description: '5+ tons of solid fertilizer produced monthly', icon: 'solid' },
+    { description: '40%+ savings on farm input costs', icon: 'savings' },
+    { description: '60% increase in farm yields', icon: 'yield' },
+    { description: 'Reduced livestock mortality and accelerated growth', icon: 'livestock' }
   ];
 
-  // SDGs
+  // Updated SDGs
   sdgs: SDG[] = [
     {
-      number: '1',
-      title: 'No Poverty',
-      description: 'Building farmer resilience and reducing vulnerability through soil regeneration and cost reduction.',
-      icon: 'poverty'
-    },
-    {
-      number: '2', 
+      number: '2',
       title: 'Zero Hunger',
-      description: 'Sustainable food production systems that increase productivity and improve land quality.',
+      description: 'Boosting food security by regenerating soils, increasing yields, and improving crop nutrition through biological fertilizers.',
       icon: 'hunger'
     },
     {
-      number: '5',
-      title: 'Gender Equality',
-      description: 'Gender-neutral economic activities empowering women and girls in agriculture.',
-      icon: 'equality'
-    },
-    {
-      number: '8',
-      title: 'Decent Work',
-      description: 'Creating sustainable employment opportunities for youth and women.',
-      icon: 'work'
-    },
-    {
-      number: '12',
-      title: 'Responsible Consumption',
-      description: 'Circular economy practices for effective organic waste management.',
+      number: '12', 
+      title: 'Responsible Consumption & Production',
+      description: 'Transforming organic waste into high-value fertilizers and creating circular, zero-waste farming systems.',
       icon: 'consumption'
     },
     {
       number: '13',
       title: 'Climate Action',
-      description: 'Climate-resilient agriculture with reduced environmental impact.',
+      description: 'Reducing emissions, enhancing soil carbon, and building climate-resilient farms through regenerative agriculture.',
       icon: 'climate'
     },
     {
       number: '15',
       title: 'Life on Land',
-      description: 'Restoration of degraded land and soil for sustainable agriculture.',
+      description: 'Restoring degraded soils, improving biodiversity, and strengthening ecosystem health with microbe-rich inputs.',
       icon: 'land'
+    },
+    {
+      number: '1',
+      title: 'No Poverty',
+      description: 'Creating new income streams for farmers, youth, and women through buy-back models and waste-to-value enterprises.',
+      icon: 'poverty'
+    },
+    {
+      number: '8',
+      title: 'Decent Work & Economic Growth',
+      description: 'Driving green job creation across regenerative farming, composting, bioconversion, and biofertilizer production.',
+      icon: 'work'
     }
   ];
 
@@ -225,17 +333,15 @@ export class AboutComponent implements OnInit {
   activeSection: string = 'home';
   isScrolled: boolean = false;
 
-  constructor(@Inject(DOCUMENT) private document: Document) {}
-
   ngOnInit() {
     this.setupIntersectionObserver();
   }
 
   // Smooth scroll function
   scrollToSection(sectionId: string): void {
-    const element = this.document.getElementById(sectionId);
+    const element = document.getElementById(sectionId);
     if (element) {
-      const offset = 80; // Adjust based on your navigation height
+      const offset = 80;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - offset;
 
@@ -250,7 +356,7 @@ export class AboutComponent implements OnInit {
 
   // Track active section while scrolling
   setupIntersectionObserver(): void {
-    const sections = this.document.querySelectorAll('[id]');
+    const sections = document.querySelectorAll('[id]');
     
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -279,192 +385,35 @@ export class AboutComponent implements OnInit {
   // Method to get SVG icon based on type
   getIcon(type: string): string {
     const icons: { [key: string]: string } = {
-      // Problem icons
-      'soil-health': `
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-          <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2"/>
-          <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2"/>
-          <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2"/>
-        </svg>
-      `,
-      'cost': `
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-          <path d="M12 2V22" stroke="currentColor" stroke-width="2"/>
-          <path d="M17 5H9.5C8.57174 5 7.6815 5.36875 7.02513 6.02513C6.36875 6.6815 6 7.57174 6 8.5C6 9.42826 6.36875 10.3185 7.02513 10.9749C7.6815 11.6313 8.57174 12 9.5 12H14.5C15.4283 12 16.3185 12.3687 16.9749 13.0251C17.6313 13.6815 18 14.5717 18 15.5C18 16.4283 17.6313 17.3185 16.9749 17.9749C16.3185 18.6313 15.4283 19 14.5 19H6" stroke="currentColor" stroke-width="2"/>
-        </svg>
-      `,
-      'resources': `
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-          <path d="M8 21H16" stroke="currentColor" stroke-width="2"/>
-          <path d="M12 17V21" stroke="currentColor" stroke-width="2"/>
-          <path d="M7 13H17C18.1046 13 19 12.1046 19 11V7C19 5.89543 18.1046 5 17 5H7C5.89543 5 5 5.89543 5 7V11C5 12.1046 5.89543 13 7 13Z" stroke="currentColor" stroke-width="2"/>
-          <path d="M7 5L12 1L17 5" stroke="currentColor" stroke-width="2"/>
-        </svg>
-      `,
-      'waste': `
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-          <path d="M3 6H21" stroke="currentColor" stroke-width="2"/>
-          <path d="M19 6V20C19 21.1046 18.1046 22 17 22H7C5.89543 22 5 21.1046 5 20V6" stroke="currentColor" stroke-width="2"/>
-          <path d="M8 6V4C8 2.89543 8.89543 2 10 2H14C15.1046 2 16 2.89543 16 4V6" stroke="currentColor" stroke-width="2"/>
-        </svg>
-      `,
-      // Solution icons
-      'bioconversion': `
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-          <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2"/>
-          <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2"/>
-          <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2"/>
-        </svg>
-      `,
-      'precision': `
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-          <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2"/>
-          <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2"/>
-          <path d="M12 12L9 9" stroke="currentColor" stroke-width="2"/>
-        </svg>
-      `,
-      'empowerment': `
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-          <path d="M12 2L3 7L12 12L21 7L12 2Z" stroke="currentColor" stroke-width="2"/>
-          <path d="M3 17L12 22L21 17" stroke="currentColor" stroke-width="2"/>
-          <path d="M3 12L12 17L21 12" stroke="currentColor" stroke-width="2"/>
-          <path d="M12 2V12" stroke="currentColor" stroke-width="2"/>
-          <path d="M12 12V22" stroke="currentColor" stroke-width="2"/>
-        </svg>
-      `,
-      // Product icons
-      'fertilizer': `
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-          <path d="M17 7H7C4.79086 7 3 8.79086 3 11V11C3 13.2091 4.79086 15 7 15H17C19.2091 15 21 13.2091 21 11V11C21 8.79086 19.2091 7 17 7Z" stroke="currentColor" stroke-width="2"/>
-          <path d="M7 15V18C7 19.6569 8.34315 21 10 21H14C15.6569 21 17 19.6569 17 18V15" stroke="currentColor" stroke-width="2"/>
-          <path d="M12 3V7" stroke="currentColor" stroke-width="2"/>
-        </svg>
-      `,
-      'protein': `
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-          <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="currentColor" stroke-width="2"/>
-          <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-width="2"/>
-        </svg>
-      `,
-      // Impact icons
-      'productivity': `
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-          <path d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2Z" stroke="currentColor" stroke-width="2"/>
-          <path d="M14 2V8H20" stroke="currentColor" stroke-width="2"/>
-          <path d="M16 13H8" stroke="currentColor" stroke-width="2"/>
-          <path d="M16 17H8" stroke="currentColor" stroke-width="2"/>
-          <path d="M10 9H8" stroke="currentColor" stroke-width="2"/>
-        </svg>
-      `,
-      'livelihoods': `
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-          <path d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21" stroke="currentColor" stroke-width="2"/>
-          <path d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z" stroke="currentColor" stroke-width="2"/>
-        </svg>
-      `,
-      'environment': `
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-          <path d="M7 16.3C7 16.3 8.5 15 12 15C15.5 15 17 16.3 17 16.3" stroke="currentColor" stroke-width="2"/>
-          <path d="M12 19C15.5 19 17 20.3 17 20.3" stroke="currentColor" stroke-width="2"/>
-          <path d="M12 23C15.5 23 17 24.3 17 24.3" stroke="currentColor" stroke-width="2"/>
-          <path d="M7 20.3C7 20.3 8.5 19 12 19" stroke="currentColor" stroke-width="2"/>
-          <path d="M7 24.3C7 24.3 8.5 23 12 23" stroke="currentColor" stroke-width="2"/>
-          <path d="M12 15V19" stroke="currentColor" stroke-width="2"/>
-          <path d="M12 19V23" stroke="currentColor" stroke-width="2"/>
-        </svg>
-      `,
-      // Outcome icons
-      'waste-processing': `
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-          <path d="M3 6H21" stroke="currentColor" stroke-width="2"/>
-          <path d="M19 6V20C19 21.1046 18.1046 22 17 22H7C5.89543 22 5 21.1046 5 20V6" stroke="currentColor" stroke-width="2"/>
-          <path d="M8 6V4C8 2.89543 8.89543 2 10 2H14C15.1046 2 16 2.89543 16 4V6" stroke="currentColor" stroke-width="2"/>
-        </svg>
-      `,
-      'liquid-production': `
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-          <path d="M17 7H7C4.79086 7 3 8.79086 3 11V11C3 13.2091 4.79086 15 7 15H17C19.2091 15 21 13.2091 21 11V11C21 8.79086 19.2091 7 17 7Z" stroke="currentColor" stroke-width="2"/>
-          <path d="M7 15V18C7 19.6569 8.34315 21 10 21H14C15.6569 21 17 19.6569 17 18V15" stroke="currentColor" stroke-width="2"/>
-          <path d="M12 3V7" stroke="currentColor" stroke-width="2"/>
-        </svg>
-      `,
-      'solid-production': `
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-          <path d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2Z" stroke="currentColor" stroke-width="2"/>
-          <path d="M14 2V8H20" stroke="currentColor" stroke-width="2"/>
-          <path d="M16 13H8" stroke="currentColor" stroke-width="2"/>
-          <path d="M16 17H8" stroke="currentColor" stroke-width="2"/>
-          <path d="M10 9H8" stroke="currentColor" stroke-width="2"/>
-        </svg>
-      `,
-      'savings': `
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-          <path d="M12 2V22" stroke="currentColor" stroke-width="2"/>
-          <path d="M17 5H9.5C8.57174 5 7.6815 5.36875 7.02513 6.02513C6.36875 6.6815 6 7.57174 6 8.5C6 9.42826 6.36875 10.3185 7.02513 10.9749C7.6815 11.6313 8.57174 12 9.5 12H14.5C15.4283 12 16.3185 12.3687 16.9749 13.0251C17.6313 13.6815 18 14.5717 18 15.5C18 16.4283 17.6313 17.3185 16.9749 17.9749C16.3185 18.6313 15.4283 19 14.5 19H6" stroke="currentColor" stroke-width="2"/>
-        </svg>
-      `,
-      'yield': `
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-          <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2"/>
-          <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2"/>
-          <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2"/>
-        </svg>
-      `,
-      'livestock': `
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-          <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="currentColor" stroke-width="2"/>
-          <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-width="2"/>
-        </svg>
-      `,
-      // SDG icons (simplified versions)
-      'poverty': `
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-          <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2"/>
-          <path d="M8 12H16" stroke="currentColor" stroke-width="2"/>
-          <path d="M12 8V16" stroke="currentColor" stroke-width="2"/>
-        </svg>
-      `,
-      'hunger': `
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-          <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2"/>
-          <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2"/>
-          <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2"/>
-        </svg>
-      `,
-      'equality': `
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-          <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2"/>
-          <path d="M8 12H16" stroke="currentColor" stroke-width="2"/>
-        </svg>
-      `,
-      'work': `
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-          <path d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21" stroke="currentColor" stroke-width="2"/>
-          <path d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z" stroke="currentColor" stroke-width="2"/>
-        </svg>
-      `,
-      'consumption': `
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-          <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2"/>
-          <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2"/>
-          <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2"/>
-        </svg>
-      `,
-      'climate': `
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-          <path d="M18 10H16C16 6.68629 13.3137 4 10 4C6.68629 4 4 6.68629 4 10C4 13.3137 6.68629 16 10 16H18C20.2091 16 22 14.2091 22 12C22 9.79086 20.2091 8 18 8Z" stroke="currentColor" stroke-width="2"/>
-          <path d="M10 16V20" stroke="currentColor" stroke-width="2"/>
-          <path d="M10 20H14" stroke="currentColor" stroke-width="2"/>
-        </svg>
-      `,
-      'land': `
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-          <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2"/>
-          <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2"/>
-          <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2"/>
-        </svg>
-      `
+      'soil': `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>`,
+      'waste': `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>`,
+      'access': `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`,
+      'poverty': `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 16s-1.5-2-4-2-4 2-4 2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>`,
+      'knowledge': `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>`,
+      'safety': `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>`,
+      'climate': `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>`,
+      'bioconversion': `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7L12 12L22 7L12 2Z"/><path d="M2 17L12 22L22 17"/><path d="M2 12L12 17L22 12"/></svg>`,
+      'precision': `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6V12L16 14"/><path d="M12 12L9 9"/></svg>`,
+      'circular': `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L3 7L12 12L21 7L12 2Z"/><path d="M3 17L12 22L21 17"/><path d="M3 12L12 17L21 12"/><path d="M12 2V12"/><path d="M12 12V22"/></svg>`,
+      'urban': `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>`,
+      'postharvest': `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="8" rx="1"/><path d="M17 14v7"/><path d="M21 14v7"/><path d="M12 14v7"/><path d="M7 14v7"/></svg>`,
+      'youth': `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
+      'institutional': `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
+      'avocado': `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>`,
+      'soil-restore': `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7L12 12L22 7L12 2Z"/><path d="M2 17L12 22L22 17"/><path d="M2 12L12 17L22 12"/></svg>`,
+      'chemical-reduce': `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>`,
+      'waste-manage': `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>`,
+      'empowerment': `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
+      'liquid': `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 7H7C4.79086 7 3 8.79086 3 11V11C3 13.2091 4.79086 15 7 15H17C19.2091 15 21 13.2091 21 11V11C21 8.79086 19.2091 7 17 7Z"/><path d="M7 15V18C7 19.6569 8.34315 21 10 21H14C15.6569 21 17 19.6569 17 18V15"/><path d="M12 3V7"/></svg>`,
+      'solid': `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2Z"/><path d="M14 2V8H20"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>`,
+      'savings': `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5C8.57174 5 7.6815 5.36875 7.02513 6.02513C6.36875 6.6815 6 7.57174 6 8.5C6 9.42826 6.36875 10.3185 7.02513 10.9749C7.6815 11.6313 8.57174 12 9.5 12H14.5C15.4283 12 16.3185 12.3687 16.9749 13.0251C17.6313 13.6815 18 14.5717 18 15.5C18 16.4283 17.6313 17.3185 16.9749 17.9749C16.3185 18.6313 15.4283 19 14.5 19H6"/></svg>`,
+      'yield': `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7L12 12L22 7L12 2Z"/><path d="M2 17L12 22L22 17"/><path d="M2 12L12 17L22 12"/></svg>`,
+      'livestock': `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16s-1.5-2-4-2-4 2-4 2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>`,
+      'hunger': `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7L12 12L22 7L12 2Z"/><path d="M2 17L12 22L22 17"/><path d="M2 12L12 17L22 12"/></svg>`,
+      'consumption': `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7L12 12L22 7L12 2Z"/><path d="M2 17L12 22L22 17"/><path d="M2 12L12 17L22 12"/></svg>`,
+      'land': `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7L12 12L22 7L12 2Z"/><path d="M2 17L12 22L22 17"/><path d="M2 12L12 17L22 12"/></svg>`,
+      'work': `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`
     };
-    return icons[type] || '';
+    return icons[type] || `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>`;
   }
 }

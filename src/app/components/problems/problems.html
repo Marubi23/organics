@@ -1,0 +1,571 @@
+<!-- problems.component.html -->
+<section class="page-hero" @fadeIn>
+  <div class="container">
+    <div class="hero-content">
+      <h1>Core Challenges in Kenyan Agriculture</h1>
+      <p class="hero-subtitle">Understanding the systemic problems we're solving through circular economy and regenerative practices</p>
+    </div>
+  </div>
+</section>
+
+<section class="problem-overview" @staggerAnimation>
+  <div class="container">
+    <div class="section-header">
+      <h2>The Agricultural Crisis We're Addressing</h2>
+      <p>Mzuri Organics was founded to tackle these seven interconnected challenges plaguing Kenyan agriculture</p>
+    </div>
+    
+    <div class="problems-grid">
+      <!-- Problem 1 -->
+      <div class="problem-card critical" @floatAnimation>
+        <div class="problem-header">
+          <span class="problem-number">01</span>
+          <div class="problem-badge">Critical Issue</div>
+        </div>
+        <div class="problem-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <h3>Declining Soil Fertility & Overdependence on Synthetic Fertilizers</h3>
+        <div class="problem-stats">
+          <div class="stat">
+            <span class="stat-value">{{'70%+'}}</span>
+            <span class="stat-label">Soil Depletion</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">{{'3x'}}</span>
+            <span class="stat-label">Cost Increase</span>
+          </div>
+        </div>
+        <div class="problem-details">
+          <h4>The Reality:</h4>
+          <p>Kenyan soils are severely depleted of organic matter and beneficial microbes due to decades of intensive farming without replenishment.</p>
+          
+          <div class="impact-list">
+            <div class="impact-item">
+              <span class="impact-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                </svg>
+              </span>
+              <span>Farmers rely heavily on costly synthetic fertilizers (CAN, Urea, DAP) with diminishing returns</span>
+            </div>
+            <div class="impact-item">
+              <span class="impact-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2v20"/>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                </svg>
+              </span>
+              <span>Results in nutrient imbalance, acidification, and reduced yields</span>
+            </div>
+            <div class="impact-item">
+              <span class="impact-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="m9 12 2 2 4-4"/>
+                </svg>
+              </span>
+              <span>Almost no localized, science-guided blending that matches real soil needs</span>
+            </div>
+          </div>
+          
+          <div class="solution-preview">
+            <h5>Our Solution:</h5>
+            <p>PREFarm Precision Soil Management with customized organic-mineral blends and soil testing</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 2 -->
+      <div class="problem-card environmental" @floatAnimation>
+        <div class="problem-header">
+          <span class="problem-number">02</span>
+          <div class="problem-badge">Environmental</div>
+        </div>
+        <div class="problem-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 18a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2"/>
+            <rect x="3" y="4" width="18" height="18" rx="2"/>
+            <line x1="3" y1="8" x2="21" y2="8"/>
+          </svg>
+        </div>
+        <h3>Massive Organic Waste Mismanagement</h3>
+        <div class="problem-stats">
+          <div class="stat">
+            <span class="stat-value">{{'50%+'}}</span>
+            <span class="stat-label">Waste Burned</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">{{'3.5M tons'}}</span>
+            <span class="stat-label">Annual Loss</span>
+          </div>
+        </div>
+        <div class="problem-details">
+          <h4>The Reality:</h4>
+          <p>Household, market, agro-processing, and farm waste is poorly managed across Kenya, representing lost economic value and environmental harm.</p>
+          
+          <div class="impact-list">
+            <div class="impact-item">
+              <span class="impact-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                  <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+              </span>
+              <span>Valuable biomass is burned, dumped, or lost</span>
+            </div>
+            <div class="impact-item">
+              <span class="impact-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2v20"/>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                </svg>
+              </span>
+              <span>Contributes to methane emissions, pests, and pollution</span>
+            </div>
+            <div class="impact-item">
+              <span class="impact-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                </svg>
+              </span>
+              <span>Farmers lack circular solutions to turn waste into value</span>
+            </div>
+          </div>
+          
+          <div class="solution-preview">
+            <h5>Our Solution:</h5>
+            <p>Circular Biofertilizer Production transforming waste into high-value regenerative fertilizers</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 3 -->
+      <div class="problem-card access" @floatAnimation>
+        <div class="problem-header">
+          <span class="problem-number">03</span>
+          <div class="problem-badge">Access Issue</div>
+        </div>
+        <div class="problem-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </div>
+        <h3>Lack of Accessible, Affordable Regenerative Inputs</h3>
+        <div class="problem-stats">
+          <div class="stat">
+            <span class="stat-value">{{'80%'}}</span>
+            <span class="stat-label">No Access</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">{{'2-3x'}}</span>
+            <span class="stat-label">More Expensive</span>
+          </div>
+        </div>
+        <div class="problem-details">
+          <h4>The Reality:</h4>
+          <p>Smallholder farmers cannot access or afford quality regenerative inputs, forcing them into chemical dependency.</p>
+          
+          <div class="impact-list">
+            <div class="impact-item">
+              <span class="impact-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="12" y1="8" x2="12" y2="12"/>
+                  <line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+              </span>
+              <span>No access to microbe-rich fertilizers or soil tests</span>
+            </div>
+            <div class="impact-item">
+              <span class="impact-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2v20"/>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                </svg>
+              </span>
+              <span>Available organic fertilizers are inconsistent and poor quality</span>
+            </div>
+            <div class="impact-item">
+              <span class="impact-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+              </span>
+              <span>No precision dosing tools or technical support</span>
+            </div>
+          </div>
+          
+          <div class="solution-preview">
+            <h5>Our Solution:</h5>
+            <p>Localized blending centers with affordable, consistent regenerative inputs</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 4 -->
+      <div class="problem-card economic" @floatAnimation>
+        <div class="problem-header">
+          <span class="problem-number">04</span>
+          <div class="problem-badge">Economic</div>
+        </div>
+        <div class="problem-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2v20"/>
+            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+        </div>
+        <h3>Farmer Poverty Cycles & Missing Income Streams</h3>
+        <div class="problem-stats">
+          <div class="stat">
+            <span class="stat-value">{{'$1.5/day'}}</span>
+            <span class="stat-label">Average Income</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">{{'0%'}}</span>
+            <span class="stat-label">Waste Income</span>
+          </div>
+        </div>
+        <div class="problem-details">
+          <h4>The Reality:</h4>
+          <p>Farmers remain trapped in poverty with limited income diversification opportunities and no value from waste streams.</p>
+          
+          <div class="impact-list">
+            <div class="impact-item">
+              <span class="impact-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M16 16s-1.5-2-4-2-4 2-4 2"/>
+                  <line x1="9" y1="9" x2="9.01" y2="9"/>
+                  <line x1="15" y1="9" x2="15.01" y2="9"/>
+                </svg>
+              </span>
+              <span>Farmers earn nothing from their waste streams</span>
+            </div>
+            <div class="impact-item">
+              <span class="impact-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+              </span>
+              <span>Youth lack dignified income opportunities in circular bioeconomy</span>
+            </div>
+            <div class="impact-item">
+              <span class="impact-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 11.07V12a10 10 0 1 1-5.93-9.14"/>
+                  <polyline points="23 3 12 14 9 11"/>
+                </svg>
+              </span>
+              <span>No guaranteed buy-back or value addition pathways</span>
+            </div>
+          </div>
+          
+          <div class="solution-preview">
+            <h5>Our Solution:</h5>
+            <p>Regen-Kilimo Circular Economy Model with guaranteed buy-back and income diversification</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 5 -->
+      <div class="problem-card knowledge" @floatAnimation>
+        <div class="problem-header">
+          <span class="problem-number">05</span>
+          <div class="problem-badge">Knowledge Gap</div>
+        </div>
+        <div class="problem-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+          </svg>
+        </div>
+        <h3>Limited Knowledge on Regenerative Agriculture & ISFM</h3>
+        <div class="problem-stats">
+          <div class="stat">
+            <span class="stat-value">{{'85%'}}</span>
+            <span class="stat-label">Untrained</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">{{'1:5000'}}</span>
+            <span class="stat-label">Extension Ratio</span>
+          </div>
+        </div>
+        <div class="problem-details">
+          <h4>The Reality:</h4>
+          <p>Most farmers lack awareness and training in modern regenerative practices, perpetuating unsustainable methods.</p>
+          
+          <div class="impact-list">
+            <div class="impact-item">
+              <span class="impact-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="12" y1="16" x2="12" y2="12"/>
+                  <line x1="12" y1="8" x2="12.01" y2="8"/>
+                </svg>
+              </span>
+              <span>Unaware of biological soil restoration and composting techniques</span>
+            </div>
+            <div class="impact-item">
+              <span class="impact-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+              </span>
+              <span>Training and extension services are fragmented</span>
+            </div>
+            <div class="impact-item">
+              <span class="impact-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                </svg>
+              </span>
+              <span>Need hands-on, community-led learning ecosystems</span>
+            </div>
+          </div>
+          
+          <div class="solution-preview">
+            <h5>Our Solution:</h5>
+            <p>Youth BSF & Vermicomposting Enterprises with practical training and mentoring</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 6 -->
+      <div class="problem-card health" @floatAnimation>
+        <div class="problem-header">
+          <span class="problem-number">06</span>
+          <div class="problem-badge">Health & Safety</div>
+        </div>
+        <div class="problem-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+          </svg>
+        </div>
+        <h3>Pesticide Dependence & Declining Food Safety</h3>
+        <div class="problem-stats">
+          <div class="stat">
+            <span class="stat-value">{{'40%'}}</span>
+            <span class="stat-label">Overuse</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">{{'15+'}}</span>
+            <span class="stat-label">Banned Chemicals</span>
+          </div>
+        </div>
+        <div class="problem-details">
+          <h4>The Reality:</h4>
+          <p>Chemical pesticide use is dangerously high and poorly regulated, creating health risks and environmental damage.</p>
+          
+          <div class="impact-list">
+            <div class="impact-item">
+              <span class="impact-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/>
+                </svg>
+              </span>
+              <span>Chemical pesticide use dangerously high and poorly regulated</span>
+            </div>
+            <div class="impact-item">
+              <span class="impact-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2v20"/>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                </svg>
+              </span>
+              <span>Soils lack biological resilience, forcing more spraying</span>
+            </div>
+            <div class="impact-item">
+              <span class="impact-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m22 2-7 20-4-9-9-4Z"/>
+                </svg>
+              </span>
+              <span>Communities face serious health and food safety risks</span>
+            </div>
+          </div>
+          
+          <div class="solution-preview">
+            <h5>Our Solution:</h5>
+            <p>Microbe-rich biofertilizers that build soil resilience and reduce pesticide needs</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 7 -->
+      <div class="problem-card climate" @floatAnimation>
+        <div class="problem-header">
+          <span class="problem-number">07</span>
+          <div class="problem-badge">Climate Crisis</div>
+        </div>
+        <div class="problem-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2v20"/>
+            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+        </div>
+        <h3>Climate Vulnerability & Unproductive Agroecosystems</h3>
+        <div class="problem-stats">
+          <div class="stat">
+            <span class="stat-value">{{'60%'}}</span>
+            <span class="stat-label">Crop Loss Risk</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">{{'-30%'}}</span>
+            <span class="stat-label">Yield Trend</span>
+          </div>
+        </div>
+        <div class="problem-details">
+          <h4>The Reality:</h4>
+          <p>Degraded soils worsen climate impacts, creating vulnerable farming systems with declining productivity.</p>
+          
+          <div class="impact-list">
+            <div class="impact-item">
+              <span class="impact-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2v20"/>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                </svg>
+              </span>
+              <span>Degraded soils worsen drought and crop failure</span>
+            </div>
+            <div class="impact-item">
+              <span class="impact-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 2v20"/>
+                </svg>
+              </span>
+              <span>Farmers lack climate-resilient models</span>
+            </div>
+            <div class="impact-item">
+              <span class="impact-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2v20"/>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                </svg>
+              </span>
+              <span>No integration of waste reuse, biological fertilizers, and water-efficient systems</span>
+            </div>
+          </div>
+          
+          <div class="solution-preview">
+            <h5>Our Solution:</h5>
+            <p>Complete circular models that build climate resilience through soil restoration</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="interconnections" @fadeIn>
+  <div class="container">
+    <div class="section-header">
+      <h2>How These Problems Are Interconnected</h2>
+      <p>Understanding the systemic nature of agricultural challenges in Kenya</p>
+    </div>
+    
+    <div class="connection-diagram">
+      <div class="connection-node center" @pulseAnimation>
+        <div class="node-content">
+          <div class="node-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2v20"/>
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+            </svg>
+          </div>
+          <h4>Soil Degradation</h4>
+          <p>The core issue driving all other challenges</p>
+        </div>
+      </div>
+      
+      <div class="connection-links">
+        <div class="link" *ngFor="let link of connectionLinks; let i = index" 
+             [style.--rotation]="link.rotation + 'deg'">
+          <div class="link-label">{{link.label}}</div>
+          <div class="link-dot"></div>
+        </div>
+      </div>
+      
+      <div class="connection-nodes">
+        <div class="connection-node" *ngFor="let node of connectionNodes; let i = index" 
+             [style.--angle]="node.angle">
+          <div class="node-content">
+            <div class="node-icon small" [innerHTML]="node.icon"></div>
+            <h5>{{node.title}}</h5>
+            <p>{{node.description}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="systemic-solutions" @staggerAnimation>
+  <div class="container">
+    <div class="section-header">
+      <h2>Our Systemic Approach to Solutions</h2>
+      <p>How Mzuri Organics addresses interconnected challenges through circular economy</p>
+    </div>
+    
+    <div class="solution-matrix">
+      <div class="matrix-header">
+        <div class="matrix-cell"></div>
+        <div class="matrix-cell">Problem</div>
+        <div class="matrix-cell">Root Cause</div>
+        <div class="matrix-cell">Our Solution</div>
+        <div class="matrix-cell">Impact</div>
+      </div>
+      
+      <div class="matrix-row" *ngFor="let solution of solutionMatrix; let i = index">
+        <div class="matrix-cell index">{{solution.index}}</div>
+        <div class="matrix-cell problem">
+          <strong>{{solution.problem}}</strong>
+          <p>{{solution.description}}</p>
+        </div>
+        <div class="matrix-cell cause">
+          {{solution.cause}}
+        </div>
+        <div class="matrix-cell solution">
+          {{solution.solution}}
+        </div>
+        <div class="matrix-cell impact positive">
+          {{solution.impact}}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="call-to-action" @fadeIn>
+  <div class="container">
+    <div class="cta-content">
+      <div class="cta-text">
+        <h2>Ready to Be Part of the Solution?</h2>
+        <p>Join us in transforming these challenges into opportunities for sustainable growth and regeneration.</p>
+      </div>
+      <div class="cta-stats">
+        <div class="stat" *ngFor="let stat of ctaStats">
+          <div class="stat-number">{{stat.value}}</div>
+          <div class="stat-label">{{stat.label}}</div>
+        </div>
+      </div>
+      <div class="cta-buttons">
+        <a routerLink="/solutions" class="btn btn-primary">See Our Solutions</a>
+        <a routerLink="/contact" class="btn btn-secondary">Get Involved</a>
+      </div>
+    </div>
+  </div>
+</section>

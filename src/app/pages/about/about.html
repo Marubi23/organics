@@ -1,31 +1,31 @@
 <!-- about.component.html -->
 <section class="about-section">
   <!-- Sticky Navigation -->
-  <div class="page-navigation">
+  <div class="page-navigation" [class.scrolled]="isScrolled">
     <div class="nav-container">
-      <a (click)="scrollToSection('home')" class="nav-link">Home</a>
-      <a (click)="scrollToSection('mission-vision')" class="nav-link">Mission & Vision</a>
-      <a (click)="scrollToSection('challenges')" class="nav-link">Challenges</a>
-      <a (click)="scrollToSection('solutions')" class="nav-link">Solutions</a>
-      <a (click)="scrollToSection('products')" class="nav-link">Products</a>
-      <a (click)="scrollToSection('impact')" class="nav-link">Impact</a>
-      <a (click)="scrollToSection('sdg')" class="nav-link">SDG Alignment</a>
-      <a (click)="scrollToSection('contact')" class="nav-link">Contact</a>
+      <a (click)="scrollToSection('home')" class="nav-link" [class.active]="activeSection === 'home'">Home</a>
+      <a (click)="scrollToSection('mission-vision')" class="nav-link" [class.active]="activeSection === 'mission-vision'">Mission & Vision</a>
+      <a (click)="scrollToSection('challenges')" class="nav-link" [class.active]="activeSection === 'challenges'">Challenges</a>
+      <a (click)="scrollToSection('solutions')" class="nav-link" [class.active]="activeSection === 'solutions'">Solutions</a>
+      <a (click)="scrollToSection('products')" class="nav-link" [class.active]="activeSection === 'products'">Products</a>
+      <a (click)="scrollToSection('impact')" class="nav-link" [class.active]="activeSection === 'impact'">Impact</a>
+      <a (click)="scrollToSection('sdg')" class="nav-link" [class.active]="activeSection === 'sdg'">SDG Alignment</a>
+      <a (click)="scrollToSection('contact')" class="nav-link" [class.active]="activeSection === 'contact'">Contact</a>
     </div>
   </div>
 
   <div class="container">
     <!-- Hero Section with Shared Image -->
-    <div class="about-hero" id="home">
+    <div class="about-hero" id="home" @fadeIn>
       <div class="hero-image">
         <img src="/images/aboutus.jpg" alt="Transforming Agriculture Through Innovation" class="hero-img">
         <div class="hero-overlay"></div>
       </div>
       <div class="hero-content">
         <div class="hero-text-content">
-          <div class="hero-pre-title">transforming</div>
-          <h1 class="hero-title">Agriculture<br>Through</h1>
-          <p class="hero-subtitle">Building resilient food systems for smallholder farmers through regenerative practices</p>
+          <div class="hero-pre-title">Transforming Kenyan Agriculture</div>
+          <h1 class="hero-title">Through Circular Economy & Regenerative Practices</h1>
+          <p class="hero-subtitle">Building resilient food systems by turning waste into wealth and restoring soil health for smallholder farmers</p>
         </div>
         <div class="hero-scroll-indicator" (click)="scrollToSection('mission-vision')">
           <span>Scroll to explore</span>
@@ -66,14 +66,14 @@
       </div>
     </div>
 
-    <!-- Problems Section -->
+    <!-- Problems Section - Updated to show 7 core challenges -->
     <div class="problems-section" id="challenges">
       <div class="section-header">
-        <h2>The Challenges We Address</h2>
-        <p>Transforming agricultural obstacles into opportunities for growth</p>
+        <h2>The 7 Core Challenges We Address</h2>
+        <p>Transforming agricultural obstacles into opportunities for sustainable growth</p>
       </div>
       
-      <div class="problems-grid">
+      <div class="problems-grid" @staggerAnimation>
         <div class="problem-card" *ngFor="let problem of problems; let i = index">
           <div class="problem-icon" [innerHTML]="getIcon(problem.icon)"></div>
           <div class="problem-number">0{{ i + 1 }}</div>
@@ -83,14 +83,14 @@
       </div>
     </div>
 
-    <!-- Solutions Section -->
+    <!-- Solutions Section - Updated to show 8 innovative solutions -->
     <div class="solutions-section" id="solutions">
       <div class="section-header">
-        <h2>Our Innovative Solutions</h2>
-        <p>Comprehensive approaches to sustainable agriculture</p>
+        <h2>Our 8 Innovative Solutions</h2>
+        <p>Comprehensive approaches to sustainable agriculture and circular economy</p>
       </div>
       
-      <div class="solutions-grid">
+      <div class="solutions-grid" @staggerAnimation>
         <div class="solution-card" *ngFor="let solution of solutions">
           <div class="solution-header">
             <div class="solution-icon" [innerHTML]="getIcon(solution.icon)"></div>
@@ -117,11 +117,11 @@
     <!-- Products Section -->
     <div class="products-section" id="products">
       <div class="section-header">
-        <h2>Our Products & Services</h2>
-        <p>High-quality solutions for sustainable farming</p>
+        <h2>Our Premium Products & Services</h2>
+        <p>High-quality regenerative inputs for sustainable farming</p>
       </div>
       
-      <div class="products-grid">
+      <div class="products-grid" @staggerAnimation>
         <div class="product-card" *ngFor="let product of products">
           <div class="product-icon" [innerHTML]="getIcon(product.icon)"></div>
           <h3>{{ product.title }}</h3>
@@ -165,7 +165,7 @@
         <p>Contributing to United Nations Sustainable Development Goals</p>
       </div>
       
-      <div class="sdg-grid">
+      <div class="sdg-grid" @staggerAnimation>
         <div class="sdg-card" *ngFor="let sdg of sdgs">
           <div class="sdg-header">
             <div class="sdg-icon" [innerHTML]="getIcon(sdg.icon)"></div>
@@ -178,7 +178,7 @@
     </div>
 
     <!-- Contact CTA -->
-    <div class="contact-cta" id="contact">
+    <div class="contact-cta" id="contact" @fadeIn>
       <div class="cta-content">
         <h2>Join Our Mission</h2>
         <p>Partner with us to build a sustainable future for agriculture</p>
