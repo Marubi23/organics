@@ -994,3 +994,673 @@
     padding: 1rem;
   }
 }
+/* ========== MOBILE RESPONSIVENESS ENHANCEMENTS ========== */
+
+/* Tablet and medium screens */
+@media (max-width: 1200px) {
+  .container {
+    max-width: 100%;
+    padding: 0 2rem;
+  }
+  
+  .hero-content h1 {
+    font-size: 3rem;
+  }
+  
+  .connection-diagram {
+    height: 550px;
+    max-width: 700px;
+  }
+  
+  .connection-node {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .connection-node.center {
+    width: 180px;
+    height: 180px;
+  }
+  
+  .link {
+    width: 180px;
+  }
+}
+
+/* Large tablets and small laptops */
+@media (max-width: 1024px) {
+  .hero-content h1 {
+    font-size: 2.8rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.2rem;
+    padding: 0 1rem;
+  }
+  
+  .section-header h2 {
+    font-size: 2.3rem;
+  }
+  
+  .problems-grid {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .problem-card {
+    padding: 2rem;
+  }
+  
+  .connection-diagram {
+    height: 500px;
+    max-width: 600px;
+  }
+  
+  .matrix-header,
+  .matrix-row {
+    min-width: 800px;
+  }
+  
+  .cta-stats .stat {
+    min-width: 100px;
+  }
+  
+  .cta-stats .stat-number {
+    font-size: 2.5rem;
+  }
+}
+
+/* Tablets */
+@media (max-width: 900px) {
+  .page-hero {
+    padding: 5rem 0 3rem;
+  }
+  
+  .problem-overview,
+  .interconnections,
+  .systemic-solutions,
+  .call-to-action {
+    padding: 4rem 0;
+  }
+  
+  .section-header {
+    margin-bottom: 3rem;
+  }
+  
+  .problems-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+  
+  .problem-stats {
+    flex-wrap: wrap;
+  }
+  
+  .stat {
+    min-width: calc(50% - 0.75rem);
+  }
+  
+  .connection-diagram {
+    height: 450px;
+    max-width: 500px;
+  }
+  
+  .connection-node {
+    width: 130px;
+    height: 130px;
+  }
+  
+  .connection-node.center {
+    width: 160px;
+    height: 160px;
+  }
+  
+  .node-content {
+    padding: 1rem;
+  }
+  
+  .node-content h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  .node-content p {
+    font-size: 0.85rem;
+  }
+  
+  .link {
+    width: 150px;
+  }
+  
+  .link-label {
+    font-size: 0.75rem;
+    top: -20px;
+  }
+  
+  .solution-matrix {
+    border-radius: 12px;
+    margin-top: 2rem;
+  }
+  
+  .matrix-header,
+  .matrix-row {
+    min-width: 700px;
+  }
+  
+  .matrix-cell {
+    padding: 1.25rem;
+  }
+  
+  .cta-text h2 {
+    font-size: 2.2rem;
+  }
+  
+  .cta-text p {
+    font-size: 1.1rem;
+  }
+  
+  .cta-stats {
+    gap: 2rem;
+  }
+  
+  .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .btn {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+/* Mobile devices */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1.5rem;
+  }
+  
+  .page-hero {
+    padding: 4rem 0 2.5rem;
+  }
+  
+  .hero-content h1 {
+    font-size: 2.4rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .section-header h2 {
+    font-size: 2rem;
+  }
+  
+  .section-header p {
+    font-size: 1.1rem;
+  }
+  
+  .problems-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .problem-card {
+    padding: 1.75rem;
+  }
+  
+  .problem-number {
+    font-size: 2.2rem;
+  }
+  
+  .problem-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 1.25rem;
+  }
+  
+  .problem-icon svg {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .problem-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  .problem-stats {
+    flex-direction: column;
+    gap: 1rem;
+    padding-bottom: 1.25rem;
+  }
+  
+  .stat {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    min-width: 100%;
+    background: var(--light-green);
+    padding: 0.75rem;
+    border-radius: 8px;
+  }
+  
+  .stat-value {
+    font-size: 1.5rem;
+    margin-bottom: 0;
+  }
+  
+  .stat-label {
+    font-size: 0.9rem;
+  }
+  
+  .impact-list {
+    gap: 0.5rem;
+  }
+  
+  .impact-item {
+    padding: 0.5rem;
+  }
+  
+  .solution-preview {
+    padding: 1.25rem;
+  }
+  
+  .connection-diagram {
+    height: 400px;
+    max-width: 400px;
+    margin: 2rem auto;
+  }
+  
+  .connection-node {
+    width: 110px;
+    height: 110px;
+  }
+  
+  .connection-node.center {
+    width: 140px;
+    height: 140px;
+  }
+  
+  .node-icon svg {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .connection-node:not(.center) .node-icon svg {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .node-content {
+    padding: 0.75rem;
+  }
+  
+  .node-content h4 {
+    font-size: 1rem;
+  }
+  
+  .center .node-content h4 {
+    font-size: 1.1rem;
+  }
+  
+  .node-content p {
+    font-size: 0.75rem;
+  }
+  
+  .link {
+    width: 130px;
+    height: 1.5px;
+  }
+  
+  .link-label {
+    font-size: 0.7rem;
+    top: -18px;
+    padding: 0.2rem 0.4rem;
+  }
+  
+  .matrix-cell {
+    padding: 1rem;
+  }
+  
+  .matrix-cell.index {
+    font-size: 1.1rem;
+  }
+  
+  .cta-text h2 {
+    font-size: 2rem;
+  }
+  
+  .cta-text p {
+    font-size: 1rem;
+    margin-bottom: 2.5rem;
+  }
+  
+  .cta-stats {
+    flex-direction: row;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+  
+  .cta-stats .stat {
+    background: transparent;
+    padding: 0;
+    min-width: auto;
+  }
+  
+  .cta-stats .stat-number {
+    font-size: 2rem;
+  }
+  
+  .cta-stats .stat-label {
+    font-size: 0.9rem;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 576px) {
+  .container {
+    padding: 0 1.25rem;
+  }
+  
+  .page-hero {
+    padding: 3.5rem 0 2rem;
+  }
+  
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  
+  .problem-overview,
+  .interconnections,
+  .systemic-solutions,
+  .call-to-action {
+    padding: 3rem 0;
+  }
+  
+  .section-header {
+    margin-bottom: 2.5rem;
+  }
+  
+  .section-header h2 {
+    font-size: 1.8rem;
+  }
+  
+  .section-header p {
+    font-size: 1rem;
+  }
+  
+  .problem-card {
+    padding: 1.5rem;
+  }
+  
+  .problem-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  .problem-badge {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.75rem;
+  }
+  
+  .problem-card h3 {
+    font-size: 1.2rem;
+  }
+  
+  .problem-details h4 {
+    font-size: 1rem;
+  }
+  
+  .connection-diagram {
+    height: 350px;
+    max-width: 350px;
+  }
+  
+  .connection-node {
+    width: 95px;
+    height: 95px;
+  }
+  
+  .connection-node.center {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .node-content {
+    padding: 0.5rem;
+  }
+  
+  .node-content h4 {
+    font-size: 0.9rem;
+  }
+  
+  .center .node-content h4 {
+    font-size: 1rem;
+  }
+  
+  .node-content p {
+    display: none;
+  }
+  
+  .link {
+    width: 110px;
+  }
+  
+  .link-label {
+    display: none;
+  }
+  
+  .matrix-header,
+  .matrix-row {
+    min-width: 600px;
+  }
+  
+  .matrix-cell {
+    padding: 0.75rem;
+    font-size: 0.9rem;
+  }
+  
+  .cta-text h2 {
+    font-size: 1.8rem;
+  }
+  
+  .cta-stats {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .cta-stats .stat-number {
+    font-size: 2.2rem;
+  }
+  
+  .btn {
+    padding: 0.9rem 2rem;
+    min-width: 100%;
+    font-size: 0.95rem;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 480px) {
+  .container {
+    padding: 0 1rem;
+  }
+  
+  .hero-content h1 {
+    font-size: 1.8rem;
+  }
+  
+  .problem-card {
+    padding: 1.25rem;
+  }
+  
+  .problem-number {
+    font-size: 2rem;
+  }
+  
+  .problem-icon {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .problem-icon svg {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .stat-value {
+    font-size: 1.3rem;
+  }
+  
+  .connection-diagram {
+    height: 300px;
+    max-width: 300px;
+  }
+  
+  .connection-node {
+    width: 85px;
+    height: 85px;
+  }
+  
+  .connection-node.center {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .node-icon svg {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .connection-node:not(.center) .node-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .node-content h4 {
+    font-size: 0.85rem;
+  }
+  
+  .center .node-content h4 {
+    font-size: 0.9rem;
+  }
+  
+  .link {
+    width: 90px;
+  }
+  
+  .cta-text h2 {
+    font-size: 1.6rem;
+  }
+  
+  .cta-text p {
+    font-size: 0.95rem;
+  }
+  
+  .cta-stats .stat-number {
+    font-size: 2rem;
+  }
+}
+
+/* Landscape mode for mobile */
+@media (max-height: 600px) and (orientation: landscape) {
+  .page-hero {
+    padding: 3rem 0 2rem;
+  }
+  
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+  
+  .connection-diagram {
+    height: 300px;
+    max-width: 400px;
+  }
+  
+  .problem-card {
+    padding: 1.5rem;
+  }
+}
+
+/* Fix for iOS Safari 100vh issue */
+@supports (-webkit-touch-callout: none) {
+  .page-hero {
+    min-height: -webkit-fill-available;
+    display: flex;
+    align-items: center;
+  }
+  
+  .hero-content {
+    width: 100%;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .problem-card:hover,
+  .impact-item:hover,
+  .matrix-row:hover,
+  .connection-node:hover,
+  .btn:hover {
+    transform: none !important;
+  }
+  
+  .connection-node:not(.center):hover {
+    transform: translate(-50%, -50%) !important;
+  }
+  
+  .connection-node.center:hover {
+    transform: translate(-50%, -50%) !important;
+  }
+  
+  .matrix-row:hover {
+    background: var(--light-green);
+    transform: scale(1) !important;
+  }
+  
+  .btn:hover::before {
+    width: 0;
+    height: 0;
+  }
+  
+  /* Increase touch targets for mobile */
+  .impact-item {
+    padding: 0.75rem;
+  }
+  
+  .problem-badge {
+    padding: 0.5rem 1rem;
+  }
+  
+  .matrix-cell {
+    padding: 1.25rem;
+  }
+  
+  .btn {
+    padding: 1rem 2.5rem;
+  }
+}
+
+/* Prevent horizontal overflow */
+body {
+  overflow-x: hidden;
+}
+
+.matrix-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 0 -1rem;
+  padding: 0 1rem;
+}
+
+.solution-matrix {
+  margin: 0;
+}
