@@ -1,273 +1,650 @@
 <!-- products.component.html -->
-<section class="products-section">
-  <div class="container">
-    <!-- Hero Header -->
-    <div class="products-hero">
-      <div class="hero-content">
-        <h1 class="hero-title">Mzuri Organics Products</h1>
-        <p class="hero-subtitle">
-          Premium organic products prepared from Kenyan plant residue & animal waste, composted with Black Soldier Fly Larvae & Red Wigglers' Biological Activity. Sustainably produced for Kenyan farmers. Check them out and make your order today.
-        </p>
+<section class="mzuri-supermarket">
+  <!-- Animated Hero Section -->
+  <div class="hero-section">
+    <div class="hero-bg">
+      <div class="particles-container">
+        <div class="particle" *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]"></div>
+      </div>
+      <div class="hero-gradient"></div>
+    </div>
+    
+    <div class="hero-content">
+      <div class="container">
+        <!-- Hero Header -->
+        <div class="hero-header">
+          <div class="hero-badge">
+            <span class="badge-text">🇰🇪 100% KENYAN MADE</span>
+            <div class="badge-glow"></div>
+          </div>
+          
+          <h1 class="hero-title">
+            <span class="title-line title-line-1">Mzuri Organics</span>
+            <span class="title-line title-line-2">Biological</span>
+            <span class="title-line title-line-3">Supermarket</span>
+          </h1>
+          
+          <p class="hero-subtitle">
+            Transforming Kenyan agricultural waste into premium organic products through 
+            <span class="highlight">Black Soldier Fly Larvae</span> & <span class="highlight">Red Wigglers</span> biotechnology
+          </p>
+          
+          <!-- Hero Stats -->
+          <div class="hero-stats-grid">
+            <div class="hero-stat" *ngFor="let stat of heroStats">
+              <div class="stat-icon">
+                <i [class]="stat.icon"></i>
+              </div>
+              <div class="stat-value">{{stat.value | number}}</div>
+              <div class="stat-label">{{stat.label}}</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+    
+    <!-- Floating Elements -->
+    <div class="floating-elements">
+      <div class="float-icon float-icon-1">
+        <i class="fas fa-leaf"></i>
+      </div>
+      <div class="float-icon float-icon-2">
+        <i class="fas fa-seedling"></i>
+      </div>
+      <div class="float-icon float-icon-3">
+        <i class="fas fa-recycle"></i>
+      </div>
+    </div>
+  </div>
 
-    <!-- Production Process -->
-    <div class="process-section">
+  <!-- Production Journey - Interactive -->
+  <div class="production-journey-section">
+    <div class="container">
       <div class="section-header">
-        <h2>Mzuri Organics Sustainable Production Process</h2>
-        <p>Transforming Kenyan agricultural waste into valuable organic products through innovative bioconversion</p>
+        <h2 class="section-title">
+          <span class="title-text">The Mzuri</span>
+          <span class="title-text title-highlight">Biological Process</span>
+        </h2>
+        <p class="section-subtitle">From Kenyan waste to premium organic products</p>
       </div>
       
-      <div class="process-steps">
-        <div class="process-step">
-          <div class="step-icon">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-              <path d="M3 6H21" stroke="currentColor" stroke-width="2"/>
-              <path d="M8 6V4C8 2.89543 8.89543 2 10 2H14C15.1046 2 16 2.89543 16 4V6" stroke="currentColor" stroke-width="2"/>
-              <path d="M19 6V20C19 21.1046 18.1046 22 17 22H7C5.89543 22 5 21.1046 5 20V6" stroke="currentColor" stroke-width="2"/>
-            </svg>
+      <div class="journey-steps">
+        <div class="journey-step" *ngFor="let step of journeySteps; let i = index">
+          <div class="step-visual">
+            <div class="step-icon-container">
+              <div class="step-icon-bg"></div>
+              <i [class]="step.icon"></i>
+              <div class="step-number">0{{i + 1}}</div>
+            </div>
+            <div class="step-connector" *ngIf="i !== journeySteps.length - 1">
+              <div class="connector-line"></div>
+              <div class="connector-arrow">
+                <i class="fas fa-arrow-right"></i>
+              </div>
+            </div>
           </div>
-          <h3>Kenyan Waste Collection</h3>
-          <p>Gathering plant residue and animal waste from sustainable Kenyan farms and markets</p>
-          <div class="step-context">
-            <small>Sourced locally across Kenya</small>
-          </div>
-        </div>
-        
-        <div class="process-step">
-          <div class="step-icon">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-              <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2"/>
-              <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2"/>
-              <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2"/>
-            </svg>
-          </div>
-          <h3>BSFL Bioconversion</h3>
-          <p>Black Soldier Fly Larvae efficiently convert Kenyan organic waste into nutrient-rich biomass</p>
-          <div class="step-context">
-            <small>Locally adapted technology</small>
-          </div>
-        </div>
-        
-        <div class="process-step">
-          <div class="step-icon">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-              <path d="M17 7H7C4.79086 7 3 8.79086 3 11V11C3 13.2091 4.79086 15 7 15H17C19.2091 15 21 13.2091 21 11V11C21 8.79086 19.2091 7 17 7Z" stroke="currentColor" stroke-width="2"/>
-              <path d="M7 15V18C7 19.6569 8.34315 21 10 21H14C15.6569 21 17 19.6569 17 18V15" stroke="currentColor" stroke-width="2"/>
-              <path d="M12 3V7" stroke="currentColor" stroke-width="2"/>
-            </svg>
-          </div>
-          <h3>Vermicomposting</h3>
-          <p>Red Wigglers enhance compost quality and accelerate decomposition for Kenyan soil conditions</p>
-          <div class="step-context">
-            <small>Optimized for African soils</small>
-          </div>
-        </div>
-        
-        <div class="process-step">
-          <div class="step-icon">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-              <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2"/>
-              <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2"/>
-              <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2"/>
-            </svg>
-          </div>
-          <h3>Quality Packaging</h3>
-          <p>Eco-friendly packaging ensuring product freshness and sustainability for Kenyan market</p>
-          <div class="step-context">
-            <small>Made for Kenyan conditions</small>
+          <div class="step-content">
+            <h3 class="step-title">{{step.title}}</h3>
+            <p class="step-description">{{step.description}}</p>
+            <div class="step-details">
+              <span class="detail-tag">
+                <i class="fas fa-map-marker-alt"></i>
+                {{step.location}}
+              </span>
+              <span class="detail-tag">
+                <i class="fas fa-clock"></i>
+                {{step.duration}}
+              </span>
+            </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Products Stats -->
-    <div class="stats-section" id="products-stats">
-      <div class="stats-grid">
-        <div class="stat-card" *ngFor="let stat of stats()">
-          <div class="stat-value">{{ formatStatValue(stat) }}</div>
-          <div class="stat-label">{{ stat.label }}</div>
-          <div class="stat-context">
-            <small>Across Kenya</small>
+  <!-- Products Supermarket -->
+  <div class="products-supermarket">
+    <div class="container">
+      <!-- Supermarket Controls -->
+      <div class="supermarket-header">
+        <div class="header-left">
+          <h2 class="supermarket-title">
+            <i class="fas fa-store-alt"></i>
+            Product Supermarket
+          </h2>
+          <div class="category-breadcrumbs">
+            <span class="crumb" [class.active]="selectedCategory === 'all'" (click)="onCategoryChange('all')">All Products</span>
+            <span class="crumb-separator">/</span>
+            <span class="crumb" *ngFor="let cat of categories.slice(1)" 
+                  [class.active]="selectedCategory === cat.value"
+                  (click)="onCategoryChange(cat.value)">
+              {{cat.label}}
+            </span>
+          </div>
+        </div>
+        
+        <div class="header-right">
+          <!-- Live Cart -->
+          <div class="live-cart" (click)="toggleCart()" [class.has-items]="cartItemCount() > 0">
+            <div class="cart-icon-container">
+              <i class="fas fa-shopping-basket"></i>
+              <div class="cart-count-badge" *ngIf="cartItemCount() > 0">
+                {{cartItemCount()}}
+              </div>
+            </div>
+            <div class="cart-info">
+              <div class="cart-total">KSh {{getCartTotal() | number}}</div>
+              <div class="cart-items">{{cartItemCount()}} items</div>
+            </div>
+            <div class="cart-arrow">
+              <i class="fas fa-chevron-right"></i>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Products Grid -->
-    <div class="products-main-section">
-      <div class="section-header">
-        <h2>Mzuri Organics Premium Products</h2>
-        <p>High-quality, sustainably produced agricultural solutions for Kenyan farmers</p>
-      </div>
-      
-      <!-- Products Filters -->
-      <div class="products-filters">
-        <div class="filter-section">
+      <!-- Supermarket Body -->
+      <div class="supermarket-body">
+        <!-- Sidebar Filters -->
+        <div class="supermarket-sidebar">
           <!-- Category Filter -->
-          <div class="filter-group">
-            <label>Category</label>
-            <select (change)="onCategoryChange($event)" class="filter-select">
-              <option value="all">All Categories</option>
-              <option value="Fruits">Kenyan Fruits</option>
-              <option value="Vegetables">Local Vegetables</option>
-              <option value="Pantry">Farm Products</option>
-              <option value="Agricultural Inputs">Farm Inputs</option>
-              <option value="Animal Feed">Livestock Feeds</option>
-            </select>
+          <div class="sidebar-section">
+            <h4 class="sidebar-title">
+              <i class="fas fa-layer-group"></i>
+              Product Categories
+            </h4>
+            <div class="category-filters">
+              <div class="category-filter" *ngFor="let category of categories"
+                   [class.active]="selectedCategory === category.value"
+                   (click)="onCategoryChange(category.value)">
+                <div class="category-icon">
+                  <i [class]="category.icon"></i>
+                </div>
+                <span class="category-name">{{category.label}}</span>
+                <span class="category-count">{{getProductsByCategory(category.value).length}}</span>
+              </div>
+            </div>
           </div>
 
           <!-- Price Filter -->
-          <div class="filter-group">
-            <label>Price Range (KSh)</label>
-            <select (change)="onPriceRangeChange($event)" class="filter-select">
-              <option value="all">All Prices</option>
-              <option value="0-100">Under KSh 100</option>
-              <option value="100-500">KSh 100 - 500</option>
-              <option value="500-1000">KSh 500 - 1,000</option>
-              <option value="1000+">Over KSh 1,000</option>
-            </select>
-          </div>
-
-          <!-- Sort Options -->
-          <div class="filter-group">
-            <label>Sort By</label>
-            <select (change)="onSortChange($event)" class="filter-select">
-              <option value="featured">Featured</option>
-              <option value="price-low">Price: Low to High</option>
-              <option value="price-high">Price: High to Low</option>
-              <option value="name">Name: A to Z</option>
-              <option value="rating">Highest Rated</option>
-              <option value="newest">Newest First</option>
-            </select>
-          </div>
-
-          <!-- Active Filters Display -->
-          <div class="active-filters" *ngIf="hasActiveFilters()">
-            <span class="active-filter" *ngIf="selectedCategory !== 'all'">
-              Category: {{ selectedCategory }}
-              <button (click)="clearCategory()">×</button>
-            </span>
-            <span class="active-filter" *ngIf="selectedPriceRange !== 'all'">
-              Price: {{ getPriceRangeLabel() }}
-              <button (click)="clearPriceRange()">×</button>
-            </span>
-            <button class="clear-all" (click)="clearAllFilters()">Clear All</button>
-          </div>
-        </div>
-
-        <!-- Search Box -->
-        <div class="search-section">
-          <div class="search-box">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-              <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="currentColor" stroke-width="2"/>
-              <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2"/>
-            </svg>
-            <input 
-              type="text" 
-              placeholder="Search Mzuri Organics products..." 
-              [value]="searchQuery"
-              (input)="onSearchChange($event)"
-              class="search-input"
-            >
-          </div>
-        </div>
-      </div>
-
-      <!-- Products Count -->
-      <div class="products-count" *ngIf="products().length > 0">
-        Showing {{ products().length }} Mzuri Organics product{{ products().length !== 1 ? 's' : '' }}
-        <span *ngIf="hasActiveFilters()"> (filtered)</span>
-      </div>
-      
-      <div class="products-grid">
-        <div class="product-card" *ngFor="let product of products()" 
-             [class.new]="product.isNew" 
-             [class.organic]="product.isOrganic">
-          <div class="product-image">
-            <img [src]="product.image" [alt]="product.name" loading="lazy">
-            <div class="product-badges">
-              <span class="badge new" *ngIf="product.isNew">New</span>
-              <span class="badge organic" *ngIf="product.isOrganic">100% Organic</span>
-              <span class="badge local">Kenyan Made</span>
+          <div class="sidebar-section">
+            <h4 class="sidebar-title">
+              <i class="fas fa-tags"></i>
+              Price Range (KSh)
+            </h4>
+            <div class="price-slider-container">
+              <div class="price-inputs">
+                <input type="number" [(ngModel)]="priceMin" placeholder="Min" class="price-input">
+                <span class="price-separator">-</span>
+                <input type="number" [(ngModel)]="priceMax" placeholder="Max" class="price-input">
+              </div>
+              <button class="apply-price-btn" (click)="applyPriceFilter()">
+                <i class="fas fa-check"></i> Apply
+              </button>
             </div>
-            <div class="product-overlay">
-              <button class="btn-quick-view" (click)="quickView(product)">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <path d="M1 12S5 4 12 4S23 12 23 12S19 20 12 20S1 12 1 12Z" stroke="currentColor" stroke-width="2"/>
-                  <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-width="2"/>
-                </svg>
-                Quick View
+          </div>
+
+          <!-- Special Offers -->
+          <div class="sidebar-section offers-section">
+            <h4 class="sidebar-title">
+              <i class="fas fa-gift"></i>
+              Special Offers
+            </h4>
+            <div class="offers-list">
+              <div class="offer-card" *ngFor="let offer of specialOffers">
+                <div class="offer-icon">
+                  <i [class]="offer.icon"></i>
+                </div>
+                <div class="offer-content">
+                  <div class="offer-title">{{offer.title}}</div>
+                  <div class="offer-desc">{{offer.description}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Products Grid -->
+        <div class="supermarket-main">
+          <!-- Search & Sort Bar -->
+          <div class="search-sort-bar">
+            <div class="search-container">
+              <i class="fas fa-search search-icon"></i>
+              <input type="text" 
+                     [(ngModel)]="searchQuery"
+                     (input)="onSearchChange($event)"
+                     placeholder="Search Mzuri products..."
+                     class="search-input">
+              <div class="search-results" *ngIf="searchQuery">
+                {{products().length}} products found
+              </div>
+            </div>
+            
+            <div class="sort-container">
+              <select [(ngModel)]="selectedSort" (change)="onSortChange($event)" class="sort-select">
+                <option *ngFor="let option of sortOptions" [value]="option.value">
+                  {{option.label}}
+                </option>
+              </select>
+              <div class="view-toggle">
+                <button class="view-btn" [class.active]="viewMode === 'grid'" (click)="toggleViewMode('grid')">
+                  <i class="fas fa-th-large"></i>
+                </button>
+                <button class="view-btn" [class.active]="viewMode === 'list'" (click)="toggleViewMode('list')">
+                  <i class="fas fa-list"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Products Grid -->
+          <div class="products-container" [class.list-view]="viewMode === 'list'">
+            <!-- No Products -->
+            <div class="no-products" *ngIf="products().length === 0">
+              <div class="no-products-icon">
+                <i class="fas fa-shopping-bag"></i>
+              </div>
+              <h3>No products found</h3>
+              <p>Try adjusting your search or filters</p>
+              <button class="clear-filters-btn" (click)="clearAllFilters()">
+                Clear All Filters
+              </button>
+            </div>
+
+            <!-- Grid View -->
+            <div class="products-grid" *ngIf="viewMode === 'grid' && products().length > 0">
+              <div class="product-card" *ngFor="let product of products()" 
+                   [@cardAnimation]="product.id">
+                <div class="product-image-container">
+                  <div class="image-wrapper">
+                    <img [src]="product.image" 
+                         [alt]="product.name"
+                         (error)="handleImageError($event)"
+                         class="product-image"
+                         [class.loaded]="imageLoaded"
+                         (load)="imageLoaded = true">
+                    
+                    <!-- 3D Zoom Effect -->
+                    <div class="image-zoom-overlay" (click)="openQuickView(product)">
+                      <i class="fas fa-search-plus"></i>
+                      <span>Quick View</span>
+                    </div>
+                    
+                    <!-- Hot Badges -->
+                    <div class="badges-container">
+                      <div class="badge badge-new" *ngIf="product.isNew">
+                        <i class="fas fa-bolt"></i> NEW
+                      </div>
+                      <div class="badge badge-organic">
+                        <i class="fas fa-leaf"></i> ORGANIC
+                      </div>
+                      <div class="badge badge-discount" *ngIf="product.discount">
+                        -{{product.discount}}%
+                      </div>
+                      <div class="badge badge-local">
+                        <i class="fas fa-map-marker-alt"></i> KENYAN
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Quick Actions -->
+                  <div class="quick-actions">
+                    <button class="action-btn action-wishlist" title="Add to Wishlist">
+                      <i class="far fa-heart"></i>
+                    </button>
+                    <button class="action-btn action-compare" title="Compare">
+                      <i class="fas fa-exchange-alt"></i>
+                    </button>
+                    <button class="action-btn action-share" title="Share">
+                      <i class="fas fa-share-alt"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="product-info">
+                  <!-- Category -->
+                  <div class="product-category">
+                    <i class="fas fa-tag"></i>
+                    {{product.category}}
+                  </div>
+                  
+                  <!-- Name -->
+                  <h3 class="product-name" [title]="product.name">
+                    {{product.name}}
+                  </h3>
+                  
+                  <!-- Description -->
+                  <p class="product-description" [title]="product.description">
+                    {{product.description}}
+                  </p>
+                  
+                  <!-- Rating -->
+                  <div class="product-rating">
+                    <div class="stars-container">
+                      <div class="stars-background">
+                        <i class="far fa-star" *ngFor="let i of [1,2,3,4,5]"></i>
+                      </div>
+                      <div class="stars-foreground" [style.width]="(product.rating / 5) * 100 + '%'">
+                        <i class="fas fa-star" *ngFor="let i of [1,2,3,4,5]"></i>
+                      </div>
+                    </div>
+                    <span class="rating-value">{{product.rating.toFixed(1)}}</span>
+                    <span class="rating-count">({{getRandomReviewCount()}})</span>
+                  </div>
+                  
+                  <!-- Features -->
+                  <div class="product-features" *ngIf="product.features">
+                    <div class="feature-tag" *ngFor="let feature of product.features.slice(0, 3)">
+                      <i class="fas fa-check-circle"></i>
+                      {{feature}}
+                    </div>
+                  </div>
+                  
+                  <!-- Price & Stock -->
+                  <div class="price-stock-section">
+                    <div class="price-section">
+                      <div class="current-price">KSh {{product.price | number}}</div>
+                      <div class="original-price" *ngIf="product.originalPrice">
+                        <span class="original-text">KSh {{product.originalPrice | number}}</span>
+                        <span class="save-amount">
+                          Save KSh {{product.originalPrice - product.price | number}}
+                        </span>
+                      </div>
+                    </div>
+                    
+                    <div class="stock-section">
+                      <div class="stock-indicator" [class]="getStockClass(product)">
+                        <div class="stock-dot"></div>
+                        {{getStockText(product)}}
+                      </div>
+                      <div class="product-unit">
+                        <i class="fas fa-weight-hanging"></i>
+                        {{product.units}}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Action Buttons -->
+                  <div class="action-buttons">
+                    <button class="btn-add-to-cart" 
+                            (click)="addToCart(product)"
+                            [disabled]="!product.inStock"
+                            [class.disabled]="!product.inStock">
+                      <i class="fas fa-cart-plus"></i>
+                      <span>Add to Cart</span>
+                      <div class="cart-price">KSh {{product.price | number}}</div>
+                    </button>
+                    
+                    <button class="btn-buy-now" 
+                            (click)="buyNow(product)"
+                            [disabled]="!product.inStock">
+                      <i class="fas fa-bolt"></i>
+                      <span>Buy Now</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- List View -->
+            <div class="products-list" *ngIf="viewMode === 'list' && products().length > 0">
+              <div class="list-item" *ngFor="let product of products()">
+                <div class="list-image">
+                  <img [src]="product.image" [alt]="product.name" class="list-img" (error)="handleImageError($event)">
+                  <div class="list-badges">
+                    <span class="badge badge-new" *ngIf="product.isNew">NEW</span>
+                    <span class="badge badge-organic">ORGANIC</span>
+                  </div>
+                </div>
+                
+                <div class="list-details">
+                  <div class="list-category">{{product.category}}</div>
+                  <h3 class="list-title">{{product.name}}</h3>
+                  <p class="list-description">{{product.description}}</p>
+                  
+                  <div class="list-features">
+                    <div class="feature" *ngFor="let feature of product.features?.slice(0, 2)">
+                      <i class="fas fa-check"></i> {{feature}}
+                    </div>
+                  </div>
+                  
+                  <div class="list-rating">
+                    <div class="stars">
+                      <i class="fas fa-star" *ngFor="let i of getFullStars(product.rating)"></i>
+                      <i class="fas fa-star-half-alt" *ngIf="hasHalfStar(product.rating)"></i>
+                    </div>
+                    <span>{{product.rating.toFixed(1)}}</span>
+                  </div>
+                </div>
+                
+                <div class="list-actions">
+                  <div class="list-price">
+                    <div class="current">KSh {{product.price | number}}</div>
+                    <div class="original" *ngIf="product.originalPrice">
+                      KSh {{product.originalPrice | number}}
+                    </div>
+                  </div>
+                  
+                  <div class="list-buttons">
+                    <button class="btn-list-cart" (click)="addToCart(product)" [disabled]="!product.inStock">
+                      <i class="fas fa-cart-plus"></i> Add
+                    </button>
+                    <button class="btn-list-buy" (click)="buyNow(product)" [disabled]="!product.inStock">
+                      <i class="fas fa-bolt"></i> Buy Now
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pagination -->
+          <div class="pagination" *ngIf="products().length > 0">
+            <button class="page-btn" [disabled]="currentPage === 1" (click)="prevPage()">
+              <i class="fas fa-chevron-left"></i> Previous
+            </button>
+            
+            <div class="page-numbers">
+              <span class="page-number" 
+                    *ngFor="let page of getPageNumbers()"
+                    [class.active]="page === currentPage"
+                    (click)="goToPage(page)">
+                {{page}}
+              </span>
+            </div>
+            
+            <button class="page-btn" [disabled]="currentPage === totalPages" (click)="nextPage()">
+              Next <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick View Modal -->
+  <div class="quick-view-modal" [class.active]="quickViewProduct" (click)="closeQuickView()">
+    <div class="modal-container" (click)="$event.stopPropagation()" *ngIf="quickViewProduct">
+      <button class="modal-close" (click)="closeQuickView()">
+        <i class="fas fa-times"></i>
+      </button>
+      
+      <div class="modal-content">
+        <!-- Left Column - Images -->
+        <div class="modal-images">
+          <div class="main-image">
+            <img [src]="quickViewProduct.image" [alt]="quickViewProduct.name">
+            <div class="image-zoom-controls">
+              <button class="zoom-btn" (click)="zoomImage('in')">
+                <i class="fas fa-search-plus"></i>
+              </button>
+              <button class="zoom-btn" (click)="zoomImage('out')">
+                <i class="fas fa-search-minus"></i>
               </button>
             </div>
           </div>
           
-          <div class="product-info">
-            <div class="product-category">{{ product.category }}</div>
-            <h3 class="product-name">{{ product.name }}</h3>
-            <p class="product-description">{{ product.description }}</p>
-            
-            <div class="product-origin">
-              <small>🇰🇪 Produced in Kenya</small>
-            </div>
-            
-            <div class="product-rating">
-              <span class="stars">
-                <span class="star" *ngFor="let star of getRatingStars(product.rating)">
-                  <span *ngIf="star === 1">★</span>
-                  <span *ngIf="star === 0.5">☆</span>
-                </span>
-              </span>
-              <span class="rating-value">{{ product.rating }}</span>
-              <span class="rating-count">(Kenyan farmers)</span>
-            </div>
-            
-            <div class="product-price">
-              <span class="current-price">KSh {{ product.price }}</span>
-              <span class="original-price" *ngIf="product.originalPrice">KSh {{ product.originalPrice }}</span>
-              <span class="units">{{ product.units }}</span>
-            </div>
-            
-            <div class="product-actions">
-              <button class="btn-add-cart" 
-                      (click)="addToCart(product)" 
-                      [disabled]="!product.inStock">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="cart-icon">
-                  <path d="M3 3H5L5.4 5M7 13H17L21 5H5.4M7 13L5.4 5M7 13L4.7 15.3C4.3 15.7 4.6 16.4 5.2 16.4H17M17 13V16.4M9 19C9 19.6 8.6 20 8 20C7.4 20 7 19.6 7 19C7 18.4 7.4 18 8 18C8.6 18 9 18.4 9 19ZM17 19C17 19.6 16.6 20 16 20C15.4 20 15 19.6 15 19C15 18.4 15.4 18 16 18C16.6 18 17 18.4 17 19Z" stroke="currentColor" stroke-width="2"/>
-                </svg>
-                {{ product.inStock ? 'Add to Cart' : 'Out of Stock' }}
-              </button>
+          <!-- Thumbnails -->
+          <div class="image-thumbnails">
+            <div class="thumbnail active">
+              <img [src]="quickViewProduct.image" [alt]="quickViewProduct.name">
             </div>
           </div>
         </div>
         
-        <!-- No Results State -->
-        <div class="no-results" *ngIf="products().length === 0">
-          <div class="no-results-icon">
-            <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
-              <path d="M21 21L16.65 16.65M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z" stroke="currentColor" stroke-width="2"/>
-            </svg>
+        <!-- Right Column - Details -->
+        <div class="modal-details">
+          <div class="modal-header">
+            <div class="product-category-modal">
+              <i class="fas fa-tag"></i>
+              {{quickViewProduct.category}}
+            </div>
+            
+            <h2 class="modal-title">{{quickViewProduct.name}}</h2>
+            
+            <div class="modal-badges">
+              <span class="badge badge-new" *ngIf="quickViewProduct.isNew">
+                <i class="fas fa-bolt"></i> NEW ARRIVAL
+              </span>
+              <span class="badge badge-organic">
+                <i class="fas fa-leaf"></i> 100% ORGANIC
+              </span>
+              <span class="badge badge-local">
+                <i class="fas fa-map-marker-alt"></i> KENYAN MADE
+              </span>
+            </div>
           </div>
-          <h3>No Mzuri Organics products found</h3>
-          <p>Try adjusting your filters or search terms for our Kenyan products</p>
-          <button class="clear-all" (click)="clearAllFilters()">Show All Products</button>
+          
+          <!-- Rating -->
+          <div class="modal-rating">
+            <div class="rating-stars">
+              <i class="fas fa-star" *ngFor="let i of getFullStars(quickViewProduct.rating)"></i>
+              <i class="fas fa-star-half-alt" *ngIf="hasHalfStar(quickViewProduct.rating)"></i>
+              <i class="far fa-star" *ngFor="let i of getEmptyStars(quickViewProduct.rating)"></i>
+            </div>
+            <span class="rating-value">{{quickViewProduct.rating.toFixed(1)}} out of 5</span>
+            <span class="rating-count">Based on {{getRandomReviewCount()}} Kenyan farmer reviews</span>
+          </div>
+          
+          <!-- Description -->
+          <div class="modal-description">
+            <h4>Product Description</h4>
+            <p>{{quickViewProduct.description}}</p>
+          </div>
+          
+          <!-- Features -->
+          <div class="modal-features" *ngIf="quickViewProduct.features">
+            <h4>Key Features</h4>
+            <div class="features-grid">
+              <div class="feature" *ngFor="let feature of quickViewProduct.features">
+                <i class="fas fa-check-circle"></i>
+                <span>{{feature}}</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Specifications -->
+          <div class="modal-specs">
+            <div class="spec">
+              <i class="fas fa-weight"></i>
+              <div>
+                <div class="spec-label">Weight/Size</div>
+                <div class="spec-value">{{quickViewProduct.weight || 'Standard'}}</div>
+              </div>
+            </div>
+            <div class="spec">
+              <i class="fas fa-box"></i>
+              <div>
+                <div class="spec-label">Units</div>
+                <div class="spec-value">{{quickViewProduct.units}}</div>
+              </div>
+            </div>
+            <div class="spec">
+              <i class="fas fa-map-pin"></i>
+              <div>
+                <div class="spec-label">Origin</div>
+                <div class="spec-value">{{quickViewProduct.origin || 'Kenya'}}</div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Price & Actions -->
+          <div class="modal-price-actions">
+            <div class="price-section">
+              <div class="current-price-large">KSh {{quickViewProduct.price | number}}</div>
+              <div class="original-price-modal" *ngIf="quickViewProduct.originalPrice">
+                <span class="was">Was: KSh {{quickViewProduct.originalPrice | number}}</span>
+                <span class="save">Save KSh {{quickViewProduct.originalPrice - quickViewProduct.price | number}}</span>
+              </div>
+            </div>
+            
+            <div class="stock-section-modal">
+              <div class="stock-status" [class]="getStockClass(quickViewProduct)">
+                <div class="status-dot"></div>
+                {{getStockText(quickViewProduct)}}
+              </div>
+              
+              <!-- Quantity Selector -->
+              <div class="quantity-selector">
+                <button class="qty-btn minus" (click)="decreaseQuantity()">
+                  <i class="fas fa-minus"></i>
+                </button>
+                <input type="number" [(ngModel)]="quickViewQuantity" min="1" max="99" class="qty-input">
+                <button class="qty-btn plus" (click)="increaseQuantity()">
+                  <i class="fas fa-plus"></i>
+                </button>
+              </div>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="modal-actions">
+              <button class="btn-modal-add" (click)="addToCartModal()">
+                <i class="fas fa-cart-plus"></i>
+                Add to Cart - KSh {{quickViewProduct.price * quickViewQuantity | number}}
+              </button>
+              <button class="btn-modal-buy" (click)="buyNowModal()">
+                <i class="fas fa-bolt"></i>
+                Buy Now
+              </button>
+            </div>
+            
+            <!-- Trust Badges -->
+            <div class="trust-badges">
+              <div class="trust-badge">
+                <i class="fas fa-shield-alt"></i>
+                <span>100% Satisfaction Guarantee</span>
+              </div>
+              <div class="trust-badge">
+                <i class="fas fa-truck"></i>
+                <span>Free Delivery Over KSh 5,000</span>
+              </div>
+              <div class="trust-badge">
+                <i class="fas fa-headset"></i>
+                <span>24/7 Farmer Support</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- CTA Section -->
-    <div class="cta-section">
-      <div class="cta-content">
-        <h2>Ready to Transform Your Kenyan Farm?</h2>
-        <p>Join thousands of Kenyan farmers using our sustainable organic products for better yields and healthier soil</p>
-        <div class="contact-info">
-          <p>📞 <strong>Call: +254 701 934 918</strong> | 📧 <strong>info@mzuriorganics.co.ke</strong></p>
-        </div>
-        <div class="cta-buttons">
-          <button class="btn-primary" routerLink="/contact">Contact Our Sales Team</button>
-          <button class="btn-secondary" routerLink="/about">Learn About Our Process</button>
-        </div>
-      </div>
-    </div>
+  <!-- Cart Component -->
+  <app-cart [isOpen]="isCartOpen" (closeCart)="onCloseCart()"></app-cart>
+
+  <!-- Floating Action Buttons -->
+  <div class="fab-container">
+    <button class="fab fab-cart" (click)="toggleCart()" [class.has-items]="cartItemCount() > 0">
+      <i class="fas fa-shopping-basket"></i>
+      <span class="fab-badge" *ngIf="cartItemCount() > 0">{{cartItemCount()}}</span>
+    </button>
+    
+    <button class="fab fab-scroll" (click)="scrollToTop()" [class.visible]="showScrollButton">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+    
+    <button class="fab fab-whatsapp" (click)="openWhatsApp()">
+      <i class="fab fa-whatsapp"></i>
+    </button>
   </div>
 </section>

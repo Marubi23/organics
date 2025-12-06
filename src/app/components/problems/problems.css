@@ -767,13 +767,14 @@
   font-size: 3rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
-  color: var(--accent-green);
+  color:rgb(8, 69, 33);
 }
 
 .cta-stats .stat-label {
   font-size: 1rem;
   opacity: 0.9;
   font-weight: 500;
+  color: white;
 }
 
 .cta-buttons {
