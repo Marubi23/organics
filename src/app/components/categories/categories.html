@@ -204,38 +204,108 @@
       </div>
     </div>
 
-    <!-- SDG Alignment -->
+       <!-- SDG Alignment - Perfect 1+6 Grid Layout -->
     <div class="sdg-section">
-      <div class="sdg-header">
-        <h2>Contributing to Kenya's Sustainable Development</h2>
-        <p>Mzuri Organics actively supports 7 UN Sustainable Development Goals through our regenerative agricultural practices in East Africa</p>
-      </div>
-      <div class="sdg-grid">
-        <div class="sdg-item" *ngFor="let sdg of sdgs">
-          <div class="sdg-number">{{ sdg.number }}</div>
-          <div class="sdg-title">{{ sdg.title }}</div>
-          <div class="sdg-desc">{{ sdg.description }}</div>
+      <div class="sdg-container">
+        <!-- Vertical Card (Left - SDG Introduction) -->
+        <div class="sdg-vertical-card">
+          <div class="vertical-card-content">
+            <h2>Contributing to Kenya's Sustainable Development</h2>
+            <p>Mzuri Organics actively supports 7 UN Sustainable Development Goals through our regenerative agricultural practices in East Africa</p>
+          </div>
+        </div>
+        
+        <!-- Grid of 6 SDG Cards (Right - 3 columns × 2 rows) -->
+        <div class="sdg-grid">
+          <!-- SDG 1: No Poverty -->
+          <div class="sdg-card sdg-1">
+            <div class="sdg-number">1</div>
+            <h3 class="sdg-title">No Poverty</h3>
+            <p class="sdg-desc">Creating new income streams for farmers, youth, and women through buy-back models and waste-to-value enterprises</p>
+          </div>
+          
+          <!-- SDG 2: Zero Hunger -->
+          <div class="sdg-card sdg-2">
+            <div class="sdg-number">2</div>
+            <h3 class="sdg-title">Zero Hunger</h3>
+            <p class="sdg-desc">Boosting food security by regenerating soils, increasing yields, and improving crop nutrition through biological and organo-mineral fertilizers</p>
+          </div>
+          
+          <!-- SDG 5: Gender Equality -->
+          <div class="sdg-card sdg-5">
+            <div class="sdg-number">3</div>
+            <h3 class="sdg-title">Gender Equality</h3>
+            <p class="sdg-desc">Empowering women in agriculture through training, leadership roles, and economic opportunities</p>
+          </div>
+          
+          <!-- Recent Work (Not an SDG) -->
+          <div class="sdg-card recent-work">
+            <div class="sdg-number">★</div>
+            <h3 class="sdg-title">Recent Work</h3>
+            <p class="sdg-desc">Driving green job creation across regenerative farming, composting, bioconversion, and biofertilizer production</p>
+          </div>
+          
+          <!-- SDG 12: Responsible Consumption -->
+          <div class="sdg-card sdg-12">
+            <div class="sdg-number">4</div>
+            <h3 class="sdg-title">Responsible Consumption & Production</h3>
+            <p class="sdg-desc">Transforming organic waste into high-value fertilizers and creating circular, zero-waste farming systems</p>
+          </div>
+          
+          <!-- SDG 13: Climate Action -->
+          <div class="sdg-card sdg-13">
+            <div class="sdg-number">5</div>
+            <h3 class="sdg-title">Climate Action</h3>
+            <p class="sdg-desc">Reducing emissions, enhancing soil carbon, and building climate-resilient farms through regenerative agriculture</p>
+          </div>
+          
+          <!-- SDG 15: Life on Land -->
+          <div class="sdg-card sdg-15" style="grid-column: span 2;">
+            <div class="sdg-number">6</div>
+            <h3 class="sdg-title">Life on Land</h3>
+            <p class="sdg-desc">Restoring degraded soils, improving biodiversity, and strengthening ecosystem health with microbe-rich inputs</p>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Final CTA -->
-    <div class="cta-final">
-      <div class="cta-content">
-        <h2>Partner with Mzuri Organics Today</h2>
-        <p>Join us in building a sustainable future for Kenyan agriculture and creating resilient farming communities across East Africa</p>
-        <div class="cta-buttons">
-          <button class="btn-primary" routerLink="/contact">
-            Start Partnership
-          </button>
-          <button class="btn-secondary" routerLink="/about">
-            Learn More About Us
-          </button>
+<!-- Final CTA - Clean & Professional -->
+<div class="cta-final">
+  <div class="cta-content">
+    <div class="cta-header">
+      <h2 class="cta-title">Partner with Mzuri Organics</h2>
+      <p class="cta-description">Join us in building a sustainable future for Kenyan agriculture and creating resilient farming communities across East Africa</p>
+    </div>
+    
+    <div class="cta-buttons">
+      <button class="btn-primary" routerLink="/contact">
+        <i class="fas fa-handshake"></i>
+        <span>Start Partnership</span>
+      </button>
+      <button class="btn-secondary" routerLink="/about">
+        <i class="fas fa-book-open"></i>
+        <span>Learn More</span>
+      </button>
+    </div>
+    
+    <div class="contact-info">
+      <div class="contact-item">
+        <i class="fas fa-phone"></i>
+        <div>
+          <div class="contact-label">Call Us</div>
+          <div class="contact-value">+254 701 934 918</div>
         </div>
-        <div class="contact-info">
-          <p>📞 <strong>+254 701 934 918</strong> | 📧 <strong>info@mzuriorganics.co.ke</strong></p>
+      </div>
+      <div class="contact-item">
+        <i class="fas fa-envelope"></i>
+        <div>
+          <div class="contact-label">Email Us</div>
+          <div class="contact-value">info@mzuriorganics.co.ke</div>
         </div>
       </div>
     </div>
   </div>
+</div>
+
+</div>
 </section>
