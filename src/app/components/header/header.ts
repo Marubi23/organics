@@ -174,7 +174,52 @@ export class HeaderComponent implements OnInit, OnDestroy {
       });
     }
   }
+// Add this method to your HeaderComponent class (after the existing methods)
+scrollToSection(sectionId: string): void {
+  // If we're on the impact page, call the scroll function
+  if (window.location.pathname.includes('/impacts')) {
+    // Dispatch event for ImpactComponent to handle
+    window.dispatchEvent(new CustomEvent('scrollToImpactSection', {
+      detail: { sectionId }
+    }));
+    
+    // Also update URL for bookmarking
+    window.history.replaceState(null, '', `/impacts#${sectionId}`);
+    
+    // Close mobile menu if open
+    if (this.isMobileMenuOpen) {
+      this.isMobileMenuOpen = false;
+      document.body.style.overflow = '';
+    }
+  } else {
+    // If we're not on the impact page, navigate there first
+    this.router.navigate(['/impacts']).then(() => {
+      // Close mobile menu if open
+      if (this.isMobileMenuOpen) {
+        this.isMobileMenuOpen = false;
+        document.body.style.overflow = '';
+      }
+      
+      // After navigation, scroll to the section
+      setTimeout(() => {
+        window.dispatchEvent(new CustomEvent('scrollToImpactSection', {
+          detail: { sectionId }
+        }));
+      }, 500); // Wait for page load
+    });
+  }
+}
 
+// Also add this method for other fragment navigation
+navigateWithFragment(route: string, fragment: string): void {
+  this.router.navigate([route], { fragment: fragment }).then(() => {
+    // Close mobile menu if open
+    if (this.isMobileMenuOpen) {
+      this.isMobileMenuOpen = false;
+      document.body.style.overflow = '';
+    }
+  });
+}
   // ADD THIS METHOD FOR DROPDOWN ITEMS THAT NEED FRAGMENT NAVIGATION
   navigateToAboutWithFragment(fragment: string): void {
     this.router.navigate(['/about'], { fragment: fragment });

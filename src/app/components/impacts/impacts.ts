@@ -1,5 +1,5 @@
 // impact.component.ts
-import { Component } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
@@ -35,7 +35,22 @@ import { trigger, transition, style, animate, query, stagger } from '@angular/an
     ])
   ]
 })
-export class ImpactComponent {
+export class ImpactComponent implements AfterViewInit {
+  // Scroll targets for the dropdown
+  scrollTargets = [
+    { id: 'overview', label: 'Impact Overview' },
+    { id: 'metrics', label: 'Key Metrics' },
+    { id: 'outcomes', label: 'Outcomes & Results' },
+    { id: 'sdg', label: 'SDG Impact' },
+    { id: 'stories', label: 'Success Stories' },
+    { id: 'environmental', label: 'Environmental Impact' },
+    { id: 'goals', label: 'Future Goals' },
+    { id: 'cta', label: 'Get Involved' }
+  ];
+
+  // Default selected target
+  selectedScrollTarget = this.scrollTargets[0];
+
   keyMetrics = [
     { value: '500+', label: 'Kenyan Farmers Trained', change: '+25%', trend: 'positive' },
     { value: '60%', label: 'Reduction in Chemical Fertilizer Use in Kenya', change: '+15%', trend: 'positive' },
@@ -201,12 +216,52 @@ export class ImpactComponent {
     }
   ];
 
-  // New method to get Kenyan context
+  // Scroll function
+  scrollToSection(sectionId: string): void {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      // Update selected target
+      const target = this.scrollTargets.find(t => t.id === sectionId);
+      if (target) {
+        this.selectedScrollTarget = target;
+      }
+      
+      // Smooth scroll
+      element.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'start'
+      });
+      
+      // Update URL hash
+      window.history.replaceState(null, '', `#${sectionId}`);
+    }
+  }
+
+ngAfterViewInit(): void {
+  const hash = window.location.hash.substring(1);
+  if (hash && this.scrollTargets.some(t => t.id === hash)) {
+    setTimeout(() => {
+      this.scrollToSection(hash);
+    }, 300);
+  }
+  
+  // Listen for scroll events from navigation header
+  window.addEventListener('scrollToImpactSection', (event: any) => {
+    const sectionId = event.detail.sectionId;
+    this.scrollToSection(sectionId);
+  });
+}
+
+// Add ngOnDestroy to clean up event listener
+ngOnDestroy(): void {
+  window.removeEventListener('scrollToImpactSection', () => {});
+}
+  
+
   getKenyanImpactContext(): string {
     return "All impact data verified across Kenyan farming communities and East African regions";
   }
 
-  // New method to get Kenyan regions served
   getKenyanRegionsServed(): string[] {
     return [
       "Central Kenya Highlands",
@@ -218,7 +273,6 @@ export class ImpactComponent {
     ];
   }
 
-  // New method to get Kenyan partner organizations
   getKenyanPartners(): string[] {
     return [
       "Kenya Agricultural Research Institute",

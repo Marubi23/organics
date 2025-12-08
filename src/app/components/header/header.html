@@ -42,14 +42,12 @@
             </a>
             <div class="dropdown-divider"></div>
             <span class="dropdown-header">OUR SOLUTIONS</span>
-            <a routerLink="/what-we-do" fragment="circular-model"  class="dropdown-item">
+            <a routerLink="/what-we-do" fragment="circular-model" class="dropdown-item">
               <i class="fas fa-recycle"></i> Our Circular Model
             </a>
-            <!-- Updated: PREFarm Initiative with fragment -->
             <a routerLink="/what-we-do" fragment="prefarm-initiative" class="dropdown-item">
               <i class="fas fa-tachometer-alt"></i> PREFarm Initiative
             </a>
-            <!-- Updated: Regen-Kilimo Initiative with fragment -->
             <a routerLink="/what-we-do" fragment="regen-kilimo" class="dropdown-item">
               <i class="fas fa-seedling"></i> Regen-Kilimo Initiative
             </a>
@@ -73,19 +71,50 @@
           </div>
         </div>
 
+        <!-- Updated Impact Dropdown with Scroll Targets -->
         <div class="dropdown">
           <a class="nav-link dropdown-toggle">
             <i class="fas fa-chart-line"></i> Impact
           </a>
           <div class="dropdown-menu">
+            <!-- Overview -->
             <a routerLink="/impacts" class="dropdown-item">
-              <i class="fas fa-chart-bar"></i> Outcomes & Results
+              <i class="fas fa-chart-bar"></i> Overview
             </a>
-            <a routerLink="/impacts" class="dropdown-item">
+            
+            <!-- Key Metrics - Scrolls to metrics section -->
+            <a routerLink="/impacts" (click)="scrollToSection('metrics')" class="dropdown-item">
+              <i class="fas fa-chart-pie"></i> Key Metrics
+            </a>
+            
+            <!-- Outcomes & Results - Scrolls to outcomes section -->
+            <a routerLink="/impacts" (click)="scrollToSection('outcomes')" class="dropdown-item">
+              <i class="fas fa-check-circle"></i> Outcomes & Results
+            </a>
+            
+            <!-- SDG Alignment - Scrolls to sdg section -->
+            <a routerLink="/impacts" (click)="scrollToSection('sdg')" class="dropdown-item">
               <i class="fas fa-globe-africa"></i> SDG Alignment
             </a>
-            <a routerLink="/testimonials" class="dropdown-item">
+            
+            <!-- Success Stories - Scrolls to stories section -->
+            <a routerLink="/impacts" (click)="scrollToSection('stories')" class="dropdown-item">
               <i class="fas fa-book-open"></i> Success Stories
+            </a>
+            
+            <!-- Environmental Impact - Scrolls to environmental section -->
+            <a routerLink="/impacts" (click)="scrollToSection('environmental')" class="dropdown-item">
+              <i class="fas fa-leaf"></i> Environmental Impact
+            </a>
+            
+            <!-- Future Goals - Scrolls to goals section -->
+            <a routerLink="/impacts" (click)="scrollToSection('goals')" class="dropdown-item">
+              <i class="fas fa-flag"></i> Future Goals
+            </a>
+            
+            <!-- Get Involved - Scrolls to cta section -->
+            <a routerLink="/impacts" (click)="scrollToSection('cta')" class="dropdown-item">
+              <i class="fas fa-handshake"></i> Get Involved
             </a>
           </div>
         </div>
@@ -95,7 +124,7 @@
         </a>
       </div>
 
-      <!-- Right Section - KEEP EXACTLY THE SAME -->
+      <!-- Right Section -->
       <div class="nav-right">
         <button class="icon-btn search-btn" (click)="openSearch()">
           <i class="fas fa-search"></i>
@@ -144,8 +173,8 @@
           <a routerLink="/about" fragment="mission-vision" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
             <i class="fas fa-bullseye"></i> Mission & Vision
           </a>
-          <a routerLink="/about" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
-            <i class="fas fa-users"></i> Our Team
+          <a routerLink="/blog" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
+            <i class="fas fa-users"></i> Blog
           </a>
         </div>
       </div>
@@ -162,14 +191,12 @@
           </a>
           <div class="mobile-dropdown-divider"></div>
           <span class="mobile-dropdown-header">OUR SOLUTIONS</span>
-          <a routerLink="/what-we-do" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
-            <i class="fas fa-recycle"></i> Bioconversion Initiative
+          <a routerLink="/what-we-do" fragment="circular-model" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
+            <i class="fas fa-recycle"></i> Our Circular Model
           </a>
-          <!-- Updated: PREFarm Initiative with fragment -->
           <a routerLink="/what-we-do" fragment="prefarm-initiative" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
             <i class="fas fa-tachometer-alt"></i> PREFarm Initiative
           </a>
-          <!-- Updated: Regen-Kilimo Initiative with fragment -->
           <a routerLink="/what-we-do" fragment="regen-kilimo" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
             <i class="fas fa-seedling"></i> Regen-Kilimo Initiative
           </a>
@@ -195,21 +222,51 @@
         </div>
       </div>
 
-      <!-- Mobile Impact Dropdown -->
+      <!-- Mobile Impact Dropdown with Scroll Targets -->
       <div class="mobile-dropdown">
         <button class="mobile-dropdown-toggle" (click)="toggleMobileDropdown($event)">
           <i class="fas fa-chart-line"></i> Impact
           <span class="dropdown-arrow">⌄</span>
         </button>
         <div class="mobile-dropdown-menu">
+          <!-- Overview -->
           <a routerLink="/impacts" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
-            <i class="fas fa-chart-bar"></i> Outcomes & Results
+            <i class="fas fa-chart-bar"></i> Overview
           </a>
-          <a routerLink="/impacts" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
+          
+          <!-- Key Metrics - Scrolls to metrics section -->
+          <a routerLink="/impacts" (click)="scrollToSection('metrics'); toggleMobileMenu()" class="mobile-dropdown-item">
+            <i class="fas fa-chart-pie"></i> Key Metrics
+          </a>
+          
+          <!-- Outcomes & Results - Scrolls to outcomes section -->
+          <a routerLink="/impacts" (click)="scrollToSection('outcomes'); toggleMobileMenu()" class="mobile-dropdown-item">
+            <i class="fas fa-check-circle"></i> Outcomes & Results
+          </a>
+          
+          <!-- SDG Alignment - Scrolls to sdg section -->
+          <a routerLink="/impacts" (click)="scrollToSection('sdg'); toggleMobileMenu()" class="mobile-dropdown-item">
             <i class="fas fa-globe-africa"></i> SDG Alignment
           </a>
-          <a routerLink="/testimonials" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
+          
+          <!-- Success Stories - Scrolls to stories section -->
+          <a routerLink="/impacts" (click)="scrollToSection('stories'); toggleMobileMenu()" class="mobile-dropdown-item">
             <i class="fas fa-book-open"></i> Success Stories
+          </a>
+          
+          <!-- Environmental Impact - Scrolls to environmental section -->
+          <a routerLink="/impacts" (click)="scrollToSection('environmental'); toggleMobileMenu()" class="mobile-dropdown-item">
+            <i class="fas fa-leaf"></i> Environmental Impact
+          </a>
+          
+          <!-- Future Goals - Scrolls to goals section -->
+          <a routerLink="/impacts" (click)="scrollToSection('goals'); toggleMobileMenu()" class="mobile-dropdown-item">
+            <i class="fas fa-flag"></i> Future Goals
+          </a>
+          
+          <!-- Get Involved - Scrolls to cta section -->
+          <a routerLink="/impacts" (click)="scrollToSection('cta'); toggleMobileMenu()" class="mobile-dropdown-item">
+            <i class="fas fa-handshake"></i> Get Involved
           </a>
         </div>
       </div>
@@ -239,7 +296,7 @@
   <!-- Cart Component -->
   <app-cart [isOpen]="isCartOpen" (closeCart)="toggleCart()"></app-cart>
 
-  <!-- Search Overlay - ADD THIS AT THE END -->
+  <!-- Search Overlay -->
   <div class="search-overlay" [class.active]="isSearchOpen">
     <div class="search-container">
       <div class="search-header">
