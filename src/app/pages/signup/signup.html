@@ -1,0 +1,557 @@
+<div class="signup-container">
+  <!-- Header -->
+  <div class="signup-header">
+    <div class="header-back">
+      <a routerLink="/account/login" class="back-btn">
+        <i class="fas fa-arrow-left"></i>
+        <span>Back to Login</span>
+      </a>
+    </div>
+    <div class="header-brand">
+      <div class="brand-logo">
+        <img src="/images/mzuri.JPG" alt="Mzuri Organics" class="logo-img">
+        <div class="brand-text">
+          <h1>Mzuri</h1>
+          <p>ORGANICS</p>
+        </div>
+      </div>
+    </div>
+    <div class="header-progress">
+      <span class="progress-text">Step {{ currentStep }} of {{ getTotalSteps() }}</span>
+    </div>
+  </div>
+
+  <!-- Progress Steps -->
+  <div class="progress-container">
+    <div class="progress-bar">
+      <div class="progress-fill" [style.width.%]="getProgressPercentage()"></div>
+    </div>
+    <div class="steps-indicator">
+      <div class="step" [class.active]="currentStep >= 1" [class.completed]="currentStep > 1">
+        <div class="step-dot">1</div>
+        <span class="step-label">Basic Info</span>
+      </div>
+      <div class="step" [class.active]="currentStep >= 2" [class.completed]="currentStep > 2">
+        <div class="step-dot">2</div>
+        <span class="step-label">Location</span>
+      </div>
+      <div class="step" *ngIf="shouldShowFarmerStep()" 
+           [class.active]="currentStep >= 3" 
+           [class.completed]="currentStep > 3">
+        <div class="step-dot">3</div>
+        <span class="step-label">Farm Details</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Messages -->
+  <div *ngIf="errorMessage" class="message-box error">
+    <i class="fas fa-exclamation-triangle"></i>
+    <span>{{ errorMessage }}</span>
+  </div>
+
+  <!-- Step Content -->
+  <div class="signup-content">
+    
+    <!-- Step 1: Basic Information -->
+    <div *ngIf="currentStep === 1" class="signup-step active-step">
+      <div class="step-header">
+        <h2>Create Your Account</h2>
+        <p class="step-subtitle">Join Mzuri Organics in 3 simple steps</p>
+      </div>
+
+      <form (ngSubmit)="nextStep()" #step1Form="ngForm" class="signup-form">
+        
+        <!-- User Type Selection -->
+        <div class="form-section">
+          <label class="section-title">Select Your Role</label>
+          <div class="user-type-cards">
+            <div class="type-card" [class.selected]="signupData.userType === 'farmer'"
+                 (click)="signupData.userType = 'farmer'">
+              <div class="card-icon">
+                <i class="fas fa-tractor"></i>
+              </div>
+              <h3>Farmer</h3>
+              <p>Grow crops & livestock</p>
+            </div>
+
+            <div class="type-card" [class.selected]="signupData.userType === 'buyer'"
+                 (click)="signupData.userType = 'buyer'">
+              <div class="card-icon">
+                <i class="fas fa-shopping-basket"></i>
+              </div>
+              <h3>Buyer</h3>
+              <p>Purchase farm products</p>
+            </div>
+
+            <div class="type-card" [class.selected]="signupData.userType === 'distributor'"
+                 (click)="signupData.userType = 'distributor'">
+              <div class="card-icon">
+                <i class="fas fa-truck"></i>
+              </div>
+              <h3>Distributor</h3>
+              <p>Resell products</p>
+            </div>
+
+            <div class="type-card" [class.selected]="signupData.userType === 'agronomist'"
+                 (click)="signupData.userType = 'agronomist'">
+              <div class="card-icon">
+                <i class="fas fa-seedling"></i>
+              </div>
+              <h3>Agronomist</h3>
+              <p>Expert support</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Personal Information -->
+        <div class="form-section">
+          <label class="section-title">Personal Information</label>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label class="input-label">
+                <i class="fas fa-user"></i>
+                Full Name *
+              </label>
+              <input 
+                type="text" 
+                name="fullName"
+                [(ngModel)]="signupData.fullName"
+                placeholder="Enter your full name"
+                required
+                class="form-input"
+                [disabled]="isLoading"
+              >
+            </div>
+
+            <div class="form-group">
+              <label class="input-label">
+                <i class="fas fa-phone"></i>
+                Phone Number *
+              </label>
+              <div class="phone-input-group">
+                <span class="country-code">+254</span>
+                <input 
+                  type="tel" 
+                  name="phoneNumber"
+                  [(ngModel)]="signupData.phoneNumber"
+                  placeholder="712 345 678"
+                  required
+                  pattern="[0-9]{9}"
+                  maxlength="9"
+                  class="form-input"
+                  [disabled]="isLoading"
+                >
+              </div>
+              <p class="input-hint">This will be your login ID</p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="input-label">
+              <i class="fas fa-envelope"></i>
+              Email (Optional)
+            </label>
+            <input 
+              type="email" 
+              name="email"
+              [(ngModel)]="signupData.email"
+              placeholder="your.email@example.com"
+              class="form-input"
+              [disabled]="isLoading"
+            >
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="form-section">
+          <label class="section-title">Create Password</label>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label class="input-label">
+                <i class="fas fa-lock"></i>
+                Password *
+              </label>
+              <div class="password-input-group">
+                <input 
+                  [type]="showPassword ? 'text' : 'password'" 
+                  name="password"
+                  [(ngModel)]="signupData.password"
+                  placeholder="Create a strong password"
+                  required
+                  minlength="6"
+                  class="form-input"
+                  [disabled]="isLoading"
+                >
+                <button 
+                  type="button" 
+                  class="password-toggle"
+                  (click)="togglePasswordVisibility()"
+                  [disabled]="isLoading"
+                >
+                  <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                </button>
+              </div>
+              <div class="password-strength">
+                <div class="strength-bar">
+                  <div class="strength-fill" [class]="getPasswordStrength()"></div>
+                </div>
+                <span class="strength-text">{{ getPasswordStrengthText() }}</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="input-label">
+                <i class="fas fa-lock"></i>
+                Confirm Password *
+              </label>
+              <div class="password-input-group">
+                <input 
+                  [type]="showConfirmPassword ? 'text' : 'password'" 
+                  name="confirmPassword"
+                  [(ngModel)]="signupData.confirmPassword"
+                  placeholder="Confirm your password"
+                  required
+                  minlength="6"
+                  class="form-input"
+                  [disabled]="isLoading"
+                >
+                <button 
+                  type="button" 
+                  class="password-toggle"
+                  (click)="toggleConfirmPasswordVisibility()"
+                  [disabled]="isLoading"
+                >
+                  <i [class]="showConfirmPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Terms -->
+        <div class="form-section">
+          <div class="terms-agreement">
+            <input 
+              type="checkbox" 
+              id="agreeTerms"
+              name="agreeTerms"
+              [(ngModel)]="signupData.agreeTerms"
+              required
+              [disabled]="isLoading"
+            >
+            <label for="agreeTerms">
+              I agree to the <a href="/terms" target="_blank">Terms of Service</a> and <a href="/privacy" target="_blank">Privacy Policy</a> *
+            </label>
+          </div>
+        </div>
+
+        <!-- Next Button -->
+        <button 
+          type="submit" 
+          class="btn-primary btn-next"
+          [disabled]="step1Form.invalid || isLoading"
+          [class.loading]="isLoading"
+        >
+          <span class="btn-content">
+            <span>Continue to Location</span>
+            <i class="fas fa-arrow-right"></i>
+          </span>
+        </button>
+      </form>
+    </div>
+
+    <!-- Step 2: Location -->
+    <div *ngIf="currentStep === 2" class="signup-step active-step">
+      <div class="step-header">
+        <h2>Location Information</h2>
+        <p class="step-subtitle">Help us serve you better in your area</p>
+      </div>
+
+      <form (ngSubmit)="nextStep()" #step2Form="ngForm" class="signup-form">
+        
+        <!-- County -->
+        <div class="form-section">
+          <div class="form-group">
+            <label class="input-label">
+              <i class="fas fa-map-marker-alt"></i>
+              County *
+            </label>
+            <select 
+              name="county"
+              [(ngModel)]="signupData.county"
+              required
+              class="form-select"
+              [disabled]="isLoading"
+            >
+              <option value="">Select your county</option>
+              <option *ngFor="let county of kenyanCounties" [value]="county">
+                {{ county }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Sub-County & Ward -->
+        <div class="form-row">
+          <div class="form-group">
+            <label class="input-label">
+              <i class="fas fa-map"></i>
+              Sub-County *
+            </label>
+            <input 
+              type="text" 
+              name="subCounty"
+              [(ngModel)]="signupData.subCounty"
+              placeholder="e.g., Westlands"
+              required
+              class="form-input"
+              [disabled]="isLoading"
+            >
+          </div>
+
+          <div class="form-group">
+            <label class="input-label">
+              <i class="fas fa-map-pin"></i>
+              Ward *
+            </label>
+            <input 
+              type="text" 
+              name="ward"
+              [(ngModel)]="signupData.ward"
+              placeholder="e.g., Kangemi"
+              required
+              class="form-input"
+              [disabled]="isLoading"
+            >
+          </div>
+        </div>
+
+        <!-- Village & Town -->
+        <div class="form-row">
+          <div class="form-group">
+            <label class="input-label">
+              <i class="fas fa-home"></i>
+              Village / Estate
+            </label>
+            <input 
+              type="text" 
+              name="village"
+              [(ngModel)]="signupData.village"
+              placeholder="e.g., Kasarani"
+              class="form-input"
+              [disabled]="isLoading"
+            >
+          </div>
+
+          <div class="form-group">
+            <label class="input-label">
+              <i class="fas fa-building"></i>
+              Nearest Town *
+            </label>
+            <input 
+              type="text" 
+              name="nearestTown"
+              [(ngModel)]="signupData.nearestTown"
+              placeholder="e.g., Nairobi CBD"
+              required
+              class="form-input"
+              [disabled]="isLoading"
+            >
+          </div>
+        </div>
+
+        <!-- Landmark -->
+        <div class="form-section">
+          <div class="form-group">
+            <label class="input-label">
+              <i class="fas fa-map-signs"></i>
+              Landmark (Optional)
+            </label>
+            <input 
+              type="text" 
+              name="landmark"
+              [(ngModel)]="signupData.landmark"
+              placeholder="e.g., Next to ABC Mall"
+              class="form-input"
+              [disabled]="isLoading"
+            >
+            <p class="input-hint">Helps with delivery directions</p>
+          </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="form-navigation">
+          <button 
+            type="button" 
+            class="btn-secondary"
+            (click)="prevStep()"
+            [disabled]="isLoading"
+          >
+            <i class="fas fa-arrow-left"></i>
+            Back
+          </button>
+
+          <button 
+            type="submit" 
+            class="btn-primary"
+            [disabled]="step2Form.invalid || isLoading"
+            [class.loading]="isLoading"
+          >
+            <span class="btn-content">
+              <span>{{ shouldShowFarmerStep() ? 'Continue to Farm Details' : 'Create Account' }}</span>
+              <i class="fas fa-arrow-right"></i>
+            </span>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Step 3: Farm Details (Only for Farmers) -->
+    <div *ngIf="currentStep === 3 && shouldShowFarmerStep()" class="signup-step active-step">
+      <div class="step-header">
+        <h2>Farm Details</h2>
+        <p class="step-subtitle">Tell us about your farming activities</p>
+      </div>
+
+      <form (ngSubmit)="onSignup()" #step3Form="ngForm" class="signup-form">
+        
+        <!-- Farm Size & Experience -->
+        <div class="form-row">
+          <div class="form-group">
+            <label class="input-label">
+              <i class="fas fa-ruler-combined"></i>
+              Farm Size (Acres)
+            </label>
+            <div class="input-with-suffix">
+              <input 
+                type="number" 
+                name="farmSize"
+                [(ngModel)]="signupData.farmSize"
+                placeholder="e.g., 2.5"
+                step="0.1"
+                min="0"
+                class="form-input"
+                [disabled]="isLoading"
+              >
+              <span class="suffix">acres</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="input-label">
+              <i class="fas fa-calendar-alt"></i>
+              Farming Experience
+            </label>
+            <select 
+              name="farmingExperience"
+              [(ngModel)]="signupData.farmingExperience"
+              class="form-select"
+              [disabled]="isLoading"
+            >
+              <option value="">Select experience</option>
+              <option value="1">Less than 1 year</option>
+              <option value="2">1-2 years</option>
+              <option value="5">3-5 years</option>
+              <option value="10">5-10 years</option>
+              <option value="20">10+ years</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Crops -->
+        <div class="form-section">
+          <label class="input-label">
+            <i class="fas fa-seedling"></i>
+            Main Crops (Optional)
+          </label>
+          <div class="selection-chips">
+            <div *ngFor="let crop of commonCrops" 
+                 class="selection-chip"
+                 [class.selected]="signupData.mainCrops.includes(crop)"
+                 (click)="toggleCrop(crop)">
+              {{ crop }}
+              <i class="fas fa-check" *ngIf="signupData.mainCrops.includes(crop)"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Livestock -->
+        <div class="form-section">
+          <label class="input-label">
+            <i class="fas fa-paw"></i>
+            Livestock (Optional)
+          </label>
+          <div class="selection-chips">
+            <div *ngFor="let animal of commonLivestock" 
+                 class="selection-chip"
+                 [class.selected]="signupData.livestock.includes(animal)"
+                 (click)="toggleLivestock(animal)">
+              {{ animal }}
+              <i class="fas fa-check" *ngIf="signupData.livestock.includes(animal)"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Welcome Benefits -->
+        <div class="benefits-card">
+          <h3><i class="fas fa-gift"></i> Welcome Benefits</h3>
+          <div class="benefits-list">
+            <div class="benefit">
+              <i class="fas fa-seedling"></i>
+              <div>
+                <h4>100 Mzuri Points</h4>
+                <p>Redeem on your first order</p>
+              </div>
+            </div>
+            <div class="benefit">
+              <i class="fas fa-tractor"></i>
+              <div>
+                <h4>Free Soil Test</h4>
+                <p>Basic soil analysis</p>
+              </div>
+            </div>
+            <div class="benefit">
+              <i class="fas fa-shipping-fast"></i>
+              <div>
+                <h4>Free Delivery</h4>
+                <p>On first order over KSh 2,000</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="form-navigation">
+          <button 
+            type="button" 
+            class="btn-secondary"
+            (click)="prevStep()"
+            [disabled]="isLoading"
+          >
+            <i class="fas fa-arrow-left"></i>
+            Back
+          </button>
+
+          <button 
+            type="submit" 
+            class="btn-success"
+            [disabled]="step3Form.invalid || isLoading"
+            [class.loading]="isLoading"
+          >
+            <i class="fas fa-user-plus"></i>
+            Create Account
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer Note -->
+  <div class="footer-note">
+    <i class="fas fa-shield-alt"></i>
+    <p>Your information is secure. We never share your data with third parties.</p>
+  </div>
+</div>

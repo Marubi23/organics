@@ -1,0 +1,109 @@
+<!-- src/app/pages/account/account.html -->
+<div class="account-container">
+  <!-- Only show logged-in content if user exists -->
+  <div class="account-header" *ngIf="currentUser">
+    <div class="header-content">
+      <div class="user-info">
+        <div class="user-avatar">
+          {{ getUserInitials() }}
+        </div>
+        <div class="user-details">
+          <h1>{{ getWelcomeMessage() }}, {{ currentUser?.fullName }}!</h1>
+          <p class="user-type">
+            <i [class]="currentUser?.userType === 'farmer' ? 'fas fa-tractor' : 'fas fa-shopping-cart'"></i>
+            {{ currentUser?.userType | titlecase }} Account
+            <span *ngIf="currentUser?.county" class="user-location">
+              <i class="fas fa-map-marker-alt"></i> {{ currentUser.county }}
+            </span>
+          </p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="btn-logout" (click)="logout()">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Show stats and quick actions only when logged in -->
+  <div class="account-stats" *ngIf="currentUser">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon cart">
+          <i class="fas fa-shopping-cart"></i>
+        </div>
+        <div class="stat-content">
+          <h3>{{ userStats.cartItems }}</h3>
+          <p>Items in Cart</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon orders">
+          <i class="fas fa-box"></i>
+        </div>
+        <div class="stat-content">
+          <h3>{{ userStats.activeOrders }}</h3>
+          <p>Active Orders</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon points">
+          <i class="fas fa-coins"></i>
+        </div>
+        <div class="stat-content">
+          <h3>{{ userStats.points }}</h3>
+          <p>Mzuri Points</p>
+        </div>
+      </div>
+      <div class="stat-card" *ngIf="currentUser?.userType === 'farmer'">
+        <div class="stat-icon farm">
+          <i class="fas fa-tractor"></i>
+        </div>
+        <div class="stat-content">
+          <h3>{{ userStats.farmSize }}</h3>
+          <p>Farm Size (Acres)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick actions if logged in -->
+  <div class="quick-actions" *ngIf="currentUser">
+    <h2>Quick Actions</h2>
+    <div class="actions-grid">
+      <a *ngFor="let action of quickActions" 
+         [routerLink]="action.route" 
+         class="action-card"
+         [style.--action-color]="getActionColor(action.color)">
+        <div class="action-icon">
+          <i [class]="action.icon"></i>
+        </div>
+        <span class="action-label">{{ action.label }}</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- This is where child components will be rendered -->
+  <div class="account-content">
+    <router-outlet></router-outlet>
+  </div>
+
+  <!-- Recent activity only when logged in -->
+  <div class="recent-activity" *ngIf="currentUser">
+    <h2>Recent Activity</h2>
+    <div class="activity-list">
+      <div *ngFor="let activity of recentActivity" class="activity-item">
+        <div class="activity-icon" [class]="'icon-' + activity.type">
+          <i [class]="getActivityIcon(activity.type)"></i>
+        </div>
+        <div class="activity-details">
+          <h4>{{ activity.title }}</h4>
+          <p>{{ activity.description }}</p>
+          <span class="activity-date">{{ activity.date }}</span>
+        </div>
+        <span class="activity-status" *ngIf="activity.status">{{ activity.status }}</span>
+      </div>
+    </div>
+  </div>
+</div>

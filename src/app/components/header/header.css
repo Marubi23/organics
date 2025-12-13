@@ -1071,3 +1071,616 @@
     font-size: 1.5rem;
   }
 }
+/* ============================================
+   ACCOUNT SLIDING PANEL STYLES
+ /* ============================================
+   ACCOUNT SLIDING PANEL STYLES - UPDATED
+   ============================================ */
+
+/* Account Panel Overlay */
+.account-panel-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1998;
+}
+
+.account-panel-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Account Panel */
+.account-panel {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 50%;
+  min-width: 500px;
+  max-width: 600px;
+  height: 100vh;
+  background: linear-gradient(135deg, rgba(16, 140, 26, 0.98) 0%, rgba(160, 81, 45, 0.95) 100%);
+  box-shadow: -10px 0 50px rgba(0, 0, 0, 0.5);
+  transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1999;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  border-left: 4px solid rgba(255, 215, 0, 0.6);
+  transform: translateZ(0);
+}
+
+.account-panel.active {
+  right: 0;
+}
+
+/* Make sure other overlays don't interfere */
+.search-overlay {
+  z-index: 2000;
+}
+
+.auth-modal-overlay {
+  z-index: 2001;
+}
+
+/* Panel Header */
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 30px;
+  background: linear-gradient(135deg, rgba(16, 140, 26, 0.95) 0%, rgba(160, 81, 45, 0.9) 100%);
+  border-bottom: 2px solid rgba(255, 215, 0, 0.5);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  backdrop-filter: blur(10px);
+}
+
+.user-info-large {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex: 1;
+}
+
+.user-avatar-large {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2d501c;
+  font-size: 2rem;
+  font-weight: 800;
+  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  flex-shrink: 0;
+}
+
+.user-details-large h3 {
+  margin: 0 0 8px 0;
+  color: #FFFFFF;
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.user-details-large p {
+  margin: 0 0 5px 0;
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.user-details-large small {
+  color: #FFD700;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.incomplete-profile {
+  color: #FFD700 !important;
+  background: rgba(255, 215, 0, 0.15);
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 215, 0, 0.4);
+  margin-top: 5px;
+  display: inline-block;
+}
+
+.panel-close-btn {
+  background: rgba(255, 255, 255, 0.15);
+  border: 2px solid rgba(255, 215, 0, 0.4);
+  color: #FFFFFF;
+  width: 45px;
+  height: 45px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  flex-shrink: 0;
+}
+
+.panel-close-btn:hover {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(255, 165, 0, 0.25));
+  transform: rotate(90deg);
+  border-color: rgba(255, 215, 0, 0.7);
+  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+}
+
+/* Panel Content */
+.panel-content {
+  flex: 1;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  overflow-y: auto;
+}
+
+/* Quick Actions */
+.quick-actions {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 15px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  border-radius: 12px;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  gap: 10px;
+  text-align: center;
+}
+
+.action-btn:hover {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(255, 165, 0, 0.25));
+  transform: translateY(-5px);
+  border-color: rgba(255, 215, 0, 0.6);
+  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);
+}
+
+.action-btn i {
+  font-size: 1.5rem;
+  color: #FFD700;
+}
+
+.action-btn span {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* Auth Section (for logged out users) */
+.auth-section {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 25px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.welcome-message h4 {
+  color: #FFD700;
+  margin: 0 0 10px 0;
+  font-size: 1.3rem;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.welcome-message p {
+  color: rgba(255, 255, 255, 0.95);
+  margin: 0 0 20px 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.auth-action-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.login-btn {
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  color: #2d501c;
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+}
+
+.signup-btn {
+  background: rgba(255, 255, 255, 0.15);
+  color: #FFFFFF;
+  border: 2px solid rgba(255, 215, 0, 0.6);
+}
+
+.auth-action-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+}
+
+.login-btn:hover {
+  background: linear-gradient(135deg, #FFA500, #FF8C00);
+}
+
+.signup-btn:hover {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.15));
+}
+
+.auth-benefits {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.benefit-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 0.9rem;
+}
+
+.benefit-item i {
+  color: #FFD700;
+  font-size: 0.9rem;
+}
+
+/* Account Stats */
+.account-stats {
+  display: flex;
+  justify-content: space-around;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 25px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-value {
+  color: #FFD700;
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 5px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.stat-label {
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* Settings Section */
+.settings-section h4 {
+  color: #FFD700;
+  margin: 0 0 15px 0;
+  font-size: 1.2rem;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.settings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.setting-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  border-radius: 12px;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+  backdrop-filter: blur(10px);
+  width: 100%;
+}
+
+.setting-item:hover {
+  background: linear-gradient(90deg, rgba(255, 215, 0, 0.2), transparent);
+  border-color: rgba(255, 215, 0, 0.5);
+  transform: translateX(10px);
+}
+
+.setting-item i:first-child {
+  color: #FFD700;
+  margin-right: 15px;
+  font-size: 1.1rem;
+  min-width: 20px;
+}
+
+.setting-item span {
+  flex: 1;
+  font-weight: 500;
+}
+
+.setting-item i:last-child {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+}
+
+/* Recent Activity */
+.recent-activity h4 {
+  color: #FFD700;
+  margin: 0 0 15px 0;
+  font-size: 1.2rem;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.activity-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+}
+
+.activity-item i {
+  color: #FFD700;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.activity-content {
+  flex: 1;
+}
+
+.activity-content span {
+  display: block;
+  color: #FFFFFF;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.activity-content small {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.85rem;
+}
+
+/* Panel Footer */
+.panel-footer {
+  margin-top: auto;
+  padding-top: 25px;
+  border-top: 2px solid rgba(255, 215, 0, 0.4);
+  text-align: center;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.footer-links a {
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.footer-links a:hover {
+  color: #FFD700;
+  background: rgba(255, 215, 0, 0.1);
+}
+
+.divider {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.app-version small {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.8rem;
+}
+
+/* Scrollbar Styling for Panel */
+.account-panel::-webkit-scrollbar {
+  width: 8px;
+}
+
+.account-panel::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.account-panel::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  border-radius: 4px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.account-panel::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #FFA500, #FF8C00);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .account-panel {
+    width: 60%;
+    min-width: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .account-panel {
+    width: 85%;
+    min-width: auto;
+    max-width: 85%;
+  }
+  
+  .panel-header {
+    padding: 20px;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .user-info-large {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+  }
+  
+  .user-avatar-large {
+    width: 70px;
+    height: 70px;
+    font-size: 1.8rem;
+  }
+  
+  .panel-content {
+    padding: 20px;
+  }
+  
+  .action-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .auth-buttons {
+    flex-direction: column;
+  }
+  
+  .auth-benefits {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .account-panel {
+    width: 95%;
+    max-width: 95%;
+  }
+  
+  .account-stats {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .footer-links {
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .divider {
+    display: none;
+  }
+}
+
+/* Animation for panel items */
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.account-panel.active .panel-content > * {
+  animation: slideInRight 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.account-panel.active .panel-content > *:nth-child(1) { animation-delay: 0.1s; }
+.account-panel.active .panel-content > *:nth-child(2) { animation-delay: 0.2s; }
+.account-panel.active .panel-content > *:nth-child(3) { animation-delay: 0.3s; }
+.account-panel.active .panel-content > *:nth-child(4) { animation-delay: 0.4s; }
+.account-panel.active .panel-content > *:nth-child(5) { animation-delay: 0.5s; }
+.account-panel.active .panel-content > *:nth-child(6) { animation-delay: 0.6s; }
+
+/* Ensure panel slides from right smoothly */
+@keyframes slideInFromRight {
+  from {
+    right: -100%;
+    opacity: 0;
+  }
+  to {
+    right: 0;
+    opacity: 1;
+  }
+}
+
+.account-panel.active {
+  animation: slideInFromRight 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Overlay fade in */
+@keyframes fadeInOverlay {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.account-panel-overlay.active {
+  animation: fadeInOverlay 0.3s ease;
+}

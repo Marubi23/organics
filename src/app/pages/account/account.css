@@ -1,0 +1,558 @@
+/* src/app/pages/account/account.css */
+.account-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Debug Info */
+.debug-info {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-family: monospace;
+  z-index: 10000;
+  border: 1px solid #444;
+  display: none; /* Hidden by default */
+}
+
+.debug-info div {
+  margin: 3px 0;
+}
+
+/* Loading Overlay */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.loading-content {
+  text-align: center;
+  padding: 40px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+.loading-content .spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #108c1a;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-content p {
+  color: #333;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+/* Header */
+.account-header {
+  background: linear-gradient(135deg, #108c1a 0%, #2d501c 100%);
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 30px;
+  color: white;
+  box-shadow: 0 10px 30px rgba(16, 140, 26, 0.2);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.user-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 800;
+  color: #2d501c;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.user-details h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.user-type {
+  margin: 5px 0 0 0;
+  opacity: 0.9;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.user-location {
+  margin-left: 15px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(0, 0, 0, 0.2);
+  padding: 4px 12px;
+  border-radius: 15px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.user-location i {
+  color: #FFD700;
+}
+
+.btn-logout {
+  padding: 12px 24px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.btn-logout:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Stats */
+.account-stats {
+  margin-bottom: 30px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 15px;
+  padding: 25px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+  border-color: #108c1a;
+}
+
+.stat-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: white;
+}
+
+.stat-icon.cart {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.stat-icon.orders {
+  background: linear-gradient(135deg, #2ed573, #1dd1a1);
+}
+
+.stat-icon.points {
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+}
+
+.stat-icon.farm {
+  background: linear-gradient(135deg, #a0512d, #d2691e);
+}
+
+.stat-content h3 {
+  margin: 0;
+  font-size: 2rem;
+  color: #2d501c;
+}
+
+.stat-content p {
+  margin: 5px 0 0 0;
+  color: #666;
+}
+
+/* Quick Actions */
+.quick-actions {
+  margin-bottom: 30px;
+}
+
+.quick-actions h2 {
+  color: #2d501c;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+}
+
+.action-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  cursor: pointer;
+  color: #333;
+}
+
+.action-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border-color: var(--action-color, #108c1a);
+  color: var(--action-color, #108c1a);
+}
+
+.action-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  background: var(--action-color, #108c1a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: white;
+}
+
+.action-label {
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Account Content */
+.account-content {
+  margin-bottom: 30px;
+  min-height: 400px;
+  padding: 30px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Recent Activity */
+.recent-activity h2 {
+  color: #2d501c;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.activity-list {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.activity-item {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #f0f0f0;
+  transition: all 0.3s ease;
+}
+
+.activity-item:last-child {
+  border-bottom: none;
+}
+
+.activity-item:hover {
+  background: #f8f9fa;
+}
+
+.activity-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: white;
+  margin-right: 20px;
+  flex-shrink: 0;
+}
+
+.icon-order .activity-icon {
+  background: linear-gradient(135deg, #2ed573, #1dd1a1);
+}
+
+.icon-view .activity-icon {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.icon-consultation .activity-icon {
+  background: linear-gradient(135deg, #2bcbba, #0fb9b1);
+}
+
+.icon-favorite .activity-icon {
+  background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+}
+
+.activity-details {
+  flex: 1;
+}
+
+.activity-details h4 {
+  margin: 0 0 5px 0;
+  color: #2d501c;
+  font-size: 1.1rem;
+}
+
+.activity-details p {
+  margin: 0 0 5px 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.activity-date {
+  color: #999;
+  font-size: 0.85rem;
+}
+
+.activity-status {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: rgba(46, 213, 115, 0.15);
+  color: #2ed573;
+}
+
+/* Public Navigation */
+.public-nav {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 20px 0;
+  border-top: 1px solid #e0e0e0;
+  margin-top: 40px;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.public-nav-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  padding: 0 20px;
+}
+
+.public-nav .nav-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #108c1a;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  background: white;
+}
+
+.public-nav .nav-link:hover {
+  background: rgba(16, 140, 26, 0.1);
+  border-color: #108c1a;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(16, 140, 26, 0.2);
+}
+
+.public-nav .nav-link.active {
+  background: #108c1a;
+  color: white;
+  border-color: #108c1a;
+}
+
+.public-nav .nav-link.active:hover {
+  background: #0a6b12;
+}
+
+.public-nav .nav-link i {
+  font-size: 18px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .user-info {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .actions-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .activity-item {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+  }
+  
+  .activity-icon {
+    margin-right: 0;
+  }
+  
+  .activity-status {
+    align-self: center;
+  }
+  
+  .public-nav-content {
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+  }
+  
+  .public-nav .nav-link {
+    width: 200px;
+    justify-content: center;
+  }
+  
+  .account-content {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .actions-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .public-nav .nav-link {
+    width: 100%;
+  }
+}
+
+/* Loading state for content */
+.account-content:empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+}
+
+.account-content:empty::after {
+  content: 'Loading...';
+  color: #666;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* Animation for page transitions */
+:host ::ng-deep router-outlet ~ * {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  animation: fadeIn 0.4s ease-out;
+}
+
+/* Ensure proper spacing for login/signup pages */
+.account-content > * {
+  width: 100%;
+}
+
+/* Make sure login/signup components have proper width */
+.account-content app-login,
+.account-content app-signup {
+  width: 100%;
+  display: block;
+}
+
+/* Additional styles for better UX */
+.account-container::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  z-index: -1;
+}

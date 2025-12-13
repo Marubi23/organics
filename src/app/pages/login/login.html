@@ -1,0 +1,167 @@
+<div class="horizontal-login">
+  <!-- Left Panel - Brand & Visual -->
+  <div class="left-panel">
+    <div class="brand-visual">
+      <!-- Animated Organic Pattern -->
+      <div class="organic-pattern">
+        <div class="leaf leaf-1"></div>
+        <div class="leaf leaf-2"></div>
+        <div class="leaf leaf-3"></div>
+        <div class="leaf leaf-4"></div>
+      </div>
+      
+      <!-- Logo -->
+      <div class="brand-logo">
+        <div class="logo-circle">
+          <img src="/images/mzuri.JPG" alt="Mzuri Organics" class="logo-image">
+        </div>
+        <div class="logo-text">
+          <h1 class="brand-name">Mzuri</h1>
+          <p class="brand-tag">ORGANICS</p>
+        </div>
+      </div>
+      
+      <!-- Welcome -->
+      <div class="welcome-card">
+        <h2 class="welcome-title">Welcome Back</h2>
+        <p class="welcome-subtitle">to Nature's Prosperity</p>
+        <div class="welcome-line"></div>
+        <p class="welcome-text">Sustainable farming, exceptional quality, shared prosperity</p>
+        
+        <div class="organic-badge">
+          <i class="fas fa-leaf"></i>
+          <span>100% Organic Certified</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Panel - Login Form -->
+  <div class="right-panel">
+    <div class="login-form-container">
+      <!-- Form Header -->
+      <div class="form-header">
+        <h2 class="form-title">Welcome Back Customer</h2>
+
+      </div>
+
+      <!-- Messages -->
+      <div *ngIf="errorMessage" class="message-box error">
+        <i class="fas fa-exclamation-triangle"></i>
+        <span>{{ errorMessage }}</span>
+      </div>
+
+      <div *ngIf="successMessage" class="message-box success">
+        <i class="fas fa-check-circle"></i>
+        <span>{{ successMessage }}</span>
+      </div>
+
+      <!-- Form -->
+      <form (ngSubmit)="onLogin()" #loginForm="ngForm" class="horizontal-form">
+        <div class="form-row">
+          <div class="form-field">
+            <label class="field-label">
+              <i class="fas fa-phone field-icon"></i>
+              Phone Number
+            </label>
+            <div class="phone-input">
+              <span class="country-code">+254</span>
+              <input 
+                type="tel" 
+                name="phoneNumber"
+                [(ngModel)]="loginData.phoneNumber"
+                placeholder="712 345 678"
+                required
+                pattern="[0-9]{9}"
+                maxlength="12"
+                [disabled]="isLoading"
+                (input)="formatPhoneNumber($event)"
+                class="input-field"
+              >
+            </div>
+            <p class="field-hint">9-digit Safaricom/Airtel/Telkom number</p>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-field">
+            <div class="field-header">
+              <label class="field-label">
+                <i class="fas fa-lock field-icon"></i>
+                Password
+              </label>
+              <button type="button" class="text-link" (click)="resetPassword()">
+                Forgot password?
+              </button>
+            </div>
+            <div class="password-input">
+              <input 
+                [type]="showPassword ? 'text' : 'password'" 
+                name="password"
+                [(ngModel)]="loginData.password"
+                placeholder="Enter your password"
+                required
+                minlength="8"
+                [disabled]="isLoading"
+                class="input-field"
+              >
+              <button 
+                type="button" 
+                class="password-toggle"
+                (click)="togglePassword()"
+                [disabled]="isLoading"
+              >
+                <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-options">
+          <label class="checkbox">
+            <input 
+              type="checkbox" 
+              name="rememberMe"
+              [(ngModel)]="loginData.rememberMe"
+              [disabled]="isLoading"
+            >
+            <span class="check"></span>
+            <span class="option-text">Keep me signed in</span>
+          </label>
+        </div>
+
+        <!-- Side-by-side Buttons -->
+        <div class="side-by-side-buttons">
+          <button 
+            type="submit" 
+            class="login-btn signin-btn"
+            [disabled]="loginForm.invalid || isLoading"
+            [class.loading]="isLoading"
+          >
+            <span class="btn-content">
+              <i class="fas fa-sign-in-alt"></i>
+              <span class="btn-text">Sign In</span>
+            </span>
+          </button>
+
+          <div class="divider">
+            <span>or</span>
+          </div>
+
+          <a routerLink="/account/signup" class="login-btn create-btn">
+            <span class="btn-content">
+              <i class="fas fa-user-plus"></i>
+              <span class="btn-text">Create Account</span>
+            </span>
+          </a>
+        </div>
+
+        <!-- Demo Note -->
+        <div class="demo-note">
+          <i class="fas fa-info-circle"></i>
+          <p>Demo: Use any 9-digit number + any password to sign in</p>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

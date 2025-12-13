@@ -1,0 +1,347 @@
+<div class="profile-container">
+  <!-- Header -->
+  <div class="profile-header">
+    <div class="header-content">
+      <h1>My Profile</h1>
+      <p>Manage your personal information and preferences</p>
+    </div>
+    <button class="btn-edit" (click)="toggleEdit()" *ngIf="!editMode">
+      <i class="fas fa-edit"></i> Edit Profile
+    </button>
+    <div class="edit-actions" *ngIf="editMode">
+      <button class="btn-cancel" (click)="toggleEdit()">
+        <i class="fas fa-times"></i> Cancel
+      </button>
+      <button class="btn-save" (click)="onSaveProfile()" [disabled]="isLoading">
+        <i class="fas fa-save"></i> Save Changes
+      </button>
+    </div>
+  </div>
+
+  <!-- Messages -->
+  <div *ngIf="errorMessage" class="alert alert-error">
+    <i class="fas fa-exclamation-circle"></i>
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="successMessage" class="alert alert-success">
+    <i class="fas fa-check-circle"></i>
+    {{ successMessage }}
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-overlay">
+    <div class="spinner"></div>
+    <p>Saving changes...</p>
+  </div>
+
+  <!-- Profile Overview -->
+  <div class="profile-overview">
+    <div class="profile-avatar">
+      <div class="avatar-circle">
+        {{ getUserInitials() }}
+      </div>
+      <div class="avatar-status">
+        <span class="status-badge verified" *ngIf="currentUser?.verified">
+          <i class="fas fa-check-circle"></i> Verified
+        </span>
+        <span class="status-badge farmer" *ngIf="authService.isFarmer()">
+          <i class="fas fa-tractor"></i> Farmer
+        </span>
+      </div>
+    </div>
+    <div class="profile-info">
+      <h2>{{ currentUser?.fullName }}</h2>
+      <div class="profile-meta">
+        <span class="meta-item">
+          <i class="fas fa-phone"></i> {{ currentUser?.phoneNumber }}
+        </span>
+        <span class="meta-item">
+          <i class="fas fa-envelope"></i> {{ currentUser?.email || 'No email added' }}
+        </span>
+        <span class="meta-item">
+          <i class="fas fa-map-marker-alt"></i> {{ getLocationSummary() }}
+        </span>
+        <span class="meta-item">
+          <i class="fas fa-user-tag"></i> {{ getUserTypeDisplay() }}
+        </span>
+      </div>
+      <div class="profile-stats">
+        <div class="stat">
+          <strong>0</strong>
+          <span>Orders</span>
+        </div>
+        <div class="stat">
+          <strong>100</strong>
+          <span>Points</span>
+        </div>
+        <div class="stat">
+          <strong>1</strong>
+          <span>Years</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Form -->
+  <div class="profile-form" *ngIf="editMode">
+    <div class="form-section">
+      <h3><i class="fas fa-user-circle"></i> Personal Information</h3>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="fullName">Full Name *</label>
+          <input 
+            type="text" 
+            id="fullName"
+            [(ngModel)]="profileForm.fullName"
+            [disabled]="!editMode"
+            placeholder="Enter your full name"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="phoneNumber">Phone Number</label>
+          <input 
+            type="tel" 
+            id="phoneNumber"
+            [(ngModel)]="profileForm.phoneNumber"
+            disabled
+            placeholder="Phone number"
+          >
+          <small class="input-hint">Contact support to change phone number</small>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input 
+            type="email" 
+            id="email"
+            [(ngModel)]="profileForm.email"
+            [disabled]="!editMode"
+            placeholder="your.email@example.com"
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- Location Section -->
+    <div class="form-section">
+      <h3><i class="fas fa-map-marked-alt"></i> Location Details</h3>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="county">County *</label>
+          <select 
+            id="county"
+            [(ngModel)]="profileForm.county"
+            [disabled]="!editMode"
+          >
+            <option value="">Select county</option>
+            <option *ngFor="let county of kenyanCounties" [value]="county">
+              {{ county }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="subCounty">Sub-County *</label>
+          <input 
+            type="text" 
+            id="subCounty"
+            [(ngModel)]="profileForm.subCounty"
+            [disabled]="!editMode"
+            placeholder="Enter sub-county"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="ward">Ward *</label>
+          <input 
+            type="text" 
+            id="ward"
+            [(ngModel)]="profileForm.ward"
+            [disabled]="!editMode"
+            placeholder="Enter ward"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="village">Village / Estate</label>
+          <input 
+            type="text" 
+            id="village"
+            [(ngModel)]="profileForm.village"
+            [disabled]="!editMode"
+            placeholder="Enter village or estate"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="nearestTown">Nearest Town *</label>
+          <input 
+            type="text" 
+            id="nearestTown"
+            [(ngModel)]="profileForm.nearestTown"
+            [disabled]="!editMode"
+            placeholder="Nearest town for delivery"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="landmark">Landmark</label>
+          <textarea 
+            id="landmark"
+            [(ngModel)]="profileForm.landmark"
+            [disabled]="!editMode"
+            placeholder="Helpful landmarks for delivery"
+            rows="3"
+          ></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Farmer Details Section -->
+    <div class="form-section" *ngIf="authService.isFarmer()">
+      <h3><i class="fas fa-tractor"></i> Farm Details</h3>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="farmSize">Farm Size (Acres)</label>
+          <input 
+            type="number" 
+            id="farmSize"
+            [(ngModel)]="profileForm.farmSize"
+            [disabled]="!editMode"
+            placeholder="e.g., 2.5"
+            step="0.1"
+            min="0"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="farmingExperience">Farming Experience</label>
+          <select 
+            id="farmingExperience"
+            [(ngModel)]="profileForm.farmingExperience"
+            [disabled]="!editMode"
+          >
+            <option value="">Select experience</option>
+            <option value="1">Less than 1 year</option>
+            <option value="2">1-2 years</option>
+            <option value="5">3-5 years</option>
+            <option value="10">5-10 years</option>
+            <option value="20">10+ years</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Crops Selection -->
+      <div class="selection-section">
+        <h4>Main Crops Grown</h4>
+        <div class="selection-grid">
+          <div *ngFor="let crop of commonCrops" 
+               class="selection-item"
+               [class.selected]="profileForm.mainCrops.includes(crop)"
+               (click)="toggleCrop(crop)">
+            <i class="fas fa-check" *ngIf="profileForm.mainCrops.includes(crop)"></i>
+            <i class="fas fa-seedling" *ngIf="!profileForm.mainCrops.includes(crop)"></i>
+            <span>{{ crop }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Livestock Selection -->
+      <div class="selection-section">
+        <h4>Livestock Kept</h4>
+        <div class="selection-grid">
+          <div *ngFor="let animal of commonLivestock" 
+               class="selection-item"
+               [class.selected]="profileForm.livestock.includes(animal)"
+               (click)="toggleLivestock(animal)">
+            <i class="fas fa-check" *ngIf="profileForm.livestock.includes(animal)"></i>
+            <i class="fas fa-paw" *ngIf="!profileForm.livestock.includes(animal)"></i>
+            <span>{{ animal }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Business Details (for non-farmers) -->
+    <div class="form-section" *ngIf="!authService.isFarmer()">
+      <h3><i class="fas fa-briefcase"></i> Business Details</h3>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="businessName">Business Name</label>
+          <input 
+            type="text" 
+            id="businessName"
+            [(ngModel)]="profileForm.businessName"
+            [disabled]="!editMode"
+            placeholder="Your business name"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="businessType">Business Type</label>
+          <input 
+            type="text" 
+            id="businessType"
+            [(ngModel)]="profileForm.businessType"
+            [disabled]="!editMode"
+            placeholder="Type of business"
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Account Security -->
+  <div class="security-section">
+    <h3><i class="fas fa-shield-alt"></i> Account Security</h3>
+    <div class="security-options">
+      <div class="security-item">
+        <div class="security-info">
+          <h4>Change Password</h4>
+          <p>Update your password regularly for security</p>
+        </div>
+        <button class="btn-security">
+          <i class="fas fa-key"></i> Change Password
+        </button>
+      </div>
+
+      <div class="security-item">
+        <div class="security-info">
+          <h4>Two-Factor Authentication</h4>
+          <p>Add an extra layer of security with SMS verification</p>
+        </div>
+        <button class="btn-security">
+          <i class="fas fa-mobile-alt"></i> Enable 2FA
+        </button>
+      </div>
+
+      <div class="security-item">
+        <div class="security-info">
+          <h4>Login Activity</h4>
+          <p>View recent login attempts and devices</p>
+        </div>
+        <button class="btn-security">
+          <i class="fas fa-history"></i> View Activity
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Danger Zone -->
+  <div class="danger-zone">
+    <h3><i class="fas fa-exclamation-triangle"></i> Danger Zone</h3>
+    <div class="danger-actions">
+      <div class="danger-item">
+        <div class="danger-info">
+          <h4>Delete Account</h4>
+          <p>Permanently delete your account and all data</p>
+        </div>
+        <button class="btn-danger">
+          <i class="fas fa-trash-alt"></i> Delete Account
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

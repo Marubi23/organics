@@ -10,7 +10,8 @@
       
       <!-- Navigation Links -->
       <div class="nav-links">
-        <a routerLink="/home" class="nav-link">
+        <!-- Fixed Home link with event propagation prevention -->
+        <a routerLink="/home" class="nav-link" (click)="$event.stopPropagation()">
           <i class="fas fa-home"></i> Home
         </a>
 
@@ -20,16 +21,16 @@
             <i class="fas fa-info-circle"></i> About Us
           </a>
           <div class="dropdown-menu">
-            <a routerLink="/about" class="dropdown-item">
+            <a routerLink="/about" class="dropdown-item" (click)="$event.stopPropagation()">
               <i class="fas fa-eye"></i> Overview
             </a>
-            <a routerLink="/about" fragment="mission-vision" class="dropdown-item">
+            <a routerLink="/about" fragment="mission-vision" class="dropdown-item" (click)="$event.stopPropagation()">
               <i class="fas fa-bullseye"></i> Mission & Vision
             </a>
-            <a routerLink="/blog" class="dropdown-item">
+            <a routerLink="/blog" class="dropdown-item" (click)="$event.stopPropagation()">
               <i class="fas fa-users"></i> Blog
             </a>
-              <a routerLink="/faq" class="dropdown-item">
+            <a routerLink="/faq" class="dropdown-item" (click)="$event.stopPropagation()">
               <i class="fas fa-users"></i> Faq
             </a>
           </div>
@@ -40,18 +41,18 @@
             <i class="fas fa-hands-helping"></i> What We Do
           </a>
           <div class="dropdown-menu">
-            <a routerLink="/challenges" class="dropdown-item">
+            <a routerLink="/challenges" class="dropdown-item" (click)="$event.stopPropagation()">
               <i class="fas fa-exclamation-triangle"></i> The Problems
             </a>
             <div class="dropdown-divider"></div>
             <span class="dropdown-header">OUR SOLUTIONS</span>
-            <a routerLink="/what-we-do" fragment="circular-model" class="dropdown-item">
+            <a routerLink="/what-we-do" fragment="circular-model" class="dropdown-item" (click)="$event.stopPropagation()">
               <i class="fas fa-recycle"></i> Our Circular Model
             </a>
-            <a routerLink="/what-we-do" fragment="prefarm-initiative" class="dropdown-item">
+            <a routerLink="/what-we-do" fragment="prefarm-initiative" class="dropdown-item" (click)="$event.stopPropagation()">
               <i class="fas fa-tachometer-alt"></i> PREFarm Initiative
             </a>
-            <a routerLink="/what-we-do" fragment="regen-kilimo" class="dropdown-item">
+            <a routerLink="/what-we-do" fragment="regen-kilimo" class="dropdown-item" (click)="$event.stopPropagation()">
               <i class="fas fa-seedling"></i> Regen-Kilimo Initiative
             </a>
           </div>
@@ -62,13 +63,13 @@
             <i class="fas fa-box-open"></i> Products
           </a>
           <div class="dropdown-menu">
-            <a routerLink="/products" class="dropdown-item">
+            <a routerLink="/products" class="dropdown-item" (click)="$event.stopPropagation()">
               <i class="fas fa-vial"></i> Organic Biofertilizers
             </a>
-            <a routerLink="/products" class="dropdown-item">
+            <a routerLink="/products" class="dropdown-item" (click)="$event.stopPropagation()">
               <i class="fas fa-paw"></i> Insect-Based Protein Feeds
             </a>
-            <a routerLink="/products" class="dropdown-item">
+            <a routerLink="/products" class="dropdown-item" (click)="$event.stopPropagation()">
               <i class="fas fa-shopping-bag"></i> Shop All Products
             </a>
           </div>
@@ -81,70 +82,85 @@
           </a>
           <div class="dropdown-menu">
             <!-- Overview -->
-            <a routerLink="/impacts" class="dropdown-item">
+            <a routerLink="/impacts" class="dropdown-item" (click)="$event.stopPropagation()">
               <i class="fas fa-chart-bar"></i> Overview
             </a>
             
             <!-- Key Metrics - Scrolls to metrics section -->
-            <a routerLink="/impacts" (click)="scrollToSection('metrics')" class="dropdown-item">
+            <a routerLink="/impacts" (click)="scrollToSection('metrics'); $event.stopPropagation()" class="dropdown-item">
               <i class="fas fa-chart-pie"></i> Key Metrics
             </a>
             
             <!-- Outcomes & Results - Scrolls to outcomes section -->
-            <a routerLink="/impacts" (click)="scrollToSection('outcomes')" class="dropdown-item">
+            <a routerLink="/impacts" (click)="scrollToSection('outcomes'); $event.stopPropagation()" class="dropdown-item">
               <i class="fas fa-check-circle"></i> Outcomes & Results
             </a>
             
             <!-- SDG Alignment - Scrolls to sdg section -->
-            <a routerLink="/impacts" (click)="scrollToSection('sdg')" class="dropdown-item">
+            <a routerLink="/impacts" (click)="scrollToSection('sdg'); $event.stopPropagation()" class="dropdown-item">
               <i class="fas fa-globe-africa"></i> SDG Alignment
             </a>
             
             <!-- Success Stories - Scrolls to stories section -->
-            <a routerLink="/impacts" (click)="scrollToSection('stories')" class="dropdown-item">
+            <a routerLink="/impacts" (click)="scrollToSection('stories'); $event.stopPropagation()" class="dropdown-item">
               <i class="fas fa-book-open"></i> Success Stories
             </a>
             
             <!-- Environmental Impact - Scrolls to environmental section -->
-            <a routerLink="/impacts" (click)="scrollToSection('environmental')" class="dropdown-item">
+            <a routerLink="/impacts" (click)="scrollToSection('environmental'); $event.stopPropagation()" class="dropdown-item">
               <i class="fas fa-leaf"></i> Environmental Impact
             </a>
             
             <!-- Future Goals - Scrolls to goals section -->
-            <a routerLink="/impacts" (click)="scrollToSection('goals')" class="dropdown-item">
+            <a routerLink="/impacts" (click)="scrollToSection('goals'); $event.stopPropagation()" class="dropdown-item">
               <i class="fas fa-flag"></i> Future Goals
             </a>
             
             <!-- Get Involved - Scrolls to cta section -->
-            <a routerLink="/impacts" (click)="scrollToSection('cta')" class="dropdown-item">
+            <a routerLink="/impacts" (click)="scrollToSection('cta'); $event.stopPropagation()" class="dropdown-item">
               <i class="fas fa-handshake"></i> Get Involved
             </a>
           </div>
         </div>
 
-        <a routerLink="/contact" class="nav-link">
+        <a routerLink="/contact" class="nav-link" (click)="$event.stopPropagation()">
           <i class="fas fa-envelope"></i> Contact Us
         </a>
       </div>
 
       <!-- Right Section -->
       <div class="nav-right">
-        <button class="icon-btn search-btn" (click)="openSearch()">
+        <button class="icon-btn search-btn" (click)="openSearch(); $event.stopPropagation()">
           <i class="fas fa-search"></i>
         </button>
         
-        <button class="icon-btn cart-btn" (click)="toggleCart()">
+        <button class="icon-btn cart-btn" (click)="toggleCart(); $event.stopPropagation()">
           <i class="fas fa-shopping-cart"></i>
           <span class="cart-badge" *ngIf="cartCount > 0">{{ cartCount }}</span>
         </button>
         
-        <button class="icon-btn auth-btn">
-          <i class="fas fa-user-circle"></i>
-          <span class="btn-text">Account</span>
-        </button>
+        <!-- Simple Account Button - Navigates to account page -->
+        <div class="user-dropdown">
+          <ng-container *ngIf="currentUser; else loginButton">
+            <button class="icon-btn auth-btn" routerLink="/account" (click)="$event.stopPropagation()">
+              <div class="user-avatar-small">
+                {{ getUserInitials() }}
+              </div>
+              <span class="btn-text">{{ getUserFirstName() }}</span>
+            </button>
+          </ng-container>
+          
+          <ng-template #loginButton>
+            <!-- FIXED: Changed routerLink from "/login" to "/account" -->
+            <button class="icon-btn auth-btn" routerLink="/account" (click)="$event.stopPropagation()">
+              <i class="fas fa-user-circle"></i>
+              <span class="btn-text">Account</span>
+            </button>
+          </ng-template>
+        </div>
 
         <!-- Hamburger Menu Button -->
-        <button class="hamburger-menu" (click)="toggleMobileMenu()">
+        <button class="hamburger-menu" (click)="toggleMobileMenu(); $event.stopPropagation()">
           <span></span>
           <span></span>
           <span></span>
@@ -159,51 +175,51 @@
   <!-- Mobile Menu -->
   <div class="mobile-menu" [class.active]="isMobileMenuOpen">
     <div class="mobile-nav-links">
-      <a routerLink="/home" class="mobile-nav-link" (click)="toggleMobileMenu()">
+      <a routerLink="/home" class="mobile-nav-link" (click)="toggleMobileMenu(); $event.stopPropagation()">
         <i class="fas fa-home"></i> Home
       </a>
 
       <!-- Mobile About Us Dropdown -->
       <div class="mobile-dropdown">
-        <button class="mobile-dropdown-toggle" (click)="toggleMobileDropdown($event)">
+        <button class="mobile-dropdown-toggle" (click)="toggleMobileDropdown($event); $event.stopPropagation()">
           <i class="fas fa-info-circle"></i> About Us
           <span class="dropdown-arrow">⌄</span>
         </button>
         <div class="mobile-dropdown-menu">
-          <a routerLink="/about" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
+          <a routerLink="/about" class="mobile-dropdown-item" (click)="toggleMobileMenu(); $event.stopPropagation()">
             <i class="fas fa-eye"></i> Overview
           </a>
-          <a routerLink="/about" fragment="mission-vision" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
+          <a routerLink="/about" fragment="mission-vision" class="mobile-dropdown-item" (click)="toggleMobileMenu(); $event.stopPropagation()">
             <i class="fas fa-bullseye"></i> Mission & Vision
           </a>
-          <a routerLink="/blog" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
+          <a routerLink="/blog" class="mobile-dropdown-item" (click)="toggleMobileMenu(); $event.stopPropagation()">
             <i class="fas fa-users"></i> Blog
           </a>
-           <a routerLink="/faq" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
+          <a routerLink="/faq" class="mobile-dropdown-item" (click)="toggleMobileMenu(); $event.stopPropagation()">
             <i class="fas fa-users"></i> Faq
-            </a>
+          </a>
         </div>
       </div>
 
       <!-- Mobile What We Do Dropdown -->
       <div class="mobile-dropdown">
-        <button class="mobile-dropdown-toggle" (click)="toggleMobileDropdown($event)">
+        <button class="mobile-dropdown-toggle" (click)="toggleMobileDropdown($event); $event.stopPropagation()">
           <i class="fas fa-hands-helping"></i> What We Do
           <span class="dropdown-arrow">⌄</span>
         </button>
         <div class="mobile-dropdown-menu">
-          <a routerLink="/challenges" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
+          <a routerLink="/challenges" class="mobile-dropdown-item" (click)="toggleMobileMenu(); $event.stopPropagation()">
             <i class="fas fa-exclamation-triangle"></i> The Problems
           </a>
           <div class="mobile-dropdown-divider"></div>
           <span class="mobile-dropdown-header">OUR SOLUTIONS</span>
-          <a routerLink="/what-we-do" fragment="circular-model" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
+          <a routerLink="/what-we-do" fragment="circular-model" class="mobile-dropdown-item" (click)="toggleMobileMenu(); $event.stopPropagation()">
             <i class="fas fa-recycle"></i> Our Circular Model
           </a>
-          <a routerLink="/what-we-do" fragment="prefarm-initiative" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
+          <a routerLink="/what-we-do" fragment="prefarm-initiative" class="mobile-dropdown-item" (click)="toggleMobileMenu(); $event.stopPropagation()">
             <i class="fas fa-tachometer-alt"></i> PREFarm Initiative
           </a>
-          <a routerLink="/what-we-do" fragment="regen-kilimo" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
+          <a routerLink="/what-we-do" fragment="regen-kilimo" class="mobile-dropdown-item" (click)="toggleMobileMenu(); $event.stopPropagation()">
             <i class="fas fa-seedling"></i> Regen-Kilimo Initiative
           </a>
         </div>
@@ -211,18 +227,18 @@
 
       <!-- Mobile Products Dropdown -->
       <div class="mobile-dropdown">
-        <button class="mobile-dropdown-toggle" (click)="toggleMobileDropdown($event)">
+        <button class="mobile-dropdown-toggle" (click)="toggleMobileDropdown($event); $event.stopPropagation()">
           <i class="fas fa-box-open"></i> Products
           <span class="dropdown-arrow">⌄</span>
         </button>
         <div class="mobile-dropdown-menu">
-          <a routerLink="/products" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
+          <a routerLink="/products" class="mobile-dropdown-item" (click)="toggleMobileMenu(); $event.stopPropagation()">
             <i class="fas fa-vial"></i> Organic Biofertilizers
           </a>
-          <a routerLink="/products" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
+          <a routerLink="/products" class="mobile-dropdown-item" (click)="toggleMobileMenu(); $event.stopPropagation()">
             <i class="fas fa-paw"></i> Insect-Based Protein Feeds
           </a>
-          <a routerLink="/products" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
+          <a routerLink="/products" class="mobile-dropdown-item" (click)="toggleMobileMenu(); $event.stopPropagation()">
             <i class="fas fa-shopping-bag"></i> Shop All Products
           </a>
         </div>
@@ -230,72 +246,96 @@
 
       <!-- Mobile Impact Dropdown with Scroll Targets -->
       <div class="mobile-dropdown">
-        <button class="mobile-dropdown-toggle" (click)="toggleMobileDropdown($event)">
+        <button class="mobile-dropdown-toggle" (click)="toggleMobileDropdown($event); $event.stopPropagation()">
           <i class="fas fa-chart-line"></i> Impact
           <span class="dropdown-arrow">⌄</span>
         </button>
         <div class="mobile-dropdown-menu">
           <!-- Overview -->
-          <a routerLink="/impacts" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
+          <a routerLink="/impacts" class="mobile-dropdown-item" (click)="toggleMobileMenu(); $event.stopPropagation()">
             <i class="fas fa-chart-bar"></i> Overview
           </a>
           
           <!-- Key Metrics - Scrolls to metrics section -->
-          <a routerLink="/impacts" (click)="scrollToSection('metrics'); toggleMobileMenu()" class="mobile-dropdown-item">
+          <a routerLink="/impacts" (click)="scrollToSection('metrics'); toggleMobileMenu(); $event.stopPropagation()" class="mobile-dropdown-item">
             <i class="fas fa-chart-pie"></i> Key Metrics
           </a>
           
           <!-- Outcomes & Results - Scrolls to outcomes section -->
-          <a routerLink="/impacts" (click)="scrollToSection('outcomes'); toggleMobileMenu()" class="mobile-dropdown-item">
+          <a routerLink="/impacts" (click)="scrollToSection('outcomes'); toggleMobileMenu(); $event.stopPropagation()" class="mobile-dropdown-item">
             <i class="fas fa-check-circle"></i> Outcomes & Results
           </a>
           
           <!-- SDG Alignment - Scrolls to sdg section -->
-          <a routerLink="/impacts" (click)="scrollToSection('sdg'); toggleMobileMenu()" class="mobile-dropdown-item">
+          <a routerLink="/impacts" (click)="scrollToSection('sdg'); toggleMobileMenu(); $event.stopPropagation()" class="mobile-dropdown-item">
             <i class="fas fa-globe-africa"></i> SDG Alignment
           </a>
           
           <!-- Success Stories - Scrolls to stories section -->
-          <a routerLink="/impacts" (click)="scrollToSection('stories'); toggleMobileMenu()" class="mobile-dropdown-item">
+          <a routerLink="/impacts" (click)="scrollToSection('stories'); toggleMobileMenu(); $event.stopPropagation()" class="mobile-dropdown-item">
             <i class="fas fa-book-open"></i> Success Stories
           </a>
           
           <!-- Environmental Impact - Scrolls to environmental section -->
-          <a routerLink="/impacts" (click)="scrollToSection('environmental'); toggleMobileMenu()" class="mobile-dropdown-item">
+          <a routerLink="/impacts" (click)="scrollToSection('environmental'); toggleMobileMenu(); $event.stopPropagation()" class="mobile-dropdown-item">
             <i class="fas fa-leaf"></i> Environmental Impact
           </a>
           
           <!-- Future Goals - Scrolls to goals section -->
-          <a routerLink="/impacts" (click)="scrollToSection('goals'); toggleMobileMenu()" class="mobile-dropdown-item">
+          <a routerLink="/impacts" (click)="scrollToSection('goals'); toggleMobileMenu(); $event.stopPropagation()" class="mobile-dropdown-item">
             <i class="fas fa-flag"></i> Future Goals
           </a>
           
           <!-- Get Involved - Scrolls to cta section -->
-          <a routerLink="/impacts" (click)="scrollToSection('cta'); toggleMobileMenu()" class="mobile-dropdown-item">
+          <a routerLink="/impacts" (click)="scrollToSection('cta'); toggleMobileMenu(); $event.stopPropagation()" class="mobile-dropdown-item">
             <i class="fas fa-handshake"></i> Get Involved
           </a>
         </div>
       </div>
 
-      <a routerLink="/contact" class="mobile-nav-link" (click)="toggleMobileMenu()">
+      <a routerLink="/contact" class="mobile-nav-link" (click)="toggleMobileMenu(); $event.stopPropagation()">
         <i class="fas fa-envelope"></i> Contact Us
       </a>
     </div>
 
     <!-- Mobile Right Section -->
     <div class="mobile-nav-right">
-      <button class="mobile-nav-btn search-btn" (click)="openSearch(); toggleMobileMenu()">
+      <button class="mobile-nav-btn search-btn" (click)="openSearch(); toggleMobileMenu(); $event.stopPropagation()">
         <i class="fas fa-search"></i> Search
       </button>
       
-      <button class="mobile-nav-btn cart-btn" (click)="toggleCart(); toggleMobileMenu()">
+      <button class="mobile-nav-btn cart-btn" (click)="toggleCart(); toggleMobileMenu(); $event.stopPropagation()">
         <i class="fas fa-shopping-cart"></i> Cart
         <span class="mobile-cart-badge" *ngIf="cartCount > 0">{{ cartCount }}</span>
       </button>
       
-      <button class="mobile-auth-btn" (click)="toggleMobileMenu()">
-        <i class="fas fa-user-circle"></i> Account
-      </button>
+      <!-- Mobile Account Button -->
+      <ng-container *ngIf="currentUser; else mobileLoginButton">
+        <div class="mobile-auth-section">
+          <div class="mobile-user-info">
+            <div class="mobile-user-avatar">
+              {{ getUserInitials() }}
+            </div>
+            <div class="mobile-user-details">
+              <h4>{{ currentUser?.fullName }}</h4>
+              <p>{{ currentUser?.phoneNumber }}</p>
+            </div>
+          </div>
+          <div class="mobile-auth-buttons">
+            <!-- FIXED: Ensure this links to /account -->
+            <button class="mobile-auth-btn" routerLink="/account" (click)="toggleMobileMenu(); $event.stopPropagation()">
+              <i class="fas fa-user"></i> Account Dashboard
+            </button>
+          </div>
+        </div>
+      </ng-container>
+      
+      <ng-template #mobileLoginButton>
+        <!-- FIXED: Changed routerLink from "/account" to "/account" (it was correct, but keeping consistent) -->
+        <button class="mobile-auth-btn" routerLink="/account" (click)="toggleMobileMenu(); $event.stopPropagation()">
+          <i class="fas fa-user-circle"></i> Account / Login
+        </button>
+      </ng-template>
     </div>
   </div>
 
@@ -307,7 +347,7 @@
     <div class="search-container">
       <div class="search-header">
         <h3>Search Mzuri Organics</h3>
-        <button class="search-close-btn" (click)="closeSearch()">
+        <button class="search-close-btn" (click)="closeSearch(); $event.stopPropagation()">
           <i class="fas fa-times"></i>
         </button>
       </div>
@@ -320,8 +360,9 @@
           class="search-input"
           (input)="onSearchInput($event)"
           (keyup.enter)="performSearch()"
+          (click)="$event.stopPropagation()"
         />
-        <button class="search-submit-btn" (click)="performSearch()">
+        <button class="search-submit-btn" (click)="performSearch(); $event.stopPropagation()">
           <i class="fas fa-search"></i>
         </button>
       </div>
@@ -330,7 +371,7 @@
       <div class="search-results" *ngIf="searchResults.length > 0">
         <div class="search-result-item" 
              *ngFor="let result of searchResults" 
-             (click)="navigateToSearchResult(result)">
+             (click)="navigateToSearchResult(result); $event.stopPropagation()">
           <div class="result-icon">
             <i [class]="getResultIcon(result.category)"></i>
           </div>
@@ -349,14 +390,14 @@
       <div class="popular-searches" *ngIf="searchTerm === ''">
         <h4>Popular Kenyan Products</h4>
         <div class="popular-tags">
-          <span class="tag" (click)="searchByTag('NPK')">NPK Fertilizers</span>
-          <span class="tag" (click)="searchByTag('BSF')">BSF Larvae</span>
-          <span class="tag" (click)="searchByTag('Urea')">Urea Plus</span>
-          <span class="tag" (click)="searchByTag('Growing Media')">Growing Media</span>
-          <span class="tag" (click)="searchByTag('Protein')">Protein Feeds</span>
-          <span class="tag" (click)="searchByTag('Worms')">Red Wigglers</span>
-          <span class="tag" (click)="searchByTag('Avocados')">Avocados</span>
-          <span class="tag" (click)="searchByTag('Kale')">Kale</span>
+          <span class="tag" (click)="searchByTag('NPK'); $event.stopPropagation()">NPK Fertilizers</span>
+          <span class="tag" (click)="searchByTag('BSF'); $event.stopPropagation()">BSF Larvae</span>
+          <span class="tag" (click)="searchByTag('Urea'); $event.stopPropagation()">Urea Plus</span>
+          <span class="tag" (click)="searchByTag('Growing Media'); $event.stopPropagation()">Growing Media</span>
+          <span class="tag" (click)="searchByTag('Protein'); $event.stopPropagation()">Protein Feeds</span>
+          <span class="tag" (click)="searchByTag('Worms'); $event.stopPropagation()">Red Wigglers</span>
+          <span class="tag" (click)="searchByTag('Avocados'); $event.stopPropagation()">Avocados</span>
+          <span class="tag" (click)="searchByTag('Kale'); $event.stopPropagation()">Kale</span>
         </div>
       </div>
 

@@ -9,24 +9,29 @@ import { ImpactComponent } from './components/impacts/impacts';
 import { CartComponent } from './pages/cart/cart';
 import { TestimonialsComponent } from './components/testimonials/testimonials';
 import { BlogComponent } from './components/blog/blog';
-import {ProblemsComponent} from './components/problems/problems';
+import { ProblemsComponent } from './components/problems/problems';
 import { FaqComponent } from './components/faq/faq';
-import path from 'path';
+// REMOVE: import { LoginComponent } from './pages/login/login'; // Remove this
+
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
-  {path: 'challenges', component: ProblemsComponent},
-  { path: 'shop', component: HomeComponent }, // or create a separate ShopComponent if needed
+  { path: 'challenges', component: ProblemsComponent },
+  { path: 'shop', component: HomeComponent },
   { path: 'about', component: AboutComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'products', component: ProductsComponent },
   { path: 'what-we-do', component: WhatWeDoComponent },
-  {path: 'impacts', component: ImpactComponent},
-  {path:'cart', component: CartComponent},
-  {path: 'testimonials', component: TestimonialsComponent},
-  {path:'blog',component: BlogComponent},
-  {path: 'faq', component: FaqComponent},
+  { path: 'impacts', component: ImpactComponent },
+  { path: 'cart', component: CartComponent },
+  { path: 'testimonials', component: TestimonialsComponent },
+  { path: 'blog', component: BlogComponent },
+  { path: 'faq', component: FaqComponent },
 
-  
-  { path: '**', redirectTo: '' } // Wildcard route for 404 pages
+  { 
+    path: 'account', 
+    loadChildren: () => import('./pages/account/account.routes').then(m => m.ACCOUNT_ROUTES)
+  },
+
+  { path: '**', redirectTo: '' }
 ];
