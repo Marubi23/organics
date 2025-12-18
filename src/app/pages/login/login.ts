@@ -13,8 +13,8 @@ import { AuthService } from '../../services/auth.service';
 })
 export class LoginComponent {
   loginData = {
-    phoneNumber: '',
-    password: '',
+    phoneNumber: '712345678', // Pre-fill for testing
+    password: 'password123',  // Pre-fill for testing
     rememberMe: false
   };
   
@@ -33,51 +33,46 @@ export class LoginComponent {
     this.errorMessage = '';
     this.successMessage = '';
     
-    // Remove spaces from phone number
-    const cleanPhoneNumber = this.loginData.phoneNumber.replace(/\s/g, '');
+    // Get clean phone number (remove any spaces)
+    const cleanPhone = this.loginData.phoneNumber.replace(/\s/g, '');
     
     // Validate
-    if (!cleanPhoneNumber || !this.loginData.password) {
+    if (!cleanPhone || !this.loginData.password) {
       this.errorMessage = 'Please enter your phone number and password';
       return;
     }
 
-    if (cleanPhoneNumber.length !== 9) {
+    if (cleanPhone.length !== 9) {
       this.errorMessage = 'Please enter a valid 9-digit phone number';
       return;
     }
 
     this.isLoading = true;
 
-    // Simulate API call
-    setTimeout(() => {
-      try {
-        const success = this.authService.login(
-          cleanPhoneNumber,
-          this.loginData.password
-        );
-
-        if (success) {
+    // Call REAL backend API
+    this.authService.login(cleanPhone, this.loginData.password, this.loginData.rememberMe)
+      .subscribe({
+        next: (response) => {
+          this.successMessage = 'Welcome back! Redirecting...';
+          
           // Save remember me preference
           if (this.loginData.rememberMe) {
             localStorage.setItem('remember_me', 'true');
           }
           
-          this.successMessage = 'Welcome back! Redirecting...';
+          // Get user type from response
+          const userType = response.data.user.userType;
           
-          // Redirect with smooth transition
+          // Redirect after delay
           setTimeout(() => {
-            this.router.navigate(['/account/dashboard']);
+            this.redirectBasedOnUserType(userType);
           }, 1000);
-        } else {
-          this.errorMessage = 'Invalid phone number or password';
+        },
+        error: (error) => {
+          this.errorMessage = error.message || 'Invalid phone number or password';
+          this.isLoading = false;
         }
-      } catch (error) {
-        this.errorMessage = 'An error occurred. Please try again.';
-      } finally {
-        this.isLoading = false;
-      }
-    }, 800);
+      });
   }
 
   togglePassword() {
@@ -85,22 +80,15 @@ export class LoginComponent {
   }
 
   resetPassword() {
-    // Navigate to password reset page
     this.router.navigate(['/account/reset-password']);
   }
 
-  formatPhoneNumber(event: any) {
+  onPhoneInput(event: any) {
+    // Only allow numbers, remove anything else
     let value = event.target.value.replace(/\D/g, '');
     
     if (value.length > 9) {
       value = value.substring(0, 9);
-    }
-    
-    // Format as XXX XXX XXX
-    if (value.length > 6) {
-      value = value.substring(0, 3) + ' ' + value.substring(3, 6) + ' ' + value.substring(6, 9);
-    } else if (value.length > 3) {
-      value = value.substring(0, 3) + ' ' + value.substring(3, 6);
     }
     
     this.loginData.phoneNumber = value;
@@ -108,5 +96,24 @@ export class LoginComponent {
     // Clear messages when user starts typing
     this.errorMessage = '';
     this.successMessage = '';
+  }
+
+  private redirectBasedOnUserType(userType: string): void {
+    switch(userType) {
+      case 'admin':
+        this.router.navigate(['/admin/dashboard']);
+        break;
+      case 'farmer':
+        this.router.navigate(['/farmer/dashboard']);
+        break;
+      case 'agronomist':
+        this.router.navigate(['/agronomist/dashboard']);
+        break;
+      case 'distributor':
+        this.router.navigate(['/distributor/dashboard']);
+        break;
+      default:
+        this.router.navigate(['/account/dashboard']);
+    }
   }
 }

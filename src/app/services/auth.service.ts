@@ -1,220 +1,366 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { tap, catchError, map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
+// ============ INTERFACES ============
 export interface User {
-  id: string;
-  fullName: string;
+  userId: string;
   phoneNumber: string;
+  fullName: string;
   email?: string;
-  
-  // User type for Mzuri Organics
-  userType: 'farmer' | 'buyer' | 'distributor' | 'agronomist';
-  
-  // Location details (Kenyan context)
+  userType: 'farmer' | 'buyer' | 'distributor' | 'agronomist' | 'admin';
   county: string;
   subCounty: string;
   ward: string;
-  village: string;
+  village?: string;
   nearestTown: string;
   landmark?: string;
-  
-  // Farmer-specific fields (optional - only for farmers)
-  farmSize?: string;
+  farmSize?: number | string; // Allow both string and number
   mainCrops?: string[];
   livestock?: string[];
-  farmingExperience?: number;
-  
-  // Business details (for buyers/distributors)
-  businessName?: string;
-  businessType?: string;
-  
-  // Dates and status
+  farmingExperience?: string;
+  isVerified: boolean;
+  isActive: boolean;
+  points: number;
+  tier: string;
   createdAt: Date;
-  verified: boolean;
-  lastLogin?: Date;
-  points?: number; // Loyalty points
+  updatedAt: Date;
+}
+
+export interface LoginRequest {
+  phoneNumber: string; // Format: 712345678 (no spaces)
+  password: string;
+  rememberMe?: boolean;
+}
+
+export interface SignupRequest {
+  fullName: string;
+  phoneNumber: string; // Format: 712345678 (no spaces)
+  email?: string;
+  userType: 'farmer' | 'buyer' | 'distributor' | 'agronomist';
+  password: string;
+  confirmPassword?: string; // Frontend only - remove before sending
+  county: string;
+  subCounty: string;
+  ward: string;
+  village?: string;
+  nearestTown: string;
+  landmark?: string;
+  farmSize?: number;
+  mainCrops: string[]; // Changed from optional to required
+  livestock: string[]; // Changed from optional to required
+  farmingExperience?: string;
+  agreeTerms: boolean;
+}
+
+export interface AuthResponse {
+  success: boolean;
+  message: string;
+  data: {
+    token: string;
+    user: User;
+  };
+  timestamp: string;
+}
+
+export interface ProfileResponse {
+  success: boolean;
+  message: string;
+  data: User;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  // Update this to match your backend URL
+  private apiUrl = 'http://localhost:5000/api/v1';
+  
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
+  
+  private loadingSubject = new BehaviorSubject<boolean>(false);
+  public loading$ = this.loadingSubject.asObservable();
 
-  constructor() {
-    // Check if user exists in localStorage on init
-    const savedUser = localStorage.getItem('mzuri_user');
-    if (savedUser) {
-      this.currentUserSubject.next(JSON.parse(savedUser));
-    }
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) {
+    this.loadStoredUser();
   }
 
-  // Signup with user type
-  signup(
-    phoneNumber: string, 
-    password: string, 
-    fullName: string,
-    userType: 'farmer' | 'buyer' | 'distributor' | 'agronomist' = 'buyer'
-  ): boolean {
-    const user: User = {
-      id: 'user_' + Date.now(),
-      fullName,
-      phoneNumber,
-      userType,
-      county: '',
-      subCounty: '',
-      ward: '',
-      village: '',
-      nearestTown: '',
-      createdAt: new Date(),
-      verified: false,
-      points: 100 // Starting points
+  // ==================== PUBLIC METHODS ====================
+
+  /**
+   * Register a new user
+   */
+  signup(signupData: SignupRequest): Observable<AuthResponse> {
+    this.setLoading(true);
+    
+    // Clean phone number and prepare data for backend
+    const cleanPhone = signupData.phoneNumber.replace(/\D/g, '');
+    
+    // Ensure arrays are initialized
+    const mainCrops = signupData.mainCrops || [];
+    const livestock = signupData.livestock || [];
+    
+    // Create backend payload (remove frontend-only fields)
+    const backendData = {
+      fullName: signupData.fullName,
+      phoneNumber: cleanPhone,
+      email: signupData.email || '',
+      userType: signupData.userType,
+      password: signupData.password,
+      county: signupData.county,
+      subCounty: signupData.subCounty,
+      ward: signupData.ward,
+      village: signupData.village || '',
+      nearestTown: signupData.nearestTown,
+      landmark: signupData.landmark || '',
+      farmSize: signupData.farmSize || 0,
+      mainCrops: mainCrops,
+      livestock: livestock,
+      farmingExperience: signupData.farmingExperience || '',
+      agreeTerms: signupData.agreeTerms
     };
-
-    localStorage.setItem('mzuri_user', JSON.stringify(user));
-    localStorage.setItem('mzuri_token', 'dummy_token_' + Date.now());
     
-    this.currentUserSubject.next(user);
-    return true;
+    return this.http.post<AuthResponse>(`${this.apiUrl}/auth/signup`, backendData)
+      .pipe(
+        tap(response => {
+          if (response.success && response.data?.token) {
+            this.storeAuthData(response.data.token, response.data.user);
+            this.setLoading(false);
+          }
+        }),
+        catchError(error => {
+          this.setLoading(false);
+          return this.handleError(error);
+        })
+      );
   }
 
-  // Login
-  login(phoneNumber: string, password: string): boolean {
-    // For demo, accept any password with specific user types
-    // You can customize this based on phone number
-    let userType: 'farmer' | 'buyer' | 'distributor' | 'agronomist' = 'buyer';
-    let county = 'Nairobi';
-    let fullName = 'Demo User';
+  /**
+   * Login existing user
+   */
+  login(phoneNumber: string, password: string, rememberMe: boolean = false): Observable<AuthResponse> {
+    this.setLoading(true);
     
-    // Demo data based on phone number
-    if (phoneNumber.startsWith('7')) {
-      userType = 'farmer';
-      county = 'Kiambu';
-      fullName = 'John Kamau';
-    } else if (phoneNumber.startsWith('1')) {
-      userType = 'agronomist';
-      county = 'Nakuru';
-      fullName = 'Dr. Sarah Mwangi';
-    }
-
-    const user: User = {
-      id: 'user_demo',
-      fullName,
-      phoneNumber,
-      userType,
-      county,
-      subCounty: userType === 'farmer' ? 'Lari' : 'Westlands',
-      ward: userType === 'farmer' ? 'Kinale' : 'Kangemi',
-      village: userType === 'farmer' ? 'Kinale' : 'Mountain View',
-      nearestTown: userType === 'farmer' ? 'Limuru' : 'Westlands',
-      
-      // Farmer-specific demo data
-      ...(userType === 'farmer' && {
-        farmSize: '2.5',
-        mainCrops: ['Maize', 'Beans', 'Kale', 'Avocado'],
-        livestock: ['Chickens', 'Dairy Cows'],
-        farmingExperience: 5
-      }),
-      
-      // Agronomist-specific demo data
-      ...(userType === 'agronomist' && {
-        businessName: 'Greenfield Agronomy Services',
-        businessType: 'Consultancy'
-      }),
-      
-      createdAt: new Date(),
-      verified: true,
-      lastLogin: new Date(),
-      points: userType === 'farmer' ? 450 : 250
+    // Clean phone number
+    const cleanPhone = phoneNumber.replace(/\D/g, '');
+    
+    const loginData: LoginRequest = {
+      phoneNumber: cleanPhone,
+      password,
+      rememberMe
     };
-
-    localStorage.setItem('mzuri_user', JSON.stringify(user));
-    localStorage.setItem('mzuri_token', 'dummy_token');
     
-    this.currentUserSubject.next(user);
-    return true;
+    return this.http.post<AuthResponse>(`${this.apiUrl}/auth/login`, loginData)
+      .pipe(
+        tap(response => {
+          if (response.success && response.data?.token) {
+            this.storeAuthData(response.data.token, response.data.user, rememberMe);
+            this.setLoading(false);
+          }
+        }),
+        catchError(error => {
+          this.setLoading(false);
+          return this.handleError(error);
+        })
+      );
   }
 
-  // Logout
+  /**
+   * Get user profile
+   */
+  getProfile(): Observable<ProfileResponse> {
+    const token = this.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    
+    return this.http.get<ProfileResponse>(`${this.apiUrl}/auth/profile`, { headers })
+      .pipe(
+        tap(response => {
+          if (response.success && response.data) {
+            this.updateStoredUser(response.data);
+          }
+        }),
+        catchError(error => this.handleError(error))
+      );
+  }
+
+  /**
+   * Update user profile
+   */
+  updateProfile(userData: Partial<User>): Observable<ProfileResponse> {
+    const token = this.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    
+    return this.http.put<ProfileResponse>(`${this.apiUrl}/auth/profile`, userData, { headers })
+      .pipe(
+        tap(response => {
+          if (response.success && response.data) {
+            this.updateStoredUser(response.data);
+          }
+        }),
+        catchError(error => this.handleError(error))
+      );
+  }
+
+  /**
+   * Logout
+   */
   logout(): void {
-    localStorage.removeItem('mzuri_user');
-    localStorage.removeItem('mzuri_token');
-    this.currentUserSubject.next(null);
+    // Call backend logout if needed
+    const token = this.getToken();
+    if (token) {
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      });
+      
+      this.http.post(`${this.apiUrl}/auth/logout`, {}, { headers })
+        .subscribe({
+          next: () => console.log('Logged out from backend'),
+          error: (err) => console.warn('Backend logout error:', err)
+        });
+    }
+    
+    // Clear local storage
+    this.clearAuthData();
+    
+    // Navigate to login
+    this.router.navigate(['/account/login']);
   }
 
-  // Get current user
+  /**
+   * Check authentication status
+   */
+  isAuthenticated(): boolean {
+    return !!this.getToken();
+  }
+
+  /**
+   * Alias for isAuthenticated (for backward compatibility)
+   */
+  isLoggedIn(): boolean {
+    return this.isAuthenticated();
+  }
+
+  /**
+   * Get current token
+   */
+  getToken(): string | null {
+    // Check remember me preference
+    if (localStorage.getItem('remember_me') === 'true') {
+      return localStorage.getItem('mzuri_token');
+    }
+    return sessionStorage.getItem('mzuri_token');
+  }
+
+  /**
+   * Get current user
+   */
   getCurrentUser(): User | null {
     return this.currentUserSubject.value;
   }
 
-  // Check if user is logged in
-  isLoggedIn(): boolean {
-    return !!this.getCurrentUser();
-  }
-
-  // Update user profile
-  updateProfile(updates: Partial<User>): void {
-    const currentUser = this.getCurrentUser();
-    if (currentUser) {
-      const updatedUser = { ...currentUser, ...updates };
-      localStorage.setItem('mzuri_user', JSON.stringify(updatedUser));
-      this.currentUserSubject.next(updatedUser);
-    }
-  }
-
-  // Add points to user (for loyalty program)
-  addPoints(points: number): void {
-    const currentUser = this.getCurrentUser();
-    if (currentUser) {
-      const updatedUser = { 
-        ...currentUser, 
-        points: (currentUser.points || 0) + points 
-      };
-      localStorage.setItem('mzuri_user', JSON.stringify(updatedUser));
-      this.currentUserSubject.next(updatedUser);
-    }
-  }
-
-  // Check if user is a farmer
+  /**
+   * Check user type
+   */
   isFarmer(): boolean {
     return this.getCurrentUser()?.userType === 'farmer';
   }
 
-  // Check if user is a buyer
   isBuyer(): boolean {
     return this.getCurrentUser()?.userType === 'buyer';
   }
 
-  // Check if user is an agronomist
-  isAgronomist(): boolean {
-    return this.getCurrentUser()?.userType === 'agronomist';
-  }
-
-  // Check if user is a distributor
   isDistributor(): boolean {
     return this.getCurrentUser()?.userType === 'distributor';
   }
 
-  // Get user type display name
-  getUserTypeDisplay(): string {
-    const user = this.getCurrentUser();
-    if (!user) return 'Guest';
+  isAgronomist(): boolean {
+    return this.getCurrentUser()?.userType === 'agronomist';
+  }
+
+  isAdmin(): boolean {
+    return this.getCurrentUser()?.userType === 'admin';
+  }
+
+  // ==================== PRIVATE METHODS ====================
+
+  private storeAuthData(token: string, user: User, rememberMe: boolean = false): void {
+    const storage = rememberMe ? localStorage : sessionStorage;
     
-    switch(user.userType) {
-      case 'farmer': return 'Farmer';
-      case 'buyer': return 'Customer';
-      case 'distributor': return 'Distributor';
-      case 'agronomist': return 'Agronomist';
-      default: return 'User';
+    storage.setItem('mzuri_token', token);
+    storage.setItem('mzuri_user', JSON.stringify(user));
+    
+    if (rememberMe) {
+      localStorage.setItem('remember_me', 'true');
+    } else {
+      localStorage.removeItem('remember_me');
+    }
+    
+    this.currentUserSubject.next(user);
+  }
+
+  private updateStoredUser(user: User): void {
+    const currentToken = this.getToken();
+    const rememberMe = localStorage.getItem('remember_me') === 'true';
+    const storage = rememberMe ? localStorage : sessionStorage;
+    
+    storage.setItem('mzuri_user', JSON.stringify(user));
+    this.currentUserSubject.next(user);
+  }
+
+  private loadStoredUser(): void {
+    let userData: string | null = null;
+    
+    // Check where user is stored
+    if (localStorage.getItem('remember_me') === 'true') {
+      userData = localStorage.getItem('mzuri_user');
+    } else {
+      userData = sessionStorage.getItem('mzuri_user');
+    }
+    
+    if (userData) {
+      try {
+        const user = JSON.parse(userData);
+        this.currentUserSubject.next(user);
+      } catch (error) {
+        console.error('Error loading user:', error);
+        this.clearAuthData();
+      }
     }
   }
 
-  // Get user's location summary
-  getLocationSummary(): string {
-    const user = this.getCurrentUser();
-    if (!user) return '';
+  private clearAuthData(): void {
+    localStorage.removeItem('mzuri_token');
+    localStorage.removeItem('mzuri_user');
+    localStorage.removeItem('remember_me');
+    sessionStorage.removeItem('mzuri_token');
+    sessionStorage.removeItem('mzuri_user');
+    this.currentUserSubject.next(null);
+  }
+
+  private handleError(error: any): Observable<never> {
+    let errorMessage = 'An error occurred';
     
-    return `${user.village}, ${user.ward}, ${user.subCounty}, ${user.county}`;
+    if (error.error?.message) {
+      errorMessage = error.error.message;
+    } else if (error.message) {
+      errorMessage = error.message;
+    }
+    
+    console.error('AuthService Error:', error);
+    return throwError(() => new Error(errorMessage));
+  }
+
+  private setLoading(isLoading: boolean): void {
+    this.loadingSubject.next(isLoading);
   }
 }

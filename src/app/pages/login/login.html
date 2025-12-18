@@ -42,7 +42,6 @@
       <!-- Form Header -->
       <div class="form-header">
         <h2 class="form-title">Welcome Back Customer</h2>
-
       </div>
 
       <!-- Messages -->
@@ -70,16 +69,22 @@
                 type="tel" 
                 name="phoneNumber"
                 [(ngModel)]="loginData.phoneNumber"
-                placeholder="712 345 678"
+                placeholder="712345678"
                 required
+                #phoneInput="ngModel"
                 pattern="[0-9]{9}"
-                maxlength="12"
+                maxlength="9"
                 [disabled]="isLoading"
-                (input)="formatPhoneNumber($event)"
+                (input)="onPhoneInput($event)"
                 class="input-field"
+                [class.invalid]="phoneInput.invalid && phoneInput.touched"
               >
             </div>
-            <p class="field-hint">9-digit Safaricom/Airtel/Telkom number</p>
+            <p class="field-hint">Enter 9 digits without spaces</p>
+            <div *ngIf="phoneInput.invalid && phoneInput.touched" class="validation-error">
+              <i class="fas fa-exclamation-circle"></i>
+              <span>Enter a valid 9-digit phone number</span>
+            </div>
           </div>
         </div>
 
@@ -90,7 +95,7 @@
                 <i class="fas fa-lock field-icon"></i>
                 Password
               </label>
-              <button type="button" class="text-link" (click)="resetPassword()">
+              <button type="button" class="text-link" (click)="resetPassword()" [disabled]="isLoading">
                 Forgot password?
               </button>
             </div>
@@ -101,9 +106,11 @@
                 [(ngModel)]="loginData.password"
                 placeholder="Enter your password"
                 required
-                minlength="8"
+                minlength="1"
+                #passwordInput="ngModel"
                 [disabled]="isLoading"
                 class="input-field"
+                [class.invalid]="passwordInput.invalid && passwordInput.touched"
               >
               <button 
                 type="button" 
@@ -113,6 +120,10 @@
               >
                 <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
               </button>
+            </div>
+            <div *ngIf="passwordInput.invalid && passwordInput.touched" class="validation-error">
+              <i class="fas fa-exclamation-circle"></i>
+              <span>Password is required</span>
             </div>
           </div>
         </div>
@@ -139,8 +150,11 @@
             [class.loading]="isLoading"
           >
             <span class="btn-content">
-              <i class="fas fa-sign-in-alt"></i>
-              <span class="btn-text">Sign In</span>
+              <i class="fas fa-sign-in-alt" *ngIf="!isLoading"></i>
+              <i class="fas fa-spinner fa-spin" *ngIf="isLoading"></i>
+              <span class="btn-text">
+                {{ isLoading ? 'Signing In...' : 'Sign In' }}
+              </span>
             </span>
           </button>
 
@@ -148,7 +162,7 @@
             <span>or</span>
           </div>
 
-          <a routerLink="/account/signup" class="login-btn create-btn">
+          <a routerLink="/account/signup" class="login-btn create-btn" [class.disabled]="isLoading">
             <span class="btn-content">
               <i class="fas fa-user-plus"></i>
               <span class="btn-text">Create Account</span>
@@ -159,7 +173,18 @@
         <!-- Demo Note -->
         <div class="demo-note">
           <i class="fas fa-info-circle"></i>
-          <p>Demo: Use any 9-digit number + any password to sign in</p>
+          <p>Demo: Enter 712345678 + any password to sign in</p>
+        </div>
+
+        <!-- Debug Info -->
+        <div class="debug-info" style="margin-top: 15px; padding: 10px; background: #f5f5f5; border-radius: 8px; font-size: 12px;">
+          <p><strong>Debug Info:</strong></p>
+          <p>Phone: "{{loginData.phoneNumber}}" ({{loginData.phoneNumber?.length}} chars)</p>
+          <p>Phone valid: {{phoneInput?.valid}}</p>
+          <p>Password: "{{'*'.repeat(loginData.password?.length || 0)}}" ({{loginData.password?.length}} chars)</p>
+          <p>Password valid: {{passwordInput?.valid}}</p>
+          <p>Form valid: {{loginForm.valid}}</p>
+          <p>Button disabled: {{loginForm.invalid || isLoading}}</p>
         </div>
       </form>
     </div>
