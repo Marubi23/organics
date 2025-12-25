@@ -1,29 +1,33 @@
 {
   "users": [
     {
-      "userId": "user_1766091396257_wxsz0v38y",
+      "userId": "user_1766673163916_axccnszfp",
       "phoneNumber": "712683708",
-      "fullName": "felix",
+      "fullName": "marubi",
       "email": "felixmarubi2005@gmail.com",
-      "userType": "buyer",
-      "password": "$2a$10$UMHnAkOSnZDwxq0VgmqofuuM4CEFpcYgd/B0B1Wvz096orHYSYL2i",
-      "county": "Nairobi",
+      "userType": "farmer",
+      "password": "$2a$10$NDtG5IU8KoLZ0cOEaULNP.ph9/UiZeS1aGlh1uq7EI.ot.K0cwFFi",
+      "county": "Kisii",
       "subCounty": "Dagoretti",
       "ward": "Waithaka",
       "village": "jerusalem",
       "nearestTown": "CBD",
       "landmark": "next to kk butchery",
-      "farmSize": 0,
-      "mainCrops": [],
-      "livestock": [],
-      "farmingExperience": "",
+      "farmSize": 2,
+      "mainCrops": [
+        "Maize"
+      ],
+      "livestock": [
+        "Beef Cattle"
+      ],
+      "farmingExperience": "<1",
       "isVerified": false,
       "isActive": true,
-      "points": 50,
+      "points": 100,
       "tier": "Bronze",
-      "createdAt": "2025-12-18T20:56:36.729Z",
-      "updatedAt": "2025-12-18T21:01:08.693Z",
-      "lastLogin": "2025-12-18T21:01:08.692Z"
+      "createdAt": "2025-12-25T14:32:44.478Z",
+      "updatedAt": "2025-12-25T20:47:50.163Z",
+      "lastLogin": "2025-12-25T20:47:50.144Z"
     }
   ]
 }

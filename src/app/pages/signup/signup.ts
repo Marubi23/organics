@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -11,16 +11,19 @@ import { AuthService, SignupRequest } from '../../services/auth.service';
   templateUrl: './signup.html',
   styleUrls: ['./signup.css']
 })
-export class SignupComponent {
+export class SignupComponent implements OnInit, OnDestroy {
   @ViewChild('step1Form') step1Form!: NgForm;
   @ViewChild('step2Form') step2Form!: NgForm;
   @ViewChild('step3Form') step3Form!: NgForm;
   
+  // State
   currentStep = 1;
   showPassword = false;
   showConfirmPassword = false;
   phoneError = '';
+  isLoading = false;
   
+  // Data
   signupData: SignupRequest = {
     fullName: '',
     phoneNumber: '',
@@ -40,7 +43,7 @@ export class SignupComponent {
     livestock: [] as string[],
     farmingExperience: ''
   };
-
+  
   kenyanCounties = [
     'Nairobi', 'Mombasa', 'Kisumu', 'Nakuru', 'Eldoret', 'Thika',
     'Kericho', 'Kakamega', 'Nyeri', 'Meru', 'Embu', 'Kisii',
@@ -49,33 +52,160 @@ export class SignupComponent {
     'Kilifi', 'Makueni', 'Migori', 'Narok', 'Siaya',
     'Taita-Taveta', 'Uasin Gishu', 'Vihiga'
   ];
-
+  
   commonCrops = [
     'Maize', 'Beans', 'Wheat', 'Coffee', 'Tea', 'Sugarcane',
     'Potatoes', 'Cassava', 'Bananas', 'Avocado', 'Mangoes',
     'Tomatoes', 'Onions', 'Kale', 'Cabbages'
   ];
-
+  
   commonLivestock = [
     'Dairy Cattle', 'Beef Cattle', 'Goats', 'Sheep', 'Pigs',
     'Chickens', 'Rabbits', 'Fish', 'Bees'
   ];
-
-  isLoading = false;
+  
   errorMessage = '';
   successMessage = '';
-  currentYear = new Date().getFullYear();
-
+  
   constructor(
     private authService: AuthService,
     private router: Router
-  ) {
-    this.authService.loading$.subscribe(loading => {
-      this.isLoading = loading;
-    });
+  ) {}
+  
+  ngOnInit() {
+    // Prevent body scrolling
+    document.body.style.overflow = 'hidden';
+    document.body.style.height = '100vh';
+    document.body.style.width = '100vw';
+    
+    // Listen for keyboard events
+    document.addEventListener('keydown', this.handleKeyboard.bind(this));
   }
-
-  // Navigation
+  
+  ngOnDestroy() {
+    // Restore scrolling
+    document.body.style.overflow = '';
+    document.body.style.height = '';
+    document.body.style.width = '';
+    
+    // Remove event listener
+    document.removeEventListener('keydown', this.handleKeyboard.bind(this));
+  }
+  
+  @HostListener('window:resize')
+  onResize() {
+    // Force viewport recalc on resize
+    this.adjustViewport();
+  }
+  
+  private adjustViewport() {
+    // Ensure full viewport coverage
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+  }
+  
+  // Slide position for animation
+  getSlidePosition(): number {
+    return (this.currentStep - 1) * -100;
+  }
+  
+  // Loading text
+  getLoadingText(): string {
+    switch(this.currentStep) {
+      case 1: return 'Processing...';
+      case 2: return 'Saving location...';
+      case 3: return 'Creating account...';
+      default: return 'Loading...';
+    }
+  }
+  
+  // Keyboard handler
+  private handleKeyboard(event: KeyboardEvent) {
+    if (event.key === 'Enter' && !this.isLoading) {
+      event.preventDefault();
+      if (this.currentStep === 1) {
+        this.nextStep();
+      } else if (this.currentStep === 2) {
+        if (!this.shouldShowFarmerStep()) {
+          this.onSignup();
+        } else {
+          this.nextStep();
+        }
+      } else if (this.currentStep === 3) {
+        this.onSignup();
+      }
+    }
+    
+    if (event.key === 'Escape' && this.currentStep > 1) {
+      this.prevStep();
+    }
+  }
+  
+  // User type selection
+  selectUserType(type: 'farmer' | 'buyer' | 'distributor' | 'agronomist') {
+    if (this.isLoading) return;
+    this.signupData.userType = type;
+    this.clearErrors();
+  }
+  
+  // Toggle password visibility
+  togglePasswordVisibility() {
+    if (this.isLoading) return;
+    this.showPassword = !this.showPassword;
+  }
+  
+  toggleConfirmPasswordVisibility() {
+    if (this.isLoading) return;
+    this.showConfirmPassword = !this.showConfirmPassword;
+  }
+  
+  // Format phone number
+  formatPhoneNumber(event: any) {
+    let value = event.target.value.replace(/\D/g, '');
+    if (value.length > 9) value = value.substring(0, 9);
+    
+    // Format with spaces
+    if (value.length > 0) {
+      const parts = [];
+      if (value.length <= 3) {
+        parts.push(value);
+      } else if (value.length <= 6) {
+        parts.push(value.substring(0, 3));
+        parts.push(value.substring(3));
+      } else {
+        parts.push(value.substring(0, 3));
+        parts.push(value.substring(3, 6));
+        parts.push(value.substring(6));
+      }
+      value = parts.join(' ');
+    }
+    
+    this.signupData.phoneNumber = value;
+    this.clearErrors();
+  }
+  
+  // Toggle tags
+  toggleCrop(crop: string) {
+    if (this.isLoading) return;
+    const index = this.signupData.mainCrops.indexOf(crop);
+    if (index > -1) {
+      this.signupData.mainCrops.splice(index, 1);
+    } else {
+      this.signupData.mainCrops.push(crop);
+    }
+  }
+  
+  toggleLivestock(animal: string) {
+    if (this.isLoading) return;
+    const index = this.signupData.livestock.indexOf(animal);
+    if (index > -1) {
+      this.signupData.livestock.splice(index, 1);
+    } else {
+      this.signupData.livestock.push(animal);
+    }
+  }
+  
+  // Step navigation
   nextStep() {
     this.clearErrors();
     
@@ -84,7 +214,6 @@ export class SignupComponent {
         if (this.step1Form) this.step1Form.control.markAllAsTouched();
         return;
       }
-      this.currentStep++;
     } else if (this.currentStep === 2) {
       if (!this.validateStep2()) {
         if (this.step2Form) this.step2Form.control.markAllAsTouched();
@@ -93,31 +222,30 @@ export class SignupComponent {
       
       if (!this.shouldShowFarmerStep()) {
         this.onSignup();
-      } else {
-        this.currentStep++;
+        return;
       }
     }
+    
+    this.isLoading = true;
+    setTimeout(() => {
+      this.currentStep++;
+      this.isLoading = false;
+    }, 300);
   }
-
+  
   prevStep() {
-    if (this.currentStep > 1) {
-      this.currentStep--;
+    if (this.currentStep > 1 && !this.isLoading) {
       this.clearErrors();
+      this.currentStep--;
     }
   }
-
-  // User type selection
-  selectUserType(type: 'farmer' | 'buyer' | 'distributor' | 'agronomist') {
-    this.signupData.userType = type;
-    this.clearErrors();
-  }
-
+  
   // Validation
   validatePhoneNumber(): boolean {
     const cleanPhone = this.signupData.phoneNumber.replace(/\D/g, '');
     
     if (!cleanPhone) {
-      this.phoneError = 'Phone number is required';
+      this.phoneError = 'Phone number required';
       return false;
     }
     
@@ -126,18 +254,24 @@ export class SignupComponent {
       return false;
     }
     
+    const firstDigit = cleanPhone.charAt(0);
+    if (!['7', '1'].includes(firstDigit)) {
+      this.phoneError = 'Valid Kenyan number';
+      return false;
+    }
+    
     this.phoneError = '';
     return true;
   }
-
+  
   validateStep1(): boolean {
     if (!this.signupData.userType) {
-      this.errorMessage = 'Select how you want to join';
+      this.errorMessage = 'Select user type';
       return false;
     }
     
     if (!this.signupData.fullName?.trim()) {
-      this.errorMessage = 'Enter your name';
+      this.errorMessage = 'Enter full name';
       return false;
     }
     
@@ -146,8 +280,13 @@ export class SignupComponent {
       return false;
     }
     
+    if (this.signupData.email && !this.isValidEmail(this.signupData.email)) {
+      this.errorMessage = 'Valid email required';
+      return false;
+    }
+    
     if (!this.signupData.password) {
-      this.errorMessage = 'Create a password';
+      this.errorMessage = 'Create password';
       return false;
     }
     
@@ -157,44 +296,43 @@ export class SignupComponent {
     }
     
     if (this.signupData.password !== this.signupData.confirmPassword) {
-      this.errorMessage = 'Passwords don\'t match';
+      this.errorMessage = 'Passwords mismatch';
       return false;
     }
     
     if (!this.signupData.agreeTerms) {
-      this.errorMessage = 'Agree to terms to continue';
-      return false;
-    }
-    
-    if (this.signupData.email && !this.isValidEmail(this.signupData.email)) {
-      this.errorMessage = 'Enter valid email';
+      this.errorMessage = 'Agree to terms';
       return false;
     }
     
     return true;
   }
-
+  
   validateStep2(): boolean {
     if (!this.signupData.county) {
       this.errorMessage = 'Select county';
       return false;
     }
-    if (!this.signupData.subCounty) {
+    
+    if (!this.signupData.subCounty?.trim()) {
       this.errorMessage = 'Enter sub-county';
       return false;
     }
-    if (!this.signupData.ward) {
+    
+    if (!this.signupData.ward?.trim()) {
       this.errorMessage = 'Enter ward';
       return false;
     }
-    if (!this.signupData.nearestTown) {
+    
+    if (!this.signupData.nearestTown?.trim()) {
       this.errorMessage = 'Enter nearest town';
       return false;
     }
+    
     return true;
   }
-
-  // Main signup function
+  
+  // Signup
   onSignup() {
     this.clearErrors();
     
@@ -207,19 +345,20 @@ export class SignupComponent {
       isValid = true;
     }
     
-    if (!isValid) return;
-
+    if (!isValid) {
+      this.shakeError();
+      return;
+    }
+    
     this.isLoading = true;
     this.errorMessage = '';
-    this.successMessage = '';
-
-    // Clean data
-    const cleanPhoneNumber = this.signupData.phoneNumber.replace(/\D/g, '');
     
-    // Prepare data for backend
+    // Prepare data
+    const cleanPhone = this.signupData.phoneNumber.replace(/\D/g, '');
+    
     const signupData: any = {
       fullName: this.signupData.fullName.trim(),
-      phoneNumber: cleanPhoneNumber,
+      phoneNumber: cleanPhone,
       email: this.signupData.email?.trim() || '',
       userType: this.signupData.userType,
       password: this.signupData.password,
@@ -229,159 +368,120 @@ export class SignupComponent {
       village: this.signupData.village?.trim() || '',
       nearestTown: this.signupData.nearestTown.trim(),
       landmark: this.signupData.landmark?.trim() || '',
-      farmSize: this.signupData.farmSize ? parseFloat(this.signupData.farmSize.toString()) : 0,
-      mainCrops: this.signupData.mainCrops || [],
-      livestock: this.signupData.livestock || [],
+      farmSize: this.signupData.farmSize || 0,
+      mainCrops: this.signupData.mainCrops,
+      livestock: this.signupData.livestock,
       farmingExperience: this.signupData.farmingExperience || '',
       agreeTerms: this.signupData.agreeTerms
     };
-
-    console.log('Sending to backend:', signupData);
-
-    // Call backend
-    this.authService.signup(signupData)
-      .subscribe({
-        next: (response: any) => {
-          console.log('Signup response:', response);
+    
+    // Call API
+    this.authService.signup(signupData).subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.successMessage = 'Account created!';
           
-          if (response.success) {
-            this.successMessage = 'Account created! Logging you in...';
-            
-            // Auto login
-            this.authService.login(cleanPhoneNumber, this.signupData.password, false)
+          // Auto login
+          setTimeout(() => {
+            this.authService.login(cleanPhone, this.signupData.password, false)
               .subscribe({
-                next: (loginResponse: any) => {
-                  setTimeout(() => {
-                    this.redirectBasedOnUserType(signupData.userType);
-                  }, 1500);
+                next: () => {
+                  this.redirectBasedOnUserType(signupData.userType);
                 },
                 error: () => {
-                  this.successMessage = 'Account created! Please sign in.';
-                  setTimeout(() => {
-                    this.router.navigate(['/account/login']);
-                  }, 2000);
+                  this.router.navigate(['/account/login']);
                 }
               });
-          } else {
-            this.errorMessage = response.message || 'Signup failed';
-            this.isLoading = false;
-          }
-        },
-        error: (error: any) => {
-          console.error('Signup error:', error);
-          
-          if (error.error?.message) {
-            this.errorMessage = error.error.message;
-          } else if (error.message) {
-            this.errorMessage = error.message;
-          } else {
-            this.errorMessage = 'Signup failed. Try again.';
-          }
-          
-          if (this.errorMessage.includes('already registered')) {
-            this.errorMessage = 'Phone already registered. Sign in instead.';
-          } else if (error.status === 0) {
-            this.errorMessage = 'Cannot connect to server. Check backend.';
-          }
-          
+          }, 1000);
+        } else {
+          this.errorMessage = response.message || 'Signup failed';
           this.isLoading = false;
         }
-      });
+      },
+      error: (error) => {
+        console.error('Signup error:', error);
+        
+        if (error.error?.message) {
+          this.errorMessage = error.error.message;
+        } else if (error.message) {
+          this.errorMessage = error.message;
+        } else {
+          this.errorMessage = 'Connection failed';
+        }
+        
+        if (this.errorMessage.includes('already')) {
+          this.errorMessage = 'Phone already registered';
+        }
+        
+        this.isLoading = false;
+        this.shakeError();
+      }
+    });
   }
-
+  
   // Helper methods
   clearErrors() {
     this.errorMessage = '';
     this.phoneError = '';
   }
-
+  
   isValidEmail(email: string): boolean {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   }
-
-  getPasswordStrength(): string {
-    if (!this.signupData.password) return 'weak';
-    
-    const length = this.signupData.password.length;
-    const hasUpperCase = /[A-Z]/.test(this.signupData.password);
-    const hasLowerCase = /[a-z]/.test(this.signupData.password);
-    const hasNumbers = /\d/.test(this.signupData.password);
-    const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(this.signupData.password);
-    
-    let strength = 0;
-    if (length >= 8) strength++;
-    if (hasUpperCase) strength++;
-    if (hasLowerCase) strength++;
-    if (hasNumbers) strength++;
-    if (hasSpecial) strength++;
-    
-    if (strength < 2) return 'weak';
-    if (strength < 4) return 'medium';
-    return 'strong';
-  }
-
-  getPasswordStrengthText(): string {
-    const strength = this.getPasswordStrength();
-    switch(strength) {
-      case 'weak': return 'Weak';
-      case 'medium': return 'Medium';
-      case 'strong': return 'Strong';
-      default: return '';
-    }
-  }
-
-  getProgressPercentage(): number {
-    return (this.currentStep / this.getTotalSteps()) * 100;
-  }
-
-  togglePasswordVisibility() {
-    this.showPassword = !this.showPassword;
-  }
-
-  toggleConfirmPasswordVisibility() {
-    this.showConfirmPassword = !this.showConfirmPassword;
-  }
-
-  toggleCrop(crop: string) {
-    const index = this.signupData.mainCrops.indexOf(crop);
-    if (index > -1) {
-      this.signupData.mainCrops.splice(index, 1);
-    } else {
-      this.signupData.mainCrops.push(crop);
-    }
-  }
-
-  toggleLivestock(animal: string) {
-    const index = this.signupData.livestock.indexOf(animal);
-    if (index > -1) {
-      this.signupData.livestock.splice(index, 1);
-    } else {
-      this.signupData.livestock.push(animal);
-    }
-  }
-
+  
   shouldShowFarmerStep(): boolean {
     return this.signupData.userType === 'farmer';
   }
-
+  
   getTotalSteps(): number {
     return this.shouldShowFarmerStep() ? 3 : 2;
   }
-
-  formatPhoneNumber(event: any) {
-    let value = event.target.value.replace(/\D/g, '');
-    if (value.length > 9) value = value.substring(0, 9);
-    this.signupData.phoneNumber = value;
-    this.clearErrors();
-  }
-
-  private redirectBasedOnUserType(userType: string): void {
-    switch(userType) {
-      case 'farmer': this.router.navigate(['/farmer/dashboard']); break;
-      case 'buyer': this.router.navigate(['/buyer/dashboard']); break;
-      case 'distributor': this.router.navigate(['/distributor/dashboard']); break;
-      case 'agronomist': this.router.navigate(['/agronomist/dashboard']); break;
-      default: this.router.navigate(['/account/dashboard']);
+  
+  // Error animation
+  private shakeError() {
+    const form = document.querySelector('.form-tight');
+    if (form) {
+      form.classList.add('shake');
+      setTimeout(() => form.classList.remove('shake'), 500);
     }
   }
+  
+  // FIXED: Type-safe redirect method
+  private redirectBasedOnUserType(userType: 'farmer' | 'buyer' | 'distributor' | 'agronomist'): void {
+    let route: string;
+    
+    switch(userType) {
+      case 'farmer':
+        route = '/farmer/dashboard';
+        break;
+      case 'buyer':
+        route = '/buyer/dashboard';
+        break;
+      case 'distributor':
+        route = '/distributor/dashboard';
+        break;
+      case 'agronomist':
+        route = '/agronomist/dashboard';
+        break;
+      default:
+        route = '/dashboard';
+    }
+    
+    this.router.navigate([route]);
+  }
 }
+
+// Add shake animation
+const style = document.createElement('style');
+style.textContent = `
+  .shake {
+    animation: shake 0.5s ease-in-out;
+  }
+  
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+  }
+`;
+document.head.appendChild(style);
