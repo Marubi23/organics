@@ -1,0 +1,12 @@
+/* Hide footer on signup page */
+app-signup ~ app-footer,
+app-login ~ app-footer {
+  display: none !important;
+}
+
+/* Ensure signup takes full view */
+app-signup {
+  display: block;
+  width: 100%;
+  height: 100vh;
+}

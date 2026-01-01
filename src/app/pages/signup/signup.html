@@ -1,398 +1,170 @@
-<div class="signup-wrapper">
-  <!-- Loading Overlay -->
-  <div *ngIf="isLoading" class="loading-overlay">
-    <div class="loading-spinner"></div>
-    <p>{{ getLoadingText() }}</p>
+@if (currentStep === 1) {
+<div class="step">
+  <!-- Logo -->
+  <div class="logo-section">
+    <div class="logo-circle">
+      <i class="fas fa-leaf"></i>
+    </div>
+    <h1>Mzuri Organics</h1>
   </div>
 
-  <!-- Full Screen Split Layout -->
-  <div class="fullscreen-split">
-    
-    <!-- Left Side - Brand -->
-    <div class="brand-full">
-      <div class="brand-content-full">
-        <div class="logo-container">
-          <img src="/images/mzuri.JPG" alt="Mzuri" class="full-logo">
-        </div>
-        <div class="brand-text-full">
-          <h1 class="brand-title">Mzuri</h1>
-          <h2 class="brand-sub">Organics</h2>
-        </div>
-        <div class="tagline-container">
-          <p class="tagline-full">Nature's Way</p>
-        </div>
-      </div>
-    </div>
+  <h2 class="main-heading">Create your account</h2>
+  <p class="sub-heading">Step 1 of 3</p>
 
-    <!-- Right Side - Form -->
-    <div class="form-full">
-      <!-- Step Indicator -->
-      <div class="step-indicator-minimal">
-        <div class="step-dot" [class.active]="currentStep === 1"></div>
-        <div class="step-dot" [class.active]="currentStep === 2"></div>
-        <div class="step-dot" [class.active]="currentStep === 3" *ngIf="shouldShowFarmerStep()"></div>
-      </div>
+  <!-- Google Button -->
+  <button class="google-btn" (click)="signInWithGoogle()">
+    <img src="https://fonts.gstatic.com/s/i/productlogos/googleg/v6/24px.svg" alt="Google">
+    Continue with Google
+  </button>
 
-      <!-- Form Slider -->
-      <div class="form-slider-full" [style.transform]="'translateX(' + getSlidePosition() + '%)'">
-        
-        <!-- STEP 1 -->
-        <div class="form-slide-full">
-          <div class="form-header-tight">
-            <h2 class="form-title-large">Create Account</h2>
-            <p class="form-subtitle-small">Join our sustainable agriculture community</p>
-          </div>
-
-          <form (ngSubmit)="nextStep()" #step1Form="ngForm" class="form-tight">
-            <!-- User Type -->
-            <div class="form-section-tight">
-              <label class="section-label-small">JOIN US</label>
-              <div class="user-type-tight">
-                <div class="type-option-tight" 
-                     [class.selected]="signupData.userType === 'farmer'"
-                     (click)="selectUserType('farmer')">
-                  <i class="fas fa-tractor"></i>
-                  <span>Farmer</span>
-                </div>
-                <div class="type-option-tight" 
-                     [class.selected]="signupData.userType === 'buyer'"
-                     (click)="selectUserType('buyer')">
-                  <i class="fas fa-shopping-basket"></i>
-                  <span>Buyer</span>
-                </div>
-                <div class="type-option-tight" 
-                     [class.selected]="signupData.userType === 'distributor'"
-                     (click)="selectUserType('distributor')">
-                  <i class="fas fa-truck"></i>
-                  <span>Distributor</span>
-                </div>
-                <div class="type-option-tight" 
-                     [class.selected]="signupData.userType === 'agronomist'"
-                     (click)="selectUserType('agronomist')">
-                  <i class="fas fa-seedling"></i>
-                  <span>Agronomist</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Full Name -->
-            <div class="input-group-tight">
-              <label class="input-label-tight">Full Name</label>
-              <div class="input-wrapper">
-                <i class="fas fa-user"></i>
-                <input type="text" 
-                       class="input-tight" 
-                       [(ngModel)]="signupData.fullName" 
-                       name="fullName"
-                       placeholder="Enter your full name"
-                       required>
-              </div>
-            </div>
-
-            <!-- Phone & Email -->
-            <div class="form-row-tight">
-              <div class="input-group-tight">
-                <label class="input-label-tight">Phone Number</label>
-                <div class="input-wrapper phone-wrapper">
-                  <span class="country-code">+254</span>
-                  <input type="tel" 
-                         class="input-tight" 
-                         [(ngModel)]="signupData.phoneNumber" 
-                         name="phoneNumber"
-                         placeholder="7XX XXX XXX"
-                         required>
-                </div>
-              </div>
-              <div class="input-group-tight">
-                <label class="input-label-tight">
-                  Email Address
-                  <span class="optional">(optional)</span>
-                </label>
-                <div class="input-wrapper">
-                  <i class="fas fa-envelope"></i>
-                  <input type="email" 
-                         class="input-tight" 
-                         [(ngModel)]="signupData.email" 
-                         name="email"
-                         placeholder="your@email.com">
-                </div>
-              </div>
-            </div>
-
-            <!-- Password -->
-            <div class="form-row-tight">
-              <div class="input-group-tight">
-                <label class="input-label-tight">Password</label>
-                <div class="input-wrapper password-wrapper">
-                  <i class="fas fa-lock"></i>
-                  <input [type]="showPassword ? 'text' : 'password'" 
-                         class="input-tight" 
-                         [(ngModel)]="signupData.password" 
-                         name="password"
-                         placeholder="Create a password"
-                         required>
-                  <button type="button" class="toggle-btn" (click)="togglePasswordVisibility()">
-                    <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
-                  </button>
-                </div>
-              </div>
-              <div class="input-group-tight">
-                <label class="input-label-tight">Confirm Password</label>
-                <div class="input-wrapper password-wrapper">
-                  <i class="fas fa-lock"></i>
-                  <input [type]="showConfirmPassword ? 'text' : 'password'" 
-                         class="input-tight" 
-                         [(ngModel)]="signupData.confirmPassword" 
-                         name="confirmPassword"
-                         placeholder="Confirm password"
-                         required>
-                  <button type="button" class="toggle-btn" (click)="toggleConfirmPasswordVisibility()">
-                    <i [class]="showConfirmPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Terms -->
-            <div class="terms-tight">
-              <input type="checkbox" 
-                     id="terms" 
-                     [(ngModel)]="signupData.agreeTerms" 
-                     name="agreeTerms"
-                     required>
-              <label for="terms">
-                I agree to the Terms & Privacy Policy
-              </label>
-            </div>
-
-            <!-- Error -->
-            <div *ngIf="errorMessage" class="error-tight">
-              <i class="fas fa-exclamation-circle"></i>
-              {{ errorMessage }}
-            </div>
-
-            <!-- Next Button -->
-            <button type="submit" class="next-btn-tight" [disabled]="isLoading">
-              Next
-              <i class="fas fa-arrow-right"></i>
-            </button>
-          </form>
-        </div>
-
-        <!-- STEP 2 -->
-        <div class="form-slide-full">
-          <div class="form-header-tight">
-            <h2 class="form-title-large">Your Location</h2>
-            <p class="form-subtitle-small">Tell us where you're based</p>
-          </div>
-
-          <form (ngSubmit)="nextStep()" #step2Form="ngForm" class="form-tight">
-            <!-- County -->
-            <div class="input-group-tight">
-              <label class="input-label-tight">County</label>
-              <div class="input-wrapper select-wrapper">
-                <i class="fas fa-map-marker-alt"></i>
-                <select class="input-tight" 
-                        [(ngModel)]="signupData.county" 
-                        name="county"
-                        required>
-                  <option value="">Select county</option>
-                  <option *ngFor="let county of kenyanCounties" [value]="county">
-                    {{ county }}
-                  </option>
-                </select>
-                <i class="fas fa-chevron-down"></i>
-              </div>
-            </div>
-
-            <!-- Sub-county & Ward -->
-            <div class="form-row-tight">
-              <div class="input-group-tight">
-                <label class="input-label-tight">Sub-County</label>
-                <div class="input-wrapper">
-                  <i class="fas fa-map"></i>
-                  <input type="text" 
-                         class="input-tight" 
-                         [(ngModel)]="signupData.subCounty" 
-                         name="subCounty"
-                         placeholder="Enter sub-county"
-                         required>
-                </div>
-              </div>
-              <div class="input-group-tight">
-                <label class="input-label-tight">Ward</label>
-                <div class="input-wrapper">
-                  <i class="fas fa-map-pin"></i>
-                  <input type="text" 
-                         class="input-tight" 
-                         [(ngModel)]="signupData.ward" 
-                         name="ward"
-                         placeholder="Enter ward"
-                         required>
-                </div>
-              </div>
-            </div>
-
-            <!-- Village & Town -->
-            <div class="form-row-tight">
-              <div class="input-group-tight">
-                <label class="input-label-tight">
-                  Village/Estate
-                  <span class="optional">(optional)</span>
-                </label>
-                <div class="input-wrapper">
-                  <i class="fas fa-home"></i>
-                  <input type="text" 
-                         class="input-tight" 
-                         [(ngModel)]="signupData.village" 
-                         name="village"
-                         placeholder="Enter village/estate">
-                </div>
-              </div>
-              <div class="input-group-tight">
-                <label class="input-label-tight">Nearest Town</label>
-                <div class="input-wrapper">
-                  <i class="fas fa-building"></i>
-                  <input type="text" 
-                         class="input-tight" 
-                         [(ngModel)]="signupData.nearestTown" 
-                         name="nearestTown"
-                         placeholder="Enter nearest town"
-                         required>
-                </div>
-              </div>
-            </div>
-
-            <!-- Landmark -->
-            <div class="input-group-tight">
-              <label class="input-label-tight">
-                Landmark
-                <span class="optional">(optional)</span>
-              </label>
-              <div class="input-wrapper">
-                <i class="fas fa-map-signs"></i>
-                <input type="text" 
-                       class="input-tight" 
-                       [(ngModel)]="signupData.landmark" 
-                       name="landmark"
-                       placeholder="e.g., Next to supermarket">
-              </div>
-            </div>
-
-            <!-- Error -->
-            <div *ngIf="errorMessage" class="error-tight">
-              <i class="fas fa-exclamation-circle"></i>
-              {{ errorMessage }}
-            </div>
-
-            <!-- Navigation -->
-            <div class="nav-tight">
-              <button type="button" class="back-btn-tight" (click)="prevStep()">
-                <i class="fas fa-arrow-left"></i>
-                Back
-              </button>
-              <button type="submit" class="next-btn-tight">
-                {{ shouldShowFarmerStep() ? 'Next' : 'Create Account' }}
-                <i class="fas fa-arrow-right"></i>
-              </button>
-            </div>
-          </form>
-        </div>
-
-        <!-- STEP 3 -->
-        <div class="form-slide-full" *ngIf="shouldShowFarmerStep()">
-          <div class="form-header-tight">
-            <h2 class="form-title-large">Farm Details</h2>
-            <p class="form-subtitle-small">Tell us about your farm</p>
-          </div>
-
-          <form (ngSubmit)="onSignup()" #step3Form="ngForm" class="form-tight">
-            <!-- Farm Size & Experience -->
-            <div class="form-row-tight">
-              <div class="input-group-tight">
-                <label class="input-label-tight">Farm Size</label>
-                <div class="input-wrapper unit-wrapper">
-                  <i class="fas fa-ruler-combined"></i>
-                  <input type="number" 
-                         class="input-tight" 
-                         [(ngModel)]="signupData.farmSize" 
-                         name="farmSize"
-                         placeholder="0"
-                         step="0.1">
-                  <span class="unit">acres</span>
-                </div>
-              </div>
-              <div class="input-group-tight">
-                <label class="input-label-tight">Farming Experience</label>
-                <div class="input-wrapper select-wrapper">
-                  <i class="fas fa-calendar-alt"></i>
-                  <select class="input-tight" 
-                          [(ngModel)]="signupData.farmingExperience" 
-                          name="farmingExperience">
-                    <option value="">Select experience</option>
-                    <option value="<1">Less than 1 year</option>
-                    <option value="1-2">1-2 years</option>
-                    <option value="3-5">3-5 years</option>
-                    <option value="5-10">5-10 years</option>
-                    <option value="10+">10+ years</option>
-                  </select>
-                  <i class="fas fa-chevron-down"></i>
-                </div>
-              </div>
-            </div>
-
-            <!-- Crops -->
-            <div class="input-group-tight">
-              <label class="input-label-tight">
-                Main Crops
-                <span class="optional">(optional)</span>
-              </label>
-              <div class="tags-tight">
-                <div *ngFor="let crop of commonCrops" 
-                     class="tag-tight" 
-                     [class.selected]="signupData.mainCrops.includes(crop)"
-                     (click)="toggleCrop(crop)">
-                  {{ crop }}
-                </div>
-              </div>
-            </div>
-
-            <!-- Livestock -->
-            <div class="input-group-tight">
-              <label class="input-label-tight">
-                Livestock
-                <span class="optional">(optional)</span>
-              </label>
-              <div class="tags-tight">
-                <div *ngFor="let animal of commonLivestock" 
-                     class="tag-tight" 
-                     [class.selected]="signupData.livestock.includes(animal)"
-                     (click)="toggleLivestock(animal)">
-                  {{ animal }}
-                </div>
-              </div>
-            </div>
-
-            <!-- Error -->
-            <div *ngIf="errorMessage" class="error-tight">
-              <i class="fas fa-exclamation-circle"></i>
-              {{ errorMessage }}
-            </div>
-
-            <!-- Navigation -->
-            <div class="nav-tight">
-              <button type="button" class="back-btn-tight" (click)="prevStep()">
-                <i class="fas fa-arrow-left"></i>
-                Back
-              </button>
-              <button type="submit" class="create-btn-tight">
-                <i class="fas fa-user-plus"></i>
-                Create Account
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
+  <div class="divider">
+    <span>or use email</span>
   </div>
+
+  <!-- Simple Form -->
+  <form [formGroup]="step1Form" (ngSubmit)="goToStep(2)" class="signup-form">
+    <div class="form-group">
+      <input 
+        type="email" 
+        formControlName="email"
+        placeholder="Email address"
+        class="form-input"
+        [class.invalid]="step1Form.get('email')?.invalid && step1Form.get('email')?.touched"
+      >
+      @if (step1Form.get('email')?.invalid && step1Form.get('email')?.touched) {
+      <div class="validation-error">
+        <i class="fas fa-exclamation-circle"></i>
+        <span>Enter a valid email address</span>
+      </div>
+      }
+    </div>
+
+    <div class="form-group">
+      <input 
+        type="password" 
+        formControlName="password"
+        placeholder="Create password (min. 8 characters)"
+        class="form-input"
+        [class.invalid]="step1Form.get('password')?.invalid && step1Form.get('password')?.touched"
+      >
+      @if (step1Form.get('password')?.invalid && step1Form.get('password')?.touched) {
+      <div class="validation-error">
+        <i class="fas fa-exclamation-circle"></i>
+        <span>Password must be at least 8 characters</span>
+      </div>
+      }
+    </div>
+
+    <button type="submit" class="continue-btn" [disabled]="!step1Form.valid">
+      Next
+      <i class="fas fa-arrow-right"></i>
+    </button>
+  </form>
+
+  <p class="login-link">
+    Already have an account? <a href="#" (click)="goToLogin($event)">Sign in</a>
+  </p>
 </div>
+}
+
+@if (currentStep === 2) {
+<div class="step">
+  <div class="step-header">
+    <button class="back-btn" (click)="goToStep(1)">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+    <h2 class="main-heading">Select your role</h2>
+    <p class="sub-heading">Step 2 of 3</p>
+  </div>
+
+  <div class="role-grid">
+    <div class="role-card" [class.selected]="selectedRole === 'farmer'" (click)="selectRole('farmer')">
+      <div class="role-icon">
+        <i class="fas fa-tractor"></i>
+      </div>
+      <h3>Farmer / Producer</h3>
+      <p>Sell your organic produce</p>
+    </div>
+
+    <div class="role-card" [class.selected]="selectedRole === 'buyer'" (click)="selectRole('buyer')">
+      <div class="role-icon">
+        <i class="fas fa-store"></i>
+      </div>
+      <h3>Business Buyer</h3>
+      <p>Purchase organic products</p>
+    </div>
+
+    <div class="role-card" [class.selected]="selectedRole === 'distributor'" (click)="selectRole('distributor')">
+      <div class="role-icon">
+        <i class="fas fa-truck"></i>
+      </div>
+      <h3>Distributor</h3>
+      <p>Distribute to markets</p>
+    </div>
+  </div>
+
+  <button class="continue-btn" (click)="goToStep(3)" [disabled]="!selectedRole">
+    Next
+    <i class="fas fa-arrow-right"></i>
+  </button>
+</div>
+}
+
+@if (currentStep === 3) {
+<div class="step">
+  <div class="step-header">
+    <button class="back-btn" (click)="goToStep(2)">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+    <h2 class="main-heading">Complete your profile</h2>
+    <p class="sub-heading">Step 3 of 3</p>
+  </div>
+
+  <form [formGroup]="step3Form" (ngSubmit)="onSubmit()" class="signup-form">
+    <div class="form-group">
+      <input 
+        type="text" 
+        formControlName="fullName"
+        placeholder="Full name"
+        class="form-input"
+        [class.invalid]="step3Form.get('fullName')?.invalid && step3Form.get('fullName')?.touched"
+      >
+      @if (step3Form.get('fullName')?.invalid && step3Form.get('fullName')?.touched) {
+      <div class="validation-error">
+        <i class="fas fa-exclamation-circle"></i>
+        <span>Full name is required</span>
+      </div>
+      }
+    </div>
+
+    <div class="form-group">
+      <input 
+        type="tel" 
+        formControlName="phone"
+        placeholder="Phone number (optional)"
+        class="form-input"
+      >
+    </div>
+
+    <div class="terms">
+      <label class="terms-check">
+        <input type="checkbox" formControlName="terms">
+        <span class="checkmark"></span>
+        <span class="terms-text">
+          I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+        </span>
+      </label>
+      @if (step3Form.get('terms')?.invalid && step3Form.get('terms')?.touched) {
+      <div class="validation-error">
+        <i class="fas fa-exclamation-circle"></i>
+        <span>You must agree to the terms</span>
+      </div>
+      }
+    </div>
+
+    <button type="submit" class="continue-btn" [disabled]="!step3Form.valid">
+      Create Account
+    </button>
+  </form>
+</div>
+}
