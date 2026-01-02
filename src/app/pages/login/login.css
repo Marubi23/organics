@@ -554,16 +554,6 @@
   box-shadow: 0 10px 30px rgba(26, 71, 42, 0.3);
 }
 
-.create-btn {
-  background: linear-gradient(135deg, #FFD700, #FFA500);
-  color: #1a1a1a;
-  padding: 10px 20px;
-}
-
-.create-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
-}
 
 .signin-btn:disabled {
   opacity: 0.6;
@@ -831,9 +821,3 @@ button:focus-visible {
   100% { transform: rotate(360deg); }
 }
 
-/* Disabled link */
-.create-btn.disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  pointer-events: none;
-}
