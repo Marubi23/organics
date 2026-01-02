@@ -188,7 +188,7 @@ body {
 
 /* Continue button */
 .continue-btn {
-  width: 100%;
+  width: 50%;
   padding: 14px 16px;
   background: #2d5a27;
   color: white;
@@ -277,7 +277,11 @@ body {
 .role-card.selected .role-icon {
   background: #2d5a27;
 }
+.button-container{
+  justify-items: end;
+  padding-bottom: 50px;
 
+}
 .role-icon i {
   font-size: 18px;
   color: #2d5a27;

@@ -55,10 +55,13 @@
       }
     </div>
 
-    <button type="submit" class="continue-btn" [disabled]="!step1Form.valid">
+    <div class="button-container">
+      <button type="submit" class="continue-btn" [disabled]="!step1Form.valid">
       Next
       <i class="fas fa-arrow-right"></i>
     </button>
+    </div>
+    
   </form>
 
   <p class="login-link">

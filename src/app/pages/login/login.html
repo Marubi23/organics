@@ -41,7 +41,7 @@
     <div class="login-form-container">
       <!-- Form Header -->
       <div class="form-header">
-        <h2 class="form-title">Welcome Back Customer</h2>
+        <h2 class="form-title">Welcome Back </h2>
       </div>
 
       <!-- Messages -->
@@ -170,22 +170,6 @@
           </a>
         </div>
 
-        <!-- Demo Note -->
-        <div class="demo-note">
-          <i class="fas fa-info-circle"></i>
-          <p>Demo: Enter 712345678 + any password to sign in</p>
-        </div>
-
-        <!-- Debug Info -->
-        <div class="debug-info" style="margin-top: 15px; padding: 10px; background: #f5f5f5; border-radius: 8px; font-size: 12px;">
-          <p><strong>Debug Info:</strong></p>
-          <p>Phone: "{{loginData.phoneNumber}}" ({{loginData.phoneNumber?.length}} chars)</p>
-          <p>Phone valid: {{phoneInput?.valid}}</p>
-          <p>Password: "{{'*'.repeat(loginData.password?.length || 0)}}" ({{loginData.password?.length}} chars)</p>
-          <p>Password valid: {{passwordInput?.valid}}</p>
-          <p>Form valid: {{loginForm.valid}}</p>
-          <p>Button disabled: {{loginForm.invalid || isLoading}}</p>
-        </div>
       </form>
     </div>
   </div>
