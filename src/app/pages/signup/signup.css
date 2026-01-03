@@ -190,7 +190,7 @@ body {
 .continue-btn {
   width: 50%;
   padding: 14px 16px;
-  background: #2d5a27;
+  background: #216716;
   color: white;
   border: none;
   border-radius: 8px;
@@ -198,12 +198,14 @@ body {
   font-weight: 500;
   cursor: pointer;
   transition: background 0.2s;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   margin-top: auto;
-  margin-bottom: 24px;
+  bottom: 10px;
+  left: 140px;
 }
 
 .continue-btn:hover:not(:disabled) {

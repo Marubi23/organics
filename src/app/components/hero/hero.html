@@ -1,9 +1,18 @@
-<section class="hero-slider">
+<section class="hero-slider" [class.animating]="animationClass">
   <div class="slider-container">
-    <!-- Slides -->
-    <div class="slides" [style.transform]="transformValue">
-      <div *ngFor="let slide of slides; let i = index" class="slide" [class.active]="i === currentSlide">
+    <!-- Slides Container with Animation Class -->
+    <div class="slides" [style.transform]="transformValue" [class.animate]="animationClass">
+      <div *ngFor="let slide of slides; let i = index" 
+           class="slide" 
+           [class.active]="i === currentSlide"
+           [class.slide-exit]="animationClass && i === currentSlide"
+           [class.slide-enter]="animationClass && i === ((currentSlide + 1) % slides.length)">
+        
+        <!-- Animation Overlay -->
+        <div class="animation-overlay" *ngIf="animationClass && i === currentSlide"></div>
+        
         <div class="slide-background">
+          <!-- Video Slide -->
           <div *ngIf="slide.isVideo; else imageSlide" class="video-container">
             <video 
               #videoElement
@@ -16,30 +25,30 @@
               (pause)="onVideoPause()"
               (ended)="onVideoEnded()">
               <source src="videos/agricvid.webm" type="video/webm">
-              <!-- Fallback for browsers that don't support WebM -->
               <source src="videos/agricvid.mp4" type="video/mp4">
               Your browser does not support the video tag.
             </video>
             <div class="video-overlay"></div>
           </div>
+          
+          <!-- Image Slide -->
           <ng-template #imageSlide>
             <img [src]="slide.image" [alt]="slide.title" class="background-image">
             <div class="image-overlay"></div>
           </ng-template>
         </div>
         
+        <!-- Content -->
         <div class="container">
           <div class="slide-content">
             <div class="text-content">
               <h1 class="slide-title">{{ slide.title }}</h1>
               <p class="slide-description">{{ slide.description }}</p>
               <div class="slide-buttons">
-                <!-- Primary CTA - Shop Now -->
                 <a routerLink="/products" class="btn btn-primary shop-now-btn" (click)="onUserInteraction()">
                   <i class="fas fa-shopping-bag"></i>
                   Shop Now
                 </a>
-                <!-- Secondary Button -->
                 <a [routerLink]="slide.buttonLink" class="btn btn-secondary" (click)="onUserInteraction()">
                   {{ slide.buttonText }}
                 </a>
@@ -50,7 +59,7 @@
       </div>
     </div>
 
-    <!-- Navigation Arrows -->
+    <!-- Navigation -->
     <button class="slider-nav prev" (click)="prevSlide(); onUserInteraction()">
       <i class="fas fa-chevron-left"></i>
     </button>
@@ -58,7 +67,7 @@
       <i class="fas fa-chevron-right"></i>
     </button>
 
-    <!-- Slide Indicators -->
+    <!-- Indicators -->
     <div class="slide-indicators">
       <button 
         *ngFor="let slide of slides; let i = index" 
