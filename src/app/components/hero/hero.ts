@@ -51,7 +51,7 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
       animation: 'broken-glass'
     },
     {
-      image: 'images/mzurislide1.JPG',
+      image: 'images/mzurilastslide.JPG',
       title: 'Organic Waste to Nutrient-Rich Fertilizers',
       description: 'Transforming farm and market waste into premium organic fertilizers using Black Soldier Fly Larvae technology.',
       buttonText: 'Our Process',
