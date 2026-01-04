@@ -1,628 +1,680 @@
 <!-- products.component.html -->
-<section class="mzuri-supermarket">
-  <!-- Animated Hero Section -->
-  <div class="hero-section">
-    <div class="hero-bg">
-      <div class="particles-container">
-        <div class="particle" *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]"></div>
-      </div>
-      <div class="hero-gradient"></div>
-    </div>
-    
-    <div class="hero-content">
-      <div class="container">
-        <!-- Hero Header -->
-        <div class="hero-header">
-          <div class="hero-badge">
-            <span class="badge-text">🇰🇪 100% KENYAN MADE</span>
-            <div class="badge-glow"></div>
-          </div>
-          
-          <h1 class="hero-title">
-            <span class="title-line title-line-1">Mzuri Organics</span>
-            <span class="title-line title-line-2">Pick & Grow</span>
-            <span class="title-line title-line-3">Nature's Premium Solutions</span>
-          </h1>
-          
-          <p class="hero-subtitle">
-            Transforming waste into wealth with nature's own biotechnology.
-            <span class="highlight">Simple.</span> 
-            <span class="highlight">Sustainable.</span> 
-            <span class="highlight">Superior.</span>
-          </p>
-          
-          <!-- Hero Stats -->
-          <div class="hero-stats-grid">
-            <div class="hero-stat" *ngFor="let stat of heroStats">
-              <div class="stat-icon">
-                <i [class]="stat.icon"></i>
-              </div>
-              <div class="stat-value">{{stat.value | number}}</div>
-              <div class="stat-label">{{stat.label}}</div>
-            </div>
+<div class="premium-products">
+  <!-- Top Location Bar - Premium Design -->
+  <div class="premium-location-bar" *ngIf="!hasDeliveryLocation">
+    <div class="container">
+      <div class="location-prompt">
+        <div class="prompt-content">
+          <i class="fas fa-truck"></i>
+          <div class="prompt-text">
+            <h4>Delivery Location Required</h4>
+            <p>Enter your location to see products available in your area</p>
           </div>
         </div>
-      </div>
-    </div>
-    
-    <!-- Floating Elements -->
-    <div class="floating-elements">
-      <div class="float-icon float-icon-1">
-        <i class="fas fa-leaf"></i>
-      </div>
-      <div class="float-icon float-icon-2">
-        <i class="fas fa-seedling"></i>
-      </div>
-      <div class="float-icon float-icon-3">
-        <i class="fas fa-tractor"></i>
-      </div>
-    </div>
-  </div>
-
-  <!-- Production Journey - Interactive -->
-  <div class="production-journey-section">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">
-          <span class="title-text">Nature's</span>
-          <span class="title-text title-highlight">Transformation Process</span>
-        </h2>
-        <p class="section-subtitle">From Kenyan waste to premium organic products</p>
-      </div>
-      
-      <div class="journey-steps">
-        <div class="journey-step" *ngFor="let step of journeySteps; let i = index">
-          <div class="step-visual">
-            <div class="step-icon-container">
-              <div class="step-icon-bg"></div>
-              <i [class]="step.icon"></i>
-              <div class="step-number">0{{i + 1}}</div>
-            </div>
-            <div class="step-connector" *ngIf="i !== journeySteps.length - 1">
-              <div class="connector-line"></div>
-              <div class="connector-arrow">
-                <i class="fas fa-arrow-right"></i>
-              </div>
-            </div>
-          </div>
-          <div class="step-content">
-            <h3 class="step-title">{{step.title}}</h3>
-            <p class="step-description">{{step.description}}</p>
-            <div class="step-details">
-              <span class="detail-tag">
-                <i class="fas fa-map-marker-alt"></i>
-                {{step.location}}
-              </span>
-              <span class="detail-tag">
-                <i class="fas fa-clock"></i>
-                {{step.duration}}
-              </span>
-            </div>
-          </div>
+        <div class="location-actions">
+          <button class="btn-location-auto" (click)="useCurrentLocation()">
+            <i class="fas fa-crosshairs"></i>
+            <span>Detect Automatically</span>
+          </button>
+          <button class="btn-location-manual" (click)="openLocationModal()">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>Enter Manually</span>
+          </button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Products Supermarket -->
-  <div class="products-supermarket">
+  <!-- Active Location Display -->
+  <div class="active-location-display" *ngIf="deliveryLocation">
     <div class="container">
-      <!-- Supermarket Controls -->
-      <div class="supermarket-header">
-        <div class="header-left">
-          <h2 class="supermarket-title">
-            <i class="fas fa-store-alt"></i>
-            Product Supermarket
-          </h2>
-          <div class="category-breadcrumbs">
-            <span class="crumb" [class.active]="selectedCategory === 'all'" (click)="onCategoryChange('all')">All Products</span>
-            <span class="crumb-separator">/</span>
-            <span class="crumb" *ngFor="let cat of categories.slice(1)" 
-                  [class.active]="selectedCategory === cat.value"
-                  (click)="onCategoryChange(cat.value)">
-              {{cat.label}}
-            </span>
+      <div class="location-info">
+        <i class="fas fa-map-pin"></i>
+        <div class="location-details">
+          <span class="location-label">Delivering to:</span>
+          <span class="location-address">{{deliveryLocation.address}}</span>
+        </div>
+        <button class="btn-location-edit" (click)="openLocationModal()">
+          <i class="fas fa-edit"></i>
+          <span>Edit</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Premium Hero Section -->
+  <section class="premium-hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-brand">
+          <div class="brand-icon">
+            <i class="fas fa-leaf"></i>
           </div>
+          <h1 class="hero-title">Mzuri Organics</h1>
+          <p class="hero-subtitle">Premium Organic Solutions</p>
         </div>
         
-        <div class="header-right">
-          <!-- Live Cart -->
-          <div class="live-cart" (click)="toggleCart()" [class.has-items]="cartItemCount() > 0">
-            <div class="cart-icon-container">
-              <i class="fas fa-shopping-basket"></i>
-              <div class="cart-count-badge" *ngIf="cartItemCount() > 0">
-                {{cartItemCount()}}
+        <div class="hero-stats">
+          <div class="stat-item">
+            <i class="fas fa-certificate"></i>
+            <div class="stat-data">
+              <span class="stat-value">100%</span>
+              <span class="stat-label">Organic Certified</span>
+            </div>
+          </div>
+          <div class="stat-item">
+            <i class="fas fa-shipping-fast"></i>
+            <div class="stat-data">
+              <span class="stat-value">24h</span>
+              <span class="stat-label">Delivery</span>
+            </div>
+          </div>
+          <div class="stat-item">
+            <i class="fas fa-users"></i>
+            <div class="stat-data">
+              <span class="stat-value">8.1K+</span>
+              <span class="stat-label">Farmers</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Premium Categories -->
+  <section class="premium-categories">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Product Categories</h2>
+        <p class="section-subtitle">Browse our premium organic solutions</p>
+      </div>
+      
+      <div class="categories-grid">
+        <div class="category-card" *ngFor="let category of categories" 
+             [class.active]="selectedCategory === category.value"
+             (click)="filterByCategory(category.value)">
+          <div class="category-icon" [style.background]="category.color + '15'">
+            <i [class]="category.icon"></i>
+          </div>
+          <h3 class="category-name">{{category.label}}</h3>
+          <span class="category-count">{{getProductsByCategory(category.value).length}}</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Premium Filter Bar -->
+  <section class="premium-filter-bar">
+    <div class="container">
+      <div class="filter-content">
+        <!-- Search -->
+        <div class="search-container">
+          <div class="search-wrapper">
+            <i class="fas fa-search"></i>
+            <input type="text" [(ngModel)]="searchQuery" 
+                   placeholder="Search products..." 
+                   (input)="onSearch()"
+                   class="search-input">
+            <button class="search-clear" *ngIf="searchQuery" (click)="clearSearch()">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="filter-controls">
+          <div class="filter-group">
+            <label class="filter-label">
+              <i class="fas fa-sort-amount-down"></i>
+              Sort by
+            </label>
+            <select [(ngModel)]="selectedSort" (change)="applySort()" class="filter-select">
+              <option value="featured">Featured</option>
+              <option value="newest">Newest</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="rating">Top Rated</option>
+              <option value="name">Alphabetical</option>
+            </select>
+          </div>
+
+          <div class="view-toggle">
+            <button class="view-btn" [class.active]="viewMode === 'grid'" 
+                    (click)="viewMode = 'grid'">
+              <i class="fas fa-th"></i>
+              <span>Grid</span>
+            </button>
+            <button class="view-btn" [class.active]="viewMode === 'list'" 
+                    (click)="viewMode = 'list'">
+              <i class="fas fa-list"></i>
+              <span>List</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Premium Products Grid -->
+  <section class="premium-products-grid">
+    <div class="container">
+      <!-- Products Header -->
+      <div class="products-header">
+        <div class="header-left">
+          <h2 class="products-title">
+            <span *ngIf="selectedCategory !== 'all'">{{selectedCategoryLabel}}</span>
+            <span *ngIf="selectedCategory === 'all'">All Products</span>
+          </h2>
+          <span class="products-count">{{displayedProducts.length}} products</span>
+        </div>
+        
+        <div class="header-right" *ngIf="selectedCategory !== 'all'">
+          <button class="btn-clear-filter" (click)="clearCategoryFilter()">
+            <i class="fas fa-times"></i>
+            Clear Filter
+          </button>
+        </div>
+      </div>
+
+      <!-- No Products -->
+      <div class="no-products" *ngIf="displayedProducts.length === 0">
+        <div class="no-products-icon">
+          <i class="fas fa-search"></i>
+        </div>
+        <h3>No products found</h3>
+        <p>Try adjusting your search or filters</p>
+        <button class="btn-clear-all" (click)="clearFilters()">
+          Clear All Filters
+        </button>
+      </div>
+
+      <!-- Grid View -->
+      <div class="products-grid" *ngIf="viewMode === 'grid' && displayedProducts.length > 0">
+        <div class="product-card" *ngFor="let product of displayedProducts">
+          <!-- Product Image -->
+          <div class="product-image-container">
+            <div class="product-image">
+              <img [src]="product.image" [alt]="product.name" 
+                   (error)="handleImageError($event)">
+              
+              <!-- Quick View Overlay -->
+              <div class="quick-view-overlay" (click)="openQuickView(product)">
+                <i class="fas fa-expand"></i>
+                <span>Quick View</span>
+              </div>
+              
+              <!-- Product Badges -->
+              <div class="product-badges">
+                <span class="badge badge-organic" *ngIf="product.isOrganic">
+                  <i class="fas fa-leaf"></i>
+                  <span>Organic</span>
+                </span>
+                <span class="badge badge-new" *ngIf="product.isNew">
+                  <i class="fas fa-star"></i>
+                  <span>New</span>
+                </span>
+                <span class="badge badge-sale" *ngIf="product.discount">
+                  <span>-{{product.discount}}%</span>
+                </span>
               </div>
             </div>
-            <div class="cart-info">
-              <div class="cart-total">KSh {{getCartTotal() | number}}</div>
-              <div class="cart-items">{{cartItemCount()}} items</div>
+          </div>
+
+          <!-- Product Info -->
+          <div class="product-info">
+            <!-- Category & Rating -->
+            <div class="product-meta">
+              <span class="product-category">
+                <i class="fas fa-tag"></i>
+                {{product.category}}
+              </span>
+              <div class="product-rating" *ngIf="product.rating">
+                <div class="stars">
+                  <i class="fas fa-star" *ngFor="let i of [1,2,3,4,5]"
+                     [class.filled]="i <= Math.floor(product.rating)"
+                     [class.half]="i === Math.ceil(product.rating) && product.rating % 1 !== 0"></i>
+                </div>
+                <span class="rating-value">{{product.rating.toFixed(1)}}</span>
+              </div>
             </div>
-            <div class="cart-arrow">
-              <i class="fas fa-chevron-right"></i>
+
+            <!-- Product Name -->
+            <h3 class="product-name">{{product.name}}</h3>
+
+            <!-- Product Description -->
+            <p class="product-description">{{product.description | truncate:80}}</p>
+
+            <!-- Features -->
+            <div class="product-features" *ngIf="product.features">
+              <div class="feature" *ngFor="let feature of product.features.slice(0, 2)">
+                <i class="fas fa-check-circle"></i>
+                <span>{{feature}}</span>
+              </div>
+            </div>
+
+            <!-- Price & Stock -->
+            <div class="product-pricing">
+              <div class="price-section">
+                <div class="current-price">KSh {{product.price | number}}</div>
+                <div class="original-price" *ngIf="product.originalPrice">
+                  <span>KSh {{product.originalPrice | number}}</span>
+                </div>
+              </div>
+              
+              <div class="stock-section">
+                <div class="stock-status" [class]="getStockClass(product)">
+                  <i class="fas fa-circle"></i>
+                  <span>{{getStockText(product)}}</span>
+                </div>
+                <div class="product-unit">
+                  <i class="fas fa-weight"></i>
+                  <span>{{product.units}}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="product-actions">
+              <button class="btn-add-to-cart" 
+                      (click)="addToCart(product)"
+                      [disabled]="!product.inStock"
+                      [class.disabled]="!product.inStock">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Add to Cart</span>
+                <span class="price-badge">KSh {{product.price | number}}</span>
+              </button>
+              
+              <button class="btn-quick-view" (click)="openQuickView(product)">
+                <i class="fas fa-eye"></i>
+              </button>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Supermarket Body -->
-      <div class="supermarket-body">
-        <!-- Sidebar Filters -->
-        <div class="supermarket-sidebar">
-          <!-- Category Filter -->
-          <div class="sidebar-section">
-            <h4 class="sidebar-title">
-              <i class="fas fa-layer-group"></i>
-              Product Categories
-            </h4>
-            <div class="category-filters">
-              <div class="category-filter" *ngFor="let category of categories"
-                   [class.active]="selectedCategory === category.value"
-                   (click)="onCategoryChange(category.value)">
-                <div class="category-icon">
-                  <i [class]="category.icon"></i>
-                </div>
-                <span class="category-name">{{category.label}}</span>
-                <span class="category-count">{{getProductsByCategory(category.value).length}}</span>
-              </div>
-            </div>
+      <!-- List View -->
+      <div class="products-list" *ngIf="viewMode === 'list' && displayedProducts.length > 0">
+        <div class="product-list-item" *ngFor="let product of displayedProducts">
+          <div class="list-image">
+            <img [src]="product.image" [alt]="product.name"
+                 (error)="handleImageError($event)">
           </div>
-
-          <!-- Price Filter -->
-          <div class="sidebar-section">
-            <h4 class="sidebar-title">
-              <i class="fas fa-tags"></i>
-              Price Range (KSh)
-            </h4>
-            <div class="price-slider-container">
-              <div class="price-inputs">
-                <input type="number" [(ngModel)]="priceMin" placeholder="Min" class="price-input">
-                <span class="price-separator">-</span>
-                <input type="number" [(ngModel)]="priceMax" placeholder="Max" class="price-input">
-              </div>
-              <button class="apply-price-btn" (click)="applyPriceFilter()">
-                <i class="fas fa-check"></i> Apply
-              </button>
-            </div>
-          </div>
-
-          <!-- Special Offers -->
-          <div class="sidebar-section offers-section">
-            <h4 class="sidebar-title">
-              <i class="fas fa-gift"></i>
-              Special Offers
-            </h4>
-            <div class="offers-list">
-              <div class="offer-card" *ngFor="let offer of specialOffers">
-                <div class="offer-icon">
-                  <i [class]="offer.icon"></i>
-                </div>
-                <div class="offer-content">
-                  <div class="offer-title">{{offer.title}}</div>
-                  <div class="offer-desc">{{offer.description}}</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Main Products Grid -->
-        <div class="supermarket-main">
-          <!-- Search & Sort Bar -->
-          <div class="search-sort-bar">
-            <div class="search-container">
-              <i class="fas fa-search search-icon"></i>
-              <input type="text" 
-                     [(ngModel)]="searchQuery"
-                     (input)="onSearchChange($event)"
-                     placeholder="Search Mzuri products..."
-                     class="search-input">
-              <div class="search-results" *ngIf="searchQuery">
-                {{products().length}} products found
+          
+          <div class="list-content">
+            <div class="list-header">
+              <div class="list-category">{{product.category}}</div>
+              <div class="list-rating" *ngIf="product.rating">
+                <i class="fas fa-star"></i>
+                <span>{{product.rating.toFixed(1)}}</span>
               </div>
             </div>
             
-            <div class="sort-container">
-              <select [(ngModel)]="selectedSort" (change)="onSortChange($event)" class="sort-select">
-                <option *ngFor="let option of sortOptions" [value]="option.value">
-                  {{option.label}}
-                </option>
-              </select>
-              <div class="view-toggle">
-                <button class="view-btn" [class.active]="viewMode === 'grid'" (click)="toggleViewMode('grid')">
-                  <i class="fas fa-th-large"></i>
-                </button>
-                <button class="view-btn" [class.active]="viewMode === 'list'" (click)="toggleViewMode('list')">
-                  <i class="fas fa-list"></i>
-                </button>
+            <h3 class="list-name">{{product.name}}</h3>
+            
+            <p class="list-description">{{product.description | truncate:120}}</p>
+            
+            <div class="list-features" *ngIf="product.features">
+              <div class="feature" *ngFor="let feature of product.features.slice(0, 3)">
+                <i class="fas fa-check"></i>
+                <span>{{feature}}</span>
+              </div>
+            </div>
+            
+            <div class="list-meta">
+              <div class="list-badges">
+                <span class="badge organic" *ngIf="product.isOrganic">Organic</span>
+                <span class="badge new" *ngIf="product.isNew">New Arrival</span>
+              </div>
+              
+              <div class="list-stock" [class]="getStockClass(product)">
+                <i class="fas fa-box"></i>
+                <span>{{getStockText(product)}}</span>
               </div>
             </div>
           </div>
-
-          <!-- Products Grid -->
-          <div class="products-container" [class.list-view]="viewMode === 'list'">
-            <!-- No Products -->
-            <div class="no-products" *ngIf="products().length === 0">
-              <div class="no-products-icon">
-                <i class="fas fa-shopping-bag"></i>
+          
+          <div class="list-actions">
+            <div class="list-pricing">
+              <div class="current-price">KSh {{product.price | number}}</div>
+              <div class="original-price" *ngIf="product.originalPrice">
+                <span>KSh {{product.originalPrice | number}}</span>
               </div>
-              <h3>No products found</h3>
-              <p>Try adjusting your search or filters</p>
-              <button class="clear-filters-btn" (click)="clearAllFilters()">
-                Clear All Filters
-              </button>
-            </div>
-
-            <!-- Grid View -->
-            <div class="products-grid" *ngIf="viewMode === 'grid' && products().length > 0">
-              <div class="product-card" *ngFor="let product of products()" 
-                   [@cardAnimation]="product.id">
-                <div class="product-image-container">
-                  <div class="image-wrapper">
-                    <img [src]="product.image" 
-                         [alt]="product.name"
-                         (error)="handleImageError($event)"
-                         class="product-image"
-                         [class.loaded]="imageLoaded"
-                         (load)="imageLoaded = true">
-                    
-                    <!-- 3D Zoom Effect -->
-                    <div class="image-zoom-overlay" (click)="openQuickView(product)">
-                      <i class="fas fa-search-plus"></i>
-                      <span>Quick View</span>
-                    </div>
-                    
-                    <!-- Hot Badges -->
-                    <div class="badges-container">
-                      <div class="badge badge-new" *ngIf="product.isNew">
-                        <i class="fas fa-bolt"></i> NEW
-                      </div>
-                      <div class="badge badge-organic">
-                        <i class="fas fa-leaf"></i> ORGANIC
-                      </div>
-                      <div class="badge badge-discount" *ngIf="product.discount">
-                        -{{product.discount}}%
-                      </div>
-                      <div class="badge badge-local">
-                        <i class="fas fa-map-marker-alt"></i> KENYAN
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <!-- Quick Actions -->
-                  <div class="quick-actions">
-                    <button class="action-btn action-wishlist" title="Add to Wishlist">
-                      <i class="far fa-heart"></i>
-                    </button>
-                    <button class="action-btn action-compare" title="Compare">
-                      <i class="fas fa-exchange-alt"></i>
-                    </button>
-                    <button class="action-btn action-share" title="Share">
-                      <i class="fas fa-share-alt"></i>
-                    </button>
-                  </div>
-                </div>
-
-                <div class="product-info">
-                  <!-- Category -->
-                  <div class="product-category">
-                    <i class="fas fa-tag"></i>
-                    {{product.category}}
-                  </div>
-                  
-                  <!-- Name -->
-                  <h3 class="product-name" [title]="product.name">
-                    {{product.name}}
-                  </h3>
-                  
-                  <!-- Description -->
-                  <p class="product-description" [title]="product.description">
-                    {{product.description}}
-                  </p>
-                  
-                  <!-- Rating -->
-                  <div class="product-rating">
-                    <div class="stars-container">
-                      <div class="stars-background">
-                        <i class="far fa-star" *ngFor="let i of [1,2,3,4,5]"></i>
-                      </div>
-                      <div class="stars-foreground" [style.width]="(product.rating / 5) * 100 + '%'">
-                        <i class="fas fa-star" *ngFor="let i of [1,2,3,4,5]"></i>
-                      </div>
-                    </div>
-                    <span class="rating-value">{{product.rating.toFixed(1)}}</span>
-                    <span class="rating-count">({{getRandomReviewCount()}})</span>
-                  </div>
-                  
-                  <!-- Features -->
-                  <div class="product-features" *ngIf="product.features">
-                    <div class="feature-tag" *ngFor="let feature of product.features.slice(0, 3)">
-                      <i class="fas fa-check-circle"></i>
-                      {{feature}}
-                    </div>
-                  </div>
-                  
-                  <!-- Price & Stock -->
-                  <div class="price-stock-section">
-                    <div class="price-section">
-                      <div class="current-price">KSh {{product.price | number}}</div>
-                      <div class="original-price" *ngIf="product.originalPrice">
-                        <span class="original-text">KSh {{product.originalPrice | number}}</span>
-                        <span class="save-amount">
-                          Save KSh {{product.originalPrice - product.price | number}}
-                        </span>
-                      </div>
-                    </div>
-                    
-                    <div class="stock-section">
-                      <div class="stock-indicator" [class]="getStockClass(product)">
-                        <div class="stock-dot"></div>
-                        {{getStockText(product)}}
-                      </div>
-                      <div class="product-unit">
-                        <i class="fas fa-weight-hanging"></i>
-                        {{product.units}}
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <!-- Action Buttons -->
-                  <div class="action-buttons">
-                    <button class="btn-add-to-cart" 
-                            (click)="addToCart(product)"
-                            [disabled]="!product.inStock"
-                            [class.disabled]="!product.inStock">
-                      <i class="fas fa-cart-plus"></i>
-                      <span>Add to Cart</span>
-                      <div class="cart-price">KSh {{product.price | number}}</div>
-                    </button>
-                    
-                    <button class="btn-buy-now" 
-                            (click)="buyNow(product)"
-                            [disabled]="!product.inStock">
-                      <i class="fas fa-bolt"></i>
-                      <span>Buy Now</span>
-                    </button>
-                  </div>
-                </div>
+              <div class="list-unit">
+                <i class="fas fa-weight"></i>
+                <span>{{product.units}}</span>
               </div>
             </div>
-
-            <!-- List View -->
-            <div class="products-list" *ngIf="viewMode === 'list' && products().length > 0">
-              <div class="list-item" *ngFor="let product of products()">
-                <div class="list-image">
-                  <img [src]="product.image" [alt]="product.name" class="list-img" (error)="handleImageError($event)">
-                  <div class="list-badges">
-                    <span class="badge badge-new" *ngIf="product.isNew">NEW</span>
-                    <span class="badge badge-organic">ORGANIC</span>
-                  </div>
-                </div>
-                
-                <div class="list-details">
-                  <div class="list-category">{{product.category}}</div>
-                  <h3 class="list-title">{{product.name}}</h3>
-                  <p class="list-description">{{product.description}}</p>
-                  
-                  <div class="list-features">
-                    <div class="feature" *ngFor="let feature of product.features?.slice(0, 2)">
-                      <i class="fas fa-check"></i> {{feature}}
-                    </div>
-                  </div>
-                  
-                  <div class="list-rating">
-                    <div class="stars">
-                      <i class="fas fa-star" *ngFor="let i of getFullStars(product.rating)"></i>
-                      <i class="fas fa-star-half-alt" *ngIf="hasHalfStar(product.rating)"></i>
-                    </div>
-                    <span>{{product.rating.toFixed(1)}}</span>
-                  </div>
-                </div>
-                
-                <div class="list-actions">
-                  <div class="list-price">
-                    <div class="current">KSh {{product.price | number}}</div>
-                    <div class="original" *ngIf="product.originalPrice">
-                      KSh {{product.originalPrice | number}}
-                    </div>
-                  </div>
-                  
-                  <div class="list-buttons">
-                    <button class="btn-list-cart" (click)="addToCart(product)" [disabled]="!product.inStock">
-                      <i class="fas fa-cart-plus"></i> Add
-                    </button>
-                    <button class="btn-list-buy" (click)="buyNow(product)" [disabled]="!product.inStock">
-                      <i class="fas fa-bolt"></i> Buy Now
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pagination -->
-          <div class="pagination" *ngIf="products().length > 0">
-            <button class="page-btn" [disabled]="currentPage === 1" (click)="prevPage()">
-              <i class="fas fa-chevron-left"></i> Previous
+            
+            <button class="btn-list-add" 
+                    (click)="addToCart(product)"
+                    [disabled]="!product.inStock">
+              <i class="fas fa-cart-plus"></i>
+              <span>Add to Cart</span>
             </button>
             
-            <div class="page-numbers">
-              <span class="page-number" 
+            <button class="btn-list-view" (click)="openQuickView(product)">
+              <i class="fas fa-expand"></i>
+              <span>View Details</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Premium Pagination -->
+      <div class="premium-pagination" *ngIf="displayedProducts.length > 0">
+       <div class="pagination-info">
+  Showing {{((currentPage - 1) * pageSize) + 1}} - 
+  {{getDisplayedEndIndex()}} of {{filteredProducts.length}} products
+</div>
+        
+        <div class="pagination-controls">
+          <button class="pagination-btn prev" 
+                  (click)="prevPage()" 
+                  [disabled]="currentPage === 1">
+            <i class="fas fa-chevron-left"></i>
+            <span>Previous</span>
+          </button>
+          
+          <div class="page-numbers">
+            <button class="page-number" 
                     *ngFor="let page of getPageNumbers()"
                     [class.active]="page === currentPage"
                     (click)="goToPage(page)">
-                {{page}}
-              </span>
-            </div>
-            
-            <button class="page-btn" [disabled]="currentPage === totalPages" (click)="nextPage()">
-              Next <i class="fas fa-chevron-right"></i>
+              {{page}}
             </button>
           </div>
+          
+          <button class="pagination-btn next" 
+                  (click)="nextPage()" 
+                  [disabled]="currentPage === totalPages">
+            <span>Next</span>
+            <i class="fas fa-chevron-right"></i>
+          </button>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Premium Location Modal -->
+  <div class="premium-modal" [class.active]="showLocationModal">
+    <div class="modal-overlay" (click)="closeLocationModal()"></div>
+    
+    <div class="modal-container" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <div class="header-content">
+          <i class="fas fa-map-marker-alt"></i>
+          <div>
+            <h3>Set Delivery Location</h3>
+            <p>Enter your location to see available products and delivery options</p>
+          </div>
+        </div>
+        <button class="modal-close" (click)="closeLocationModal()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <!-- Current Location Option -->
+        <div class="location-option option-current">
+          <div class="option-header">
+            <div class="option-icon">
+              <i class="fas fa-crosshairs"></i>
+            </div>
+            <div class="option-content">
+              <h4>Use Current Location</h4>
+              <p>Allow access to your device's location for precise delivery</p>
+            </div>
+          </div>
+          <button class="option-action" (click)="useCurrentLocation()">
+            <i class="fas fa-location-arrow"></i>
+            <span>Detect Location</span>
+          </button>
+        </div>
+        
+        <!-- Manual Entry Option -->
+        <div class="location-option option-manual">
+          <div class="option-header">
+            <div class="option-icon">
+              <i class="fas fa-map-signs"></i>
+            </div>
+            <div class="option-content">
+              <h4>Enter Address Manually</h4>
+              <p>Type your complete address for accurate delivery</p>
+            </div>
+          </div>
+          
+          <div class="manual-input-section">
+            <div class="input-group">
+              <div class="input-icon">
+                <i class="fas fa-search-location"></i>
+              </div>
+              <input type="text" [(ngModel)]="manualLocationInput" 
+                     placeholder="Enter your address, building, or area"
+                     (keyup.enter)="confirmManualLocation()"
+                     class="location-input">
+              <button class="input-action" (click)="searchLocation()" 
+                      [disabled]="!manualLocationInput">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+            
+            <!-- Location Suggestions -->
+            <div class="location-suggestions" *ngIf="locationSuggestions.length > 0">
+              <div class="suggestions-header">
+                <i class="fas fa-map-marker"></i>
+                <h5>Suggested Locations</h5>
+              </div>
+              <div class="suggestions-list">
+                <div class="suggestion-item" 
+                     *ngFor="let suggestion of locationSuggestions"
+                     (click)="selectLocationSuggestion(suggestion)">
+                  <div class="suggestion-icon">
+                    <i class="fas fa-map-pin"></i>
+                  </div>
+                  <div class="suggestion-content">
+                    <strong>{{suggestion.name}}</strong>
+                    <p>{{suggestion.address}}</p>
+                    <span class="suggestion-distance" *ngIf="suggestion.distance">
+                      {{suggestion.distance}} km away
+                    </span>
+                  </div>
+                  <i class="fas fa-chevron-right"></i>
+                </div>
+              </div>
+            </div>
+            
+            <div class="input-actions">
+              <button class="btn-confirm" 
+                      [disabled]="!manualLocationInput"
+                      (click)="confirmManualLocation()">
+                <i class="fas fa-check-circle"></i>
+                <span>Confirm Location</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Popular Areas -->
+        <div class="popular-areas-section">
+          <div class="section-header">
+            <i class="fas fa-city"></i>
+            <h4>Popular Delivery Areas</h4>
+          </div>
+          <div class="areas-grid">
+            <div class="area-card" *ngFor="let area of popularAreas"
+                 (click)="selectPopularArea(area)">
+              <div class="area-icon">
+                <i class="fas fa-building"></i>
+              </div>
+              <div class="area-info">
+                <h5>{{area.name}}</h5>
+                <p>{{area.description}}</p>
+              </div>
+              <i class="fas fa-arrow-right"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <p class="footer-note">
+          <i class="fas fa-info-circle"></i>
+          Delivery available within 50km radius. Free delivery on orders over KSh 5,000.
+        </p>
       </div>
     </div>
   </div>
 
-  <!-- Quick View Modal -->
-  <div class="quick-view-modal" [class.active]="quickViewProduct" (click)="closeQuickView()">
-    <div class="modal-container" (click)="$event.stopPropagation()" *ngIf="quickViewProduct">
+  <!-- Premium Quick View Modal -->
+  <div class="premium-quickview" [class.active]="quickViewProduct">
+    <div class="modal-overlay" (click)="closeQuickView()"></div>
+    
+    <div class="modal-container" (click)="$event.stopPropagation()" 
+         *ngIf="quickViewProduct">
       <button class="modal-close" (click)="closeQuickView()">
         <i class="fas fa-times"></i>
       </button>
       
-      <div class="modal-content">
-        <!-- Left Column - Images -->
-        <div class="modal-images">
+      <div class="quickview-content">
+        <!-- Product Images -->
+        <div class="quickview-images">
           <div class="main-image">
             <img [src]="quickViewProduct.image" [alt]="quickViewProduct.name">
-            <div class="image-zoom-controls">
-              <button class="zoom-btn" (click)="zoomImage('in')">
-                <i class="fas fa-search-plus"></i>
-              </button>
-              <button class="zoom-btn" (click)="zoomImage('out')">
-                <i class="fas fa-search-minus"></i>
-              </button>
-            </div>
-          </div>
-          
-          <!-- Thumbnails -->
-          <div class="image-thumbnails">
-            <div class="thumbnail active">
-              <img [src]="quickViewProduct.image" [alt]="quickViewProduct.name">
-            </div>
           </div>
         </div>
         
-        <!-- Right Column - Details -->
-        <div class="modal-details">
-          <div class="modal-header">
-            <div class="product-category-modal">
+        <!-- Product Details -->
+        <div class="quickview-details">
+          <div class="product-header">
+            <div class="product-category">
               <i class="fas fa-tag"></i>
-              {{quickViewProduct.category}}
+              <span>{{quickViewProduct.category}}</span>
             </div>
-            
-            <h2 class="modal-title">{{quickViewProduct.name}}</h2>
-            
-            <div class="modal-badges">
-              <span class="badge badge-new" *ngIf="quickViewProduct.isNew">
-                <i class="fas fa-bolt"></i> NEW ARRIVAL
-              </span>
-              <span class="badge badge-organic">
-                <i class="fas fa-leaf"></i> 100% ORGANIC
-              </span>
-              <span class="badge badge-local">
-                <i class="fas fa-map-marker-alt"></i> KENYAN MADE
-              </span>
+            <div class="product-rating" *ngIf="quickViewProduct.rating">
+              <div class="stars">
+                <i class="fas fa-star"></i>
+                <span>{{quickViewProduct.rating.toFixed(1)}}</span>
+              </div>
             </div>
           </div>
           
-          <!-- Rating -->
-          <div class="modal-rating">
-            <div class="rating-stars">
-              <i class="fas fa-star" *ngFor="let i of getFullStars(quickViewProduct.rating)"></i>
-              <i class="fas fa-star-half-alt" *ngIf="hasHalfStar(quickViewProduct.rating)"></i>
-              <i class="far fa-star" *ngFor="let i of getEmptyStars(quickViewProduct.rating)"></i>
-            </div>
-            <span class="rating-value">{{quickViewProduct.rating.toFixed(1)}} out of 5</span>
-            <span class="rating-count">Based on {{getRandomReviewCount()}} Kenyan farmer reviews</span>
+          <h2 class="product-title">{{quickViewProduct.name}}</h2>
+          
+          <div class="product-badges">
+            <span class="badge organic" *ngIf="quickViewProduct.isOrganic">
+              <i class="fas fa-leaf"></i>
+              <span>100% Organic</span>
+            </span>
+            <span class="badge new" *ngIf="quickViewProduct.isNew">
+              <i class="fas fa-certificate"></i>
+              <span>New Arrival</span>
+            </span>
           </div>
           
-          <!-- Description -->
-          <div class="modal-description">
-            <h4>Product Description</h4>
+          <div class="product-description">
+            <h4>Description</h4>
             <p>{{quickViewProduct.description}}</p>
           </div>
           
-          <!-- Features -->
-          <div class="modal-features" *ngIf="quickViewProduct.features">
+          <div class="product-features" *ngIf="quickViewProduct.features">
             <h4>Key Features</h4>
             <div class="features-grid">
-              <div class="feature" *ngFor="let feature of quickViewProduct.features">
-                <i class="fas fa-check-circle"></i>
+              <div class="feature-item" *ngFor="let feature of quickViewProduct.features">
+                <i class="fas fa-check"></i>
                 <span>{{feature}}</span>
               </div>
             </div>
           </div>
           
-          <!-- Specifications -->
-          <div class="modal-specs">
-            <div class="spec">
-              <i class="fas fa-weight"></i>
-              <div>
-                <div class="spec-label">Weight/Size</div>
-                <div class="spec-value">{{quickViewProduct.weight || 'Standard'}}</div>
+          <div class="product-specs">
+            <h4>Specifications</h4>
+            <div class="specs-grid">
+              <div class="spec-item">
+                <i class="fas fa-weight"></i>
+                <div>
+                  <span class="spec-label">Weight/Size</span>
+                  <span class="spec-value">{{quickViewProduct.weight || 'Standard'}}</span>
+                </div>
               </div>
-            </div>
-            <div class="spec">
-              <i class="fas fa-box"></i>
-              <div>
-                <div class="spec-label">Units</div>
-                <div class="spec-value">{{quickViewProduct.units}}</div>
+              <div class="spec-item">
+                <i class="fas fa-box"></i>
+                <div>
+                  <span class="spec-label">Units</span>
+                  <span class="spec-value">{{quickViewProduct.units}}</span>
+                </div>
               </div>
-            </div>
-            <div class="spec">
-              <i class="fas fa-map-pin"></i>
-              <div>
-                <div class="spec-label">Origin</div>
-                <div class="spec-value">{{quickViewProduct.origin || 'Kenya'}}</div>
+              <div class="spec-item">
+                <i class="fas fa-map-pin"></i>
+                <div>
+                  <span class="spec-label">Origin</span>
+                  <span class="spec-value">{{quickViewProduct.origin || 'Kenya'}}</span>
+                </div>
+              </div>
+              <div class="spec-item">
+                <i class="fas fa-industry"></i>
+                <div>
+                  <span class="spec-label">Manufacturer</span>
+                  <span class="spec-value">Mzuri Organics</span>
+                </div>
               </div>
             </div>
           </div>
           
-          <!-- Price & Actions -->
-          <div class="modal-price-actions">
+          <div class="product-pricing">
             <div class="price-section">
-              <div class="current-price-large">KSh {{quickViewProduct.price | number}}</div>
-              <div class="original-price-modal" *ngIf="quickViewProduct.originalPrice">
-                <span class="was">Was: KSh {{quickViewProduct.originalPrice | number}}</span>
-                <span class="save">Save KSh {{quickViewProduct.originalPrice - quickViewProduct.price | number}}</span>
+              <div class="current-price">KSh {{quickViewProduct.price | number}}</div>
+              <div class="original-price" *ngIf="quickViewProduct.originalPrice">
+                <span>Was KSh {{quickViewProduct.originalPrice | number}}</span>
               </div>
             </div>
             
-            <div class="stock-section-modal">
+            <div class="stock-info">
               <div class="stock-status" [class]="getStockClass(quickViewProduct)">
-                <div class="status-dot"></div>
-                {{getStockText(quickViewProduct)}}
-              </div>
-              
-              <!-- Quantity Selector -->
-              <div class="quantity-selector">
-                <button class="qty-btn minus" (click)="decreaseQuantity()">
-                  <i class="fas fa-minus"></i>
-                </button>
-                <input type="number" [(ngModel)]="quickViewQuantity" min="1" max="99" class="qty-input">
-                <button class="qty-btn plus" (click)="increaseQuantity()">
-                  <i class="fas fa-plus"></i>
-                </button>
+                <i class="fas fa-circle"></i>
+                <span>{{getStockText(quickViewProduct)}}</span>
               </div>
             </div>
-            
-            <!-- Action Buttons -->
-            <div class="modal-actions">
-              <button class="btn-modal-add" (click)="addToCartModal()">
-                <i class="fas fa-cart-plus"></i>
-                Add to Cart - KSh {{quickViewProduct.price * quickViewQuantity | number}}
+          </div>
+          
+          <div class="product-actions">
+            <div class="quantity-selector">
+              <button class="qty-btn minus" (click)="decreaseQuantity()">
+                <i class="fas fa-minus"></i>
               </button>
-              <button class="btn-modal-buy" (click)="buyNowModal()">
-                <i class="fas fa-bolt"></i>
-                Buy Now
+              <input type="number" [(ngModel)]="quickViewQuantity" 
+                     min="1" max="99" class="qty-input">
+              <button class="qty-btn plus" (click)="increaseQuantity()">
+                <i class="fas fa-plus"></i>
               </button>
             </div>
             
-            <!-- Trust Badges -->
-            <div class="trust-badges">
-              <div class="trust-badge">
-                <i class="fas fa-shield-alt"></i>
-                <span>100% Satisfaction Guarantee</span>
+            <button class="btn-add-to-cart-large" (click)="addToCartModal()">
+              <i class="fas fa-shopping-cart"></i>
+              <span>Add to Cart</span>
+              <span class="cart-price">KSh {{quickViewProduct.price * quickViewQuantity | number}}</span>
+            </button>
+          </div>
+          
+          <div class="product-benefits">
+            <div class="benefit">
+              <i class="fas fa-shipping-fast"></i>
+              <div>
+                <strong>Free Delivery</strong>
+                <span>On orders over KSh 5,000</span>
               </div>
-              <div class="trust-badge">
-                <i class="fas fa-truck"></i>
-                <span>Free Delivery Over KSh 5,000</span>
+            </div>
+            <div class="benefit">
+              <i class="fas fa-shield-alt"></i>
+              <div>
+                <strong>Quality Guarantee</strong>
+                <span>100% satisfaction or money back</span>
               </div>
-              <div class="trust-badge">
-                <i class="fas fa-headset"></i>
-                <span>24/7 Farmer Support</span>
+            </div>
+            <div class="benefit">
+              <i class="fas fa-headset"></i>
+              <div>
+                <strong>Expert Support</strong>
+                <span>24/7 farmer assistance</span>
               </div>
             </div>
           </div>
@@ -631,22 +683,34 @@
     </div>
   </div>
 
-  <!-- Cart Component -->
-  <app-cart [isOpen]="isCartOpen" (closeCart)="onCloseCart()"></app-cart>
-
-  <!-- Floating Action Buttons -->
-  <div class="fab-container">
-    <button class="fab fab-cart" (click)="toggleCart()" [class.has-items]="cartItemCount() > 0">
-      <i class="fas fa-shopping-basket"></i>
-      <span class="fab-badge" *ngIf="cartItemCount() > 0">{{cartItemCount()}}</span>
-    </button>
-    
-    <button class="fab fab-scroll" (click)="scrollToTop()" [class.visible]="showScrollButton">
-      <i class="fas fa-arrow-up"></i>
-    </button>
-    
-    <button class="fab fab-whatsapp" (click)="openWhatsApp()">
-      <i class="fab fa-whatsapp"></i>
-    </button>
+  <!-- Sticky Cart Bar -->
+  <div class="sticky-cart-bar" [class.visible]="cartCount() > 0">
+    <div class="container">
+      <div class="cart-summary">
+        <div class="cart-icon">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-count-badge">{{cartCount}}</span>
+        </div>
+        <div class="cart-details">
+          <div class="cart-total">
+            <span>Total:</span>
+            <strong>KSh {{cartTotal() | number}}</strong>
+          </div>
+          <div class="cart-items">
+           <span>{{cartCount()}} item{{cartCount() !== 1 ? 's' : ''}} in cart</span>
+          </div>
+        </div>
+      </div>
+      <div class="cart-actions">
+        <button class="btn-view-cart" (click)="toggleCart()">
+          <i class="fas fa-eye"></i>
+          <span>View Cart</span>
+        </button>
+        <button class="btn-checkout" (click)="proceedToCheckout()">
+          <i class="fas fa-lock"></i>
+          <span>Secure Checkout</span>
+        </button>
+      </div>
+    </div>
   </div>
-</section>
+</div>

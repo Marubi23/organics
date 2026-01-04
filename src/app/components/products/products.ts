@@ -1,21 +1,20 @@
-// products.component.ts - COMPLETE FIXED VERSION
 import {
   Component,
+  OnInit,
+  HostListener,
   AfterViewInit,
   OnDestroy,
-  signal,
+  computed,
   Inject,
-  PLATFORM_ID,
-  OnInit,
-  HostListener
+  PLATFORM_ID
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { isPlatformBrowser } from '@angular/common';
-import { CartService } from '../../services/cart';
-import { CartComponent } from '../../pages/cart/cart';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { CartService } from '../../services/cart';
+import { TruncatePipe } from './truncate.pipe';
 
 interface Product {
   id: number;
@@ -39,6 +38,7 @@ interface Product {
   application?: string;
   composition?: string;
   stock?: number;
+  stockLevel?: 'high' | 'medium' | 'low' | 'out';
 }
 
 interface Category {
@@ -49,103 +49,35 @@ interface Category {
   color: string;
 }
 
-interface HeroStat {
-  value: number;
-  label: string;
-  icon: string;
-}
-
-interface JourneyStep {
-  title: string;
-  description: string;
-  icon: string;
-  location: string;
-  duration: string;
-}
-
-interface SpecialOffer {
-  icon: string;
-  title: string;
-  description: string;
-}
-
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, CartComponent],
+  imports: [CommonModule, RouterModule, FormsModule, TruncatePipe],
   templateUrl: './products.html',
   styleUrls: ['./products.css'],
   animations: [
-    trigger('cardAnimation', [
+    trigger('fadeIn', [
       transition(':enter', [
-        style({ opacity: 0, transform: 'translateY(30px)' }),
-        animate('0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)', 
-          style({ opacity: 1, transform: 'translateY(0)' }))
+        style({ opacity: 0, transform: 'translateY(20px)' }),
+        animate('300ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
+      ]),
+      transition(':leave', [
+        animate('200ms ease-in', style({ opacity: 0 }))
+      ])
+    ]),
+    trigger('slideIn', [
+      transition(':enter', [
+        style({ transform: 'translateY(100%)' }),
+        animate('300ms ease-out', style({ transform: 'translateY(0)' }))
+      ]),
+      transition(':leave', [
+        animate('300ms ease-in', style({ transform: 'translateY(100%)' }))
       ])
     ])
   ]
 })
-export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
-  // Hero Stats
-  heroStats: HeroStat[] = [
-    { value: 125, label: 'Organic Products', icon: 'fas fa-leaf' },
-    { value: 8100, label: 'Farmers Served', icon: 'fas fa-users' },
-    { value: 46700000, label: 'Total Sales (KSh)', icon: 'fas fa-chart-line' },
-    { value: 24, label: 'Delivery Hours', icon: 'fas fa-truck' }
-  ];
-
-  // Journey Steps
-  journeySteps: JourneyStep[] = [
-    {
-      title: 'Kenyan Waste Collection',
-      description: 'Gathering plant residue & animal waste from sustainable Kenyan farms',
-      icon: 'fas fa-recycle',
-      location: 'Nationwide',
-      duration: 'Continuous'
-    },
-    {
-      title: 'BSFL Bioconversion',
-      description: 'Black Soldier Fly Larvae transform organic waste into nutrient-rich biomass',
-      icon: 'fas fa-bug',
-      location: 'Mzuri Processing Facility',
-      duration: '7-14 days'
-    },
-    {
-      title: 'Vermicomposting',
-      description: 'Red Wigglers enhance compost quality and accelerate decomposition',
-      icon: 'fas fa-worm',
-      location: 'Mzuri Processing Facility',
-      duration: '30-60 days'
-    },
-    {
-      title: 'Quality Production',
-      description: 'Premium organic products packaged for Kenyan farmers',
-      icon: 'fas fa-box',
-      location: 'Kenya',
-      duration: 'Fresh Daily'
-    }
-  ];
-
-  // Special Offers
-  specialOffers: SpecialOffer[] = [
-    {
-      icon: 'fas fa-truck',
-      title: 'Free Delivery',
-      description: 'Orders over KSh 5,000'
-    },
-    {
-      icon: 'fas fa-percentage',
-      title: 'Bulk Discount',
-      description: 'Save up to 20% on large orders'
-    },
-    {
-      icon: 'fas fa-gift',
-      title: 'Farmers Club',
-      description: 'Exclusive benefits for members'
-    }
-  ];
-
-  // Categories
+export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
+  // Categories for Premium Design
   categories: Category[] = [
     { 
       value: 'all', 
@@ -191,16 +123,6 @@ export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
     }
   ];
 
-  // Sort Options
-  sortOptions = [
-    { value: 'featured', label: 'Featured' },
-    { value: 'newest', label: 'Newest' },
-    { value: 'price-low', label: 'Price: Low to High' },
-    { value: 'price-high', label: 'Price: High to Low' },
-    { value: 'rating', label: 'Highest Rated' },
-    { value: 'name', label: 'Name: A-Z' }
-  ];
-
   // REAL Mzuri Products Data
   private allProducts: Product[] = [
     // Biofertilizers
@@ -219,6 +141,7 @@ export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
       units: '5kg bag',
       inStock: true,
       stock: 45,
+      stockLevel: 'high',
       features: [
         '100% Organic',
         'Active Macrobes & Microbes',
@@ -246,6 +169,7 @@ export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
       units: '5kg bag',
       inStock: true,
       stock: 32,
+      stockLevel: 'medium',
       features: [
         'For Vegetables',
         'Balanced NPK Ratio',
@@ -271,6 +195,7 @@ export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
       units: '5kg bag',
       inStock: true,
       stock: 28,
+      stockLevel: 'medium',
       features: [
         'For Fruit Trees',
         'Enhances Fruit Quality',
@@ -296,6 +221,7 @@ export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
       units: '1L bottle',
       inStock: true,
       stock: 15,
+      stockLevel: 'low',
       features: [
         'Liquid Concentrate',
         'Fast Absorption',
@@ -323,6 +249,7 @@ export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
       units: '5kg bag',
       inStock: true,
       stock: 50,
+      stockLevel: 'high',
       features: [
         'Organo-mineral Blend',
         'Fast Nutrient Release',
@@ -350,6 +277,7 @@ export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
       units: '25kg bag',
       inStock: true,
       stock: 25,
+      stockLevel: 'medium',
       features: [
         '50% Protein from BSFL',
         'For Chicks (0-8 weeks)',
@@ -375,6 +303,7 @@ export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
       units: '25kg bag',
       inStock: true,
       stock: 38,
+      stockLevel: 'high',
       features: [
         'For Growers (8-18 weeks)',
         'Balanced Protein',
@@ -400,6 +329,7 @@ export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
       units: '25kg bag',
       inStock: true,
       stock: 20,
+      stockLevel: 'low',
       stockStatus: 'Low Stock',
       features: [
         'For Broilers',
@@ -426,6 +356,7 @@ export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
       units: '25kg bag',
       inStock: true,
       stock: 42,
+      stockLevel: 'high',
       features: [
         'For Laying Hens',
         'Increases Egg Production',
@@ -453,6 +384,7 @@ export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
       units: '25kg bag',
       inStock: true,
       stock: 18,
+      stockLevel: 'low',
       features: [
         'For Piglets',
         'High Digestibility',
@@ -478,6 +410,7 @@ export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
       units: '25kg bag',
       inStock: true,
       stock: 30,
+      stockLevel: 'medium',
       features: [
         'For Sows & Weaners',
         'Reproductive Health',
@@ -503,6 +436,7 @@ export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
       units: '25kg bag',
       inStock: true,
       stock: 22,
+      stockLevel: 'low',
       features: [
         'For Finishing Pigs',
         'Maximum Weight Gain',
@@ -530,6 +464,7 @@ export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
       units: '500g pack',
       inStock: true,
       stock: 55,
+      stockLevel: 'high',
       features: [
         'For Dogs',
         'High Protein Treats',
@@ -543,51 +478,68 @@ export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
     }
   ];
 
-  // Signal for products
-  products = signal<Product[]>([]);
+  // Display properties
+  displayedProducts: Product[] = [];
+  filteredProducts: Product[] = [];
   
-  // Filtering
-  selectedCategory = 'all';
-  selectedSort = 'featured';
-  searchQuery = '';
-  priceMin: number | null = null;
-  priceMax: number | null = null;
-  
-  // View
+  // Filters
+  selectedCategory: string = 'all';
+  selectedSort: string = 'featured';
+  searchQuery: string = '';
   viewMode: 'grid' | 'list' = 'grid';
   
+  // Pagination
+  currentPage: number = 1;
+  pageSize: number = 9;
+  totalPages: number = 1;
+
+  // Location
+  hasDeliveryLocation: boolean = false;
+  deliveryLocation: any = null;
+  showLocationModal: boolean = false;
+  manualLocationInput: string = '';
+  locationSuggestions: any[] = [];
+
   // Quick View
   quickViewProduct: Product | null = null;
-  quickViewQuantity = 1;
-  
+  quickViewQuantity: number = 1;
+
   // Cart
-  cartItemCount = signal(0);
+  cartCount = computed(() => this.cartService.getTotalItems());
+  cartTotal = computed(() => this.cartService.getTotalPrice());
   isCartOpen = false;
   
-  // Pagination
-  currentPage = 1;
-  pageSize = 12;
-  totalPages = 1;
+  // Popular areas for delivery
+  popularAreas: any[] = [
+    { name: 'Nairobi CBD', description: 'Central Business District', deliveryTime: '2-4 hours' },
+    { name: 'Westlands', description: 'Commercial area', deliveryTime: '3-5 hours' },
+    { name: 'Karen', description: 'Suburban area', deliveryTime: '4-6 hours' },
+    { name: 'Thika Road', description: 'Along Thika Super Highway', deliveryTime: '3-5 hours' },
+    { name: 'Mombasa Road', description: 'Industrial area', deliveryTime: '4-6 hours' },
+    { name: 'Kiambu Road', description: 'Residential area', deliveryTime: '3-5 hours' }
+  ];
+
+  // Loading state
+  isLoading: boolean = false;
   
   // Scroll
   showScrollButton = false;
-  imageLoaded = false;
+
+  // ADD THIS LINE to fix the Math error in template
+  Math = Math;
 
   constructor(
+    private router: Router,
     @Inject(PLATFORM_ID) private platformId: any,
     private cartService: CartService
   ) {}
 
-  ngOnInit() {
-    this.products.set([...this.allProducts]);
-    this.totalPages = Math.ceil(this.allProducts.length / this.pageSize);
-    this.updateDisplayedProducts();
+  ngOnInit(): void {
+    this.initializeProducts();
+    this.checkExistingLocation();
     
     if (isPlatformBrowser(this.platformId)) {
       this.cartService.loadFromLocalStorage();
-      this.cartService.cartItems$.subscribe(items => {
-        this.cartItemCount.set(this.cartService.getTotalItems());
-      });
     }
   }
 
@@ -595,43 +547,17 @@ export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
     this.initAnimations();
   }
 
-  ngOnDestroy(): void {}
-
-  @HostListener('window:scroll', [])
-  onWindowScroll() {
-    this.showScrollButton = window.scrollY > 300;
+  ngOnDestroy(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      document.body.style.overflow = '';
+    }
   }
 
   // ========== INITIALIZATION ==========
   private initAnimations(): void {
     if (!isPlatformBrowser(this.platformId)) return;
     
-    // Initialize particles animation
-    this.initParticles();
-    
     // Initialize scroll animations
-    this.initScrollAnimations();
-  }
-
-  private initParticles(): void {
-    const particles = document.querySelectorAll('.particle');
-    particles.forEach(particle => {
-      const size = Math.random() * 30 + 10;
-      const posX = Math.random() * 100;
-      const posY = Math.random() * 100;
-      const duration = Math.random() * 20 + 10;
-      
-      (particle as HTMLElement).style.width = `${size}px`;
-      (particle as HTMLElement).style.height = `${size}px`;
-      (particle as HTMLElement).style.left = `${posX}%`;
-      (particle as HTMLElement).style.top = `${posY}%`;
-      (particle as HTMLElement).style.animationDuration = `${duration}s`;
-    });
-  }
-
-  private initScrollAnimations(): void {
-    if (!isPlatformBrowser(this.platformId)) return;
-    
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -640,118 +566,159 @@ export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
       });
     }, { threshold: 0.1 });
 
-    document.querySelectorAll('.journey-step, .product-card').forEach(el => {
+    document.querySelectorAll('.journey-step, .product-card')?.forEach(el => {
       observer.observe(el);
     });
   }
 
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.showScrollButton = window.scrollY > 300;
+    }
+  }
+
   // ========== PRODUCT FILTERING ==========
-  onCategoryChange(category: string): void {
+  initializeProducts(): void {
+    this.filteredProducts = [...this.allProducts];
+    this.applyFilters();
+    this.calculateTotalPages();
+  }
+
+  filterByCategory(category: string): void {
     this.selectedCategory = category;
     this.currentPage = 1;
-    this.updateDisplayedProducts();
+    this.applyFilters();
   }
 
-  onSortChange(event: any): void {
-    this.selectedSort = event.target.value;
-    this.updateDisplayedProducts();
-  }
-
-  onSearchChange(event: any): void {
-    this.searchQuery = event.target.value;
+  clearCategoryFilter(): void {
+    this.selectedCategory = 'all';
     this.currentPage = 1;
-    this.updateDisplayedProducts();
+    this.applyFilters();
   }
 
-  applyPriceFilter(): void {
-    this.currentPage = 1;
-    this.updateDisplayedProducts();
-  }
-
-  toggleViewMode(mode: 'grid' | 'list'): void {
-    this.viewMode = mode;
-  }
-
-  updateDisplayedProducts(): void {
+  applyFilters(): void {
     let filtered = [...this.allProducts];
 
-    // Category filter
+    // Apply category filter
     if (this.selectedCategory !== 'all') {
-      filtered = filtered.filter(p => p.category === this.selectedCategory);
+      filtered = filtered.filter(product => product.category === this.selectedCategory);
     }
 
-    // Search filter
+    // Apply search filter
     if (this.searchQuery.trim()) {
-      const query = this.searchQuery.toLowerCase();
-      filtered = filtered.filter(p => 
-        p.name.toLowerCase().includes(query) ||
-        p.description.toLowerCase().includes(query) ||
-        p.category.toLowerCase().includes(query) ||
-        (p.subCategory && p.subCategory.toLowerCase().includes(query)) ||
-        (p.features && p.features.some(f => f.toLowerCase().includes(query)))
+      const query = this.searchQuery.toLowerCase().trim();
+      filtered = filtered.filter(product =>
+        product.name.toLowerCase().includes(query) ||
+        product.description.toLowerCase().includes(query) ||
+        product.category.toLowerCase().includes(query) ||
+        product.features?.some((feature: string) => feature.toLowerCase().includes(query))
       );
     }
 
-    // Price filter
-    if (this.priceMin !== null) {
-      filtered = filtered.filter(p => p.price >= this.priceMin!);
-    }
-    if (this.priceMax !== null) {
-      filtered = filtered.filter(p => p.price <= this.priceMax!);
-    }
+    // Apply sorting
+    filtered = this.sortProducts(filtered, this.selectedSort);
 
-    // Sort
-    filtered = this.sortProducts(filtered);
-
-    // Paginate
-    this.totalPages = Math.ceil(filtered.length / this.pageSize);
-    const start = (this.currentPage - 1) * this.pageSize;
-    const end = start + this.pageSize;
-    
-    this.products.set(filtered.slice(start, end));
+    this.filteredProducts = filtered;
+    this.updateDisplayedProducts();
   }
 
-  sortProducts(products: Product[]): Product[] {
-    return [...products].sort((a, b) => {
-      switch (this.selectedSort) {
-        case 'price-low': return a.price - b.price;
-        case 'price-high': return b.price - a.price;
-        case 'rating': return b.rating - a.rating;
-        case 'name': return a.name.localeCompare(b.name);
-        case 'newest': return b.id - a.id;
-        default: // featured
-          if (a.isNew && !b.isNew) return -1;
-          if (!a.isNew && b.isNew) return 1;
-          if (a.discount && !b.discount) return -1;
-          if (!a.discount && b.discount) return 1;
-          return b.rating - a.rating;
-      }
-    });
+  sortProducts(products: Product[], sortBy: string): Product[] {
+    const sorted = [...products];
+    
+    switch (sortBy) {
+      case 'newest':
+        return sorted.sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0));
+      case 'price-low':
+        return sorted.sort((a, b) => a.price - b.price);
+      case 'price-high':
+        return sorted.sort((a, b) => b.price - a.price);
+      case 'rating':
+        return sorted.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+      case 'name':
+        return sorted.sort((a, b) => a.name.localeCompare(b.name));
+      case 'featured':
+      default:
+        return sorted.sort((a, b) => {
+          const aScore = (a.isNew ? 2 : 0) + (a.discount ? 1 : 0) + (a.rating || 0);
+          const bScore = (b.isNew ? 2 : 0) + (b.discount ? 1 : 0) + (b.rating || 0);
+          return bScore - aScore;
+        });
+    }
+  }
+
+  applySort(): void {
+    this.currentPage = 1;
+    this.applyFilters();
+  }
+
+  onSearch(): void {
+    this.currentPage = 1;
+    this.applyFilters();
+  }
+
+  clearSearch(): void {
+    this.searchQuery = '';
+    this.currentPage = 1;
+    this.applyFilters();
+  }
+
+  clearFilters(): void {
+    this.selectedCategory = 'all';
+    this.searchQuery = '';
+    this.selectedSort = 'featured';
+    this.currentPage = 1;
+    this.applyFilters();
+  }
+
+  updateDisplayedProducts(): void {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.displayedProducts = this.filteredProducts.slice(startIndex, endIndex);
+  }
+
+  calculateTotalPages(): void {
+    this.totalPages = Math.ceil(this.filteredProducts.length / this.pageSize);
   }
 
   // ========== PAGINATION ==========
   getPageNumbers(): number[] {
-    const pages: number[] = [];
+    const pages = [];
     const maxPages = 5;
-    let start = Math.max(1, this.currentPage - Math.floor(maxPages / 2));
-    let end = Math.min(this.totalPages, start + maxPages - 1);
     
-    if (end - start + 1 < maxPages) {
-      start = Math.max(1, end - maxPages + 1);
-    }
-    
-    for (let i = start; i <= end; i++) {
-      pages.push(i);
+    if (this.totalPages <= maxPages) {
+      for (let i = 1; i <= this.totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      let start = Math.max(1, this.currentPage - 2);
+      let end = Math.min(this.totalPages, start + maxPages - 1);
+      
+      if (end - start < maxPages - 1) {
+        start = Math.max(1, end - maxPages + 1);
+      }
+      
+      for (let i = start; i <= end; i++) {
+        pages.push(i);
+      }
     }
     
     return pages;
+  }
+
+  goToPage(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.updateDisplayedProducts();
+      this.scrollToProductsSection();
+    }
   }
 
   prevPage(): void {
     if (this.currentPage > 1) {
       this.currentPage--;
       this.updateDisplayedProducts();
-      this.scrollToProducts();
+      this.scrollToProductsSection();
     }
   }
 
@@ -759,45 +726,193 @@ export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
       this.updateDisplayedProducts();
-      this.scrollToProducts();
+      this.scrollToProductsSection();
     }
   }
 
-  goToPage(page: number): void {
-    this.currentPage = page;
-    this.updateDisplayedProducts();
-    this.scrollToProducts();
-  }
-
-  scrollToProducts(): void {
+  scrollToProductsSection(): void {
     if (!isPlatformBrowser(this.platformId)) return;
     
-    const productsSection = document.querySelector('.products-supermarket');
+    const productsSection = document.querySelector('.premium-products-grid');
     if (productsSection) {
       productsSection.scrollIntoView({ behavior: 'smooth' });
     }
   }
 
-  // ========== CART FUNCTIONALITY ==========
-  toggleCart(): void {
-    this.isCartOpen = !this.isCartOpen;
-    if (isPlatformBrowser(this.platformId)) {
-      document.body.style.overflow = this.isCartOpen ? 'hidden' : '';
+  // ========== PRODUCT HELPERS ==========
+  getProductsByCategory(category: string): Product[] {
+    if (category === 'all') return this.allProducts;
+    return this.allProducts.filter(product => product.category === category);
+  }
+
+  get selectedCategoryLabel(): string {
+    const category = this.categories.find(c => c.value === this.selectedCategory);
+    return category ? category.label : 'Products';
+  }
+
+  // ========== STOCK METHODS ==========
+  getStockClass(product: Product): string {
+    if (!product.inStock) return 'stock-out';
+    if (product.stockStatus === 'Low Stock') return 'stock-low';
+    if (product.stockLevel === 'high') return 'stock-high';
+    if (product.stockLevel === 'medium') return 'stock-medium';
+    if (product.stockLevel === 'low') return 'stock-low';
+    if (product.stock && product.stock < 10) return 'stock-low';
+    return 'stock-high';
+  }
+
+  getStockText(product: Product): string {
+    if (!product.inStock) return 'Out of Stock';
+    if (product.stockStatus === 'Low Stock') return 'Low Stock';
+    if (product.stockLevel === 'low') return 'Low Stock';
+    if (product.stock && product.stock < 10) return `Low Stock (${product.stock} left)`;
+    if (product.stock) return `In Stock (${product.stock})`;
+    return 'In Stock';
+  }
+
+  // ========== LOCATION METHODS ==========
+  checkExistingLocation(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    
+    const savedLocation = localStorage.getItem('deliveryLocation');
+    if (savedLocation) {
+      try {
+        this.deliveryLocation = JSON.parse(savedLocation);
+        this.hasDeliveryLocation = true;
+      } catch (e) {
+        console.error('Error parsing saved location:', e);
+      }
     }
   }
 
-  onCloseCart(): void {
-    this.isCartOpen = false;
+  openLocationModal(): void {
+    this.showLocationModal = true;
+    if (isPlatformBrowser(this.platformId)) {
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  closeLocationModal(): void {
+    this.showLocationModal = false;
+    this.locationSuggestions = [];
     if (isPlatformBrowser(this.platformId)) {
       document.body.style.overflow = '';
     }
   }
 
-  getCartTotal(): number {
-    return this.cartService.getTotalPrice();
+  useCurrentLocation(): void {
+    this.isLoading = true;
+    
+    setTimeout(() => {
+      const mockLocation = {
+        address: 'Nairobi CBD, Kenya',
+        latitude: -1.2921,
+        longitude: 36.8219,
+        timestamp: new Date()
+      };
+      
+      this.deliveryLocation = mockLocation;
+      this.hasDeliveryLocation = true;
+      if (isPlatformBrowser(this.platformId)) {
+        localStorage.setItem('deliveryLocation', JSON.stringify(mockLocation));
+      }
+      this.isLoading = false;
+      this.closeLocationModal();
+      
+      this.showToast('Location set successfully!');
+    }, 1500);
   }
 
+  searchLocation(): void {
+    if (!this.manualLocationInput.trim()) return;
+    
+    this.locationSuggestions = [
+      {
+        name: 'Nairobi CBD',
+        address: 'Central Business District, Nairobi, Kenya',
+        distance: 0.5
+      },
+      {
+        name: 'Upper Hill',
+        address: 'Upper Hill Area, Nairobi, Kenya',
+        distance: 2.3
+      },
+      {
+        name: 'Westlands',
+        address: 'Westlands Commercial Area, Nairobi, Kenya',
+        distance: 3.1
+      },
+      {
+        name: 'Kilimani',
+        address: 'Kilimani Residential Area, Nairobi, Kenya',
+        distance: 2.8
+      }
+    ];
+  }
+
+  selectLocationSuggestion(suggestion: any): void {
+    this.manualLocationInput = suggestion.address;
+    this.confirmManualLocation();
+  }
+
+  confirmManualLocation(): void {
+    if (!this.manualLocationInput.trim()) return;
+    
+    const location = {
+      address: this.manualLocationInput,
+      latitude: null,
+      longitude: null,
+      timestamp: new Date()
+    };
+    
+    this.deliveryLocation = location;
+    this.hasDeliveryLocation = true;
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('deliveryLocation', JSON.stringify(location));
+    }
+    this.closeLocationModal();
+    
+    this.showToast('Location set successfully!');
+  }
+
+  selectPopularArea(area: any): void {
+    this.manualLocationInput = `${area.name}, ${area.description}`;
+    this.confirmManualLocation();
+  }
+
+  // ========== QUICK VIEW METHODS ==========
+  openQuickView(product: Product): void {
+    this.quickViewProduct = product;
+    this.quickViewQuantity = 1;
+    if (isPlatformBrowser(this.platformId)) {
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  closeQuickView(): void {
+    this.quickViewProduct = null;
+    this.quickViewQuantity = 1;
+    if (isPlatformBrowser(this.platformId)) {
+      document.body.style.overflow = '';
+    }
+  }
+
+  increaseQuantity(): void {
+    if (this.quickViewQuantity < 99) {
+      this.quickViewQuantity++;
+    }
+  }
+
+  decreaseQuantity(): void {
+    if (this.quickViewQuantity > 1) {
+      this.quickViewQuantity--;
+    }
+  }
+
+  // ========== CART METHODS ==========
   addToCart(product: Product): void {
+    if (!product.inStock) return;
+    
     const cartItem = {
       id: product.id,
       name: product.name,
@@ -809,7 +924,7 @@ export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
     };
     
     this.cartService.addToCart(cartItem);
-    this.showAddToCartNotification(product.name);
+    this.showToast(`${product.name} added to cart!`);
   }
 
   addToCartModal(): void {
@@ -826,7 +941,7 @@ export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
     };
     
     this.cartService.addToCart(cartItem);
-    this.showAddToCartNotification(this.quickViewProduct.name);
+    this.showToast(`${this.quickViewProduct.name} added to cart!`);
     this.closeQuickView();
   }
 
@@ -842,117 +957,71 @@ export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
     this.toggleCart();
   }
 
-  increaseQuantity(): void {
-    this.quickViewQuantity++;
-  }
-
-  decreaseQuantity(): void {
-    if (this.quickViewQuantity > 1) {
-      this.quickViewQuantity--;
-    }
-  }
-
-  // ========== QUICK VIEW ==========
-  openQuickView(product: Product): void {
-    this.quickViewProduct = product;
-    this.quickViewQuantity = 1;
+  toggleCart(): void {
+    this.isCartOpen = !this.isCartOpen;
     if (isPlatformBrowser(this.platformId)) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = this.isCartOpen ? 'hidden' : '';
     }
   }
 
-  closeQuickView(): void {
-    this.quickViewProduct = null;
+  onCloseCart(): void {
+    this.isCartOpen = false;
     if (isPlatformBrowser(this.platformId)) {
       document.body.style.overflow = '';
     }
   }
 
-  zoomImage(action: 'in' | 'out'): void {
-    if (!isPlatformBrowser(this.platformId)) return;
-    
-    const img = document.querySelector('.main-image img') as HTMLImageElement;
-    if (img) {
-      const currentTransform = img.style.transform || 'scale(1)';
-      const currentScale = parseFloat(currentTransform.match(/scale\(([^)]+)\)/)?.[1] || '1');
-      const newScale = action === 'in' ? currentScale * 1.2 : currentScale * 0.8;
-      img.style.transform = `scale(${Math.max(0.5, Math.min(3, newScale))})`;
+  proceedToCheckout(): void {
+    if (this.cartService.getTotalItems() > 0) {
+      this.router.navigate(['/checkout']);
+    } else {
+      this.showToast('Your cart is empty!');
     }
   }
 
-  // ========== NOTIFICATIONS ==========
-  private showAddToCartNotification(productName: string): void {
+  // ========== IMAGE HANDLING ==========
+  handleImageError(event: any): void {
+    const img = event.target as HTMLImageElement;
+    img.src = 'https://images.unsplash.com/photo-1596634669955-83b7a2349dc2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80';
+  }
+
+  // ========== TOAST NOTIFICATION ==========
+  showToast(message: string): void {
     if (!isPlatformBrowser(this.platformId)) return;
     
-    const notification = document.createElement('div');
-    notification.className = 'cart-notification';
-    notification.innerHTML = `
-      <div class="notification-content">
+    const toast = document.createElement('div');
+    toast.className = 'premium-toast';
+    toast.innerHTML = `
+      <div class="toast-content">
         <i class="fas fa-check-circle"></i>
-        <div>
-          <div class="notification-title">${productName}</div>
-          <div class="notification-subtitle">Added to cart successfully!</div>
-        </div>
+        <span>${message}</span>
       </div>
     `;
     
-    document.body.appendChild(notification);
+    document.body.appendChild(toast);
     
     setTimeout(() => {
-      notification.classList.add('hide');
-      setTimeout(() => notification.remove(), 300);
+      toast.classList.add('fade-out');
+      setTimeout(() => {
+        if (document.body.contains(toast)) {
+          document.body.removeChild(toast);
+        }
+      }, 300);
     }, 3000);
   }
 
-  // ========== HELPER METHODS ==========
-  getProductsByCategory(category: string): Product[] {
-    if (category === 'all') return this.allProducts;
-    return this.allProducts.filter(p => p.category === category);
-  }
-
-  getRandomReviewCount(): number {
-    return Math.floor(Math.random() * 500) + 50;
-  }
-
-  getFullStars(rating: number): number[] {
-    return Array(Math.floor(rating)).fill(0);
-  }
-
-  hasHalfStar(rating: number): boolean {
-    return rating % 1 >= 0.5;
-  }
-
-  getEmptyStars(rating: number): number[] {
-    const full = Math.floor(rating);
-    const half = this.hasHalfStar(rating) ? 1 : 0;
-    return Array(5 - full - half).fill(0);
-  }
-
-  getStockClass(product: Product): string {
-    if (!product.inStock) return 'out-of-stock';
-    if (product.stockStatus === 'Low Stock') return 'low-stock';
-    if (product.stock && product.stock < 10) return 'low-stock';
-    return 'in-stock';
-  }
-
-  getStockText(product: Product): string {
-    if (!product.inStock) return 'Out of Stock';
-    if (product.stockStatus === 'Low Stock') return 'Low Stock';
-    if (product.stock && product.stock < 10) return `Low Stock (${product.stock} left)`;
-    if (product.stock) return `In Stock (${product.stock})`;
-    return 'In Stock';
-  }
-
-  // ========== IMAGE HANDLING ==========
-  handleImageError(event: Event): void {
-    const img = event.target as HTMLImageElement;
-    img.src = 'https://images.unsplash.com/photo-1560493676-04071c5f467b?w=400&h=300&fit=crop';
-  }
-
-  // ========== SCROLL ==========
-  scrollToTop(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+  // ========== ESCAPE KEY HANDLER ==========
+  @HostListener('document:keydown.escape', ['$event'])
+  handleEscapeKey(event: Event): void {
+    const keyboardEvent = event as KeyboardEvent;
+    if (this.showLocationModal) {
+      this.closeLocationModal();
+    }
+    if (this.quickViewProduct) {
+      this.closeQuickView();
+    }
+    if (this.isCartOpen) {
+      this.onCloseCart();
     }
   }
 
@@ -967,13 +1036,15 @@ export class ProductsComponent implements AfterViewInit, OnDestroy, OnInit {
     }
   }
 
-  // ========== CLEAR FILTERS ==========
-  clearAllFilters(): void {
-    this.selectedCategory = 'all';
-    this.searchQuery = '';
-    this.priceMin = null;
-    this.priceMax = null;
-    this.currentPage = 1;
-    this.updateDisplayedProducts();
+  // ========== SCROLL TO TOP ==========
+  scrollToTop(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  // ========== GET DISPLAYED END INDEX ==========
+  getDisplayedEndIndex(): number {
+    return Math.min(this.currentPage * this.pageSize, this.filteredProducts.length);
   }
 }
