@@ -36,9 +36,18 @@
                   <i class="fas fa-shopping-bag"></i>
                   Shop Now
                 </a>
-                <a [routerLink]="slide.buttonLink" class="btn btn-secondary" (click)="onUserInteraction()">
+                <a *ngIf="i !== 2; else videoButton" 
+                   [routerLink]="slide.buttonLink" 
+                   class="btn btn-secondary" 
+                   (click)="onUserInteraction()">
                   {{ slide.buttonText }}
                 </a>
+                <ng-template #videoButton>
+                  <button class="btn btn-secondary video-play-btn" 
+                          (click)="playMiniVideo(); onUserInteraction()">
+                    <i class="fas fa-play-circle"></i> {{ slide.buttonText }}
+                  </button>
+                </ng-template>
               </div>
             </div>
           </div>
@@ -62,6 +71,31 @@
         [class.active]="i === currentSlide"
         (click)="goToSlide(i); onUserInteraction()">
         <div class="indicator-progress" *ngIf="i === currentSlide && !isUserInteracting"></div>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mini Video Player (Hidden by default) -->
+  <div class="mini-video-player" [class.visible]="showMiniVideo">
+    <div class="video-header">
+      <span>Our Story</span>
+      <button class="video-close" (click)="closeMiniVideo()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <video #miniVideo class="mini-video" controls>
+      <source src="videos/miniplay.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <div class="video-controls">
+      <button class="control-btn" (click)="togglePlayPause()">
+        <i class="fas" [class.fa-play]="!isVideoPlaying" [class.fa-pause]="isVideoPlaying"></i>
+      </button>
+      <button class="control-btn" (click)="toggleMute()">
+        <i class="fas" [class.fa-volume-up]="!isVideoMuted" [class.fa-volume-mute]="isVideoMuted"></i>
+      </button>
+      <button class="control-btn fullscreen-btn" (click)="toggleFullscreen()">
+        <i class="fas fa-expand"></i>
       </button>
     </div>
   </div>

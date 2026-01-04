@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnDestroy, ChangeDetectorRef, inject } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, ChangeDetectorRef, inject, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
@@ -8,6 +8,7 @@ interface Slide {
   description: string;
   buttonText: string;
   buttonLink: string;
+  isVideoSlide?: boolean;
 }
 
 @Component({
@@ -20,17 +21,21 @@ interface Slide {
 export class HeroComponent implements AfterViewInit, OnDestroy {
   private cdr = inject(ChangeDetectorRef);
   
+  @ViewChild('miniVideo') miniVideoRef!: ElementRef<HTMLVideoElement>;
+  
   currentSlide = 0;
   nextSlideIndex = 1;
   transformValue = 'translateX(0%)';
   isAnimating = false;
   isUserInteracting = false;
   progressBarWidth = 0;
+  showMiniVideo = false;
+  isVideoPlaying = false;
+  isVideoMuted = true;
   
   private slideInterval: any;
   private progressInterval: any;
   private loadedImages: Set<number> = new Set();
-  private preloadedNextImage = false;
 
   // Slide duration in milliseconds
   private readonly SLIDE_DURATION = 5000;
@@ -56,7 +61,8 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
       title: 'Circular Economy in Action',
       description: 'See how we convert organic waste into valuable resources while creating sustainable livelihoods for Kenyan farmers.',
       buttonText: 'Watch Our Story',
-      buttonLink: '/about'
+      buttonLink: '/about',
+      isVideoSlide: true
     },
     {
       image: 'images/mzurislide3.JPG',
@@ -97,6 +103,7 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   ngOnDestroy() {
     this.stopAutoSlide();
     this.stopProgressBar();
+    this.closeMiniVideo();
   }
 
   private preloadAllImages(): void {
@@ -105,28 +112,8 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
       img.src = slide.image;
       img.onload = () => {
         this.loadedImages.add(index);
-        console.log(`Image ${index} preloaded`);
-      };
-      img.onerror = () => {
-        console.warn(`Failed to load image ${index}: ${slide.image}`);
       };
     });
-  }
-
-  private preloadNextImage(): void {
-    const nextIndex = (this.currentSlide + 1) % this.slides.length;
-    
-    if (!this.loadedImages.has(nextIndex)) {
-      const img = new Image();
-      img.src = this.slides[nextIndex].image;
-      img.onload = () => {
-        this.loadedImages.add(nextIndex);
-        this.preloadedNextImage = true;
-        console.log(`Next image ${nextIndex} preloaded`);
-      };
-    } else {
-      this.preloadedNextImage = true;
-    }
   }
 
   startAutoSlide() {
@@ -149,10 +136,10 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     
     this.progressInterval = setInterval(() => {
       if (this.progressBarWidth < 100) {
-        this.progressBarWidth += 0.5; // Adjust speed as needed
+        this.progressBarWidth += 0.5;
         this.cdr.detectChanges();
       }
-    }, this.SLIDE_DURATION / 200); // Divide by 200 for smooth progress
+    }, this.SLIDE_DURATION / 200);
   }
 
   stopProgressBar() {
@@ -176,24 +163,13 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     const nextIndex = (this.currentSlide + 1) % this.slides.length;
     this.nextSlideIndex = nextIndex;
     
-    // Start preloading the next-next image for smoother experience
-    const nextNextIndex = (nextIndex + 1) % this.slides.length;
-    if (!this.loadedImages.has(nextNextIndex)) {
-      const img = new Image();
-      img.src = this.slides[nextNextIndex].image;
-    }
-    
-    // Smooth transition
     setTimeout(() => {
       this.currentSlide = nextIndex;
       this.updateTransform();
       
-      // Reset animation state
       setTimeout(() => {
         this.isAnimating = false;
-        this.preloadedNextImage = false;
         
-        // Restart auto slide if not interacting
         if (!this.isUserInteracting) {
           this.startAutoSlide();
         }
@@ -265,11 +241,75 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
 
   onImageLoad(index: number) {
     this.loadedImages.add(index);
-    console.log(`Image ${index} loaded successfully`);
+  }
+
+  // Mini Video Player Methods
+  playMiniVideo() {
+    this.showMiniVideo = true;
+    this.isUserInteracting = true;
+    this.stopAutoSlide();
     
-    // If this is the next slide, mark it as ready
-    if (index === this.nextSlideIndex) {
-      this.preloadedNextImage = true;
+    setTimeout(() => {
+      if (this.miniVideoRef) {
+        const video = this.miniVideoRef.nativeElement;
+        video.muted = this.isVideoMuted;
+        video.play()
+          .then(() => {
+            this.isVideoPlaying = true;
+            this.cdr.detectChanges();
+          })
+          .catch(error => {
+            console.error('Video playback failed:', error);
+          });
+      }
+    }, 100);
+  }
+
+  closeMiniVideo() {
+    if (this.miniVideoRef) {
+      const video = this.miniVideoRef.nativeElement;
+      video.pause();
+      video.currentTime = 0;
+    }
+    
+    this.showMiniVideo = false;
+    this.isVideoPlaying = false;
+    this.resetAutoSlide();
+  }
+
+  togglePlayPause() {
+    if (this.miniVideoRef) {
+      const video = this.miniVideoRef.nativeElement;
+      if (video.paused) {
+        video.play();
+        this.isVideoPlaying = true;
+      } else {
+        video.pause();
+        this.isVideoPlaying = false;
+      }
+      this.cdr.detectChanges();
+    }
+  }
+
+  toggleMute() {
+    if (this.miniVideoRef) {
+      const video = this.miniVideoRef.nativeElement;
+      video.muted = !video.muted;
+      this.isVideoMuted = video.muted;
+      this.cdr.detectChanges();
+    }
+  }
+
+  toggleFullscreen() {
+    if (this.miniVideoRef) {
+      const video = this.miniVideoRef.nativeElement;
+      if (!document.fullscreenElement) {
+        video.requestFullscreen().catch(err => {
+          console.error(`Error attempting to enable fullscreen: ${err.message}`);
+        });
+      } else {
+        document.exitFullscreen();
+      }
     }
   }
 }
