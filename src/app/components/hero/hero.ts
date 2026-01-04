@@ -8,8 +8,6 @@ interface Slide {
   description: string;
   buttonText: string;
   buttonLink: string;
-  isVideo?: boolean;
-  animation?: string; // Add animation type for each slide
 }
 
 @Component({
@@ -23,23 +21,20 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   private cdr = inject(ChangeDetectorRef);
   
   currentSlide = 0;
+  nextSlideIndex = 1;
   transformValue = 'translateX(0%)';
-  animationClass = ''; // Animation class for transition
+  isAnimating = false;
+  isUserInteracting = false;
+  progressBarWidth = 0;
+  
   private slideInterval: any;
-  private isUserInteracting = false;
-  private animationTimeout: any;
+  private progressInterval: any;
+  private loadedImages: Set<number> = new Set();
+  private preloadedNextImage = false;
 
-  // Animation types for transitions
-  private animations = [
-    'broken-glass',
-    'zoom-reveal',
-    'swirl',
-    'cube-rotate',
-    'page-flip',
-    'blinds',
-    'mosaic',
-    'particles'
-  ];
+  // Slide duration in milliseconds
+  private readonly SLIDE_DURATION = 5000;
+  private readonly TRANSITION_DURATION = 600;
 
   slides: Slide[] = [
     {
@@ -47,77 +42,123 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
       title: 'Regenerating Kenyan Soil Health',
       description: 'Building smallholder farmers\' resilience to climate change through regenerative agricultural practices across Kenya.',
       buttonText: 'Our Biofertilizers',
-      buttonLink: '/products',
-      animation: 'broken-glass'
+      buttonLink: '/products'
     },
     {
       image: 'images/mzurilastslide.JPG',
       title: 'Organic Waste to Nutrient-Rich Fertilizers',
       description: 'Transforming farm and market waste into premium organic fertilizers using Black Soldier Fly Larvae technology.',
       buttonText: 'Our Process',
-      buttonLink: '/bioconversion',
-      animation: 'zoom-reveal'
+      buttonLink: '/bioconversion'
     },
     {
-      image: 'videos/agricvid.webm',
+      image: 'images/slidevideo.JPG',
       title: 'Circular Economy in Action',
       description: 'See how we convert organic waste into valuable resources while creating sustainable livelihoods for Kenyan farmers.',
       buttonText: 'Watch Our Story',
-      buttonLink: '/about',
-      isVideo: true,
-      animation: 'swirl'
+      buttonLink: '/about'
     },
     {
       image: 'images/mzurislide3.JPG',
       title: 'High-Protein Animal Feed Solutions',
       description: 'Insect-based protein feeds containing up to 50% protein - perfect for poultry, fish, and livestock farming.',
       buttonText: 'Animal Feeds',
-      buttonLink: '/products/feeds',
-      animation: 'cube-rotate'
+      buttonLink: '/products/feeds'
     },
     {
       image: 'images/mzurislide4.JPG',
       title: 'Empowering Smallholder Farmers',
       description: 'Training programs in regenerative agriculture, vermicomposting, and market access for sustainable livelihoods.',
       buttonText: 'Join Regen-Kilimo',
-      buttonLink: '/regen-kilimo',
-      animation: 'page-flip'
+      buttonLink: '/regen-kilimo'
     },
     {
       image: 'images/mzurislide5.JPG',
       title: 'Precision Farming Technology',
       description: 'Data-driven precision dosing to optimize fertilizer use and maximize yields for Kenyan farmers.',
       buttonText: 'PREFarm Initiative',
-      buttonLink: '/prefarm',
-      animation: 'blinds'
+      buttonLink: '/prefarm'
     }
   ];
 
   ngAfterViewInit() {
-    // Start auto-slide after the view is initialized
+    // Preload all images
+    this.preloadAllImages();
+    
+    // Start with first slide visible
+    this.loadedImages.add(0);
+    
+    // Start auto-slide after a short delay
     setTimeout(() => {
       this.startAutoSlide();
-    });
+    }, 300);
   }
 
   ngOnDestroy() {
     this.stopAutoSlide();
-    if (this.animationTimeout) {
-      clearTimeout(this.animationTimeout);
+    this.stopProgressBar();
+  }
+
+  private preloadAllImages(): void {
+    this.slides.forEach((slide, index) => {
+      const img = new Image();
+      img.src = slide.image;
+      img.onload = () => {
+        this.loadedImages.add(index);
+        console.log(`Image ${index} preloaded`);
+      };
+      img.onerror = () => {
+        console.warn(`Failed to load image ${index}: ${slide.image}`);
+      };
+    });
+  }
+
+  private preloadNextImage(): void {
+    const nextIndex = (this.currentSlide + 1) % this.slides.length;
+    
+    if (!this.loadedImages.has(nextIndex)) {
+      const img = new Image();
+      img.src = this.slides[nextIndex].image;
+      img.onload = () => {
+        this.loadedImages.add(nextIndex);
+        this.preloadedNextImage = true;
+        console.log(`Next image ${nextIndex} preloaded`);
+      };
+    } else {
+      this.preloadedNextImage = true;
     }
   }
 
   startAutoSlide() {
-    this.slideInterval = setInterval(() => {
-      if (!this.isUserInteracting) {
-        this.nextSlide();
-      }
-    }, 5000); // Increased to 5 seconds for animations
+    this.startProgressBar();
+    
+    this.slideInterval = setTimeout(() => {
+      this.nextSlide();
+    }, this.SLIDE_DURATION);
   }
 
   stopAutoSlide() {
     if (this.slideInterval) {
-      clearInterval(this.slideInterval);
+      clearTimeout(this.slideInterval);
+    }
+    this.stopProgressBar();
+  }
+
+  startProgressBar() {
+    this.progressBarWidth = 0;
+    
+    this.progressInterval = setInterval(() => {
+      if (this.progressBarWidth < 100) {
+        this.progressBarWidth += 0.5; // Adjust speed as needed
+        this.cdr.detectChanges();
+      }
+    }, this.SLIDE_DURATION / 200); // Divide by 200 for smooth progress
+  }
+
+  stopProgressBar() {
+    if (this.progressInterval) {
+      clearInterval(this.progressInterval);
+      this.progressBarWidth = 0;
     }
   }
 
@@ -127,73 +168,108 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   }
 
   nextSlide() {
-    this.triggerAnimation();
+    if (this.isAnimating) return;
     
-    this.animationTimeout = setTimeout(() => {
-      this.currentSlide = (this.currentSlide + 1) % this.slides.length;
+    this.isAnimating = true;
+    this.stopAutoSlide();
+    
+    const nextIndex = (this.currentSlide + 1) % this.slides.length;
+    this.nextSlideIndex = nextIndex;
+    
+    // Start preloading the next-next image for smoother experience
+    const nextNextIndex = (nextIndex + 1) % this.slides.length;
+    if (!this.loadedImages.has(nextNextIndex)) {
+      const img = new Image();
+      img.src = this.slides[nextNextIndex].image;
+    }
+    
+    // Smooth transition
+    setTimeout(() => {
+      this.currentSlide = nextIndex;
       this.updateTransform();
-      this.resetAutoSlide();
-    }, 800); // Match animation duration
+      
+      // Reset animation state
+      setTimeout(() => {
+        this.isAnimating = false;
+        this.preloadedNextImage = false;
+        
+        // Restart auto slide if not interacting
+        if (!this.isUserInteracting) {
+          this.startAutoSlide();
+        }
+      }, this.TRANSITION_DURATION);
+      
+    }, this.TRANSITION_DURATION);
   }
 
   prevSlide() {
-    this.triggerAnimation();
+    if (this.isAnimating) return;
     
-    this.animationTimeout = setTimeout(() => {
-      this.currentSlide = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
+    this.isAnimating = true;
+    this.stopAutoSlide();
+    
+    const prevIndex = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
+    this.nextSlideIndex = prevIndex;
+    
+    setTimeout(() => {
+      this.currentSlide = prevIndex;
       this.updateTransform();
-      this.resetAutoSlide();
-    }, 800);
+      
+      setTimeout(() => {
+        this.isAnimating = false;
+        
+        if (!this.isUserInteracting) {
+          this.startAutoSlide();
+        }
+      }, this.TRANSITION_DURATION);
+      
+    }, this.TRANSITION_DURATION);
   }
 
   goToSlide(index: number) {
-    if (index !== this.currentSlide) {
-      this.triggerAnimation();
-      
-      this.animationTimeout = setTimeout(() => {
-        this.currentSlide = index;
-        this.updateTransform();
-        this.resetAutoSlide();
-      }, 800);
-    }
-  }
-
-  private triggerAnimation() {
-    // Set random animation or use slide's specific animation
-    const animationIndex = Math.floor(Math.random() * this.animations.length);
-    this.animationClass = this.animations[animationIndex];
+    if (index === this.currentSlide || this.isAnimating) return;
     
-    // Clear animation after it completes
+    this.isAnimating = true;
+    this.stopAutoSlide();
+    
+    this.nextSlideIndex = index;
+    
     setTimeout(() => {
-      this.animationClass = '';
-    }, 1000);
+      this.currentSlide = index;
+      this.updateTransform();
+      
+      setTimeout(() => {
+        this.isAnimating = false;
+        
+        if (!this.isUserInteracting) {
+          this.startAutoSlide();
+        }
+      }, this.TRANSITION_DURATION);
+      
+    }, this.TRANSITION_DURATION);
   }
 
-  private resetAutoSlide() {
+  resetAutoSlide() {
     this.isUserInteracting = true;
     this.stopAutoSlide();
     
     setTimeout(() => {
       this.isUserInteracting = false;
       this.startAutoSlide();
-    }, 10000);
+    }, 8000);
   }
 
-  // Handle user interaction
   onUserInteraction() {
     this.resetAutoSlide();
   }
 
-  // Video event handlers
-  onVideoPlay() {
-    this.stopAutoSlide();
-  }
-
-  onVideoPause() {
-    this.startAutoSlide();
-  }
-
-  onVideoEnded() {
-    this.nextSlide();
+  onImageLoad(index: number) {
+    this.loadedImages.add(index);
+    console.log(`Image ${index} loaded successfully`);
+    
+    // If this is the next slide, mark it as ready
+    if (index === this.nextSlideIndex) {
+      this.preloadedNextImage = true;
+    }
   }
 }

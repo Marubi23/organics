@@ -1,46 +1,33 @@
-<section class="hero-slider" [class.animating]="animationClass">
+<section class="hero-slider">
+  <!-- Progress Bar at the top -->
+  <div class="slide-progress-bar" *ngIf="!isUserInteracting">
+    <div class="progress-track" [style.width]="progressBarWidth + '%'"></div>
+  </div>
+  
   <div class="slider-container">
-    <!-- Slides Container with Animation Class -->
-    <div class="slides" [style.transform]="transformValue" [class.animate]="animationClass">
+    <!-- Slides Container -->
+    <div class="slides" [style.transform]="transformValue">
       <div *ngFor="let slide of slides; let i = index" 
            class="slide" 
            [class.active]="i === currentSlide"
-           [class.slide-exit]="animationClass && i === currentSlide"
-           [class.slide-enter]="animationClass && i === ((currentSlide + 1) % slides.length)">
-        
-        <!-- Animation Overlay -->
-        <div class="animation-overlay" *ngIf="animationClass && i === currentSlide"></div>
+           [class.slide-exit]="i === currentSlide && isAnimating"
+           [class.slide-enter]="i === nextSlideIndex && isAnimating">
         
         <div class="slide-background">
-          <!-- Video Slide -->
-          <div *ngIf="slide.isVideo; else imageSlide" class="video-container">
-            <video 
-              #videoElement
-              autoplay 
-              muted 
-              loop 
-              playsinline 
-              class="background-video"
-              (play)="onVideoPlay()"
-              (pause)="onVideoPause()"
-              (ended)="onVideoEnded()">
-              <source src="videos/agricvid.webm" type="video/webm">
-              <source src="videos/agricvid.mp4" type="video/mp4">
-              Your browser does not support the video tag.
-            </video>
-            <div class="video-overlay"></div>
-          </div>
-          
-          <!-- Image Slide -->
-          <ng-template #imageSlide>
-            <img [src]="slide.image" [alt]="slide.title" class="background-image">
+          <div class="image-container">
+            <img 
+              [src]="slide.image" 
+              [alt]="slide.title" 
+              class="background-image"
+              (load)="onImageLoad(i)"
+              loading="lazy">
             <div class="image-overlay"></div>
-          </ng-template>
+          </div>
         </div>
         
-        <!-- Content -->
+        <!-- Content that appears immediately with photo -->
         <div class="container">
-          <div class="slide-content">
+          <div class="slide-content" [class.content-visible]="i === currentSlide">
             <div class="text-content">
               <h1 class="slide-title">{{ slide.title }}</h1>
               <p class="slide-description">{{ slide.description }}</p>
@@ -74,7 +61,7 @@
         class="indicator" 
         [class.active]="i === currentSlide"
         (click)="goToSlide(i); onUserInteraction()">
-        <div class="indicator-progress" *ngIf="i === currentSlide"></div>
+        <div class="indicator-progress" *ngIf="i === currentSlide && !isUserInteracting"></div>
       </button>
     </div>
   </div>
