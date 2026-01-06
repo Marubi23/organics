@@ -1,8 +1,8 @@
 // categories.component.ts
-import { Component, AfterViewInit, OnDestroy, signal, Inject, PLATFORM_ID } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, AfterViewInit, OnDestroy, signal, Inject, PLATFORM_ID, OnInit } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { isPlatformBrowser } from '@angular/common';
+import { Router } from '@angular/router';
 
 interface ImpactStat {
   value: number;
@@ -17,6 +17,15 @@ interface SDG {
   description: string;
 }
 
+interface Slide {
+  image: string;
+  category: string;
+  name: string;
+  description: string;
+  price: number;
+  unit: string;
+}
+
 @Component({
   selector: 'app-categories',
   standalone: true,
@@ -24,31 +33,69 @@ interface SDG {
   templateUrl: './categories.html',
   styleUrls: ['./categories.css']
 })
-export class CategoriesComponent implements AfterViewInit, OnDestroy {
+export class CategoriesComponent implements OnInit, AfterViewInit, OnDestroy {
   // Impact stats for the new CTA section
   impactStats = signal<ImpactStat[]>([
     { value: 55, suffix: '+', label: 'Tons of Waste Upcycled Monthly', current: 0 },
     { value: 1000, suffix: 'L+', label: 'Liquid Biofertilizer Weekly', current: 0 },
     { value: 5, suffix: 'T+', label: 'Solid Fertilizer Monthly', current: 0 },
     { value: 40, suffix: '%', label: 'Savings on Farm Input Costs', current: 0 },
-    { value: 60, suffix:'%', label:'increase in farm yields ', current:0}
+    { value: 60, suffix: '%', label: 'Increase in Farm Yields', current: 0 }
   ]);
 
-  // SDG data
+  // SDG data - Updated to match your HTML structure
   sdgs: SDG[] = [
     { number: '1', title: 'No Poverty', description: 'Creating new income streams for farmers, youth, and women through buy-back models and waste-to-value enterprises' },
-    { number: '2', title: 'Zero Hunger', description: 'Boosting food security by regenerating soils, increasing yields, and improving crop nutrition through biological and organo-mineral fertilizers.' },
-    { number: '5', title: 'Gender Equality', description: 'Empowering women in agriculture' },
-    { number: '8', title: 'Decent Work', description: 'Driving green job creation across regenerative farming, composting, bioconversion, and biofertilizer production' },
-    { number: '12', title: 'Responsible Consumption and Production', description: 'Transforming organic waste into high-value fertilizers and creating circular, zero-waste farming systems' },
-    { number: '13', title: 'Climate Action', description: 'Reducing emissions, enhancing soil carbon, and building climate-resilient farms through regenerative agriculture' },
-    { number: '15', title: 'Life on Land', description: 'Restoring degraded soils, improving biodiversity, and strengthening ecosystem health with microbe-rich inputs' }
+    { number: '2', title: 'Zero Hunger', description: 'Boosting food security by regenerating soils, increasing yields, and improving crop nutrition through biological and organo-mineral fertilizers' },
+    { number: '3', title: 'Gender Equality', description: 'Empowering women in agriculture through training, leadership roles, and economic opportunities' },
+    { number: '4', title: 'Responsible Consumption & Production', description: 'Transforming organic waste into high-value fertilizers and creating circular, zero-waste farming systems' },
+    { number: '5', title: 'Climate Action', description: 'Reducing emissions, enhancing soil carbon, and building climate-resilient farms through regenerative agriculture' },
+    { number: '6', title: 'Life on Land', description: 'Restoring degraded soils, improving biodiversity, and strengthening ecosystem health with microbe-rich inputs' }
+  ];
+
+  // Slideshow data
+  currentSlide = 0;
+  slideInterval: any;
+  slides: Slide[] = [
+    {
+      image: 'images/vermifrass.jpeg',
+      category: 'Biofertilizers',
+      name: 'VermiFrass Active',
+      description: 'Superior organic fertilizer with active microbes',
+      price: 850,
+      unit: '/5kg bag'
+    },
+    {
+      image: 'images/npk fertilizer.jpeg',
+      category: 'Blended Fertilizers',
+      name: 'NPK Active',
+      description: 'Organo-mineral blend for fast results',
+      price: 1250,
+      unit: '/5kg bag'
+    },
+    {
+      image: 'images/layers mash.jpeg',
+      category: 'Poultry Feeds',
+      name: 'i-Layers Mash',
+      description: 'Optimal nutrition for laying hens',
+      price: 3000,
+      unit: '/25kg bag'
+    }
   ];
 
   private statsAnimated = false;
   private observer: IntersectionObserver | null = null;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: any) {}
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: any,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      this.startSlideshow();
+    }
+  }
 
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {
@@ -66,8 +113,64 @@ export class CategoriesComponent implements AfterViewInit, OnDestroy {
     if (this.observer) {
       this.observer.disconnect();
     }
+    this.stopSlideshow();
   }
 
+  // Slideshow Methods
+  startSlideshow(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      this.slideInterval = setInterval(() => {
+        this.nextSlide();
+      }, 5000); // Change slide every 5 seconds
+    }
+  }
+// In categories.component.ts - Add this method
+navigateToProductsWithScroll(): void {
+  // Navigate first
+  this.router.navigate(['/products']).then(() => {
+    // After navigation completes, scroll to top
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
+}
+
+  stopSlideshow(): void {
+    if (this.slideInterval) {
+      clearInterval(this.slideInterval);
+    }
+  }
+
+  nextSlide(): void {
+    this.currentSlide = (this.currentSlide + 1) % this.slides.length;
+  }
+
+  prevSlide(): void {
+    this.currentSlide = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
+  }
+
+  goToSlide(index: number): void {
+    this.currentSlide = index;
+    this.resetSlideshowTimer();
+  }
+
+  private resetSlideshowTimer(): void {
+    this.stopSlideshow();
+    this.startSlideshow();
+  }
+
+  // Navigation method for shop buttons
+  goToProducts(): void {
+    this.router.navigate(['/products']);
+  }
+
+  // Method for routerLink navigation in template
+  navigateToProducts(): void {
+    this.router.navigate(['/products']);
+  }
+
+  // Stats Animation Methods
   private setupIntersectionObserver(): void {
     const statsElement = document.getElementById('impact-stats');
     
@@ -98,8 +201,8 @@ export class CategoriesComponent implements AfterViewInit, OnDestroy {
         });
       },
       {
-        threshold: 0.1, // Trigger when 10% is visible
-        rootMargin: '0px 0px -10% 0px' // Trigger when element is 10% from bottom of viewport
+        threshold: 0.1,
+        rootMargin: '0px 0px -10% 0px'
       }
     );
 
@@ -128,8 +231,8 @@ export class CategoriesComponent implements AfterViewInit, OnDestroy {
   private animateStats(): void {
     console.log('Starting stats animation');
     
-    const duration = 2500; // 2.5 seconds
-    const steps = 120; // More steps for smoother animation
+    const duration = 2500;
+    const steps = 120;
     
     this.impactStats().forEach((stat, index) => {
       let step = 0;
@@ -140,7 +243,6 @@ export class CategoriesComponent implements AfterViewInit, OnDestroy {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
         
-        // Use easing for smooth animation
         const easedProgress = this.easeOutQuart(progress);
         const currentValue = stat.value * easedProgress;
         
@@ -158,7 +260,6 @@ export class CategoriesComponent implements AfterViewInit, OnDestroy {
         }
       };
       
-      // Start animation
       requestAnimationFrame(animate);
     });
   }
@@ -178,11 +279,14 @@ export class CategoriesComponent implements AfterViewInit, OnDestroy {
 
   formatStatValue(stat: ImpactStat): string {
     if (stat.value % 1 === 0) {
-      // For whole numbers
       return Math.floor(stat.current).toFixed(0) + stat.suffix;
     } else {
-      // For decimal numbers
       return stat.current.toFixed(1) + stat.suffix;
     }
+  }
+
+  // Helper method to get current impact stat by index (for template)
+  getImpactStat(index: number): ImpactStat {
+    return this.impactStats()[index];
   }
 }

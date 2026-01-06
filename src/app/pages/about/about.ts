@@ -1,5 +1,4 @@
-// about.component.ts
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { 
@@ -77,8 +76,17 @@ interface Product {
     ])
   ]
 })
-export class AboutComponent implements OnInit {
-  // Mission & Vision - Updated to match new content
+export class AboutComponent {
+  // Video Properties
+  isVideoPlaying: boolean = true;
+  isVideoMuted: boolean = true;
+  private videoElement: HTMLVideoElement | null = null;
+
+  // Navigation active state
+  activeSection: string = 'home';
+  isScrolled: boolean = false;
+
+  // Mission & Vision
   mission = {
     title: 'Our Mission',
     description: 'To build smallholder farmers\' resilience to climate change through regenerative agricultural practices.'
@@ -89,7 +97,7 @@ export class AboutComponent implements OnInit {
     description: 'To create a world where smallholder farmers are empowered to thrive through sustainable regenerative agriculture that enables them to produce healthy crops, increase income, and protect the environment, building a resilient food system for generations to come.'
   };
 
-  // Updated Problems based on the 7 core challenges
+  // Problems based on the 7 core challenges
   problems: Problem[] = [
     {
       title: 'Declining Soil Fertility & Chemical Dependence',
@@ -128,7 +136,7 @@ export class AboutComponent implements OnInit {
     }
   ];
 
-  // Updated Solutions - 8 innovative solutions
+  // Solutions - 8 innovative solutions
   solutions: Solution[] = [
     {
       title: 'Circular Biofertilizer Production',
@@ -228,7 +236,7 @@ export class AboutComponent implements OnInit {
     }
   ];
 
-  // Updated Products
+  // Products
   products: Product[] = [
     {
       title: 'Compost-based Biofertilizers',
@@ -250,7 +258,7 @@ export class AboutComponent implements OnInit {
     }
   ];
 
-  // Updated Impacts
+  // Impacts
   impacts: Impact[] = [
     {
       title: 'Soil Health Restoration',
@@ -274,7 +282,7 @@ export class AboutComponent implements OnInit {
     }
   ];
 
-  // Updated Outcomes based on measurable outcomes
+  // Outcomes based on measurable outcomes
   outcomes: Outcome[] = [
     { description: '55+ tons of organic waste processed monthly', icon: 'waste' },
     { description: '1000+ liters of liquid fertilizer produced monthly', icon: 'liquid' },
@@ -284,7 +292,7 @@ export class AboutComponent implements OnInit {
     { description: 'Reduced livestock mortality and accelerated growth', icon: 'livestock' }
   ];
 
-  // Updated SDGs
+  // SDGs
   sdgs: SDG[] = [
     {
       number: '2',
@@ -329,12 +337,87 @@ export class AboutComponent implements OnInit {
     email: 'info@mzuriorganics.co.ke'
   };
 
-  // Navigation active state
-  activeSection: string = 'home';
-  isScrolled: boolean = false;
-
   ngOnInit() {
     this.setupIntersectionObserver();
+  }
+
+  ngAfterViewInit() {
+    // Initialize video element
+    setTimeout(() => {
+      this.videoElement = document.querySelector('.hero-video') as HTMLVideoElement;
+      if (this.videoElement) {
+        this.videoElement.muted = this.isVideoMuted;
+        this.videoElement.play().catch(e => {
+          console.log('Video autoplay prevented:', e);
+          this.isVideoPlaying = false;
+        });
+        
+        // Update play state when video ends
+        this.videoElement.onended = () => {
+          this.isVideoPlaying = false;
+        };
+        
+        // Update play state on pause/play
+        this.videoElement.onpause = () => {
+          this.isVideoPlaying = false;
+        };
+        
+        this.videoElement.onplay = () => {
+          this.isVideoPlaying = true;
+        };
+      }
+    }, 100);
+  }
+
+  // Video Control Methods - RENAMED to match HTML
+  toggleVideoPlay(): void {
+    if (this.videoElement) {
+      if (this.videoElement.paused) {
+        this.videoElement.play().then(() => {
+          this.isVideoPlaying = true;
+        }).catch(e => {
+          console.log('Video play failed:', e);
+        });
+      } else {
+        this.videoElement.pause();
+        this.isVideoPlaying = false;
+      }
+    }
+  }
+
+  // This method is called toggleVideoSound in HTML, so we need to match it
+  toggleVideoSound(): void {
+    if (this.videoElement) {
+      this.videoElement.muted = !this.videoElement.muted;
+      this.isVideoMuted = this.videoElement.muted;
+    }
+  }
+
+  toggleVideoFullscreen(): void {
+    if (this.videoElement) {
+      if (!document.fullscreenElement) {
+        if (this.videoElement.requestFullscreen) {
+          this.videoElement.requestFullscreen();
+        } else if ((this.videoElement as any).webkitRequestFullscreen) {
+          (this.videoElement as any).webkitRequestFullscreen();
+        } else if ((this.videoElement as any).msRequestFullscreen) {
+          (this.videoElement as any).msRequestFullscreen();
+        }
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        } else if ((document as any).webkitExitFullscreen) {
+          (document as any).webkitExitFullscreen();
+        } else if ((document as any).msExitFullscreen) {
+          (document as any).msExitFullscreen();
+        }
+      }
+    }
+  }
+
+  // Navigation method specifically for hero section
+  scrollToMission(): void {
+    this.scrollToSection('mission-vision');
   }
 
   // Smooth scroll function
@@ -412,7 +495,10 @@ export class AboutComponent implements OnInit {
       'hunger': `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7L12 12L22 7L12 2Z"/><path d="M2 17L12 22L22 17"/><path d="M2 12L12 17L22 12"/></svg>`,
       'consumption': `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7L12 12L22 7L12 2Z"/><path d="M2 17L12 22L22 17"/><path d="M2 12L12 17L22 12"/></svg>`,
       'land': `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7L12 12L22 7L12 2Z"/><path d="M2 17L12 22L22 17"/><path d="M2 12L12 17L22 12"/></svg>`,
-      'work': `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`
+      'work': `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
+      'fertilizer': `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7L12 12L22 7L12 2Z"/><path d="M2 17L12 22L22 17"/><path d="M2 12L12 17L22 12"/></svg>`,
+      'npk': `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6V12L16 14"/><path d="M12 12L9 9"/></svg>`,
+      'protein': `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16s-1.5-2-4-2-4 2-4 2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>`
     };
     return icons[type] || `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>`;
   }

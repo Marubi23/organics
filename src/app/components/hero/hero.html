@@ -32,22 +32,66 @@
               <h1 class="slide-title">{{ slide.title }}</h1>
               <p class="slide-description">{{ slide.description }}</p>
               <div class="slide-buttons">
+                <!-- Shop Now Button (always visible) -->
                 <a routerLink="/products" class="btn btn-primary shop-now-btn" (click)="onUserInteraction()">
                   <i class="fas fa-shopping-bag"></i>
                   Shop Now
                 </a>
-                <a *ngIf="i !== 2; else videoButton" 
-                   [routerLink]="slide.buttonLink" 
-                   class="btn btn-secondary" 
-                   (click)="onUserInteraction()">
-                  {{ slide.buttonText }}
-                </a>
-                <ng-template #videoButton>
-                  <button class="btn btn-secondary video-play-btn" 
-                          (click)="playMiniVideo(); onUserInteraction()">
-                    <i class="fas fa-play-circle"></i> {{ slide.buttonText }}
-                  </button>
-                </ng-template>
+                
+                <!-- Secondary Button based on slide index -->
+                <ng-container [ngSwitch]="i">
+                  <!-- Slide 0: Biofertilizers -->
+                  <ng-container *ngSwitchCase="0">
+                    <button class="btn btn-secondary" 
+                            (click)="navigateToBiofertilizers(); onUserInteraction()">
+                      <i class="fas fa-seedling"></i> Our Biofertilizers
+                    </button>
+                  </ng-container>
+                  
+                  <!-- Slide 1: Our Process -->
+                  <ng-container *ngSwitchCase="1">
+                    <a [routerLink]="slide.buttonLink" 
+                       class="btn btn-secondary" 
+                       (click)="onUserInteraction()">
+                      <i class="fas fa-recycle"></i> Our Process
+                    </a>
+                  </ng-container>
+                  
+                  <!-- Slide 2: Video -->
+                  <ng-container *ngSwitchCase="2">
+                    <button class="btn btn-secondary video-play-btn" 
+                            (click)="playMiniVideo(); onUserInteraction()">
+                      <i class="fas fa-play-circle"></i> Watch Our Story
+                    </button>
+                  </ng-container>
+                  
+                  <!-- Slide 3: Animal Feeds -->
+                  <ng-container *ngSwitchCase="3">
+                    <a [routerLink]="slide.buttonLink" 
+                       class="btn btn-secondary" 
+                       (click)="onUserInteraction()">
+                      <i class="fas fa-paw"></i> Animal Feeds
+                    </a>
+                  </ng-container>
+                  
+                  <!-- Slide 4: Regen-Kilimo -->
+                  <ng-container *ngSwitchCase="4">
+                    <a [routerLink]="slide.buttonLink" 
+                       class="btn btn-secondary" 
+                       (click)="onUserInteraction()">
+                      <i class="fas fa-users"></i> Join Regen-Kilimo
+                    </a>
+                  </ng-container>
+                  
+                  <!-- Slide 5: PREFarm -->
+                  <ng-container *ngSwitchCase="5">
+                    <a [routerLink]="slide.buttonLink" 
+                       class="btn btn-secondary" 
+                       (click)="onUserInteraction()">
+                      <i class="fas fa-tachometer-alt"></i> PREFarm Initiative
+                    </a>
+                  </ng-container>
+                </ng-container>
               </div>
             </div>
           </div>

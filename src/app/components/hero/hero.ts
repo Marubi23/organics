@@ -1,6 +1,6 @@
 import { Component, AfterViewInit, OnDestroy, ChangeDetectorRef, inject, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 
 interface Slide {
   image: string;
@@ -20,6 +20,7 @@ interface Slide {
 })
 export class HeroComponent implements AfterViewInit, OnDestroy {
   private cdr = inject(ChangeDetectorRef);
+  private router = inject(Router); // Add Router injection
   
   @ViewChild('miniVideo') miniVideoRef!: ElementRef<HTMLVideoElement>;
   
@@ -54,7 +55,7 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
       title: 'Organic Waste to Nutrient-Rich Fertilizers',
       description: 'Transforming farm and market waste into premium organic fertilizers using Black Soldier Fly Larvae technology.',
       buttonText: 'Our Process',
-      buttonLink: '/bioconversion'
+      buttonLink: '/what-we-do'
     },
     {
       image: 'images/slidevideo.JPG',
@@ -86,6 +87,10 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
       buttonLink: '/prefarm'
     }
   ];
+
+  constructor() {
+    // Constructor can be empty or used for other initializations
+  }
 
   ngAfterViewInit() {
     // Preload all images
@@ -146,6 +151,29 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     if (this.progressInterval) {
       clearInterval(this.progressInterval);
       this.progressBarWidth = 0;
+    }
+  }
+
+  navigateToBiofertilizers(): void {
+    this.router.navigate(['/products'], { fragment: 'products-display' }).then(() => {
+      setTimeout(() => {
+        this.scrollToProductsSection();
+      }, 500);
+    });
+  }
+
+  // Helper method to scroll to products section
+  private scrollToProductsSection(): void {
+    const productsSection = document.getElementById('products-display');
+    if (productsSection) {
+      const offset = 100; // Adjust this value based on your header height
+      const elementPosition = productsSection.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
     }
   }
 

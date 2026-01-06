@@ -189,7 +189,7 @@
       </div>
 
       <!-- Grid View -->
-      <div class="products-grid" *ngIf="viewMode === 'grid' && displayedProducts.length > 0">
+      <div class="products-grid"  id="products-display" *ngIf="viewMode === 'grid' && displayedProducts.length > 0">
         <div class="product-card" *ngFor="let product of displayedProducts">
           <!-- Product Image -->
           <div class="product-image-container">
