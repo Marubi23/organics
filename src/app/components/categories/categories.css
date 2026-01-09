@@ -637,25 +637,25 @@
 /* SDG-Specific Colors with Enhanced Gradients */
 .sdg-1 { 
   border-top: 5px solid #e5243b;
-  background: linear-gradient(135deg, #fff9f9 0%, #ffeaea 100%);
+  background: linear-gradient(135deg, #fff9f9 0%, #ffffff 100%);
 }
 .sdg-1 .sdg-number { color: #e5243b; }
 
 .sdg-2 { 
   border-top: 5px solid #dda63a;
-  background: linear-gradient(135deg, #fffbf0 0%, #fff4d4 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
 }
 .sdg-2 .sdg-number { color: #dda63a; }
 
 .sdg-5 { 
   border-top: 5px solid #4c9f38;
-  background: linear-gradient(135deg, #f4f9f3 0%, #e8f5e9 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
 }
 .sdg-5 .sdg-number { color: #4c9f38; }
 
 .recent-work { 
   border-top: 5px solid var(--accent-green);
-  background: linear-gradient(135deg, #f1f8e9 0%, #e8f5e9 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
 }
 .recent-work .sdg-number { 
   color: var(--accent-green);
@@ -664,7 +664,7 @@
 
 .sdg-12 { 
   border-top: 5px solid #bf8b2e;
-  background: linear-gradient(135deg, #fbf8f1 0%, #f5f0e6 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
 }
 .sdg-12 .sdg-number { color: #bf8b2e; }
 
@@ -676,7 +676,7 @@
 
 .sdg-15 { 
   border-top: 5px solid #56c02b;
-  background: linear-gradient(135deg, #f2f9f0 0%, #e8f5e9 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
 }
 .sdg-15 .sdg-number { color: #56c02b; }
 

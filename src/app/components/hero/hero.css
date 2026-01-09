@@ -15,14 +15,15 @@
 }
 
 /* Remove any .animating class references if they exist in CSS */
+/* Update hero-slider to remove background */
 .hero-slider {
   position: relative;
   height: 85vh;
   min-height: 650px;
   overflow: hidden;
-  background: #000;
+  /* Remove the black background since we have it in container */
+  background: transparent;
 }
-
 /* PROGRESS BAR - Top of the slider */
 .slide-progress-bar {
   position: absolute;
@@ -81,7 +82,6 @@
   opacity: 1;
 }
 
-/* Background Image with smooth loading */
 .slide-background {
   position: absolute;
   top: 0;
@@ -90,6 +90,14 @@
   height: 100%;
   opacity: 0;
   transition: opacity 0.8s ease;
+  background: var(--cream);
+  /* Add a subtle gradient to help blending */
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.05) 0%,
+    transparent 30%,
+    var(--cream) 100%
+  );
 }
 
 .slide.active .slide-background {
@@ -101,26 +109,211 @@
   height: 100%;
   object-fit: cover;
   transform: scale(1);
-  transition: transform 10s ease-out;
+  transition: transform 12s ease-out;
+  filter: brightness(1.1) contrast(1.05) saturate(1.1);
+  mix-blend-mode: normal;
 }
 
 .slide.active .background-image {
   transform: scale(1.05);
 }
 
+/* Dynamic Flowing Mesh Gradient Overlay */
 .image-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.3) 0%,
-    rgba(0, 0, 0, 0.7) 100%
-  );
   opacity: 0;
   transition: opacity 0.8s ease;
+  z-index: 2;
+  
+  /* Multi-layered mesh gradient for dynamic flow */
+  background: 
+    /* Layer 1: Deep gradient for content readability */
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(0, 0, 0, 0.4) 40%,
+      rgba(0, 0, 0, 0.2) 70%,
+      transparent 85%,
+      rgba(245, 245, 220, 0.3) 92%,
+      var(--cream) 100%
+    ),
+    
+    /* Layer 2: Flowing green mesh pattern */
+    radial-gradient(
+      ellipse at 30% 20%,
+      rgba(62, 142, 11, 0.25) 0%,
+      rgba(62, 142, 11, 0.1) 10%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse at 70% 60%,
+      rgba(62, 142, 11, 0.2) 0%,
+      rgba(62, 142, 11, 0.05) 15%,
+      transparent 55%
+    ),
+    
+    /* Layer 3: Flowing brown mesh pattern */
+    radial-gradient(
+      ellipse at 20% 70%,
+      rgba(139, 69, 19, 0.2) 0%,
+      rgba(139, 69, 19, 0.08) 12%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse at 80% 30%,
+      rgba(139, 69, 19, 0.15) 0%,
+      rgba(139, 69, 19, 0.05) 10%,
+      transparent 45%
+    ),
+    
+    /* Layer 4: Accent highlights */
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(91, 163, 21, 0.1) 0%,
+      transparent 40%
+    );
+  
+  background-blend-mode: multiply, screen, screen, screen, normal;
+  mix-blend-mode: normal;
+}
+
+.slide.active .image-overlay {
+  opacity: 1;
+}
+
+/* Complex flowing animation for each gradient layer */
+@keyframes gradientFlow3D {
+  0% {
+    background-position: 
+      0% 0%,    /* Layer 1 - fixed */
+      0% 0%,    /* Layer 2 - green mesh 1 */
+      0% 0%,    /* Layer 3 - green mesh 2 */
+      0% 0%,    /* Layer 4 - brown mesh 1 */
+      0% 0%,    /* Layer 5 - brown mesh 2 */
+      0% 0%;    /* Layer 6 - accent */
+  }
+  25% {
+    background-position: 
+      0% 0%,
+      5% 10%,
+      -5% 15%,
+      8% -5%,
+      -8% 8%,
+      0% 0%;
+  }
+  50% {
+    background-position: 
+      0% 0%,
+      -3% 20%,
+      3% -10%,
+      -10% 12%,
+      10% -8%,
+      0% 0%;
+  }
+  75% {
+    background-position: 
+      0% 0%,
+      8% -8%,
+      -8% 5%,
+      12% 8%,
+      -12% -12%,
+      0% 0%;
+  }
+  100% {
+    background-position: 
+      0% 0%,
+      0% 0%,
+      0% 0%,
+      0% 0%,
+      0% 0%,
+      0% 0%;
+  }
+}
+
+@keyframes gradientPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.95;
+  }
+}
+
+/* Apply animations to the overlay */
+.image-overlay {
+  background-size: 
+    100% 100%,     /* Layer 1 - full size */
+    400px 400px,   /* Layer 2 - green mesh 1 */
+    300px 300px,   /* Layer 3 - green mesh 2 */
+    350px 350px,   /* Layer 4 - brown mesh 1 */
+    320px 320px,   /* Layer 5 - brown mesh 2 */
+    500px 500px;   /* Layer 6 - accent */
+  
+  animation: 
+    gradientFlow3D 25s ease-in-out infinite,
+    gradientPulse 10s ease-in-out infinite;
+  
+  /* Create a subtle wave effect at the bottom */
+  mask-image: linear-gradient(
+    to bottom,
+    black 0%,
+    black 85%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    black 0%,
+    black 85%,
+    transparent 100%
+  );
+}
+
+/* Add this for extra visual interest - subtle floating particles */
+.image-overlay::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.05) 2px, transparent 3px),
+    radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.03) 1px, transparent 2px),
+    radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.04) 1.5px, transparent 2.5px),
+    radial-gradient(circle at 90% 70%, rgba(255, 255, 255, 0.02) 1px, transparent 1.5px),
+    radial-gradient(circle at 50% 80%, rgba(255, 255, 255, 0.03) 2px, transparent 3px);
+  background-size: 
+    200px 200px,
+    150px 150px,
+    180px 180px,
+    120px 120px,
+    160px 160px;
+  animation: particlesFloat 40s linear infinite;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+@keyframes particlesFloat {
+  0% {
+    background-position: 
+      0px 0px,
+      0px 0px,
+      0px 0px,
+      0px 0px,
+      0px 0px;
+  }
+  100% {
+    background-position: 
+      200px 200px,
+      150px 150px,
+      180px 180px,
+      120px 120px,
+      160px 160px;
+  }
 }
 
 .slide.active .image-overlay {
@@ -238,7 +431,7 @@
 
 /* Shop Now Button Enhancement */
 .shop-now-btn {
-  background: linear-gradient(135deg, var(--primary-green) 0%, var(--accent-green) 100%);
+  background:  hsl(125, 89%, 31%);
   color: var(--white);
   border: none;
 }
@@ -633,4 +826,39 @@
     padding: 10px 12px;
     font-size: 0.85rem;
   }
+}
+/* Seamless transition element */
+.hero-gradient-transition {
+  position: absolute;
+  bottom: -1px; /* Overlap by 1px to prevent gap */
+  left: 0;
+  width: 100%;
+  height: 100px;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Add a subtle wave effect at the top of the next section */
+.impact-cta-section::before {
+  content: '';
+  position: absolute;
+  top: -80px;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  background: 
+    linear-gradient(to bottom, transparent, var(--cream) 70%),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(62, 142, 11, 0.05) 2px,
+      rgba(62, 142, 11, 0.05) 4px
+    );
+  mask-image: linear-gradient(to bottom, transparent, black 30%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 30%);
+}
+.hero-slider-container {
+  position: relative;
+  background: var(--cream); /* Match next section background */
 }
