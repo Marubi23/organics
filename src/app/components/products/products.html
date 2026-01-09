@@ -43,43 +43,93 @@
   </div>
 
   <!-- Premium Hero Section -->
-  <section class="premium-hero">
-    <div class="container">
-      <div class="hero-content">
-        <div class="hero-brand">
-          <div class="brand-icon">
-            <i class="fas fa-leaf"></i>
-          </div>
-          <h1 class="hero-title">Mzuri Organics</h1>
-          <p class="hero-subtitle">Premium Organic Solutions</p>
+<!-- Video Hero Section -->
+<section class="video-hero">
+  <!-- Video Background -->
+  <div class="video-container">
+    <video autoplay muted loop playsinline class="hero-video">
+      <source src="/videos/statistics.mp4" type="video/mp4">
+      <!-- Fallback image if video doesn't load -->
+      <img src="/images/hero-fallback.jpg" alt="Mzuri Organics">
+    </video>
+    
+    <!-- Video Overlay -->
+    <div class="video-overlay"></div>
+  </div>
+  
+  <div class="container">
+    <div class="hero-content">
+      <!-- Left: Brand Info -->
+      <div class="hero-brand">
+        <div class="brand-icon">
+          <i class="fas fa-leaf"></i>
         </div>
+        <h1 class="hero-title">Mzuri Organics</h1>
+        <p class="hero-subtitle">Premium Organic Solutions for Modern Farming</p>
         
-        <div class="hero-stats">
-          <div class="stat-item">
+        <!-- Hero CTA Buttons -->
+        <div class="hero-actions">
+          <button class="btn-hero-primary" (click)="scrollToCategories()">
+            <i class="fas fa-shopping-basket"></i>
+            <span>Shop Products</span>
+          </button>
+          <button class="btn-hero-secondary" (click)="scrollToStats()">
+            <i class="fas fa-chart-line"></i>
+            <span>View Stats</span>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Right: Stats Over Video -->
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-icon">
             <i class="fas fa-certificate"></i>
-            <div class="stat-data">
-              <span class="stat-value">100%</span>
-              <span class="stat-label">Organic Certified</span>
-            </div>
           </div>
-          <div class="stat-item">
+          <div class="stat-data">
+            <span class="stat-value">100%</span>
+            <span class="stat-label">Organic Certified</span>
+          </div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon">
             <i class="fas fa-shipping-fast"></i>
-            <div class="stat-data">
-              <span class="stat-value">24h</span>
-              <span class="stat-label">Delivery</span>
-            </div>
           </div>
-          <div class="stat-item">
+          <div class="stat-data">
+            <span class="stat-value">24h</span>
+            <span class="stat-label">Fast Delivery</span>
+          </div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon">
             <i class="fas fa-users"></i>
-            <div class="stat-data">
-              <span class="stat-value">8.1K+</span>
-              <span class="stat-label">Farmers</span>
-            </div>
+          </div>
+          <div class="stat-data">
+            <span class="stat-value">8.1K+</span>
+            <span class="stat-label">Happy Farmers</span>
+          </div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <div class="stat-data">
+            <span class="stat-value">98%</span>
+            <span class="stat-label">Satisfaction Rate</span>
           </div>
         </div>
       </div>
     </div>
-  </section>
+    
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator">
+      <div class="mouse">
+        <div class="wheel"></div>
+      </div>
+      <span class="scroll-text">Scroll to explore</span>
+    </div>
+  </div>
+</section>
 
   <!-- Premium Categories -->
   <section class="premium-categories">

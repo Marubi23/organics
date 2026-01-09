@@ -680,6 +680,20 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
   calculateTotalPages(): void {
     this.totalPages = Math.ceil(this.filteredProducts.length / this.pageSize);
   }
+  // Add to your component class
+scrollToCategories() {
+  const categoriesSection = document.querySelector('.premium-categories');
+  if (categoriesSection) {
+    categoriesSection.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+scrollToStats() {
+  const statsSection = document.querySelector('.premium-filter-bar');
+  if (statsSection) {
+    statsSection.scrollIntoView({ behavior: 'smooth' });
+  }
+}
 
   // ========== PAGINATION ==========
   getPageNumbers(): number[] {
