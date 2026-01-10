@@ -1,20 +1,24 @@
 /* contact.component.css */
 .contact-hero {
-  background: linear-gradient(135deg, #1a3c07 0%, #2d5016 100%);
-  color: white;
+  background: url(/images/freshcontact.JPG);
+  background-repeat: no-repeat;
   padding: 4rem 0;
+  background-size:cover;
   text-align: center;
 }
 
 .contact-hero h1 {
   font-size: 3rem;
+  color: white;
   font-weight: 700;
   margin-bottom: 1rem;
 }
 
 .contact-hero p {
   font-size: 1.2rem;
+  color: white;
   opacity: 0.9;
+  font-weight: 600;
   max-width: 600px;
   margin: 0 auto;
 }

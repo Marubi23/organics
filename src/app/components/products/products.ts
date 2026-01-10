@@ -924,23 +924,82 @@ scrollToStats() {
   }
 
   // ========== CART METHODS ==========
-  addToCart(product: Product): void {
-    if (!product.inStock) return;
-    
-    const cartItem = {
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      image: product.image,
-      category: product.category,
-      units: product.units,
-      quantity: 1
-    };
-    
-    this.cartService.addToCart(cartItem);
-    this.showToast(`${product.name} added to cart!`);
-  }
+// In products.component.ts - update the addToCart method
+addToCart(product: Product): void {
+  if (!product.inStock) return;
+  
+  const cartItem = {
+    id: product.id,
+    name: product.name,
+    price: product.price,
+    image: product.image,
+    category: product.category,
+    units: product.units,
+    quantity: 1
+  };
+  
+  this.cartService.addToCart(cartItem);
+  this.showToast(`${product.name} added to cart!`);
+  
+  // Add both animations
+  this.animateAddToCart(product);
+  this.showButtonFeedback(product);
+}
 
+// Add this method to products.component.ts
+animateAddToCart(product: Product): void {
+  // Find the button that was clicked
+  const buttons = document.querySelectorAll('.btn-add-to-cart, .btn-list-add');
+  const clickedButton = Array.from(buttons).find(btn => 
+    btn.getAttribute('data-product-id') === product.id.toString()
+  ) as HTMLElement;
+  
+  if (!clickedButton) return;
+  
+  // Create a flying element
+  const flyingElement = document.createElement('div');
+  flyingElement.className = 'flying-item';
+  flyingElement.innerHTML = `
+    <i class="fas fa-shopping-cart"></i>
+    <span>+1</span>
+  `;
+  
+  // Get button position
+  const buttonRect = clickedButton.getBoundingClientRect();
+  flyingElement.style.left = `${buttonRect.left + buttonRect.width / 2}px`;
+  flyingElement.style.top = `${buttonRect.top + buttonRect.height / 2}px`;
+  
+  // Add to body
+  document.body.appendChild(flyingElement);
+  
+  // Get cart position (header cart button)
+  const cartButton = document.querySelector('.cart-btn') as HTMLElement;
+  if (!cartButton) return;
+  
+  const cartRect = cartButton.getBoundingClientRect();
+  const cartX = cartRect.left + cartRect.width / 2;
+  const cartY = cartRect.top + cartRect.height / 2;
+  
+  // Animate to cart
+  setTimeout(() => {
+    flyingElement.style.transform = `translate(${cartX - buttonRect.left}px, ${cartY - buttonRect.top}px) scale(0.3)`;
+    flyingElement.style.opacity = '0';
+    
+    // Pulse the cart button
+    cartButton.classList.add('cart-pulse');
+    
+    setTimeout(() => {
+      cartButton.classList.remove('cart-pulse');
+    }, 500);
+  }, 10);
+  
+  // Remove flying element after animation
+  setTimeout(() => {
+    if (document.body.contains(flyingElement)) {
+      document.body.removeChild(flyingElement);
+    }
+  }, 1000);
+}
   addToCartModal(): void {
     if (!this.quickViewProduct) return;
     
@@ -992,6 +1051,23 @@ scrollToStats() {
       this.showToast('Your cart is empty!');
     }
   }
+  // Add this method to products.component.ts
+showButtonFeedback(product: Product): void {
+  const buttons = document.querySelectorAll('.btn-add-to-cart, .btn-list-add');
+  const clickedButton = Array.from(buttons).find(btn => 
+    btn.getAttribute('data-product-id') === product.id.toString()
+  );
+  
+  if (clickedButton && clickedButton instanceof HTMLButtonElement) {
+    clickedButton.classList.add('added');
+    clickedButton.disabled = true;
+    
+    setTimeout(() => {
+      clickedButton.classList.remove('added');
+      clickedButton.disabled = false;
+    }, 2000);
+  }
+}
 
   // ========== IMAGE HANDLING ==========
   handleImageError(event: any): void {
