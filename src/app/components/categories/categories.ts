@@ -53,33 +53,33 @@ export class CategoriesComponent implements OnInit, AfterViewInit, OnDestroy {
     { number: '6', title: 'Life on Land', description: 'Restoring degraded soils, improving biodiversity, and strengthening ecosystem health with microbe-rich inputs' }
   ];
 
-  // Slideshow data
+  // Slideshow data - Updated to feature main biofertilizers
   currentSlide = 0;
   slideInterval: any;
   slides: Slide[] = [
     {
+      image: 'images/product2.jpg', // VamiPlus NPK Plus image
+      category: 'Biofertilizer',
+      name: 'VamiPlus NPK Plus',
+      description: 'Premium organo-mineral biofertilizer with active microbes for enhanced nutrient uptake and soil health restoration',
+      price: 1500,
+      unit: '/25kg bag'
+    },
+    {
+      image: 'images/product1.jpg', // BioFruity Plus image
+      category: 'Biofertilizer',
+      name: 'BioFruity Plus',
+      description: 'Specialized liquid biofertilizer for fruit trees, boosting flowering, fruit quality, and sweetness',
+      price: 700,
+      unit: '/1L bottle'
+    },
+    {
       image: 'images/vermifrass.jpeg',
-      category: 'Biofertilizers',
+      category: 'Biofertilizer',
       name: 'VermiFrass Active',
-      description: 'Superior organic fertilizer with active microbes',
+      description: 'Superior organic fertilizer with active macrobes and microbes for comprehensive soil regeneration',
       price: 850,
       unit: '/5kg bag'
-    },
-    {
-      image: 'images/npk fertilizer.jpeg',
-      category: 'Blended Fertilizers',
-      name: 'NPK Active',
-      description: 'Organo-mineral blend for fast results',
-      price: 1250,
-      unit: '/5kg bag'
-    },
-    {
-      image: 'images/layers mash.jpeg',
-      category: 'Poultry Feeds',
-      name: 'i-Layers Mash',
-      description: 'Optimal nutrition for laying hens',
-      price: 3000,
-      unit: '/25kg bag'
     }
   ];
 
@@ -116,7 +116,7 @@ export class CategoriesComponent implements OnInit, AfterViewInit, OnDestroy {
     this.stopSlideshow();
   }
 
-  // Slideshow Methods
+  // ========== SLIDESHOW METHODS ==========
   startSlideshow(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.slideInterval = setInterval(() => {
@@ -124,17 +124,6 @@ export class CategoriesComponent implements OnInit, AfterViewInit, OnDestroy {
       }, 5000); // Change slide every 5 seconds
     }
   }
-// In categories.component.ts - Add this method
-navigateToProductsWithScroll(): void {
-  // Navigate first
-  this.router.navigate(['/products']).then(() => {
-    // After navigation completes, scroll to top
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  });
-}
 
   stopSlideshow(): void {
     if (this.slideInterval) {
@@ -160,17 +149,45 @@ navigateToProductsWithScroll(): void {
     this.startSlideshow();
   }
 
-  // Navigation method for shop buttons
+  // New methods for glass stack slideshow
+  getPrevSlide(): Slide {
+    const prevIndex = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
+    return this.slides[prevIndex];
+  }
+
+  getNextSlide(): Slide {
+    const nextIndex = (this.currentSlide + 1) % this.slides.length;
+    return this.slides[nextIndex];
+  }
+
+  quickView(index: number): void {
+    this.currentSlide = index;
+    // Optional: You could trigger a modal or quick view dialog here
+    console.log('Quick view for:', this.slides[index].name);
+  }
+
+  // ========== NAVIGATION METHODS ==========
+  navigateToProductsWithScroll(): void {
+    this.router.navigate(['/products']).then(() => {
+      if (isPlatformBrowser(this.platformId)) {
+        // After navigation completes, scroll to top
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      }
+    });
+  }
+
   goToProducts(): void {
     this.router.navigate(['/products']);
   }
 
-  // Method for routerLink navigation in template
   navigateToProducts(): void {
     this.router.navigate(['/products']);
   }
 
-  // Stats Animation Methods
+  // ========== STATS ANIMATION METHODS ==========
   private setupIntersectionObserver(): void {
     const statsElement = document.getElementById('impact-stats');
     
@@ -288,5 +305,18 @@ navigateToProductsWithScroll(): void {
   // Helper method to get current impact stat by index (for template)
   getImpactStat(index: number): ImpactStat {
     return this.impactStats()[index];
+  }
+
+  // Optional: Animation trigger for the new slideshow
+  triggerSlideAnimation(): void {
+    // This can be used to add CSS animations programmatically
+    if (isPlatformBrowser(this.platformId)) {
+      const activeCard = document.querySelector('.active-product-card');
+      if (activeCard) {
+        activeCard.classList.remove('slide-animation');
+        void (activeCard as HTMLElement).offsetWidth; // Trigger reflow
+        activeCard.classList.add('slide-animation');
+      }
+    }
   }
 }
