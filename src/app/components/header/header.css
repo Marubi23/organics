@@ -375,12 +375,11 @@
 }
 
 .auth-btn {
-  background: #ffffff;
-  color:black;
+  background: hsl(31, 100%, 47%);
+  color:white;
   padding: 14px 24px;
   font-size: 0.95rem;
   font-weight: 700;
-  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
   border: none;
   letter-spacing: 0.5px;
 }
