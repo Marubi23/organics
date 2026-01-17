@@ -200,7 +200,7 @@
 .solution-icon {
   width: 60px;
   height: 60px;
-  background: linear-gradient(135deg,  hsl(125, 89%, 31%), var(--secondary-green));
+  background-color:  hsl(125, 89%, 31%);
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -879,7 +879,7 @@
 .brand-icon {
   width: 60px;
   height: 60px;
-  background: linear-gradient(135deg,  hsl(125, 89%, 31%) 0%,  hsl(125, 89%, 31%));
+  background: var(  hsl(125, 89%, 31%) 100%);
   border-radius: 16px;
   display: flex;
   align-items: center;
@@ -1007,7 +1007,7 @@
   font-family: 'Poppins', sans-serif;
   font-size: 28px;
   font-weight: 700;
-  color: #1a3c07;
+  color: hsl(125, 89%, 31%);
   margin: 0 0 10px 0;
 }
 
