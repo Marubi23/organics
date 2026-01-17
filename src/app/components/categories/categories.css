@@ -33,7 +33,7 @@
   color:  hsl(125, 89%, 31%);
   margin-bottom: 30px;
   line-height: 1.1;
-  font-family: 'Georgia', serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .mission-title .highlight {
@@ -45,11 +45,12 @@
 }
 
 .mission-statement {
-  font-size: 1.4rem;
+  font-size: 1.25rem;
   line-height: 1.7;
   max-width: 800px;
   margin: 0 auto;
-  color: black;
+  color: hsl(0, 0%, 7%);
+  font-family: 'Roboto', sans-serif;
   font-weight: 300;
   letter-spacing: 0.5px;
 }
