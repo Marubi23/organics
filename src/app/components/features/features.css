@@ -18,13 +18,13 @@
 .section-title {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #2d5016;
+  color:  hsl(125, 89%, 31%);
   margin-bottom: 1rem;
 }
 
 .section-subtitle {
   font-size: 1.125rem;
-  color: #5a7d3c;
+  color:   hsl(125, 84%, 12%);
   max-width: 600px;
   margin: 0 auto;
   line-height: 1.6;
@@ -60,7 +60,7 @@
 }
 
 .feature-icon {
-  color: #5a7d3c;
+  color:  hsl(125, 89%, 31%);
   z-index: 2;
   position: relative;
 }
@@ -68,7 +68,7 @@
 .feature-title {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #2d5016;
+  color:  hsl(125, 89%, 31%);
   margin-bottom: 1rem;
 }
 
@@ -82,7 +82,7 @@
   display: inline-block;
   padding: 0.5rem 1rem;
   background-color: #e8f5e9;
-  color: #2d5016;
+  color:  hsl(31, 100%, 47%);
   border-radius: 20px;
   font-size: 0.875rem;
   font-weight: 600;
@@ -90,12 +90,12 @@
 
 .feature-badge.certified {
   background-color: #e8f5e9;
-  color: #2d5016;
+  color:  hsl(31, 100%, 47%);
 }
 
 .feature-badge.guarantee {
   background-color: #e3f2fd;
-  color: #0d47a1;
+  color:  hsl(31, 100%, 47%);
 }
 
 .feature-badge.impact {
@@ -121,12 +121,12 @@
 .stat-number {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #2d5016;
+  color: hsl(125, 89%, 31%);
   margin-bottom: 0.5rem;
 }
 
 .stat-label {
-  color: #5a7d3c;
+  color:   hsla(125, 89%, 11%, 0.696);
   font-size: 1rem;
   font-weight: 500;
 }

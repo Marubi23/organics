@@ -637,49 +637,49 @@
 
 /* SDG-Specific Colors with Enhanced Gradients */
 .sdg-1 { 
-  border-top: 5px solid  hsl(31, 100%, 47%);
+  border-top: 5px solid  hsl(125, 89%, 31%);
   background: linear-gradient(135deg, #fff9f9 0%, #ffffff 100%);
 }
 .sdg-1 .sdg-number { color:  hsl(31, 100%, 47%); }
 
 .sdg-2 { 
-  border-top: 5px solid  hsl(31, 100%, 47%);
+  border-top: 5px solid  hsl(125, 89%, 31%);
   background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
 }
 .sdg-2 .sdg-number { color:  hsl(31, 100%, 47%); }
 
 .sdg-5 { 
-  border-top: 5px solid ;
+  border-top: 5px solid  hsl(125, 89%, 31%) ;
   background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
 }
-.sdg-5 .sdg-number { color: #4c9f38; }
+.sdg-5 .sdg-number { color : hsl(31, 100%, 47%); }
 
 .recent-work { 
-  border-top: 5px solid var(--accent-green);
+  border-top: 5px solid hsl(125, 89%, 31%);
   background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
 }
 .recent-work .sdg-number { 
-  color: var(--accent-green);
+  color: hsl(31, 100%, 47%);
   font-size: 2.8rem;
 }
 
 .sdg-12 { 
-  border-top: 5px solid #bf8b2e;
+  border-top: 5px solid hsl(125, 89%, 31%);
   background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
 }
-.sdg-12 .sdg-number { color: #bf8b2e; }
+.sdg-12 .sdg-number { color: hsl(31, 100%, 47%); }
 
 .sdg-13 { 
-  border-top: 5px solid #3f7e44;
+  border-top: 5px solid hsl(125, 89%, 31%);
   background: linear-gradient(135deg, #f0f7f0 0%, #e8f5e9 100%);
 }
-.sdg-13 .sdg-number { color: #3f7e44; }
+.sdg-13 .sdg-number { color: hsl(31, 100%, 47%); }
 
 .sdg-15 { 
-  border-top: 5px solid #56c02b;
+  border-top: 5px solid hsl(125, 89%, 31%);
   background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
 }
-.sdg-15 .sdg-number { color: #56c02b; }
+.sdg-15 .sdg-number { color:  hsl(31, 100%, 47%); }
 
 /* Floating Elements for Visual Interest */
 .sdg-floating {
@@ -913,7 +913,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  background: rgba(139, 195, 74, 0.1);
+  background:  hsl(31, 100%, 47%);
   color: var(--primary-green);
   padding: 12px 24px;
   border-radius: 12px;
@@ -1745,7 +1745,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #8bc34a;
+  color: hsl(125, 89%, 31%);
 }
 
 .stat-content {
@@ -1757,7 +1757,7 @@
   font-family: 'Poppins', sans-serif;
   font-size: 1.5rem;
   font-weight: 700;
-  color: #1a3c07;
+  color: hsl(125, 89%, 31%);
 }
 
 .stat-label {
