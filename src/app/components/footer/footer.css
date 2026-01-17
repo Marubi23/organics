@@ -1,6 +1,6 @@
 /* footer.component.css */
 .footer {
-  background: rgb(32, 94, 39);
+  background: hwb(125 1% 47%);
   color: #ffffff;
   border-top: 1px solid #aeac33;
 }
