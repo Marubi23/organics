@@ -459,7 +459,7 @@
   border: 2px solid rgba(160, 136, 100, 0.3);
   box-shadow: 
     0 20px 60px rgba(0, 0, 0, 0.3),
-    inset 0 0 40px rgba(255, 209, 102, 0.1);
+    inset 0 0 40px rgba(255, 255, 255, 0.1);
 }
 
 .stat-item {
@@ -501,7 +501,7 @@
 .stat-icon {
   width: 60px;
   height: 60px;
-  background: linear-gradient(135deg, var(--garden-green), var(--moss-green));
+  background: white;
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -523,7 +523,7 @@
 .stat-value {
   font-size: 32px;
   font-weight: 800;
-  color: var(--sunlight-yellow);
+  color: wheat;
   line-height: 1;
   margin-bottom: 4px;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);

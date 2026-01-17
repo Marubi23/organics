@@ -789,7 +789,7 @@
 }
 
 .video-play-btn {
-  background: #135601; /* YouTube red for video button */
+  background: hsl(125, 89%, 31%); /* YouTube red for video button */
   color: white;
   font-weight: 600;
   border: none;

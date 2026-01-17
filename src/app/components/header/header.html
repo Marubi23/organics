@@ -360,8 +360,8 @@
               {{ getUserInitials() }}
             </div>
             <div class="mobile-user-details">
-              <h4>{{ currentUser?.fullName }}</h4>
-              <p>{{ currentUser?.phoneNumber }}</p>
+             <h4>{{ currentUser ? currentUser.fullName : '' }}</h4>
+<p>{{ currentUser ? currentUser.phoneNumber : '' }}</p>
             </div>
           </div>
           <div class="mobile-auth-buttons">
@@ -383,75 +383,235 @@
   <!-- Cart Component -->
   <app-cart [isOpen]="isCartOpen" (closeCart)="toggleCart()"></app-cart>
 
-  <!-- Search Overlay -->
-  <div class="search-overlay" [class.active]="isSearchOpen">
-    <div class="search-container">
-      <div class="search-header">
-        <h3>Search Mzuri Organics</h3>
-        <button class="search-close-btn" (click)="closeSearch()">
+<!-- Search Overlay - SIDEBAR STYLE -->
+<div class="search-overlay" [class.active]="isSearchOpen" (click)="closeSearch()">
+  <div class="search-sidebar" (click)="$event.stopPropagation()">
+    <!-- Search Header -->
+    <div class="search-header">
+      <div class="search-header-left">
+        <div class="search-logo">
+          <i class="fas fa-search search-header-icon"></i>
+          <h3>Mzuri Search</h3>
+        </div>
+        <p class="search-subtitle">Find organic products & solutions</p>
+      </div>
+      <button class="search-close-btn" (click)="closeSearch()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <!-- Search Input Section -->
+    <div class="search-input-section">
+      <div class="search-input-container">
+        <i class="fas fa-search search-input-icon"></i>
+        <input 
+          type="text" 
+          #searchInput
+          placeholder="Search for fertilizers, feeds, avocados..." 
+          class="search-input"
+          (input)="onSearchInput($event)"
+          (keyup.enter)="performSearch()"
+          autocomplete="off"
+        />
+        <button class="clear-search-btn" (click)="clearSearch()" *ngIf="searchTerm">
           <i class="fas fa-times"></i>
         </button>
       </div>
       
-      <div class="search-input-group">
-        <input 
-          type="text" 
-          #searchInput
-          placeholder="Search for organic fertilizers, BSF larvae, products..." 
-          class="search-input"
-          (input)="onSearchInput($event)"
-          (keyup.enter)="performSearch()"
-        />
-        <button class="search-submit-btn" (click)="performSearch()">
-          <i class="fas fa-search"></i>
+      <!-- Quick Search Chips -->
+      <div class="quick-search-chips">
+        <button class="search-chip" (click)="searchByTag('Fertilizers')">
+          <i class="fas fa-flask"></i> Fertilizers
+        </button>
+        <button class="search-chip" (click)="searchByTag('Animal Feeds')">
+          <i class="fas fa-paw"></i> Feeds
+        </button>
+        <button class="search-chip" (click)="searchByTag('BSF Larvae')">
+          <i class="fas fa-worm"></i> BSF Larvae
+        </button>
+        <button class="search-chip" (click)="searchByTag('Avocados')">
+          <i class="fas fa-seedling"></i> Avocados
         </button>
       </div>
+    </div>
 
-      <!-- Search Results -->
-      <div class="search-results" *ngIf="searchResults.length > 0">
-        <div class="search-result-item" 
-             *ngFor="let result of searchResults" 
-             (click)="navigateToSearchResult(result)">
-          <div class="result-icon">
-            <i [class]="getResultIcon(result.category)"></i>
+    <!-- Layout Toggle -->
+    <div class="layout-toggle" *ngIf="searchResults.length > 0">
+      <button class="layout-btn" [class.active]="searchLayout === 'grid'" (click)="setSearchLayout('grid')">
+        <i class="fas fa-th-large"></i> Grid
+      </button>
+      <button class="layout-btn" [class.active]="searchLayout === 'list'" (click)="setSearchLayout('list')">
+        <i class="fas fa-list"></i> List
+      </button>
+      <button class="layout-btn" [class.active]="searchLayout === 'compact'" (click)="setSearchLayout('compact')">
+        <i class="fas fa-grip-vertical"></i> Compact
+      </button>
+      <button class="layout-btn" [class.active]="searchLayout === 'cards'" (click)="setSearchLayout('cards')">
+        <i class="fas fa-th"></i> Cards
+      </button>
+    </div>
+
+    <!-- Search Results Container -->
+    <div class="search-results-container">
+      <!-- Results Info -->
+      <div class="results-info" *ngIf="searchTerm && searchResults.length > 0">
+        <span class="results-count">{{ searchResults.length }} results found</span>
+        <span class="results-category" *ngIf="searchCategoryFilter">
+          in <strong>{{ searchCategoryFilter }}</strong>
+        </span>
+      </div>
+
+      <!-- Results Grid View -->
+      <div class="results-grid" *ngIf="searchLayout === 'grid' && searchResults.length > 0">
+        <div class="product-card-search" *ngFor="let product of searchResults" (click)="navigateToSearchResult(product)">
+          <div class="product-image-search">
+            <img [src]="product.image" [alt]="product.name" (error)="handleImageError($event)">
+            <div class="product-badge-search" [class.organic]="product.category.includes('Organic')">
+              {{ product.category }}
+            </div>
           </div>
-          <div class="result-content">
-            <h4>{{ result.name }}</h4>
-            <p>{{ result.description }}</p>
-            <div class="result-meta">
-              <span class="result-price">KSh {{ result.price }}</span>
-              <span class="result-category">{{ result.category }}</span>
+          <div class="product-info-search">
+            <h4 class="product-title-search">{{ product.name }}</h4>
+            <p class="product-description-search">{{ truncateText(product.description, 60) }}</p>
+            <div class="product-meta-search">
+              <span class="product-price-search">KSh {{ product.price }}</span>
+              <span class="product-category-search">{{ product.category }}</span>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Popular Searches -->
-      <div class="popular-searches" *ngIf="searchTerm === ''">
-        <h4>Popular Kenyan Products</h4>
-        <div class="popular-tags">
-          <span class="tag" (click)="searchByTag('NPK')">NPK Fertilizers</span>
-          <span class="tag" (click)="searchByTag('BSF')">BSF Larvae</span>
-          <span class="tag" (click)="searchByTag('Urea')">Urea Plus</span>
-          <span class="tag" (click)="searchByTag('Growing Media')">Growing Media</span>
-          <span class="tag" (click)="searchByTag('Protein')">Protein Feeds</span>
-          <span class="tag" (click)="searchByTag('Worms')">Red Wigglers</span>
-          <span class="tag" (click)="searchByTag('Avocados')">Avocados</span>
-          <span class="tag" (click)="searchByTag('Kale')">Kale</span>
+      <!-- Results List View -->
+      <div class="results-list" *ngIf="searchLayout === 'list' && searchResults.length > 0">
+        <div class="list-item-search" *ngFor="let product of searchResults" (click)="navigateToSearchResult(product)">
+          <div class="list-image-search">
+            <img [src]="product.image" [alt]="product.name" (error)="handleImageError($event)">
+          </div>
+          <div class="list-content-search">
+            <h4 class="list-title-search">{{ product.name }}</h4>
+            <p class="list-description-search">{{ truncateText(product.description, 80) }}</p>
+
+            <div class="list-meta-search">
+              <span class="list-price-search">KSh {{ product.price }}</span>
+              <span class="list-category-search">{{ product.category }}</span>
+              <span class="list-stock-search" [class.in-stock]="true">
+                <i class="fas fa-check-circle"></i> In Stock
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Compact View -->
+      <div class="results-compact" *ngIf="searchLayout === 'compact' && searchResults.length > 0">
+        <div class="compact-item-search" *ngFor="let product of searchResults" (click)="navigateToSearchResult(product)">
+          <div class="compact-left">
+            <div class="compact-image">
+              <img [src]="product.image" [alt]="product.name" (error)="handleImageError($event)">
+            </div>
+            <div class="compact-info">
+              <h5 class="compact-title">{{ product.name }}</h5>
+              <span class="compact-category">{{ product.category }}</span>
+            </div>
+          </div>
+          <div class="compact-right">
+            <span class="compact-price">KSh {{ product.price }}</span>
+            <i class="fas fa-chevron-right compact-arrow"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Cards View -->
+      <div class="results-cards" *ngIf="searchLayout === 'cards' && searchResults.length > 0">
+        <div class="card-item-search" *ngFor="let product of searchResults" (click)="navigateToSearchResult(product)">
+          <div class="card-image-search">
+            <img [src]="product.image" [alt]="product.name" (error)="handleImageError($event)">
+            <div class="card-badge-search" [class.organic]="product.category.includes('Organic')">
+              <i class="fas fa-leaf"></i>
+            </div>
+          </div>
+          <div class="card-content-search">
+            <h4 class="card-title-search">{{ product.name }}</h4>
+            <p class="card-description-search">{{ truncateText(product.description, 50) }}</p>
+            <div class="card-footer-search">
+              <span class="card-price-search">KSh {{ product.price }}</span>
+              <button class="card-action-btn" (click)="$event.stopPropagation(); addToCartFromSearch(product)">
+                <i class="fas fa-cart-plus"></i>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
       <!-- No Results -->
-      <div class="no-results" *ngIf="searchTerm !== '' && searchResults.length === 0">
-        <i class="fas fa-search"></i>
-        <p>No products found for "{{ searchTerm }}"</p>
-        <span>Try searching with different keywords</span>
+      <div class="no-results-search" *ngIf="searchTerm && searchResults.length === 0">
+        <div class="no-results-icon">
+          <i class="fas fa-search"></i>
+        </div>
+        <h3>No products found for "{{ searchTerm }}"</h3>
+        <p>Try searching with different keywords or browse our categories:</p>
+        <div class="no-results-suggestions">
+          <button class="suggestion-btn" (click)="searchByTag('NPK Fertilizer')">
+            <i class="fas fa-flask"></i> NPK Fertilizer
+          </button>
+          <button class="suggestion-btn" (click)="searchByTag('BSF Larvae')">
+            <i class="fas fa-worm"></i> BSF Larvae
+          </button>
+          <button class="suggestion-btn" (click)="searchByTag('Avocados')">
+            <i class="fas fa-seedling"></i> Avocados
+          </button>
+          <button class="suggestion-btn" (click)="searchByTag('Animal Feeds')">
+            <i class="fas fa-paw"></i> Animal Feeds
+          </button>
+        </div>
       </div>
 
-      <!-- Quick Stats -->
-      <div class="search-stats" *ngIf="searchTerm === ''">
+      <!-- Recent Searches -->
+      <div class="recent-searches-section" *ngIf="!searchTerm && recentSearches.length > 0">
+        <div class="section-header">
+          <h4>Recent Searches</h4>
+          <button class="clear-recent-btn" (click)="clearAllRecentSearches()">
+            Clear All
+          </button>
+        </div>
+        <div class="recent-list-search">
+          <div class="recent-item-search" *ngFor="let search of recentSearches">
+            <button class="recent-search-btn" (click)="searchByTag(search)">
+              <i class="fas fa-history"></i>
+              <span>{{ search }}</span>
+            </button>
+            <button class="remove-recent-btn" (click)="removeRecentSearch(search, $event)">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Featured Products -->
+      <div class="featured-products" *ngIf="!searchTerm">
+        <div class="section-header">
+          <h4>Featured Products</h4>
+          <span>Popular with Kenyan farmers</span>
+        </div>
+        <div class="featured-grid">
+          <div class="featured-item" *ngFor="let product of featuredProducts" (click)="navigateToSearchResult(product)">
+            <div class="featured-image">
+              <img [src]="product.image" [alt]="product.name" (error)="handleImageError($event)">
+            </div>
+            <div class="featured-info">
+              <h5>{{ product.name }}</h5>
+              <span class="featured-price">KSh {{ product.price }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search Footer -->
+    <div class="search-footer">
+      <div class="search-stats">
         <div class="stat-item">
-          <strong>9+</strong>
+          <strong>{{ allProducts.length }}+</strong>
           <span>Organic Products</span>
         </div>
         <div class="stat-item">
@@ -459,6 +619,15 @@
           <span>Kenyan Made</span>
         </div>
       </div>
+      <div class="search-help">
+        <a href="#" class="help-link">
+          <i class="fas fa-question-circle"></i> Search Help
+        </a>
+        <a href="/products" class="help-link">
+          <i class="fas fa-store"></i> View All Products
+        </a>
+      </div>
     </div>
   </div>
+</div>
 </nav>
