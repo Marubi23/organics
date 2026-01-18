@@ -29,8 +29,8 @@
 
 /* Global Styles */
 .about-section {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: var(--cream);
+  font-family: 'Poppins', sans-serif;
+  background: var(--white);
   color: var(--text-dark);
   line-height: 1.6;
   padding: 0;
@@ -57,7 +57,7 @@
 
 .page-navigation.scrolled {
   background: rgba(255, 255, 255, 0.98);
-  box-shadow: 0 2px 20px rgba(26, 60, 7, 0.1);
+  box-shadow: 0 2px 20px hsl(125, 89%, 31%);
 }
 
 .nav-container {
@@ -82,17 +82,17 @@
   white-space: nowrap;
   border: none;
   background: none;
-  font-family: inherit;
+  font-family: 'Poppins', sans-serif;
 }
 
 .nav-link:hover {
-  background-color: var(--light-green);
+  background-color: var  hsl(125, 89%, 31%);
   color: var(--primary-green);
   transform: translateY(-2px);
 }
 
 .nav-link.active {
-  background-color: var(--primary-green);
+  background-color: var  hsl(125, 89%, 31%);
   color: var(--white);
 }
 
@@ -127,7 +127,7 @@
   height: 100%;
   object-fit: cover;
   object-position: center;
-  filter: brightness(0.4);
+  filter: brightness(0.5);
   transition: filter 0.3s ease;
 }
 
@@ -140,7 +140,7 @@
   background: linear-gradient(
     135deg,
     rgba(26, 60, 7, 0.7) 0%,
-    rgba(45, 80, 22, 0.5) 50%,
+    rgba(45, 80, 22, 0.5) 30%,
     rgba(139, 195, 74, 0.3) 100%
   );
   z-index: 2;
@@ -185,6 +185,7 @@
 
 .brand-pre-title {
   display: block;
+  font-family: 'Roboto', sans-serif;
   font-size: 1.2rem;
   font-weight: 400;
   letter-spacing: 4px;
@@ -201,7 +202,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  font-family: inherit;
+  font-family:'Poppins',sans-serif;
 }
 
 /* Interactive Toggle Section */
@@ -253,17 +254,17 @@
 }
 
 .watch-story {
-  border-left: 4px solid var(--accent-green);
+  border-left: 4px solid  hsl(125, 89%, 31%);
 }
 
 .read-about {
-  border-left: 4px solid var(--primary-green);
+  border-left: 4px solid  hsl(125, 89%, 31%);
 }
 
 .card-icon {
   width: 80px;
   height: 80px;
-  background: rgba(255, 255, 255, 0.1);
+  background: hsl(125, 89%, 31%);
   border-radius: 20px;
   display: flex;
   align-items: center;
@@ -286,7 +287,8 @@
   font-size: 1.8rem;
   margin-bottom: 15px;
   font-weight: 600;
-  font-family: inherit;
+  font-family: 'Roboto', sans-serif;
+
 }
 
 .card-content p {
@@ -494,7 +496,7 @@
   left: 0;
   width: 100%;
   height: 4px;
-  background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+  background: linear-gradient(135deg, var(hsl(125, 89%, 31%), var hsl(125, 89%, 31%)));
   transform: scaleX(0);
   transition: transform 0.4s ease;
 }
@@ -515,7 +517,7 @@
 .icon-wrapper {
   width: 100px;
   height: 100px;
-  background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+  background: linear-gradient(135deg, var  hsl(125, 89%, 31%) , var   hsl(125, 89%, 31%));
   border-radius: 25px;
   display: flex;
   align-items: center;
@@ -546,6 +548,7 @@
 .card-icon svg {
   width: 48px;
   height: 48px;
+  color:hsl(31, 100%, 47%) ;
   position: relative;
   z-index: 2;
 }
@@ -553,8 +556,8 @@
 .mission-card h2, .vision-card h2 {
   font-size: 2.2rem;
   margin-bottom: 25px;
-  color: var(--primary-green);
-  font-family: inherit;
+  color:  hsl(125, 89%, 31%);
+  font-family: 'Roboto', sans-serif;
   font-weight: 700;
 }
 
@@ -576,7 +579,7 @@
   font-size: 3rem;
   font-weight: 700;
   margin-bottom: 20px;
-  color: var(--text-dark);
+  color:  hsl(125, 89%, 31%);
   font-family: inherit;
   position: relative;
   display: inline-block;
@@ -676,7 +679,7 @@
   right: 25px;
   font-size: 3rem;
   font-weight: 800;
-  color: rgba(26, 60, 7, 0.1);
+  color:  hsl(125, 89%, 31%);
   z-index: 2;
   transition: all 0.4s ease;
   font-family: inherit;
@@ -1183,7 +1186,7 @@
 
 /* Contact CTA */
 .contact-cta {
-  background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+  background: linear-gradient(135deg, var(--primary-green), var hsl(125, 89%, 31%));
   border-radius: 30px;
   padding: 80px 50px;
   text-align: center;

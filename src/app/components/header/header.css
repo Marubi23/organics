@@ -14,7 +14,6 @@
   margin: 0 auto;
   padding: 0 40px;
 }
-
 .nav-content {
   display: flex;
   justify-content: space-between;
@@ -81,6 +80,7 @@
   color: #FFFFFF;
   font-weight: 600;
   font-size: 0.95rem;
+  font-family: 'Poppins', sans-serif;
   padding: 14px 22px;
   border-radius: 12px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
