@@ -85,6 +85,10 @@ export class AboutComponent {
   // Navigation active state
   activeSection: string = 'home';
   isScrolled: boolean = false;
+  
+  // Smart side nav properties
+  isNavVisible: boolean = false;
+  private navHideTimeout: any;
 
   // Mission & Vision
   mission = {
@@ -434,6 +438,11 @@ export class AboutComponent {
       });
 
       this.activeSection = sectionId;
+      
+      // Close nav on mobile after clicking a link
+      if (window.innerWidth < 768) {
+        this.isNavVisible = false;
+      }
     }
   }
 
@@ -463,6 +472,47 @@ export class AboutComponent {
   @HostListener('window:scroll', [])
   onWindowScroll() {
     this.isScrolled = window.pageYOffset > 100;
+  }
+
+  // Smart side nav controls
+  showNav(): void {
+    if (this.navHideTimeout) {
+      clearTimeout(this.navHideTimeout);
+    }
+    this.isNavVisible = true;
+  }
+
+  hideNav(): void {
+    this.navHideTimeout = setTimeout(() => {
+      this.isNavVisible = false;
+    }, 300);
+  }
+
+  toggleNav(): void {
+    this.isNavVisible = !this.isNavVisible;
+  }
+
+  // Helper method for section titles in nav footer
+  getSectionTitle(sectionId: string): string {
+    const titles: { [key: string]: string } = {
+      'home': 'Home',
+      'mission-vision': 'Mission & Vision',
+      'challenges': 'Challenges',
+      'solutions': 'Solutions',
+      'products': 'Products',
+      'impact': 'Impact',
+      'sdg': 'SDG Alignment',
+      'contact': 'Contact'
+    };
+    return titles[sectionId] || 'Home';
+  }
+
+  // Close nav on Escape key - FIXED: Don't pass $event parameter
+  @HostListener('window:keydown.escape')
+  onEscapeKey() {
+    if (this.isNavVisible) {
+      this.isNavVisible = false;
+    }
   }
 
   // Method to get SVG icon based on type

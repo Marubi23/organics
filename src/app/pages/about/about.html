@@ -1,4 +1,75 @@
 <section class="about-section">
+    <!-- Minimal Trigger Button -->
+  <div class="nav-trigger" (mouseenter)="showNav()" (click)="toggleNav()">
+    <div class="trigger-icon">
+      <i class="fas" [class.fa-bars]="!isNavVisible" [class.fa-times]="isNavVisible"></i>
+    </div>
+    <span class="trigger-text">Menu</span>
+  </div>
+
+  <!-- Smart Side Navigation -->
+  <div class="smart-side-nav" 
+       [class.visible]="isNavVisible"
+       (mouseenter)="showNav()"
+       (mouseleave)="hideNav()">
+    
+    <div class="nav-header">
+      <div class="nav-logo">
+        <i class="fas fa-recycle"></i>
+      </div>
+      <h4>Quick Navigation</h4>
+    </div>
+    
+    <div class="nav-links">
+      <a (click)="scrollToSection('home')" class="nav-link" [class.active]="activeSection === 'home'">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </a>
+      
+      <a (click)="scrollToSection('mission-vision')" class="nav-link" [class.active]="activeSection === 'mission-vision'">
+        <i class="fas fa-bullseye"></i>
+        <span>Mission & Vision</span>
+      </a>
+      
+      <a (click)="scrollToSection('challenges')" class="nav-link" [class.active]="activeSection === 'challenges'">
+        <i class="fas fa-exclamation-triangle"></i>
+        <span>Challenges</span>
+      </a>
+      
+      <a (click)="scrollToSection('solutions')" class="nav-link" [class.active]="activeSection === 'solutions'">
+        <i class="fas fa-lightbulb"></i>
+        <span>Solutions</span>
+      </a>
+      
+      <a (click)="scrollToSection('products')" class="nav-link" [class.active]="activeSection === 'products'">
+        <i class="fas fa-seedling"></i>
+        <span>Products</span>
+      </a>
+      
+      <a (click)="scrollToSection('impact')" class="nav-link" [class.active]="activeSection === 'impact'">
+        <i class="fas fa-chart-line"></i>
+        <span>Impact</span>
+      </a>
+      
+      <a (click)="scrollToSection('sdg')" class="nav-link" [class.active]="activeSection === 'sdg'">
+        <i class="fas fa-globe-africa"></i>
+        <span>SDG</span>
+      </a>
+      
+      <a (click)="scrollToSection('contact')" class="nav-link" [class.active]="activeSection === 'contact'">
+        <i class="fas fa-envelope"></i>
+        <span>Contact</span>
+      </a>
+    </div>
+    
+    <div class="nav-footer">
+      <div class="current-section">
+        <small>Currently viewing:</small>
+        <strong>{{ getSectionTitle(activeSection) }}</strong>
+      </div>
+    </div>
+  </div>
+
   <!-- Sticky Navigation -->
   <div class="page-navigation" [class.scrolled]="isScrolled">
     <div class="nav-container">
