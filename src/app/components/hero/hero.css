@@ -433,7 +433,7 @@
 
 /* Shop Now Button Enhancement */
 .shop-now-btn {
-  background:  hsl(31, 100%, 47%);
+  background:   hsl(31, 100%, 47%);
   color: var(--white);
   border: none;
 }

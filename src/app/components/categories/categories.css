@@ -1,7 +1,10 @@
 /* categories.component.css */
 .impact-cta-section {
   padding: 100px 0;
-  background: linear-gradient(135deg, var(--cream) 0%, #f0f8f0 50%, var(--background) 100%);
+  background-image:url('/images/farmland.JPG');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
   color: var(--text-dark);
   position: relative;
   overflow: hidden;
@@ -21,38 +24,129 @@
 }
 
 /* Mission Hero */
+
+/* Mission Hero - Compact & Clean */
 .mission-hero {
   text-align: center;
-  margin-bottom: 80px;
+  background-image: url('/images/farmland.JPG');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-bottom: 60px;
   position: relative;
+  padding: 80px 20px;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+.mission-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: inherit;
+  background-size: cover;
+  filter: blur(2px) brightness(0.85);
+  z-index: 1;
+}
+
+.mission-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 30px;
+  background: rgba(255, 255, 255, 0.88);
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Clean Title */
 .mission-title {
-  font-size: 4rem;
-  font-weight: 300;
-  color:  hsl(125, 89%, 31%);
-  margin-bottom: 30px;
-  line-height: 1.1;
+  font-size: 2.8rem;
+  font-weight: 600;
+  color: hsl(125, 89%, 31%);
+  margin-bottom: 20px;
+  line-height: 1.2;
   font-family: 'Poppins', sans-serif;
 }
 
 .mission-title .highlight {
-  font-weight: 600;
-  background: linear-gradient( hsl(125, 89%, 31%));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: hsl(31, 100%, 47%);
+  font-weight: 700;
+  position: relative;
 }
 
+.mission-title .highlight::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: hsl(31, 100%, 47%);
+  opacity: 0.6;
+}
+
+/* Clean Statement */
 .mission-statement {
-  font-size: 1.25rem;
-  line-height: 1.7;
-  max-width: 800px;
+  font-size: 1.15rem;
+  line-height: 1.6;
+  max-width: 700px;
   margin: 0 auto;
-  color: hsl(0, 0%, 29%);
+  color: #333;
   font-family: 'Roboto', sans-serif;
-  font-weight: 300;
-  letter-spacing: 0.5px;
+  font-weight: 400;
+  padding-top: 15px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Add accent color to key terms */
+.mission-statement strong {
+  color: hsl(125, 89%, 31%);
+  font-weight: 600;
+}
+
+/* Simple fade-in */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mission-content {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .mission-hero {
+    padding: 50px 15px;
+    min-height: 60vh;
+  }
+  
+  .mission-content {
+    padding: 30px 20px;
+  }
+  
+  .mission-title {
+    font-size: 2.2rem;
+  }
+  
+  .mission-statement {
+    font-size: 1.05rem;
+    line-height: 1.5;
+  }
 }
 
 /* Impact Stats */
