@@ -22,9 +22,11 @@
     
     <div class="nav-links">
       <a (click)="scrollToSection('home')" class="nav-link" [class.active]="activeSection === 'home'">
-        <i class="fas fa-home"></i>
-        <span>Home</span>
-      </a>
+  <div class="link-icon">
+    <i class="fas fa-home"></i>
+  </div>
+  <div class="link-text">Home</div>
+</a>
       
       <a (click)="scrollToSection('mission-vision')" class="nav-link" [class.active]="activeSection === 'mission-vision'">
         <i class="fas fa-bullseye"></i>
@@ -70,19 +72,6 @@
     </div>
   </div>
 
-  <!-- Sticky Navigation -->
-  <div class="page-navigation" [class.scrolled]="isScrolled">
-    <div class="nav-container">
-      <a (click)="scrollToSection('home')" class="nav-link" [class.active]="activeSection === 'home'">Home</a>
-      <a (click)="scrollToSection('mission-vision')" class="nav-link" [class.active]="activeSection === 'mission-vision'">Mission & Vision</a>
-      <a (click)="scrollToSection('challenges')" class="nav-link" [class.active]="activeSection === 'challenges'">Challenges</a>
-      <a (click)="scrollToSection('solutions')" class="nav-link" [class.active]="activeSection === 'solutions'">Solutions</a>
-      <a (click)="scrollToSection('products')" class="nav-link" [class.active]="activeSection === 'products'">Products</a>
-      <a (click)="scrollToSection('impact')" class="nav-link" [class.active]="activeSection === 'impact'">Impact</a>
-      <a (click)="scrollToSection('sdg')" class="nav-link" [class.active]="activeSection === 'sdg'">SDG Alignment</a>
-      <a (click)="scrollToSection('contact')" class="nav-link" [class.active]="activeSection === 'contact'">Contact</a>
-    </div>
-  </div>
 
   <div class="container">
     <!-- Video-First Interactive Hero -->
