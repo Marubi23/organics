@@ -477,73 +477,125 @@
       <p>Understanding the systemic nature of agricultural challenges in Kenya</p>
     </div>
     
-    <div class="connection-diagram">
-      <div class="connection-node center" @pulseAnimation>
-        <div class="node-content">
-          <div class="node-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2v20"/>
-              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-            </svg>
-          </div>
-          <h4>Soil Degradation</h4>
-          <p>The core issue driving all other challenges</p>
-        </div>
+    <!-- Central Problem -->
+    <div class="central-problem">
+      <div class="problem-core">
+        <h3>Soil Degradation</h3>
+        <p>The core issue driving all other challenges</p>
       </div>
-      
-      <div class="connection-links">
-        <div class="link" *ngFor="let link of connectionLinks; let i = index" 
-             [style.--rotation]="link.rotation + 'deg'">
-          <div class="link-label">{{link.label}}</div>
-          <div class="link-dot"></div>
-        </div>
-      </div>
-      
-      <div class="connection-nodes">
-        <div class="connection-node" *ngFor="let node of connectionNodes; let i = index" 
-             [style.--angle]="node.angle">
-          <div class="node-content">
-            <div class="node-icon small" [innerHTML]="node.icon"></div>
-            <h5>{{node.title}}</h5>
-            <p>{{node.description}}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="systemic-solutions" @staggerAnimation>
-  <div class="container">
-    <div class="section-header">
-      <h2>Our Systemic Approach to Solutions</h2>
-      <p>How Mzuri Organics addresses interconnected challenges through circular economy</p>
     </div>
     
-    <div class="solution-matrix">
-      <div class="matrix-header">
-        <div class="matrix-cell"></div>
-        <div class="matrix-cell">Problem</div>
-        <div class="matrix-cell">Root Cause</div>
-        <div class="matrix-cell">Our Solution</div>
-        <div class="matrix-cell">Impact</div>
+    <!-- Satellite Problems -->
+    <div class="satellite-problems">
+      <div class="satellite-card">
+        <div class="satellite-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/>
+          </svg>
+        </div>
+        <h4>Chemical Dependence</h4>
+        <p>More pesticides & fertilizers needed</p>
       </div>
       
-      <div class="matrix-row" *ngFor="let solution of solutionMatrix; let i = index">
-        <div class="matrix-cell index">{{solution.index}}</div>
-        <div class="matrix-cell problem">
-          <strong>{{solution.problem}}</strong>
-          <p>{{solution.description}}</p>
+      <div class="satellite-card">
+        <div class="satellite-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2v20"/>
+            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
         </div>
-        <div class="matrix-cell cause">
-          {{solution.cause}}
+        <h4>Lower Yields</h4>
+        <p>Reduced crop productivity</p>
+      </div>
+      
+      <div class="satellite-card">
+        <div class="satellite-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M16 16s-1.5-2-4-2-4 2-4 2"/>
+            <line x1="9" y1="9" x2="9.01" y2="9"/>
+            <line x1="15" y1="9" x2="15.01" y2="9"/>
+          </svg>
         </div>
-        <div class="matrix-cell solution">
-          {{solution.solution}}
+        <h4>Farmer Poverty</h4>
+        <p>Income instability & debt</p>
+      </div>
+      
+      <div class="satellite-card">
+        <div class="satellite-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 6h18"/>
+            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+          </svg>
         </div>
-        <div class="matrix-cell impact positive">
-          {{solution.impact}}
+        <h4>Waste Mismanagement</h4>
+        <p>Lost valuable resources</p>
+      </div>
+      
+      <div class="satellite-card">
+        <div class="satellite-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2v20"/>
+            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
         </div>
+        <h4>Climate Vulnerability</h4>
+        <p>Reduced resilience to drought</p>
+      </div>
+      
+      <div class="satellite-card">
+        <div class="satellite-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="m9 12 2 2 4-4"/>
+          </svg>
+        </div>
+        <h4>Food Insecurity</h4>
+        <p>Nutritional gaps in communities</p>
+      </div>
+      
+      <div class="satellite-card">
+        <div class="satellite-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="m22 2-7 20-4-9-9-4Z"/>
+          </svg>
+        </div>
+        <h4>Health Risks</h4>
+        <p>Chemical exposure & diseases</p>
+      </div>
+    </div>
+    
+    <!-- Connection Types -->
+    <div class="connection-types">
+      <div class="connection-type">
+        <div class="connection-dot"></div>
+        <span>Leads to</span>
+      </div>
+      <div class="connection-type">
+        <div class="connection-dot"></div>
+        <span>Causes</span>
+      </div>
+      <div class="connection-type">
+        <div class="connection-dot"></div>
+        <span>Results in</span>
+      </div>
+      <div class="connection-type">
+        <div class="connection-dot"></div>
+        <span>Creates</span>
+      </div>
+      <div class="connection-type">
+        <div class="connection-dot"></div>
+        <span>Exacerbates</span>
+      </div>
+      <div class="connection-type">
+        <div class="connection-dot"></div>
+        <span>Forces</span>
+      </div>
+      <div class="connection-type">
+        <div class="connection-dot"></div>
+        <span>Increases</span>
       </div>
     </div>
   </div>
