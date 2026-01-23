@@ -1,6 +1,6 @@
-<!-- products.component.html - GARDEN GREEN & WOOD BROWN THEME -->
+<!-- products.component.html - ORANGE & GREEN THEME WITH IMAGE HERO -->
 <div class="premium-products">
-  <!-- Top Location Bar - Garden Theme -->
+  <!-- Top Location Bar - Orange & Green Theme -->
   <div class="premium-location-bar" *ngIf="!hasDeliveryLocation">
     <div class="container">
       <div class="location-prompt">
@@ -25,7 +25,7 @@
     </div>
   </div>
 
-  <!-- Active Location Display - Garden Theme -->
+  <!-- Active Location Display - Orange & Green Theme -->
   <div class="active-location-display" *ngIf="deliveryLocation">
     <div class="container">
       <div class="location-info">
@@ -42,25 +42,21 @@
     </div>
   </div>
 
-  <!-- Video Hero Section with Garden Theme -->
-  <section class="video-hero">
-    <!-- Video Background -->
-    <div class="video-container">
-      <video autoplay muted loop playsinline class="hero-video">
-        <source src="/videos/statistics.mp4" type="video/mp4">
-        <!-- Fallback image if video doesn't load -->
-        <img src="/images/hero-fallback.jpg" alt="Mzuri Organics">
-      </video>
+  <!-- Image Hero Section with Orange & Green Theme -->
+  <section class="image-hero">
+    <!-- Image Background -->
+    <div class="image-container">
+      <img src="/images/newshop.JPG" alt="Mzuri Organics Premium Products" class="hero-image">
       
-      <!-- Video Overlay with Rain Effect -->
-      <div class="video-overlay"></div>
+      <!-- Image Overlay -->
+      <div class="image-overlay"></div>
     </div>
     
     <div class="container">
       <div class="hero-content">
         <!-- Left: Brand Info -->
         <div class="hero-brand">
-          <!-- Brand Icon with Sunlight Effect -->
+          <!-- Brand Icon -->
           <div class="brand-icon">
             <i class="fas fa-seedling"></i>
           </div>
@@ -84,7 +80,7 @@
           </div>
         </div>
         
-        <!-- Right: Stats Over Video -->
+        <!-- Right: Stats Over Image -->
         <div class="hero-stats">
           <div class="stat-item">
             <div class="stat-icon">
@@ -125,7 +121,7 @@
         </div>
       </div>
       
-      <!-- Scroll Indicator with Garden Theme -->
+      <!-- Scroll Indicator -->
       <div class="scroll-indicator">
         <div class="mouse">
           <div class="wheel"></div>
@@ -135,11 +131,11 @@
     </div>
   </section>
 
-  <!-- Premium Categories - Garden Theme -->
+  <!-- Premium Categories - Orange & Green Theme -->
   <section class="premium-categories">
     <div class="container">
       <div class="section-header">
-        <h2 class="section-title"> Browse Through Our Product Categories</h2>
+        <h2 class="section-title">Browse Through Our Product Categories</h2>
         <p class="section-subtitle">Mzuri Organics offers premium organic solutions</p>
         <p class="section-subtitle">Save up to 60% when shopping with us online</p>
       </div>
@@ -158,7 +154,7 @@
     </div>
   </section>
 
-  <!-- Premium Filter Bar - Garden Theme -->
+  <!-- Premium Filter Bar - Orange & Green Theme -->
   <section class="premium-filter-bar">
     <div class="container">
       <div class="filter-content">
@@ -210,7 +206,7 @@
     </div>
   </section>
 
-  <!-- Premium Products Grid - Garden Theme -->
+  <!-- Premium Products Grid - Orange & Green Theme -->
   <section class="premium-products-grid">
     <div class="container">
       <!-- Products Header -->
@@ -246,7 +242,7 @@
       <!-- Grid View -->
       <div class="products-grid" id="products-display" *ngIf="viewMode === 'grid' && displayedProducts.length > 0">
         <div class="product-card" *ngFor="let product of displayedProducts">
-          <!-- Product Image with Rain Drop Effect -->
+          <!-- Product Image -->
           <div class="product-image-container">
             <div class="product-image">
               <img [src]="product.image" [alt]="product.name" 
@@ -258,7 +254,7 @@
                 <span>Quick View</span>
               </div>
               
-              <!-- Product Badges with Garden Theme -->
+              <!-- Product Badges with Orange & Green Theme -->
               <div class="product-badges">
                 <span class="badge badge-organic" *ngIf="product.isOrganic">
                   <i class="fas fa-leaf"></i>
@@ -328,7 +324,7 @@
               </div>
             </div>
 
-            <!-- Action Buttons with Animation Support -->
+            <!-- Action Buttons -->
             <div class="product-actions">
               <button class="btn-add-to-cart" 
                       (click)="addToCart(product)"
@@ -417,7 +413,7 @@
         </div>
       </div>
 
-      <!-- Premium Pagination - Garden Theme -->
+      <!-- Premium Pagination - Orange & Green Theme -->
       <div class="premium-pagination" *ngIf="displayedProducts.length > 0">
         <div class="pagination-info">
           Showing {{((currentPage - 1) * pageSize) + 1}} - 
@@ -452,7 +448,7 @@
     </div>
   </section>
 
-  <!-- Premium Location Modal - Garden Theme -->
+  <!-- Premium Location Modal - Orange & Green Theme -->
   <div class="premium-modal" [class.active]="showLocationModal">
     <div class="modal-overlay" (click)="closeLocationModal()"></div>
     
@@ -582,7 +578,7 @@
     </div>
   </div>
 
-  <!-- Premium Quick View Modal - Garden Theme -->
+  <!-- Premium Quick View Modal - Orange & Green Theme -->
   <div class="premium-quickview" [class.active]="quickViewProduct">
     <div class="modal-overlay" (click)="closeQuickView()"></div>
     
@@ -740,7 +736,7 @@
     </div>
   </div>
 
-  <!-- Sticky Cart Bar - Garden Theme -->
+  <!-- Sticky Cart Bar - Orange & Green Theme -->
   <div class="sticky-cart-bar" [class.visible]="cartCount() > 0">
     <div class="container">
       <div class="cart-summary">
