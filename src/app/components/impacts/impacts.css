@@ -31,7 +31,7 @@
 .impact-hero {
   text-align: center;
   background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
-              url('/images/impactskenya.JPG');
+              url('/images/mzuri5.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -123,7 +123,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: url('/images/farmland2.JPG');
+  background-image: url('/images/mzuripic3.jpg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -220,7 +220,7 @@
 /* Key Metrics */
 .key-metrics {
   padding: 80px 0;
-  background-image: url('/images/farmland2.JPG');
+  background-image: url('/images/mzuri4.jpg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;

@@ -44,21 +44,21 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
 
   slides: Slide[] = [
     {
-      image: 'images/mzurislide2.JPG',
+      image: 'images/mzuri5.jpg',
       title: 'Regenerating Kenyan Soil Health',
       description: 'Building smallholder farmers\' resilience to climate change through regenerative agricultural practices across Kenya.',
       buttonText: 'Our Biofertilizers',
       buttonLink: '/products'
     },
     {
-      image: 'images/mzurilastslide.JPG',
+      image: 'images/mzuri8.jpg',
       title: 'Organic Waste to Nutrient-Rich Fertilizers',
       description: 'Transforming farm and market waste into premium organic fertilizers using Black Soldier Fly Larvae technology.',
       buttonText: 'Our Process',
       buttonLink: '/what-we-do'
     },
     {
-      image: 'images/slidevideo.JPG',
+      image: 'images/mzuri7.jpg',
       title: 'Circular Economy in Action',
       description: 'See how we convert organic waste into valuable resources while creating sustainable livelihoods for Kenyan farmers.',
       buttonText: 'Watch Our Story',
@@ -66,21 +66,21 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
       isVideoSlide: true
     },
     {
-      image: 'images/mzurislide3.JPG',
+      image: 'images/mzuri6.jpg',
       title: 'High-Protein Animal Feed Solutions',
       description: 'Insect-based protein feeds containing up to 50% protein - perfect for poultry, fish, and livestock farming.',
       buttonText: 'Animal Feeds',
       buttonLink: '/products/feeds'
     },
     {
-      image: 'images/mzurislide4.JPG',
+      image: 'images/mzuripic2.jpg',
       title: 'Empowering Smallholder Farmers',
       description: 'Training programs in regenerative agriculture, vermicomposting, and market access for sustainable livelihoods.',
       buttonText: 'Join Regen-Kilimo',
       buttonLink: '/regen-kilimo'
     },
     {
-      image: 'images/mzurislide5.JPG',
+      image: 'images/mzuri4.jpg',
       title: 'Precision Farming Technology',
       description: 'Data-driven precision dosing to optimize fertilizer use and maximize yields for Kenyan farmers.',
       buttonText: 'PREFarm Initiative',

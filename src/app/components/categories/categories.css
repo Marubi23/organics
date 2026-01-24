@@ -5,7 +5,7 @@
    ============================================ */
 .impact-cta-section {
   padding: 100px 0;
-  background-image: url('/images/farmland.JPG');
+  background-image: url('/images/mzuri5.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -124,7 +124,7 @@
    ============================================ */
 .impact-stats {
   background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), 
-              url('/images/farmland2.JPG');
+              url('/images/mzuripic3.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -279,7 +279,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: url('/images/farmland2.JPG');
+  background-image: url('/images/mzuri8.jpg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -302,7 +302,7 @@
   font-size: 2.8rem;
   font-weight: 600;
   margin-bottom: 15px;
-  color: hsl(125, 89%, 31%);
+  color: hsl(0, 0%, 100%);
   font-family: 'Poppins', sans-serif;
   position: relative;
   display: inline-block;
