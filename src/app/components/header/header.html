@@ -1,633 +1,423 @@
 <nav class="main-nav">
   <div class="container">
     <div class="nav-content">
-      <!-- Logo -->
-      <div class="logo">
+      <!-- Animated Logo -->
+      <div class="logo" routerLink="/home">
         <div class="logo-image">
-          <img src="/images/mzuri.JPG" alt="Mzuri Organics - Nature's Way" class="logo-img">
+          <img src="/images/mzuri.JPG" alt="Mzuri Organics" class="logo-img">
+          <div class="logo-glow"></div>
+          <div class="logo-particle" *ngFor="let particle of logoParticles" 
+               [style.left]="particle.x + '%'"
+               [style.top]="particle.y + '%'"
+               [style.animation-delay]="particle.delay + 's'"></div>
         </div>
       </div>
       
-      <!-- Navigation Links - PURE CSS HOVER DROPDOWNS -->
+      <!-- Navigation Links with Floating Effect -->
       <div class="nav-links">
-        <!-- Fixed Home link -->
-        <a routerLink="/home" class="nav-link">
-          <i class="fas fa-home"></i> Home
-        </a>
-
-        <!-- About Us Dropdown -->
-        <div class="dropdown">
-          <a class="nav-link dropdown-toggle">
-            <i class="fas fa-info-circle"></i> About Us
+        <div class="nav-link-container" *ngFor="let navItem of navItems; let i = index">
+          <a 
+            *ngIf="!navItem.children" 
+            [routerLink]="navItem.route" 
+            class="nav-link"
+            [class.active]="isActive(navItem.route)"
+            [attr.data-text]="navItem.text">
+            <i [class]="navItem.icon"></i>
+            <span class="nav-text">{{ navItem.text }}</span>
+            <span class="link-hover-effect"></span>
+            <span class="link-sparkle"></span>
           </a>
-          <div class="dropdown-menu">
-            <a routerLink="/about" class="dropdown-item">
-              <i class="fas fa-eye"></i>
-              <span class="item-text">Overview</span>
-              <span class="item-description">Learn about our mission</span>
+          
+          <div *ngIf="navItem.children" class="dropdown" #dropdownEl>
+            <a class="nav-link dropdown-toggle" 
+               [attr.data-text]="navItem.text"
+               (mouseenter)="showDropdown(i, dropdownEl)"
+               (mouseleave)="hideDropdown(i, dropdownEl)">
+              <i [class]="navItem.icon"></i>
+              <span class="nav-text">{{ navItem.text }}</span>
+              <span class="link-hover-effect"></span>
+              <i class="dropdown-arrow fas fa-chevron-down"></i>
             </a>
-            <a routerLink="/about" fragment="mission-vision" class="dropdown-item">
-              <i class="fas fa-bullseye"></i>
-              <span class="item-text">Mission & Vision</span>
-              <span class="item-description">Our goals and aspirations</span>
-            </a>
-            <a routerLink="/blog" class="dropdown-item">
-              <i class="fas fa-newspaper"></i>
-              <span class="item-text">Blog</span>
-              <span class="item-description">Latest news and updates</span>
-            </a>
-            <a routerLink="/faq" class="dropdown-item">
-              <i class="fas fa-question-circle"></i>
-              <span class="item-text">FAQ</span>
-              <span class="item-description">Common questions answered</span>
-            </a>
+            
+            <!-- Glassmorphism Dropdown -->
+            <div class="dropdown-menu" 
+                 [class.visible]="activeDropdown === i"
+                 (mouseenter)="keepDropdownOpen(i)"
+                 (mouseleave)="hideDropdown(i, dropdownEl)">
+              <div class="dropdown-header">
+                <i [class]="navItem.icon"></i>
+                <div class="dropdown-title">
+                  <h4>{{ navItem.text }}</h4>
+                  <p>{{ getDropdownDescription(i) }}</p>
+                </div>
+              </div>
+              
+              <div class="dropdown-content">
+                <div *ngFor="let child of navItem.children" class="dropdown-item-container">
+                  <a 
+                    [routerLink]="child.route" 
+                    [fragment]="child.fragment"
+                    class="dropdown-item"
+                    (click)="navigateAndClose(child)">
+                    <div class="dropdown-icon">
+                      <i [class]="child.icon"></i>
+                    </div>
+                    <div class="dropdown-item-content">
+                      <span class="item-text">{{ child.text }}</span>
+                      <span class="item-description">{{ child.description }}</span>
+                    </div>
+                    <div class="dropdown-arrow">
+                      <i class="fas fa-arrow-right"></i>
+                    </div>
+                    <div class="dropdown-glow"></div>
+                  </a>
+                </div>
+              </div>
+              
+              <div class="dropdown-footer" *ngIf="navItem.footer">
+                <a [routerLink]="navItem.footer.route" class="dropdown-footer-link">
+                  {{ navItem.footer.text }} <i class="fas fa-external-link-alt"></i>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
-
-        <!-- What We Do Dropdown -->
-        <div class="dropdown">
-          <a class="nav-link dropdown-toggle">
-            <i class="fas fa-hands-helping"></i> What We Do
-          </a>
-          <div class="dropdown-menu">
-            <a routerLink="/challenges" class="dropdown-item">
-              <i class="fas fa-exclamation-triangle"></i>
-              <span class="item-text">The Problems</span>
-              <span class="item-description">Agricultural challenges we solve</span>
-            </a>
-            <div class="dropdown-divider"></div>
-            <span class="dropdown-header">OUR SOLUTIONS</span>
-            <a routerLink="/what-we-do" fragment="circular-model" class="dropdown-item">
-              <i class="fas fa-recycle"></i>
-              <span class="item-text">Our Circular Model</span>
-              <span class="item-description">Sustainable waste-to-value system</span>
-            </a>
-            <a routerLink="/what-we-do" fragment="prefarm-initiative" class="dropdown-item">
-              <i class="fas fa-tachometer-alt"></i>
-              <span class="item-text">PREFarm Initiative</span>
-              <span class="item-description">Precision farming technology</span>
-            </a>
-            <a routerLink="/what-we-do" fragment="regen-kilimo" class="dropdown-item">
-              <i class="fas fa-seedling"></i>
-              <span class="item-text">Regen-Kilimo Initiative</span>
-              <span class="item-description">Regenerative agriculture program</span>
-            </a>
-          </div>
-        </div>
-
-        <!-- Products Dropdown -->
-        <div class="dropdown">
-          <a class="nav-link dropdown-toggle">
-            <i class="fas fa-box-open"></i> Products
-          </a>
-          <div class="dropdown-menu">
-            <a routerLink="/products" class="dropdown-item">
-              <i class="fas fa-vial"></i>
-              <span class="item-text">Organic Biofertilizers</span>
-              <span class="item-description">Nutrient-rich soil enhancers</span>
-            </a>
-            <a routerLink="/products" class="dropdown-item">
-              <i class="fas fa-paw"></i>
-              <span class="item-text">Insect-Based Protein Feeds</span>
-              <span class="item-description">High-protein animal nutrition</span>
-            </a>
-            <a routerLink="/products" class="dropdown-item">
-              <i class="fas fa-shopping-bag"></i>
-              <span class="item-text">Shop All Products</span>
-              <span class="item-description">Browse our complete catalog</span>
-            </a>
-            <div class="dropdown-divider"></div>
-            <span class="dropdown-header">PRODUCT CATEGORIES</span>
-            <a routerLink="/products" fragment="fertilizers" class="dropdown-item">
-              <i class="fas fa-leaf"></i>
-              <span class="item-text">Organic Fertilizers</span>
-            </a>
-            <a routerLink="/products" fragment="feeds" class="dropdown-item">
-              <i class="fas fa-fish"></i>
-              <span class="item-text">Animal Feeds</span>
-            </a>
-            <a routerLink="/products" fragment="compost" class="dropdown-item">
-              <i class="fas fa-recycle"></i>
-              <span class="item-text">Compost & Soil Amendments</span>
-            </a>
-          </div>
-        </div>
-
-        <!-- Impact Dropdown -->
-        <div class="dropdown">
-          <a class="nav-link dropdown-toggle">
-            <i class="fas fa-chart-line"></i> Impact
-          </a>
-          <div class="dropdown-menu">
-            <a routerLink="/impacts" class="dropdown-item">
-              <i class="fas fa-chart-bar"></i>
-              <span class="item-text">Overview</span>
-              <span class="item-description">Our impact at a glance</span>
-            </a>
-            <a routerLink="/impacts" fragment="metrics" class="dropdown-item">
-              <i class="fas fa-chart-pie"></i>
-              <span class="item-text">Key Metrics</span>
-              <span class="item-description">Data-driven results</span>
-            </a>
-            <a routerLink="/impacts" fragment="outcomes" class="dropdown-item">
-              <i class="fas fa-check-circle"></i>
-              <span class="item-text">Outcomes & Results</span>
-              <span class="item-description">Measurable achievements</span>
-            </a>
-            <a routerLink="/impacts" fragment="sdg" class="dropdown-item">
-              <i class="fas fa-globe-africa"></i>
-              <span class="item-text">SDG Alignment</span>
-              <span class="item-description">UN Sustainable Development Goals</span>
-            </a>
-            <a routerLink="/impacts" fragment="stories" class="dropdown-item">
-              <i class="fas fa-book-open"></i>
-              <span class="item-text">Success Stories</span>
-              <span class="item-description">Farmer testimonials</span>
-            </a>
-            <a routerLink="/impacts" fragment="environmental" class="dropdown-item">
-              <i class="fas fa-leaf"></i>
-              <span class="item-text">Environmental Impact</span>
-              <span class="item-description">Eco-friendly initiatives</span>
-            </a>
-            <a routerLink="/impacts" fragment="goals" class="dropdown-item">
-              <i class="fas fa-flag"></i>
-              <span class="item-text">Future Goals</span>
-              <span class="item-description">Our roadmap ahead</span>
-            </a>
-            <a routerLink="/impacts" fragment="cta" class="dropdown-item">
-              <i class="fas fa-handshake"></i>
-              <span class="item-text">Get Involved</span>
-              <span class="item-description">Join our mission</span>
-            </a>
-          </div>
-        </div>
-
-        <!-- Contact Us -->
-        <a routerLink="/contact" class="nav-link">
-          <i class="fas fa-envelope"></i> Contact Us
-        </a>
       </div>
 
-      <!-- Right Section -->
+      <!-- Right Actions with Holographic Effect -->
       <div class="nav-right">
-        <button class="icon-btn search-btn" (click)="openSearch()">
+        <!-- Search Button with Wave Animation -->
+        <button class="icon-btn search-btn" 
+                (click)="openSearch()"
+                [class.active]="isSearchOpen">
           <i class="fas fa-search"></i>
+          <span class="btn-wave"></span>
+          <span class="btn-pulse"></span>
         </button>
         
-        <button class="icon-btn cart-btn" (click)="toggleCart()">
-          <i class="fas fa-shopping-cart"></i>
-          <span class="cart-badge" *ngIf="cartCount > 0">{{ cartCount }}</span>
+        <!-- Cart with 3D Effect -->
+        <button class="icon-btn cart-btn" 
+                (click)="toggleCart()"
+                [class.active]="isCartOpen">
+          <div class="cart-3d">
+            <i class="fas fa-shopping-cart"></i>
+          </div>
+          <span class="cart-badge" 
+                [class.pulse]="cartCount > 0"
+                *ngIf="cartCount > 0">
+            {{ cartCount }}
+            <span class="badge-glow"></span>
+          </span>
+          <span class="cart-ripple"></span>
         </button>
         
-        <!-- Simple Account Button -->
-        <div class="user-dropdown">
-          <ng-container *ngIf="currentUser; else loginButton">
-            <button class="icon-btn auth-btn" routerLink="/account">
-              <div class="user-avatar-small">
-                {{ getUserInitials() }}
-              </div>
-              <span class="btn-text">{{ getUserFirstName() }}</span>
-            </button>
-          </ng-container>
-          
-          <ng-template #loginButton>
-            <button class="icon-btn auth-btn" routerLink="/account">
-              <i class="fas fa-user-circle"></i>
-              <span class="btn-text">Account</span>
-            </button>
-          </ng-template>
+        <!-- User Profile with Avatar Animation -->
+    <!-- User Profile with Avatar Animation -->
+<div class="user-profile">
+  <ng-container *ngIf="currentUser; else loginButton">
+    <button class="user-avatar-btn" 
+            (click)="toggleUserPanel()"
+            [class.active]="isUserPanelOpen">
+      <div class="user-avatar-wrapper">
+        <div class="user-avatar">
+          {{ getUserInitials() }}
         </div>
+        <div class="avatar-ring"></div>
+        <!-- Remove the problematic isOnline binding -->
+        <div class="avatar-status"></div>
+      </div>
+      <span class="user-name">{{ getUserFirstName() }}</span>
+      <div class="user-dropdown-arrow">
+        <i class="fas fa-chevron-down"></i>
+      </div>
+    </button>
+  </ng-container>
+  
+  <ng-template #loginButton>
+    <button class="icon-btn auth-btn holographic" 
+            routerLink="/account">
+      <i class="fas fa-user-circle"></i>
+      <span class="btn-text">Account</span>
+      <span class="hologram-effect"></span>
+    </button>
+  </ng-template>
+</div>
+        <!-- Theme Toggle -->
+        <button class="theme-toggle" 
+                (click)="toggleTheme()"
+                [class.dark]="isDarkTheme">
+          <div class="theme-toggle-inner">
+            <i class="fas fa-sun"></i>
+            <i class="fas fa-moon"></i>
+            <div class="theme-toggle-knob"></div>
+          </div>
+        </button>
 
-        <!-- Hamburger Menu Button -->
-        <button class="hamburger-menu" (click)="toggleMobileMenu()">
-          <span></span>
-          <span></span>
-          <span></span>
+        <!-- Hamburger Menu with Morph Animation -->
+        <button class="hamburger-menu morph" 
+                (click)="toggleMobileMenu()"
+                [class.active]="isMobileMenuOpen">
+          <span class="line top"></span>
+          <span class="line middle"></span>
+          <span class="line bottom"></span>
+          <div class="morph-background"></div>
         </button>
       </div>
     </div>
   </div>
 
-  <!-- Mobile Menu Overlay -->
-  <div class="mobile-menu-overlay" [class.active]="isMobileMenuOpen" (click)="toggleMobileMenu()"></div>
+  <!-- Animated Background Effects -->
+  <div class="nav-background-effects">
+    <div class="floating-orb" *ngFor="let orb of floatingOrbs" 
+         [style.left]="orb.x + '%'"
+         [style.top]="orb.y + '%'"
+         [style.width]="orb.size + 'px'"
+         [style.height]="orb.size + 'px'"
+         [style.animation-delay]="orb.delay + 's'"></div>
+    <div class="grid-overlay"></div>
+    <div class="particle-field"></div>
+  </div>
 
-  <!-- Mobile Menu -->
+  <!-- Mobile Menu - Cyberpunk Style -->
+  <div class="mobile-menu-overlay" 
+       [class.active]="isMobileMenuOpen" 
+       (click)="toggleMobileMenu()">
+    <div class="overlay-scanlines"></div>
+  </div>
+
   <div class="mobile-menu" [class.active]="isMobileMenuOpen">
-    <div class="mobile-nav-links">
-      <a routerLink="/home" class="mobile-nav-link" (click)="toggleMobileMenu()">
-        <i class="fas fa-home"></i> Home
-      </a>
-
-      <!-- Mobile About Us Dropdown -->
-      <div class="mobile-dropdown">
-        <button class="mobile-dropdown-toggle" (click)="toggleMobileDropdown($event)">
-          <i class="fas fa-info-circle"></i> About Us
-          <span class="dropdown-arrow">⌄</span>
-        </button>
-        <div class="mobile-dropdown-menu">
-          <a routerLink="/about" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
-            <i class="fas fa-eye"></i>
-            <span class="item-text">Overview</span>
-          </a>
-          <a routerLink="/about" fragment="mission-vision" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
-            <i class="fas fa-bullseye"></i>
-            <span class="item-text">Mission & Vision</span>
-          </a>
-          <a routerLink="/blog" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
-            <i class="fas fa-newspaper"></i>
-            <span class="item-text">Blog</span>
-          </a>
-          <a routerLink="/faq" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
-            <i class="fas fa-question-circle"></i>
-            <span class="item-text">FAQ</span>
-          </a>
-        </div>
+    <div class="mobile-menu-header">
+      <div class="mobile-logo">
+        <img src="/images/mzuri.JPG" alt="Mzuri Organics">
+        <div class="mobile-logo-glow"></div>
       </div>
-
-      <!-- Mobile What We Do Dropdown -->
-      <div class="mobile-dropdown">
-        <button class="mobile-dropdown-toggle" (click)="toggleMobileDropdown($event)">
-          <i class="fas fa-hands-helping"></i> What We Do
-          <span class="dropdown-arrow">⌄</span>
-        </button>
-        <div class="mobile-dropdown-menu">
-          <a routerLink="/challenges" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
-            <i class="fas fa-exclamation-triangle"></i>
-            <span class="item-text">The Problems</span>
-          </a>
-          <div class="mobile-dropdown-divider"></div>
-          <span class="mobile-dropdown-header">OUR SOLUTIONS</span>
-          <a routerLink="/what-we-do" fragment="circular-model" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
-            <i class="fas fa-recycle"></i>
-            <span class="item-text">Our Circular Model</span>
-          </a>
-          <a routerLink="/what-we-do" fragment="prefarm-initiative" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
-            <i class="fas fa-tachometer-alt"></i>
-            <span class="item-text">PREFarm Initiative</span>
-          </a>
-          <a routerLink="/what-we-do" fragment="regen-kilimo" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
-            <i class="fas fa-seedling"></i>
-            <span class="item-text">Regen-Kilimo Initiative</span>
-          </a>
-        </div>
-      </div>
-
-      <!-- Mobile Products Dropdown -->
-      <div class="mobile-dropdown">
-        <button class="mobile-dropdown-toggle" (click)="toggleMobileDropdown($event)">
-          <i class="fas fa-box-open"></i> Products
-          <span class="dropdown-arrow">⌄</span>
-        </button>
-        <div class="mobile-dropdown-menu">
-          <a routerLink="/products" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
-            <i class="fas fa-vial"></i>
-            <span class="item-text">Organic Biofertilizers</span>
-          </a>
-          <a routerLink="/products" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
-            <i class="fas fa-paw"></i>
-            <span class="item-text">Insect-Based Protein Feeds</span>
-          </a>
-          <a routerLink="/products" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
-            <i class="fas fa-shopping-bag"></i>
-            <span class="item-text">Shop All Products</span>
-          </a>
-        </div>
-      </div>
-
-      <!-- Mobile Impact Dropdown -->
-      <div class="mobile-dropdown">
-        <button class="mobile-dropdown-toggle" (click)="toggleMobileDropdown($event)">
-          <i class="fas fa-chart-line"></i> Impact
-          <span class="dropdown-arrow">⌄</span>
-        </button>
-        <div class="mobile-dropdown-menu">
-          <a routerLink="/impacts" class="mobile-dropdown-item" (click)="toggleMobileMenu()">
-            <i class="fas fa-chart-bar"></i>
-            <span class="item-text">Overview</span>
-          </a>
-          <a routerLink="/impacts" (click)="toggleMobileMenu()" class="mobile-dropdown-item">
-            <i class="fas fa-chart-pie"></i>
-            <span class="item-text">Key Metrics</span>
-          </a>
-          <a routerLink="/impacts" (click)="toggleMobileMenu()" class="mobile-dropdown-item">
-            <i class="fas fa-check-circle"></i>
-            <span class="item-text">Outcomes & Results</span>
-          </a>
-          <a routerLink="/impacts" (click)="toggleMobileMenu()" class="mobile-dropdown-item">
-            <i class="fas fa-globe-africa"></i>
-            <span class="item-text">SDG Alignment</span>
-          </a>
-          <a routerLink="/impacts" (click)="toggleMobileMenu()" class="mobile-dropdown-item">
-            <i class="fas fa-book-open"></i>
-            <span class="item-text">Success Stories</span>
-          </a>
-          <a routerLink="/impacts" (click)="toggleMobileMenu()" class="mobile-dropdown-item">
-            <i class="fas fa-leaf"></i>
-            <span class="item-text">Environmental Impact</span>
-          </a>
-          <a routerLink="/impacts" (click)="toggleMobileMenu()" class="mobile-dropdown-item">
-            <i class="fas fa-flag"></i>
-            <span class="item-text">Future Goals</span>
-          </a>
-          <a routerLink="/impacts" (click)="toggleMobileMenu()" class="mobile-dropdown-item">
-            <i class="fas fa-handshake"></i>
-            <span class="item-text">Get Involved</span>
-          </a>
-        </div>
-      </div>
-
-      <a routerLink="/contact" class="mobile-nav-link" (click)="toggleMobileMenu()">
-        <i class="fas fa-envelope"></i> Contact Us
-      </a>
+      <button class="mobile-close-btn" (click)="toggleMobileMenu()">
+        <i class="fas fa-times"></i>
+        <div class="close-btn-ring"></div>
+      </button>
     </div>
 
-    <!-- Mobile Right Section -->
-    <div class="mobile-nav-right">
-      <button class="mobile-nav-btn search-btn" (click)="openSearch(); toggleMobileMenu()">
-        <i class="fas fa-search"></i> Search
-      </button>
-      
-      <button class="mobile-nav-btn cart-btn" (click)="toggleCart(); toggleMobileMenu()">
-        <i class="fas fa-shopping-cart"></i> Cart
-        <span class="mobile-cart-badge" *ngIf="cartCount > 0">{{ cartCount }}</span>
-      </button>
-      
-      <!-- Mobile Account Button -->
-      <ng-container *ngIf="currentUser; else mobileLoginButton">
-        <div class="mobile-auth-section">
-          <div class="mobile-user-info">
-            <div class="mobile-user-avatar">
-              {{ getUserInitials() }}
+    <div class="mobile-nav-links">
+      <div class="mobile-nav-item" *ngFor="let navItem of navItems">
+        <a *ngIf="!navItem.children" 
+           [routerLink]="navItem.route" 
+           class="mobile-nav-link"
+           (click)="toggleMobileMenu()">
+          <div class="mobile-link-icon">
+            <i [class]="navItem.icon"></i>
+          </div>
+          <span class="mobile-link-text">{{ navItem.text }}</span>
+          <div class="mobile-link-glow"></div>
+        </a>
+        
+        <div *ngIf="navItem.children" class="mobile-dropdown">
+          <button class="mobile-dropdown-toggle" 
+                  (click)="toggleMobileDropdown(navItem)">
+            <div class="mobile-link-icon">
+              <i [class]="navItem.icon"></i>
             </div>
-            <div class="mobile-user-details">
-             <h4>{{ currentUser ? currentUser.fullName : '' }}</h4>
-<p>{{ currentUser ? currentUser.phoneNumber : '' }}</p>
+            <span class="mobile-link-text">{{ navItem.text }}</span>
+            <div class="mobile-dropdown-arrow">
+              <i class="fas fa-chevron-down"></i>
+            </div>
+          </button>
+          
+          <div class="mobile-dropdown-menu" 
+               [class.active]="openMobileDropdown === navItem.text">
+            <div *ngFor="let child of navItem.children" 
+                 class="mobile-dropdown-item">
+              <a [routerLink]="child.route" 
+                 [fragment]="child.fragment"
+                 (click)="toggleMobileMenu()">
+                <i [class]="child.icon"></i>
+                <span>{{ child.text }}</span>
+                <div class="mobile-item-glow"></div>
+              </a>
             </div>
           </div>
-          <div class="mobile-auth-buttons">
-            <button class="mobile-auth-btn" routerLink="/account" (click)="toggleMobileMenu()">
-              <i class="fas fa-user"></i> Account Dashboard
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Actions -->
+    <div class="mobile-actions">
+      <button class="mobile-action-btn search" (click)="openSearch(); toggleMobileMenu()">
+        <i class="fas fa-search"></i>
+        <span>Search</span>
+      </button>
+      <button class="mobile-action-btn cart" (click)="toggleCart(); toggleMobileMenu()">
+        <i class="fas fa-shopping-cart"></i>
+        <span>Cart</span>
+        <span class="mobile-cart-badge" *ngIf="cartCount > 0">{{ cartCount }}</span>
+      </button>
+      <button class="mobile-action-btn account" 
+              routerLink="/account" 
+              (click)="toggleMobileMenu()">
+        <i class="fas fa-user-circle"></i>
+        <span>Account</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Futuristic Search Overlay -->
+  <div class="search-overlay" [class.active]="isSearchOpen">
+    <div class="search-background">
+      <div class="search-grid"></div>
+      <div class="search-particles"></div>
+    </div>
+    
+    <div class="search-container" (click)="$event.stopPropagation()">
+      <div class="search-header">
+        <div class="search-header-content">
+          <div class="search-title">
+            <h2><i class="fas fa-search"></i> Galactic Search</h2>
+            <p>Explore our universe of organic products</p>
+          </div>
+          <button class="search-close-btn" (click)="closeSearch()">
+            <i class="fas fa-times"></i>
+            <span class="close-btn-glow"></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="search-input-section">
+        <div class="search-input-wrapper">
+          <i class="fas fa-search search-input-icon"></i>
+          <input 
+            type="text" 
+            #searchInput
+            [(ngModel)]="searchTerm"
+            (input)="onSearchInput($event)"
+            (keyup.enter)="performSearch()"
+            placeholder="What are you searching for?"
+            class="search-input"
+            autocomplete="off"
+          />
+          <div class="search-input-effects">
+            <div class="input-underline"></div>
+            <div class="input-glow"></div>
+          </div>
+          <button class="clear-search-btn" 
+                  (click)="clearSearch()" 
+                  *ngIf="searchTerm">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <!-- Voice Search -->
+        <button class="voice-search-btn" 
+                (click)="toggleVoiceSearch()"
+                [class.listening]="isListening">
+          <i class="fas fa-microphone"></i>
+          <div class="voice-waves"></div>
+        </button>
+
+        <!-- Quick Actions -->
+        <div class="search-quick-actions">
+          <button class="quick-action" 
+                  *ngFor="let action of quickActions"
+                  (click)="searchByTag(action)">
+            <i [class]="action.icon"></i>
+            <span>{{ action.text }}</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Search Results - Holographic Display -->
+      <div class="search-results-hologram" [class.has-results]="searchResults.length > 0">
+        <div class="hologram-header">
+          <div class="hologram-title">
+            <h3>Search Results</h3>
+            <span class="results-count">{{ searchResults.length }} products found</span>
+          </div>
+          <div class="hologram-controls">
+            <button class="hologram-btn" 
+                    (click)="setSearchLayout('grid')"
+                    [class.active]="searchLayout === 'grid'">
+              <i class="fas fa-th-large"></i>
+            </button>
+            <button class="hologram-btn" 
+                    (click)="setSearchLayout('list')"
+                    [class.active]="searchLayout === 'list'">
+              <i class="fas fa-list"></i>
+            </button>
+            <button class="hologram-btn" 
+                    (click)="setSearchLayout('hologram')"
+                    [class.active]="searchLayout === 'hologram'">
+              <i class="fas fa-cube"></i>
             </button>
           </div>
         </div>
-      </ng-container>
-      
-      <ng-template #mobileLoginButton>
-        <button class="mobile-auth-btn" routerLink="/account" (click)="toggleMobileMenu()">
-          <i class="fas fa-user-circle"></i> Account / Login
-        </button>
-      </ng-template>
+
+        <!-- Holographic Results -->
+        <div class="holographic-results" *ngIf="searchLayout === 'hologram'">
+          <div class="hologram-container">
+            <div class="hologram-item" 
+                 *ngFor="let product of searchResults; let i = index"
+                 [style.animation-delay]="i * 0.1 + 's'">
+              <div class="hologram-product">
+                <div class="hologram-image">
+                  <img [src]="product.image" [alt]="product.name" (error)="handleImageError($event)">
+                  <div class="hologram-badge">{{ product.category }}</div>
+                </div>
+                <div class="hologram-info">
+                  <h4>{{ product.name }}</h4>
+                  <p>{{ product.description }}</p>
+                  <div class="hologram-price">KSh {{ product.price }}</div>
+                </div>
+                <div class="hologram-actions">
+                  <button class="hologram-action-btn" 
+                          (click)="addToCartFromSearch(product)">
+                    <i class="fas fa-cart-plus"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- No Results -->
+        <div class="no-results-hologram" *ngIf="searchTerm && searchResults.length === 0">
+          <div class="no-results-content">
+            <i class="fas fa-search-location"></i>
+            <h3>No results found for "{{ searchTerm }}"</h3>
+            <p>Try different keywords or explore our categories</p>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+
+  <!-- User Panel -->
+  <div class="user-panel-overlay" 
+       [class.active]="isUserPanelOpen" 
+       (click)="toggleUserPanel()">
+  </div>
+
+  <div class="user-panel" [class.active]="isUserPanelOpen">
+    <!-- Enhanced user panel content -->
   </div>
 
   <!-- Cart Component -->
   <app-cart [isOpen]="isCartOpen" (closeCart)="toggleCart()"></app-cart>
 
-<!-- Search Overlay - SIDEBAR STYLE -->
-<div class="search-overlay" [class.active]="isSearchOpen" (click)="closeSearch()">
-  <div class="search-sidebar" (click)="$event.stopPropagation()">
-    <!-- Search Header -->
-    <div class="search-header">
-      <div class="search-header-left">
-        <div class="search-logo">
-          <i class="fas fa-search search-header-icon"></i>
-          <h3>Mzuri Search</h3>
-        </div>
-        <p class="search-subtitle">Find organic products & solutions</p>
-      </div>
-      <button class="search-close-btn" (click)="closeSearch()">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-
-    <!-- Search Input Section -->
-    <div class="search-input-section">
-      <div class="search-input-container">
-        <i class="fas fa-search search-input-icon"></i>
-        <input 
-          type="text" 
-          #searchInput
-          placeholder="Search for fertilizers, feeds, avocados..." 
-          class="search-input"
-          (input)="onSearchInput($event)"
-          (keyup.enter)="performSearch()"
-          autocomplete="off"
-        />
-        <button class="clear-search-btn" (click)="clearSearch()" *ngIf="searchTerm">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      
-      <!-- Quick Search Chips -->
-      <div class="quick-search-chips">
-        <button class="search-chip" (click)="searchByTag('Fertilizers')">
-          <i class="fas fa-flask"></i> Fertilizers
-        </button>
-        <button class="search-chip" (click)="searchByTag('Animal Feeds')">
-          <i class="fas fa-paw"></i> Feeds
-        </button>
-        <button class="search-chip" (click)="searchByTag('BSF Larvae')">
-          <i class="fas fa-worm"></i> BSF Larvae
-        </button>
-        <button class="search-chip" (click)="searchByTag('Avocados')">
-          <i class="fas fa-seedling"></i> Avocados
-        </button>
-      </div>
-    </div>
-
-    <!-- Layout Toggle -->
-    <div class="layout-toggle" *ngIf="searchResults.length > 0">
-      <button class="layout-btn" [class.active]="searchLayout === 'grid'" (click)="setSearchLayout('grid')">
-        <i class="fas fa-th-large"></i> Grid
-      </button>
-      <button class="layout-btn" [class.active]="searchLayout === 'list'" (click)="setSearchLayout('list')">
-        <i class="fas fa-list"></i> List
-      </button>
-      <button class="layout-btn" [class.active]="searchLayout === 'compact'" (click)="setSearchLayout('compact')">
-        <i class="fas fa-grip-vertical"></i> Compact
-      </button>
-      <button class="layout-btn" [class.active]="searchLayout === 'cards'" (click)="setSearchLayout('cards')">
-        <i class="fas fa-th"></i> Cards
-      </button>
-    </div>
-
-    <!-- Search Results Container -->
-    <div class="search-results-container">
-      <!-- Results Info -->
-      <div class="results-info" *ngIf="searchTerm && searchResults.length > 0">
-        <span class="results-count">{{ searchResults.length }} results found</span>
-        <span class="results-category" *ngIf="searchCategoryFilter">
-          in <strong>{{ searchCategoryFilter }}</strong>
-        </span>
-      </div>
-
-      <!-- Results Grid View -->
-      <div class="results-grid" *ngIf="searchLayout === 'grid' && searchResults.length > 0">
-        <div class="product-card-search" *ngFor="let product of searchResults" (click)="navigateToSearchResult(product)">
-          <div class="product-image-search">
-            <img [src]="product.image" [alt]="product.name" (error)="handleImageError($event)">
-            <div class="product-badge-search" [class.organic]="product.category.includes('Organic')">
-              {{ product.category }}
-            </div>
-          </div>
-          <div class="product-info-search">
-            <h4 class="product-title-search">{{ product.name }}</h4>
-            <p class="product-description-search">{{ truncateText(product.description, 60) }}</p>
-            <div class="product-meta-search">
-              <span class="product-price-search">KSh {{ product.price }}</span>
-              <span class="product-category-search">{{ product.category }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Results List View -->
-      <div class="results-list" *ngIf="searchLayout === 'list' && searchResults.length > 0">
-        <div class="list-item-search" *ngFor="let product of searchResults" (click)="navigateToSearchResult(product)">
-          <div class="list-image-search">
-            <img [src]="product.image" [alt]="product.name" (error)="handleImageError($event)">
-          </div>
-          <div class="list-content-search">
-            <h4 class="list-title-search">{{ product.name }}</h4>
-            <p class="list-description-search">{{ truncateText(product.description, 80) }}</p>
-
-            <div class="list-meta-search">
-              <span class="list-price-search">KSh {{ product.price }}</span>
-              <span class="list-category-search">{{ product.category }}</span>
-              <span class="list-stock-search" [class.in-stock]="true">
-                <i class="fas fa-check-circle"></i> In Stock
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Results Compact View -->
-      <div class="results-compact" *ngIf="searchLayout === 'compact' && searchResults.length > 0">
-        <div class="compact-item-search" *ngFor="let product of searchResults" (click)="navigateToSearchResult(product)">
-          <div class="compact-left">
-            <div class="compact-image">
-              <img [src]="product.image" [alt]="product.name" (error)="handleImageError($event)">
-            </div>
-            <div class="compact-info">
-              <h5 class="compact-title">{{ product.name }}</h5>
-              <span class="compact-category">{{ product.category }}</span>
-            </div>
-          </div>
-          <div class="compact-right">
-            <span class="compact-price">KSh {{ product.price }}</span>
-            <i class="fas fa-chevron-right compact-arrow"></i>
-          </div>
-        </div>
-      </div>
-
-      <!-- Results Cards View -->
-      <div class="results-cards" *ngIf="searchLayout === 'cards' && searchResults.length > 0">
-        <div class="card-item-search" *ngFor="let product of searchResults" (click)="navigateToSearchResult(product)">
-          <div class="card-image-search">
-            <img [src]="product.image" [alt]="product.name" (error)="handleImageError($event)">
-            <div class="card-badge-search" [class.organic]="product.category.includes('Organic')">
-              <i class="fas fa-leaf"></i>
-            </div>
-          </div>
-          <div class="card-content-search">
-            <h4 class="card-title-search">{{ product.name }}</h4>
-            <p class="card-description-search">{{ truncateText(product.description, 50) }}</p>
-            <div class="card-footer-search">
-              <span class="card-price-search">KSh {{ product.price }}</span>
-              <button class="card-action-btn" (click)="$event.stopPropagation(); addToCartFromSearch(product)">
-                <i class="fas fa-cart-plus"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- No Results -->
-      <div class="no-results-search" *ngIf="searchTerm && searchResults.length === 0">
-        <div class="no-results-icon">
-          <i class="fas fa-search"></i>
-        </div>
-        <h3>No products found for "{{ searchTerm }}"</h3>
-        <p>Try searching with different keywords or browse our categories:</p>
-        <div class="no-results-suggestions">
-          <button class="suggestion-btn" (click)="searchByTag('NPK Fertilizer')">
-            <i class="fas fa-flask"></i> NPK Fertilizer
-          </button>
-          <button class="suggestion-btn" (click)="searchByTag('BSF Larvae')">
-            <i class="fas fa-worm"></i> BSF Larvae
-          </button>
-          <button class="suggestion-btn" (click)="searchByTag('Avocados')">
-            <i class="fas fa-seedling"></i> Avocados
-          </button>
-          <button class="suggestion-btn" (click)="searchByTag('Animal Feeds')">
-            <i class="fas fa-paw"></i> Animal Feeds
-          </button>
-        </div>
-      </div>
-
-      <!-- Recent Searches -->
-      <div class="recent-searches-section" *ngIf="!searchTerm && recentSearches.length > 0">
-        <div class="section-header">
-          <h4>Recent Searches</h4>
-          <button class="clear-recent-btn" (click)="clearAllRecentSearches()">
-            Clear All
-          </button>
-        </div>
-        <div class="recent-list-search">
-          <div class="recent-item-search" *ngFor="let search of recentSearches">
-            <button class="recent-search-btn" (click)="searchByTag(search)">
-              <i class="fas fa-history"></i>
-              <span>{{ search }}</span>
-            </button>
-            <button class="remove-recent-btn" (click)="removeRecentSearch(search, $event)">
-              <i class="fas fa-times"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Featured Products -->
-      <div class="featured-products" *ngIf="!searchTerm">
-        <div class="section-header">
-          <h4>Featured Products</h4>
-          <span>Popular with Kenyan farmers</span>
-        </div>
-        <div class="featured-grid">
-          <div class="featured-item" *ngFor="let product of featuredProducts" (click)="navigateToSearchResult(product)">
-            <div class="featured-image">
-              <img [src]="product.image" [alt]="product.name" (error)="handleImageError($event)">
-            </div>
-            <div class="featured-info">
-              <h5>{{ product.name }}</h5>
-              <span class="featured-price">KSh {{ product.price }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Search Footer -->
-    <div class="search-footer">
-      <div class="search-stats">
-        <div class="stat-item">
-          <strong>{{ allProducts.length }}+</strong>
-          <span>Organic Products</span>
-        </div>
-        <div class="stat-item">
-          <strong>100%</strong>
-          <span>Kenyan Made</span>
-        </div>
-      </div>
-      <div class="search-help">
-        <a href="#" class="help-link">
-          <i class="fas fa-question-circle"></i> Search Help
-        </a>
-        <a href="/products" class="help-link">
-          <i class="fas fa-store"></i> View All Products
-        </a>
-      </div>
+  <!-- Voice Search Indicator -->
+  <div class="voice-indicator" [class.active]="isListening">
+    <div class="voice-pulse"></div>
+    <div class="voice-text">
+      <i class="fas fa-microphone"></i>
+      <span>Listening...</span>
     </div>
   </div>
-</div>
+
+  <!-- Notification Toast -->
+  <div class="notification-toast" 
+       [class.show]="showNotification"
+       [class]="notificationType">
+    <i [class]="notificationIcon"></i>
+    <span>{{ notificationMessage }}</span>
+    <button class="toast-close" (click)="hideNotification()">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
 </nav>

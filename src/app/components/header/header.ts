@@ -1,10 +1,33 @@
-import { Component, HostListener, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, HostListener, OnInit, OnDestroy, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { filter } from 'rxjs/operators';
 import { CartService } from '../../services/cart';
 import { CartComponent } from '../../pages/cart/cart';
 import { AuthService, User } from '../../services/auth.service';
+
+interface NavItem {
+  text: string;
+  icon: string;
+  route?: string;
+  fragment?: string;
+  children?: NavChild[];
+  footer?: NavFooter;
+}
+
+interface NavChild {
+  text: string;
+  icon: string;
+  route: string;
+  fragment?: string;
+  description: string;
+}
+
+interface NavFooter {
+  text: string;
+  route: string;
+}
 
 interface SearchResult {
   id: number;
@@ -17,42 +40,222 @@ interface SearchResult {
   isOrganic?: boolean;
   inStock?: boolean;
   rating?: number;
+  tags?: string[];
+}
+
+interface LogoParticle {
+  x: number;
+  y: number;
+  delay: number;
+  size: number;
+}
+
+interface FloatingOrb {
+  x: number;
+  y: number;
+  size: number;
+  delay: number;
+  speed: number;
+}
+
+interface QuickAction {
+  text: string;
+  icon: string;
+  tag: string;
 }
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterModule, CartComponent],
+  imports: [CommonModule, RouterModule, FormsModule, CartComponent],
   templateUrl: './header.html',
   styleUrls: ['./header.css']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+  // State Management
   cartCount = 0;
   isMobileMenuOpen = false;
   isCartOpen = false;
   isSearchOpen = false;
+  isUserPanelOpen = false;
+  isListening = false;
+  isDarkTheme = false;
+  showNotification = false;
+  notificationMessage = '';
+  notificationType: 'success' | 'error' | 'info' = 'success';
+  notificationIcon = '';
+
+  // Navigation Data
+  navItems: NavItem[] = [
+    {
+      text: 'Home',
+      icon: 'fas fa-home',
+      route: '/home'
+    },
+    {
+      text: 'About Us',
+      icon: 'fas fa-info-circle',
+      children: [
+        {
+          text: 'Overview',
+          icon: 'fas fa-eye',
+          route: '/about',
+          description: 'Our mission and values'
+        },
+        {
+          text: 'Mission & Vision',
+          icon: 'fas fa-bullseye',
+          route: '/about',
+          fragment: 'mission-vision',
+          description: 'Goals and aspirations'
+        },
+        {
+          text: 'Blog',
+          icon: 'fas fa-newspaper',
+          route: '/blog',
+          description: 'Latest updates'
+        },
+        {
+          text: 'FAQ',
+          icon: 'fas fa-question-circle',
+          route: '/faq',
+          description: 'Common questions'
+        }
+      ],
+      footer: {
+        text: 'View All About',
+        route: '/about'
+      }
+    },
+    {
+      text: 'What We Do',
+      icon: 'fas fa-hands-helping',
+      children: [
+        {
+          text: 'The Problems',
+          icon: 'fas fa-exclamation-triangle',
+          route: '/challenges',
+          description: 'Agricultural challenges'
+        },
+        {
+          text: 'Circular Model',
+          icon: 'fas fa-recycle',
+          route: '/what-we-do',
+          fragment: 'circular-model',
+          description: 'Sustainable system'
+        },
+        {
+          text: 'PREFarm Initiative',
+          icon: 'fas fa-tachometer-alt',
+          route: '/what-we-do',
+          fragment: 'prefarm-initiative',
+          description: 'Precision farming'
+        },
+        {
+          text: 'Regen-Kilimo',
+          icon: 'fas fa-seedling',
+          route: '/what-we-do',
+          fragment: 'regen-kilimo',
+          description: 'Regenerative agriculture'
+        }
+      ]
+    },
+    {
+      text: 'Products',
+      icon: 'fas fa-box-open',
+      children: [
+        {
+          text: 'Biofertilizers',
+          icon: 'fas fa-vial',
+          route: '/products',
+          description: 'Organic soil enhancers'
+        },
+        {
+          text: 'Animal Feeds',
+          icon: 'fas fa-paw',
+          route: '/products',
+          description: 'High-protein nutrition'
+        },
+        {
+          text: 'Shop All',
+          icon: 'fas fa-shopping-bag',
+          route: '/products',
+          description: 'Complete catalog'
+        },
+        {
+          text: 'Compost',
+          icon: 'fas fa-recycle',
+          route: '/products',
+          fragment: 'compost',
+          description: 'Soil amendments'
+        }
+      ]
+    },
+    {
+      text: 'Impact',
+      icon: 'fas fa-chart-line',
+      children: [
+        {
+          text: 'Overview',
+          icon: 'fas fa-chart-bar',
+          route: '/impacts',
+          description: 'Our impact at a glance'
+        },
+        {
+          text: 'Metrics',
+          icon: 'fas fa-chart-pie',
+          route: '/impacts',
+          fragment: 'metrics',
+          description: 'Data-driven results'
+        },
+        {
+          text: 'SDG Alignment',
+          icon: 'fas fa-globe-africa',
+          route: '/impacts',
+          fragment: 'sdg',
+          description: 'UN Goals'
+        }
+      ]
+    },
+    {
+      text: 'Contact',
+      icon: 'fas fa-envelope',
+      route: '/contact'
+    }
+  ];
+
+  // Search Functionality
   searchTerm = '';
   searchResults: SearchResult[] = [];
-  searchLayout: 'grid' | 'list' | 'compact' | 'cards' = 'grid';
-  searchCategoryFilter: string = '';
-  
-  // Recent searches functionality
-  recentSearches: string[] = ['NPK Fertilizer', 'BSF Larvae', 'Avocados', 'Animal Feeds'];
-  
-  // Featured products for suggestions
+  searchLayout: 'grid' | 'list' | 'hologram' = 'hologram';
+  recentSearches: string[] = [];
+  quickActions: QuickAction[] = [
+    { text: 'Fertilizers', icon: 'fas fa-flask', tag: 'Fertilizers' },
+    { text: 'Animal Feeds', icon: 'fas fa-paw', tag: 'Feeds' },
+    { text: 'BSF Larvae', icon: 'fas fa-worm', tag: 'BSF Larvae' },
+    { text: 'Avocados', icon: 'fas fa-seedling', tag: 'Avocados' }
+  ];
   featuredProducts: SearchResult[] = [];
-  
-  // Authentication properties
+
+  // Visual Effects
+  logoParticles: LogoParticle[] = [];
+  floatingOrbs: FloatingOrb[] = [];
+  activeDropdown: number | null = null;
+  openMobileDropdown: string | null = null;
+  dropdownTimeout: any;
+
+  // Authentication
   currentUser: User | null = null;
-  
+
   @ViewChild('searchInput') searchInput!: ElementRef;
+  @ViewChild('voiceSearch') voiceSearch!: ElementRef;
 
   private cartSubscription: any;
   private authSubscription: any;
+  private routerSubscription: any;
 
-  // Enhanced product data with all categories
+  // Product Database
   public allProducts: SearchResult[] = [
-    // Biofertilizers
     {
       id: 1,
       name: 'VermiFrass Active',
@@ -63,48 +266,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
       route: '/products',
       isOrganic: true,
       inStock: true,
-      rating: 4.9
+      rating: 4.9,
+      tags: ['fertilizer', 'organic', 'bio']
     },
     {
       id: 2,
-      name: 'BioVeg Plus',
-      description: 'Specialized organic fertilizer for vegetables',
-      price: 920,
-      category: 'Organic Biofertilizers',
-      image: 'images/bio veg.jpeg',
-      route: '/products',
-      isOrganic: true,
-      inStock: true,
-      rating: 4.7
-    },
-    {
-      id: 3,
-      name: 'BioFruity Plus',
-      description: 'Premium organic fertilizer for fruit trees and vines',
-      price: 700,
-      category: 'Organic Biofertilizers',
-      image: 'images/product1.jpg',
-      route: '/products',
-      isOrganic: true,
-      inStock: true,
-      rating: 4.8
-    },
-    {
-      id: 4,
-      name: 'Liquid Frass',
-      description: 'Concentrated liquid fertilizer from BSFL frass',
-      price: 700,
-      category: 'Organic Biofertilizers',
-      image: 'images/liquid frass.jpeg',
-      route: '/products',
-      isOrganic: true,
-      inStock: true,
-      rating: 4.6
-    },
-
-    // Blended Fertilizers
-    {
-      id: 5,
       name: 'NPK Active',
       description: 'Precision-engineered organo-mineral fertilizer',
       price: 2000,
@@ -113,12 +279,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
       route: '/products',
       isOrganic: true,
       inStock: true,
-      rating: 4.9
+      rating: 4.8,
+      tags: ['fertilizer', 'npk', 'organic']
     },
-
-    // Poultry Feeds
     {
-      id: 6,
+      id: 3,
       name: 'i-Chick Mash',
       description: 'High-protein starter feed for chicks',
       price: 3200,
@@ -127,100 +292,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
       route: '/products',
       isOrganic: true,
       inStock: true,
-      rating: 4.8
+      rating: 4.7,
+      tags: ['feed', 'poultry', 'animal']
     },
     {
-      id: 7,
-      name: 'i-Growers Mash',
-      description: 'Balanced grower feed for developing chickens',
-      price: 2900,
-      category: 'Poultry Feeds',
-      image: 'images/growers mash.jpeg',
-      route: '/products',
-      isOrganic: true,
-      inStock: true,
-      rating: 4.7
-    },
-    {
-      id: 8,
-      name: 'i-Broilers Mash',
-      description: 'High-energy feed for broiler chickens',
-      price: 3100,
-      category: 'Poultry Feeds',
-      image: 'images/broiler mash.jpeg',
-      route: '/products',
-      isOrganic: true,
-      inStock: true,
-      rating: 4.8
-    },
-    {
-      id: 9,
-      name: 'i-Layers Mash',
-      description: 'Specialized feed for laying hens',
-      price: 3000,
-      category: 'Poultry Feeds',
-      image: 'images/layers mash.jpeg',
-      route: '/products',
-      isOrganic: true,
-      inStock: true,
-      rating: 4.9
-    },
-
-    // Pig Feeds
-    {
-      id: 10,
-      name: 'i-Pig Creep Pellets',
-      description: 'High-protein starter feed for piglets',
-      price: 3800,
-      category: 'Pig Feeds',
-      image: 'images/pig creepers.jpeg',
-      route: '/products',
-      isOrganic: true,
-      inStock: true,
-      rating: 4.7
-    },
-    {
-      id: 11,
-      name: 'i-Pig Sow & Weaner',
-      description: 'Balanced feed for sows and weaners',
-      price: 3500,
-      category: 'Pig Feeds',
-      image: 'images/pig weaner.jpeg',
-      route: '/products',
-      isOrganic: true,
-      inStock: true,
-      rating: 4.6
-    },
-    {
-      id: 12,
-      name: 'i-Pig Finisher',
-      description: 'High-energy feed for finishing pigs',
-      price: 3300,
-      category: 'Pig Feeds',
-      image: 'images/pig finisher.jpeg',
-      route: '/products',
-      isOrganic: true,
-      inStock: true,
-      rating: 4.8
-    },
-
-    // Pet Foods
-    {
-      id: 13,
-      name: 'i-Dig Treats',
-      description: 'Nutritious treats for dogs made from BSFL protein',
-      price: 950,
-      category: 'Pet Foods',
-      image: 'images/dog food.jpeg',
-      route: '/products',
-      isOrganic: true,
-      inStock: true,
-      rating: 4.9
-    },
-
-    // Fruits & Vegetables
-    {
-      id: 14,
+      id: 4,
       name: 'Organic Avocados',
       description: 'Fresh Hass avocados from Kenyan highlands',
       price: 120,
@@ -229,22 +305,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
       route: '/shop',
       isOrganic: true,
       inStock: true,
-      rating: 4.8
+      rating: 4.9,
+      tags: ['avocado', 'fruit', 'organic']
     },
     {
-      id: 15,
-      name: 'Organic Kale',
-      description: 'Fresh kale bundle from certified organic farms',
-      price: 180,
-      category: 'Vegetables',
-      image: 'images/kales.jpg',
-      route: '/shop',
-      isOrganic: true,
-      inStock: true,
-      rating: 4.7
-    },
-    {
-      id: 16,
+      id: 5,
       name: 'Red Wigglers',
       description: 'Composting worms for vermiculture',
       price: 3000,
@@ -253,30 +318,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
       route: '/products',
       isOrganic: true,
       inStock: true,
-      rating: 4.6
+      rating: 4.6,
+      tags: ['worms', 'compost', 'organic']
     }
   ];
 
   constructor(
     private router: Router,
     private cartService: CartService,
-    private authService: AuthService
-  ) {
-    // Debug router events
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        console.log('Router NavigationEnd:', event.url);
-      }
-    });
-  }
+    private authService: AuthService,
+    private renderer: Renderer2
+  ) {}
 
   ngOnInit() {
-    console.log('HeaderComponent initialized');
-    
-    // Load recent searches from localStorage
+    this.initVisualEffects();
     this.loadRecentSearches();
-    
-    // Initialize featured products
     this.initializeFeaturedProducts();
     
     // Subscribe to cart updates
@@ -290,43 +346,123 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.currentUser = user;
     });
     
-    // Fragment navigation
-    this.router.events.pipe(
+    // Subscribe to router events
+    this.routerSubscription = this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
-    ).subscribe((event: NavigationEnd) => {
-      console.log('Fragment navigation handling URL:', event.url);
-      this.handleFragmentNavigation(event.url);
+    ).subscribe(() => {
+      this.closeAllDropdowns();
     });
+    
+    // Load theme preference
+    this.loadTheme();
   }
 
   ngOnDestroy() {
-    if (this.cartSubscription) {
-      this.cartSubscription.unsubscribe();
+    if (this.cartSubscription) this.cartSubscription.unsubscribe();
+    if (this.authSubscription) this.authSubscription.unsubscribe();
+    if (this.routerSubscription) this.routerSubscription.unsubscribe();
+    if (this.dropdownTimeout) clearTimeout(this.dropdownTimeout);
+  }
+
+  // ============ VISUAL EFFECTS ============
+  initVisualEffects() {
+    // Create logo particles
+    for (let i = 0; i < 8; i++) {
+      this.logoParticles.push({
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+        delay: Math.random() * 2,
+        size: Math.random() * 4 + 2
+      });
     }
-    if (this.authSubscription) {
-      this.authSubscription.unsubscribe();
+
+    // Create floating orbs
+    for (let i = 0; i < 15; i++) {
+      this.floatingOrbs.push({
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+        size: Math.random() * 100 + 50,
+        delay: Math.random() * 5,
+        speed: Math.random() * 0.5 + 0.2
+      });
     }
   }
 
-  // ============= SEARCH FUNCTIONALITY =============
+  // ============ DROPDOWN MANAGEMENT ============
+showDropdown(index: number, element: HTMLElement) {
+  this.activeDropdown = index;
+}
 
+
+hideDropdown(index: number, element: HTMLElement) {
+  // Add a small delay to prevent flickering
+  setTimeout(() => {
+    if (this.activeDropdown === index) {
+      this.activeDropdown = null;
+    }
+  }, 300);
+}
+keepDropdownOpen(index: number) {
+  this.activeDropdown = index;
+}
+
+  closeAllDropdowns() {
+    this.activeDropdown = null;
+    this.openMobileDropdown = null;
+  }
+
+  getDropdownDescription(index: number): string {
+    const descriptions = [
+      'Learn about our mission and vision',
+      'Discover our sustainable solutions',
+      'Explore our organic products',
+      'See our impact and achievements'
+    ];
+    return descriptions[index - 1] || 'Explore our offerings';
+  }
+
+  // ============ NAVIGATION ============
+  isActive(route?: string): boolean {
+    if (!route) return false;
+    return this.router.url === route;
+  }
+
+  navigateAndClose(child: NavChild) {
+    if (child.fragment) {
+      this.router.navigate([child.route], { fragment: child.fragment });
+    } else {
+      this.router.navigate([child.route]);
+    }
+    this.closeAllDropdowns();
+  }
+
+  toggleMobileDropdown(navItem: NavItem) {
+    if (this.openMobileDropdown === navItem.text) {
+      this.openMobileDropdown = null;
+    } else {
+      this.openMobileDropdown = navItem.text;
+    }
+  }
+
+  // ============ SEARCH FUNCTIONALITY ============
   openSearch() {
-    console.log('Opening magnificent sidebar search');
     this.isSearchOpen = true;
     document.body.style.overflow = 'hidden';
+    this.renderer.addClass(document.body, 'search-open');
+    
     setTimeout(() => {
       if (this.searchInput) {
         this.searchInput.nativeElement.focus();
       }
-    }, 100);
+    }, 300);
   }
 
   closeSearch() {
-    console.log('Closing search');
     this.isSearchOpen = false;
     this.searchTerm = '';
     this.searchResults = [];
     document.body.style.overflow = '';
+    this.renderer.removeClass(document.body, 'search-open');
   }
 
   onSearchInput(event: any) {
@@ -344,63 +480,156 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.searchResults = this.allProducts.filter(product =>
       product.name.toLowerCase().includes(term) ||
       product.description.toLowerCase().includes(term) ||
-      product.category.toLowerCase().includes(term)
+      product.category.toLowerCase().includes(term) ||
+      product.tags?.some(tag => tag.toLowerCase().includes(term))
     );
     
-    // Add to recent searches if not empty
+    // Add to recent searches
     if (term.length > 2 && !this.recentSearches.includes(term)) {
       this.addToRecentSearches(term);
     }
   }
 
-  searchByTag(tag: string) {
-    console.log('Search by tag:', tag);
-    this.searchTerm = tag;
-    this.performSearch();
-    if (this.searchInput) {
-      this.searchInput.nativeElement.value = tag;
-      this.searchInput.nativeElement.focus();
+  searchByTag(tag: string | QuickAction) {
+    if (typeof tag === 'string') {
+      this.searchTerm = tag;
+    } else {
+      this.searchTerm = tag.tag;
     }
-    
-    // Add to recent searches
-    this.addToRecentSearches(tag);
+    this.performSearch();
+    this.animateSearchAction();
   }
 
   clearSearch() {
     this.searchTerm = '';
     this.searchResults = [];
     if (this.searchInput) {
-      this.searchInput.nativeElement.value = '';
       this.searchInput.nativeElement.focus();
     }
   }
 
-  setSearchLayout(layout: 'grid' | 'list' | 'compact' | 'cards') {
+  setSearchLayout(layout: 'grid' | 'list' | 'hologram') {
     this.searchLayout = layout;
   }
 
-  initializeFeaturedProducts() {
-    this.featuredProducts = [
-      this.allProducts.find(p => p.id === 1)!,
-      this.allProducts.find(p => p.id === 6)!,
-      this.allProducts.find(p => p.id === 14)!,
-      this.allProducts.find(p => p.id === 5)!,
-      this.allProducts.find(p => p.id === 13)!,
-      this.allProducts.find(p => p.id === 16)!,
-    ].filter(p => p !== undefined);
-  }
-
-  navigateToSearchResult(result: SearchResult) {
-    console.log('Navigating to search result:', result.route);
-    this.closeSearch();
-    this.router.navigate([result.route]);
-  }
-
-  addToCartFromSearch(product: SearchResult, event?: Event) {
-    if (event) {
-      event.stopPropagation();
+  // ============ VOICE SEARCH ============
+  toggleVoiceSearch() {
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      this.isListening = !this.isListening;
+      
+      if (this.isListening) {
+        this.startVoiceRecognition();
+      } else {
+        this.stopVoiceRecognition();
+      }
+    } else {
+      this.showNotificationMessage(
+        'Voice search not supported in your browser',
+        'error',
+        'fas fa-microphone-slash'
+      );
     }
+  }
+
+  startVoiceRecognition() {
+    const SpeechRecognition = (window as any).SpeechRecognition || 
+                              (window as any).webkitSpeechRecognition;
     
+    if (SpeechRecognition) {
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'en-US';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.onresult = (event: any) => {
+        const transcript = event.results[0][0].transcript;
+        this.searchTerm = transcript;
+        this.performSearch();
+        this.isListening = false;
+      };
+
+      recognition.onerror = (event: any) => {
+        console.error('Voice recognition error:', event.error);
+        this.isListening = false;
+        this.showNotificationMessage(
+          'Voice recognition failed. Try again.',
+          'error',
+          'fas fa-exclamation-triangle'
+        );
+      };
+
+      recognition.start();
+    }
+  }
+
+  stopVoiceRecognition() {
+    this.isListening = false;
+  }
+
+  // ============ THEME MANAGEMENT ============
+  toggleTheme() {
+    this.isDarkTheme = !this.isDarkTheme;
+    this.saveTheme();
+    
+    if (this.isDarkTheme) {
+      this.renderer.addClass(document.body, 'dark-theme');
+      this.showNotificationMessage(
+        'Dark theme activated',
+        'success',
+        'fas fa-moon'
+      );
+    } else {
+      this.renderer.removeClass(document.body, 'dark-theme');
+      this.showNotificationMessage(
+        'Light theme activated',
+        'success',
+        'fas fa-sun'
+      );
+    }
+  }
+
+  loadTheme() {
+    const savedTheme = localStorage.getItem('mzuri-theme');
+    this.isDarkTheme = savedTheme === 'dark';
+    
+    if (this.isDarkTheme) {
+      this.renderer.addClass(document.body, 'dark-theme');
+    }
+  }
+
+  saveTheme() {
+    localStorage.setItem('mzuri-theme', this.isDarkTheme ? 'dark' : 'light');
+  }
+
+  // ============ NOTIFICATIONS ============
+  showNotificationMessage(message: string, type: 'success' | 'error' | 'info', icon: string) {
+    this.notificationMessage = message;
+    this.notificationType = type;
+    this.notificationIcon = icon;
+    this.showNotification = true;
+
+    setTimeout(() => {
+      this.hideNotification();
+    }, 4000);
+  }
+
+  hideNotification() {
+    this.showNotification = false;
+  }
+
+  // ============ ANIMATIONS ============
+  animateSearchAction() {
+    const container = document.querySelector('.search-input-wrapper');
+    if (container) {
+      this.renderer.addClass(container, 'searching');
+      setTimeout(() => {
+        this.renderer.removeClass(container, 'searching');
+      }, 1000);
+    }
+  }
+
+  // ============ CART FUNCTIONALITY ============
+  addToCartFromSearch(product: SearchResult) {
     const cartItem = {
       id: product.id,
       name: product.name,
@@ -412,30 +641,60 @@ export class HeaderComponent implements OnInit, OnDestroy {
     };
     
     this.cartService.addToCart(cartItem);
-    this.showToast(`${product.name} added to cart!`);
+    this.showNotificationMessage(
+      `${product.name} added to cart!`,
+      'success',
+      'fas fa-cart-plus'
+    );
     this.animateAddToCart(product);
   }
 
-  handleImageError(event: any) {
-    const img = event.target as HTMLImageElement;
-    img.src = 'https://via.placeholder.com/300x200?text=Mzuri+Organic';
+  animateAddToCart(product: SearchResult) {
+    const button = document.querySelector(`[data-product-id="${product.id}"]`);
+    if (button) {
+      const rect = button.getBoundingClientRect();
+      const cartBtn = document.querySelector('.cart-btn');
+      
+      if (cartBtn) {
+        const cartRect = cartBtn.getBoundingClientRect();
+        
+        const flyingElement = document.createElement('div');
+        flyingElement.className = 'flying-cart-item';
+        flyingElement.innerHTML = `<i class="fas fa-shopping-cart"></i>`;
+        flyingElement.style.left = `${rect.left}px`;
+        flyingElement.style.top = `${rect.top}px`;
+        
+        document.body.appendChild(flyingElement);
+        
+        setTimeout(() => {
+          flyingElement.style.left = `${cartRect.left}px`;
+          flyingElement.style.top = `${cartRect.top}px`;
+          flyingElement.style.transform = 'scale(0.5)';
+          flyingElement.style.opacity = '0';
+        }, 10);
+        
+        setTimeout(() => {
+          if (document.body.contains(flyingElement)) {
+            document.body.removeChild(flyingElement);
+          }
+        }, 1000);
+      }
+    }
   }
 
-  // ============= RECENT SEARCHES MANAGEMENT =============
-
-  private loadRecentSearches() {
+  // ============ RECENT SEARCHES ============
+  loadRecentSearches() {
     try {
       const saved = localStorage.getItem('mzuri_recent_searches');
       if (saved) {
         this.recentSearches = JSON.parse(saved);
       }
     } catch (error) {
-      console.error('Error loading recent searches:', error);
-      this.recentSearches = ['NPK Fertilizer', 'BSF Larvae', 'Avocados', 'Animal Feeds'];
+      this.recentSearches = ['NPK Fertilizer', 'BSF Larvae', 'Avocados'];
     }
   }
 
-  private saveRecentSearches() {
+  saveRecentSearches() {
     try {
       localStorage.setItem('mzuri_recent_searches', JSON.stringify(this.recentSearches));
     } catch (error) {
@@ -443,267 +702,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
-  private addToRecentSearches(searchTerm: string) {
-    // Remove if already exists
-    const index = this.recentSearches.indexOf(searchTerm);
+  addToRecentSearches(term: string) {
+    const index = this.recentSearches.indexOf(term);
     if (index > -1) {
       this.recentSearches.splice(index, 1);
     }
     
-    // Add to beginning
-    this.recentSearches.unshift(searchTerm);
+    this.recentSearches.unshift(term);
     
-    // Keep only last 10 searches
-    if (this.recentSearches.length > 10) {
+    if (this.recentSearches.length > 8) {
       this.recentSearches.pop();
     }
     
-    // Save to localStorage
     this.saveRecentSearches();
   }
 
-  removeRecentSearch(searchTerm: string, event: Event) {
-    event.stopPropagation();
-    const index = this.recentSearches.indexOf(searchTerm);
-    if (index > -1) {
-      this.recentSearches.splice(index, 1);
-      this.saveRecentSearches();
-    }
-  }
-
-  clearAllRecentSearches() {
-    this.recentSearches = [];
-    this.saveRecentSearches();
-  }
-
-  // ============= HELPER METHODS =============
-
-  // Simple truncate method for text display
-  truncateText(text: string, limit: number = 60): string {
-    if (!text) return '';
-    if (text.length <= limit) return text;
-    return text.substr(0, limit) + '...';
-  }
-
-  private showToast(message: string) {
-    // Create toast notification
-    const toast = document.createElement('div');
-    toast.className = 'search-toast';
-    toast.innerHTML = `
-      <i class="fas fa-check-circle"></i>
-      <span>${message}</span>
-    `;
-    document.body.appendChild(toast);
-    
-    setTimeout(() => {
-      toast.classList.add('fade-out');
-      setTimeout(() => {
-        if (document.body.contains(toast)) {
-          document.body.removeChild(toast);
-        }
-      }, 300);
-    }, 3000);
-  }
-
-  private animateAddToCart(product: SearchResult) {
-    // Find the button that was clicked
-    const buttons = document.querySelectorAll('.card-action-btn');
-    const clickedButton = Array.from(buttons).find(btn => 
-      btn.closest('.card-item-search')?.querySelector('.card-title-search')?.textContent?.includes(product.name)
-    ) as HTMLElement;
-    
-    if (!clickedButton) return;
-    
-    // Create a flying element
-    const flyingElement = document.createElement('div');
-    flyingElement.className = 'flying-item-search';
-    flyingElement.innerHTML = `<i class="fas fa-shopping-cart"></i>`;
-    
-    // Get button position
-    const buttonRect = clickedButton.getBoundingClientRect();
-    flyingElement.style.left = `${buttonRect.left + buttonRect.width / 2}px`;
-    flyingElement.style.top = `${buttonRect.top + buttonRect.height / 2}px`;
-    
-    // Add to body
-    document.body.appendChild(flyingElement);
-    
-    // Get cart position (header cart button)
-    const cartButton = document.querySelector('.cart-btn') as HTMLElement;
-    if (!cartButton) return;
-    
-    const cartRect = cartButton.getBoundingClientRect();
-    const cartX = cartRect.left + cartRect.width / 2;
-    const cartY = cartRect.top + cartRect.height / 2;
-    
-    // Animate to cart
-    setTimeout(() => {
-      flyingElement.style.transform = `translate(${cartX - buttonRect.left}px, ${cartY - buttonRect.top}px) scale(0.3)`;
-      flyingElement.style.opacity = '0';
-      
-      // Pulse the cart button
-      cartButton.classList.add('cart-pulse');
-      
-      setTimeout(() => {
-        cartButton.classList.remove('cart-pulse');
-      }, 500);
-    }, 10);
-    
-    // Remove flying element after animation
-    setTimeout(() => {
-      if (document.body.contains(flyingElement)) {
-        document.body.removeChild(flyingElement);
-      }
-    }, 1000);
-  }
-
-  // ============= FRAGMENT NAVIGATION METHODS =============
-
-  private handleFragmentNavigation(url: string): void {
-    const fragment = this.router.parseUrl(url).fragment;
-    if (fragment) {
-      setTimeout(() => {
-        this.scrollToFragment(fragment);
-      }, 100);
-    }
-  }
-
-  private scrollToFragment(fragment: string): void {
-    const element = document.getElementById(fragment);
-    if (element) {
-      const offset = 100;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-    }
-  }
-
-  scrollToSection(sectionId: string): void {
-    console.log('scrollToSection called:', sectionId);
-    
-    if (window.location.pathname.includes('/impacts')) {
-      window.dispatchEvent(new CustomEvent('scrollToImpactSection', {
-        detail: { sectionId }
-      }));
-      
-      window.history.replaceState(null, '', `/impacts#${sectionId}`);
-      
-      if (this.isMobileMenuOpen) {
-        this.isMobileMenuOpen = false;
-        document.body.style.overflow = '';
-      }
-    } else {
-      this.router.navigate(['/impacts']).then(() => {
-        console.log('Navigated to impacts page');
-        if (this.isMobileMenuOpen) {
-          this.isMobileMenuOpen = false;
-          document.body.style.overflow = '';
-        }
-        
-        setTimeout(() => {
-          window.dispatchEvent(new CustomEvent('scrollToImpactSection', {
-            detail: { sectionId }
-          }));
-        }, 500);
-      });
-    }
-  }
-
-  navigateWithFragment(route: string, fragment: string): void {
-    this.router.navigate([route], { fragment: fragment }).then(() => {
-      if (this.isMobileMenuOpen) {
-        this.isMobileMenuOpen = false;
-        document.body.style.overflow = '';
-      }
-    });
-  }
-
-  navigateToAboutWithFragment(fragment: string): void {
-    this.router.navigate(['/about'], { fragment: fragment });
-  }
-
-  // ============= EXISTING METHODS =============
-
-  toggleCart() {
-    console.log('Toggling cart, current state:', this.isCartOpen);
-    this.isCartOpen = !this.isCartOpen;
-    document.body.style.overflow = this.isCartOpen ? 'hidden' : '';
-  }
-
-  toggleMobileMenu() {
-    console.log('Toggling mobile menu, current state:', this.isMobileMenuOpen);
-    this.isMobileMenuOpen = !this.isMobileMenuOpen;
-    document.body.style.overflow = this.isMobileMenuOpen ? 'hidden' : '';
-  }
-
-  toggleMobileDropdown(event: Event) {
-    console.log('Toggling mobile dropdown');
-    event.preventDefault();
-    event.stopPropagation();
-    
-    const dropdown = (event.target as HTMLElement).closest('.mobile-dropdown');
-    const menu = dropdown?.querySelector('.mobile-dropdown-menu');
-    const toggle = dropdown?.querySelector('.mobile-dropdown-toggle');
-    
-    if (menu && toggle) {
-      menu.classList.toggle('active');
-      toggle.classList.toggle('active');
-    }
-  }
-
-  @HostListener('document:click', ['$event'])
-  handleDocumentClick(event: Event) {
-    const target = event.target as HTMLElement;
-    
-    // Close mobile menu if clicked outside
-    if (this.isMobileMenuOpen && !target.closest('.mobile-menu') && !target.closest('.hamburger-menu')) {
-      this.isMobileMenuOpen = false;
-      document.body.style.overflow = '';
-    }
-    
-    // Close cart if clicked outside
-    if (this.isCartOpen && !target.closest('.cart-sidebar') && !target.closest('.cart-btn')) {
-      this.isCartOpen = false;
-      document.body.style.overflow = '';
-    }
-
-    // Close search if clicked outside (clicking on overlay)
-    if (this.isSearchOpen && target.classList.contains('search-overlay')) {
-      this.closeSearch();
-    }
-  }
-
-  @HostListener('document:keydown.escape')
-  handleEscapeKey() {
-    console.log('Escape key pressed');
-    if (this.isMobileMenuOpen) {
-      this.isMobileMenuOpen = false;
-      document.body.style.overflow = '';
-    }
-    if (this.isCartOpen) {
-      this.isCartOpen = false;
-      document.body.style.overflow = '';
-    }
-    if (this.isSearchOpen) {
-      this.closeSearch();
-    }
-  }
-
-  @HostListener('window:resize', ['$event'])
-  onResize(event: Event) {
-    const window = event.target as Window;
-    if (window.innerWidth > 968) {
-      if (this.isMobileMenuOpen) {
-        this.isMobileMenuOpen = false;
-        document.body.style.overflow = '';
-      }
-    }
-  }
-
-  // Helper method to get user initials (with null check)
+  // ============ UTILITIES ============
   getUserInitials(): string {
     if (!this.currentUser?.fullName) return 'U';
     return this.currentUser.fullName
@@ -714,42 +728,80 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .substring(0, 2);
   }
 
-  // Helper method to get user first name (with null check)
   getUserFirstName(): string {
     if (!this.currentUser?.fullName) return 'User';
     return this.currentUser.fullName.split(' ')[0];
   }
 
-  // Safe method to get user county
-  getUserCounty(): string {
-    return this.currentUser?.county || '';
-  }
-
-  // Safe method to get user phone number
-  getUserPhoneNumber(): string {
-    return this.currentUser?.phoneNumber || '';
-  }
-
-  // ============= DEBUGGING METHODS =============
-  
-  testNavigation() {
-    console.log('=== TEST NAVIGATION ===');
-    console.log('1. Current router URL:', this.router.url);
-    console.log('2. Window location:', window.location.href);
-    console.log('3. Current path:', window.location.pathname);
+  toggleMobileMenu() {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+    document.body.style.overflow = this.isMobileMenuOpen ? 'hidden' : '';
     
-    // Test direct navigation
-    this.router.navigate(['/home']).then(success => {
-      console.log('4. Navigation to /home successful:', success);
-      console.log('5. New router URL:', this.router.url);
-    }).catch(error => {
-      console.log('6. Navigation error:', error);
-    });
+    if (this.isMobileMenuOpen) {
+      this.renderer.addClass(document.body, 'mobile-menu-open');
+    } else {
+      this.renderer.removeClass(document.body, 'mobile-menu-open');
+      this.openMobileDropdown = null;
+    }
   }
-  
-  logClick(event: Event, element: string) {
-    console.log(`Clicked on ${element}:`, event.target);
-    console.log('Event type:', event.type);
-    console.log('Event bubbles:', event.bubbles);
+
+  toggleCart() {
+    this.isCartOpen = !this.isCartOpen;
+    document.body.style.overflow = this.isCartOpen ? 'hidden' : '';
+  }
+
+  toggleUserPanel() {
+    this.isUserPanelOpen = !this.isUserPanelOpen;
+  }
+
+  initializeFeaturedProducts() {
+    this.featuredProducts = [
+      this.allProducts.find(p => p.id === 1)!,
+      this.allProducts.find(p => p.id === 2)!,
+      this.allProducts.find(p => p.id === 3)!,
+      this.allProducts.find(p => p.id === 4)!
+    ].filter(p => p !== undefined);
+  }
+
+  handleImageError(event: any) {
+    const img = event.target as HTMLImageElement;
+    img.src = 'https://via.placeholder.com/300x200?text=Mzuri+Organic';
+  }
+
+  // ============ EVENT LISTENERS ============
+  @HostListener('document:click', ['$event'])
+  handleDocumentClick(event: Event) {
+    const target = event.target as HTMLElement;
+    
+    if (this.isMobileMenuOpen && !target.closest('.mobile-menu') && !target.closest('.hamburger-menu')) {
+      this.toggleMobileMenu();
+    }
+    
+    if (this.isCartOpen && !target.closest('.cart-sidebar') && !target.closest('.cart-btn')) {
+      this.toggleCart();
+    }
+    
+    if (this.isSearchOpen && target.classList.contains('search-overlay')) {
+      this.closeSearch();
+    }
+    
+    if (this.isUserPanelOpen && !target.closest('.user-panel') && !target.closest('.user-avatar-btn')) {
+      this.toggleUserPanel();
+    }
+  }
+
+  @HostListener('document:keydown.escape')
+  handleEscapeKey() {
+    if (this.isMobileMenuOpen) this.toggleMobileMenu();
+    if (this.isCartOpen) this.toggleCart();
+    if (this.isSearchOpen) this.closeSearch();
+    if (this.isUserPanelOpen) this.toggleUserPanel();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    if (window.innerWidth > 968 && this.isMobileMenuOpen) {
+      this.toggleMobileMenu();
+    }
   }
 }
