@@ -1,4 +1,4 @@
-// cart.component.ts
+// src/app/components/cart/cart.ts
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -59,15 +59,13 @@ export class CartComponent {
     this.onCloseCart();
   }
 
-  // Prevent closing when clicking inside the cart
   onCartClick(event: Event) {
     event.stopPropagation();
   }
 
-  // Add this method to handle broken images
   handleImageError(event: Event) {
     const imgElement = event.target as HTMLImageElement;
-    imgElement.src = '/images/placeholder-product.jpg'; // Fallback image
+    imgElement.src = '/images/placeholder-product.jpg';
     imgElement.alt = 'Product image not available';
   }
 }

@@ -1,1 +1,315 @@
-<p>checkout works!</p>
+<!-- checkout.component.html -->
+<div class="checkout-container">
+  <!-- Progress Steps -->
+  <div class="checkout-progress">
+    <div class="progress-steps">
+      <div class="step" [class.active]="currentStep === 'cart'" [class.completed]="['details', 'payment', 'confirmation'].includes(currentStep)">
+        <div class="step-number">1</div>
+        <span class="step-label">Cart</span>
+      </div>
+      <div class="step" [class.active]="currentStep === 'details'" [class.completed]="['payment', 'confirmation'].includes(currentStep)">
+        <div class="step-number">2</div>
+        <span class="step-label">Details</span>
+      </div>
+      <div class="step" [class.active]="currentStep === 'payment'" [class.completed]="currentStep === 'confirmation'">
+        <div class="step-number">3</div>
+        <span class="step-label">Payment</span>
+      </div>
+      <div class="step" [class.active]="currentStep === 'confirmation'">
+        <div class="step-number">4</div>
+        <span class="step-label">Confirmation</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cart Review Step -->
+  <div class="checkout-step" *ngIf="currentStep === 'cart'">
+    <div class="step-header">
+      <h2>Review Your Cart</h2>
+      <p>Review items and proceed to checkout</p>
+    </div>
+    
+    <div class="cart-review">
+      <div class="cart-items">
+        <div class="cart-item" *ngFor="let item of cartItems">
+          <img [src]="item.image" [alt]="item.name">
+          <div class="item-info">
+            <h4>{{item.name}}</h4>
+            <p class="unit">{{item.units}}</p>
+            <div class="item-meta">
+              <span class="price">KSh {{item.price | number}}</span>
+              <span class="quantity">Qty: {{item.quantity}}</span>
+              <span class="total">KSh {{item.price * item.quantity | number}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="cart-summary">
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span>KSh {{cartTotal | number}}</span>
+        </div>
+        <div class="summary-row">
+          <span>Shipping</span>
+          <span class="free">FREE</span>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="total-row">
+          <strong>Total</strong>
+          <strong>KSh {{cartTotal | number}}</strong>
+        </div>
+        
+        <button class="btn-next" (click)="nextStep()">
+          Proceed to Details
+          <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Customer Details Step -->
+  <div class="checkout-step" *ngIf="currentStep === 'details'">
+    <div class="step-header">
+      <h2>Delivery Information</h2>
+      <p>Enter your delivery details</p>
+    </div>
+    
+    <div class="customer-form">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Full Name *</label>
+          <input type="text" [(ngModel)]="customer.name" placeholder="John Doe">
+        </div>
+        
+        <div class="form-group">
+          <label>Phone Number *</label>
+          <input type="tel" [(ngModel)]="customer.phone" placeholder="07XXXXXXXX">
+        </div>
+        
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" [(ngModel)]="customer.email" placeholder="john@example.com">
+        </div>
+        
+        <div class="form-group">
+          <label>City/Town *</label>
+          <input type="text" [(ngModel)]="customer.city" placeholder="Nairobi">
+        </div>
+        
+        <div class="form-group full-width">
+          <label>Delivery Address *</label>
+          <textarea [(ngModel)]="customer.address" 
+                    placeholder="Building, Street, Area" 
+                    rows="3"></textarea>
+        </div>
+        
+        <div class="form-group full-width">
+          <label>Delivery Notes (Optional)</label>
+          <textarea [(ngModel)]="customer.notes" 
+                    placeholder="Any special instructions for delivery..." 
+                    rows="3"></textarea>
+        </div>
+      </div>
+      
+      <div class="form-actions">
+        <button class="btn-back" (click)="previousStep()">
+          <i class="fas fa-arrow-left"></i>
+          Back to Cart
+        </button>
+        <button class="btn-next" (click)="nextStep()" [disabled]="!validateDetails()">
+          Proceed to Payment
+          <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Payment Step -->
+  <div class="checkout-step" *ngIf="currentStep === 'payment'">
+    <div class="step-header">
+      <h2>Payment Method</h2>
+      <p>Choose your preferred payment method</p>
+    </div>
+    
+    <div class="payment-methods">
+      <div class="method-selector">
+        <div class="method-option" [class.selected]="paymentMethod === 'mpesa'" (click)="paymentMethod = 'mpesa'">
+          <div class="method-icon">
+            <i class="fas fa-mobile-alt"></i>
+          </div>
+          <div class="method-info">
+            <h4>M-Pesa</h4>
+            <p>Pay instantly via M-Pesa</p>
+          </div>
+          <div class="method-check">
+            <i class="fas fa-check-circle"></i>
+          </div>
+        </div>
+        
+        <div class="method-option" [class.selected]="paymentMethod === 'cash'" (click)="paymentMethod = 'cash'">
+          <div class="method-icon">
+            <i class="fas fa-money-bill-wave"></i>
+          </div>
+          <div class="method-info">
+            <h4>Cash on Delivery</h4>
+            <p>Pay when you receive your order</p>
+          </div>
+          <div class="method-check">
+            <i class="fas fa-check-circle"></i>
+          </div>
+        </div>
+      </div>
+      
+      <!-- M-Pesa Payment Form -->
+      <div class="mpesa-form" *ngIf="paymentMethod === 'mpesa'">
+        <div class="form-group">
+          <label>Enter your M-Pesa number</label>
+          <input type="tel" [(ngModel)]="mpesaNumber" placeholder="07XXXXXXXX">
+          <small>You'll receive a payment request on your phone</small>
+        </div>
+      </div>
+      
+      <div class="order-summary">
+        <h4>Order Summary</h4>
+        <div class="summary-row">
+          <span>Items ({{cartItems.length}})</span>
+          <span>KSh {{cartTotal | number}}</span>
+        </div>
+        <div class="summary-row">
+          <span>Delivery</span>
+          <span class="free">FREE</span>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="total-row">
+          <strong>Total Amount</strong>
+          <strong>KSh {{cartTotal | number}}</strong>
+        </div>
+      </div>
+      
+      <div class="payment-actions">
+        <button class="btn-back" (click)="previousStep()">
+          <i class="fas fa-arrow-left"></i>
+          Back to Details
+        </button>
+        <button class="btn-pay" (click)="nextStep()">
+          Pay KSh {{cartTotal | number}}
+          <i class="fas fa-lock"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirmation Step -->
+  <div class="checkout-step" *ngIf="currentStep === 'confirmation'">
+    <div class="confirmation-container">
+      <div class="confirmation-icon" [class.success]="paymentSuccessful">
+        <i class="fas" [class.fa-check-circle]="paymentSuccessful" [class.fa-spinner]="!paymentSuccessful"></i>
+      </div>
+      
+      <h2 *ngIf="paymentSuccessful">Payment Successful!</h2>
+      <h2 *ngIf="!paymentSuccessful">Processing Payment...</h2>
+      
+      <p *ngIf="paymentSuccessful">
+        Thank you for your order! Your payment has been confirmed.
+        Order #{{Math.floor(Math.random() * 10000)}} has been placed successfully.
+      </p>
+      
+      <div class="confirmation-details" *ngIf="paymentSuccessful">
+        <div class="detail-row">
+          <span>Order Number:</span>
+          <strong>#{{Math.floor(Math.random() * 10000)}}</strong>
+        </div>
+        <div class="detail-row">
+          <span>Date:</span>
+          <span>{{today | date:'mediumDate'}}</span>
+        </div>
+        <div class="detail-row">
+          <span>Amount:</span>
+          <strong>KSh {{cartTotal | number}}</strong>
+        </div>
+        <div class="detail-row">
+          <span>Payment Method:</span>
+          <span>{{paymentMethod === 'mpesa' ? 'M-Pesa' : 'Cash on Delivery'}}</span>
+        </div>
+      </div>
+      
+      <div class="confirmation-actions">
+        <button class="btn-continue" (click)="continueShopping()">
+          <i class="fas fa-shopping-bag"></i>
+          Continue Shopping
+        </button>
+        <a routerLink="/dashboard" class="btn-dashboard">
+          <i class="fas fa-tachometer-alt"></i>
+          Go to Dashboard
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- M-Pesa Payment Modal -->
+  <div class="mpesa-modal" [class.active]="showPaymentModal">
+    <div class="modal-overlay" (click)="showPaymentModal = false"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>M-Pesa Payment Request</h3>
+        <button class="modal-close" (click)="showPaymentModal = false">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="mpesa-instructions">
+          <div class="instruction-step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h4>Check your phone</h4>
+              <p>You'll receive an M-Pesa prompt on {{mpesaNumber}}</p>
+            </div>
+          </div>
+          
+          <div class="instruction-step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h4>Enter your PIN</h4>
+              <p>Enter your M-Pesa PIN to complete payment</p>
+            </div>
+          </div>
+          
+          <div class="instruction-step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h4>Confirm payment</h4>
+              <p>Wait for payment confirmation</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="payment-info">
+          <div class="info-row">
+            <span>Amount:</span>
+            <strong>KSh {{cartTotal | number}}</strong>
+          </div>
+          <div class="info-row">
+            <span>Paybill Number:</span>
+            <code>123456</code>
+          </div>
+          <div class="info-row">
+            <span>Account Number:</span>
+            <code>ORDER{{Math.floor(Math.random() * 1000)}}</code>
+          </div>
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <button class="btn-cancel" (click)="showPaymentModal = false">
+          Cancel Payment
+        </button>
+        <button class="btn-confirm" (click)="processMpesaPayment()" [disabled]="processingPayment">
+          <i class="fas" [class.fa-spinner]="processingPayment" [class.fa-check]="!processingPayment"></i>
+          {{processingPayment ? 'Processing...' : 'I\'ve Paid'}}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
