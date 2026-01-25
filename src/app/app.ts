@@ -15,11 +15,7 @@ import { FeaturesComponent } from './components/features/features'; // Add this 
     CommonModule, 
     RouterOutlet, 
     HeaderComponent, 
-    FooterComponent,
-    HeroComponent,
-    CategoriesComponent,
-    ProductsComponent,
-    FeaturesComponent // Add this to imports array
+    FooterComponent
   ],
   templateUrl: './app.html',
   styleUrls: ['./app.css']
