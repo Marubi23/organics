@@ -136,11 +136,37 @@
 .nav-text {
   white-space: nowrap;
 }
+.dropdown{
+  position: relative;
+}
+.dropdown-menu::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 20px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid white;
+  z-index: 101;
+}
 
+.dropdown::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 15px; /* Creates a hover gap between nav item and dropdown */
+  background: transparent;
+  z-index: 99;
+  pointer-events: none;
+}
 /* Dropdown Menu */
 .dropdown-menu {
   position: absolute;
-  top: 100%;
+  top: calc(100% + 15px); /* Match the buffer zone height */
   left: 0;
   min-width: 250px;
   background: white;
@@ -152,12 +178,20 @@
   transition: all 0.2s ease;
   z-index: 100;
   border: 1px solid #e5e7eb;
+  pointer-events: none;
 }
 
 .dropdown-menu.visible {
   opacity: 1;
   visibility: visible;
-  transform: translateY(5px);
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.dropdown:hover .dropdown-menu.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 .dropdown-item a {
@@ -895,4 +929,13 @@ input:checked + .slider:before {
 .search-results::-webkit-scrollbar-thumb {
   background: #c1c1c1;
   border-radius: 2px;
+}
+@media (max-width: 1024px) {
+  .dropdown::after {
+    display: none;
+  }
+  
+  .dropdown-menu {
+    top: 100%;
+  }
 }

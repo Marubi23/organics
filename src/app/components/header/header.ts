@@ -74,30 +74,73 @@ export class HeaderComponent implements OnInit, OnDestroy {
   scrollThreshold = 100;
 
   // Navigation
-  navItems: NavItem[] = [
-    { text: 'Home', icon: 'fas fa-home', route: '/home' },
-    {
-      text: 'About Us',
-      icon: 'fas fa-info-circle',
-      children: [
-        { text: 'Overview', icon: 'fas fa-eye', route: '/about', description: 'Our mission and values' },
-        { text: 'What We Do', icon: 'fas fa-bullseye', route: '/what-we-do', fragment: 'mission-vision', description: 'Our innovative Solutions' },
-        { text: 'Challenges', icon: 'fas fa-newspaper', route: '/challenges', description: 'The challenges we Address' },
-        { text: 'Impacts', icon: 'fas fa-question-circle', route: '/impacts', description: 'Our significant Impacts' }
-      ]
-    },
-    {
-      text: 'Products',
-      icon: 'fas fa-box-open',
-      children: [
-        { text: 'Biofertilizers', icon: 'fas fa-vial', route: '/products', description: 'Organic soil enhancers' },
-        { text: 'Animal Feeds', icon: 'fas fa-paw', route: '/products', description: 'High-protein nutrition' },
-        { text: 'Shop All', icon: 'fas fa-shopping-bag', route: '/products', description: 'Complete catalog' }
-      ]
-    },
-    { text: 'Contact', icon: 'fas fa-envelope', route: '/contact' }
-  ];
-
+// Navigation
+navItems: NavItem[] = [
+  { 
+    text: 'Home', 
+    icon: 'fas fa-home', 
+    route: '/home' 
+  },
+  {
+    text: 'About Us',
+    icon: 'fas fa-info-circle',
+    children: [
+      { 
+        text: 'Overview', 
+        icon: 'fas fa-eye', 
+        route: '/about', 
+        description: 'Our mission and vision' 
+      },
+      { 
+        text: 'What We Do', 
+        icon: 'fas fa-hands-helping', 
+        route: '/what-we-do', 
+        description: 'Our innovative solutions' 
+      },
+      { 
+        text: 'Challenges', 
+        icon: 'fas fa-exclamation-triangle', 
+        route: '/challenges', 
+        description: 'Agricultural challenges we address' 
+      },
+      { 
+        text: 'Impacts', 
+        icon: 'fas fa-chart-line', 
+        route: '/impacts', 
+        description: 'Our significant environmental impact' 
+      }
+    ]
+  },
+  {
+    text: 'Products',
+    icon: 'fas fa-box-open',
+    children: [
+      { 
+        text: 'Biofertilizers', 
+        icon: 'fas fa-vial', 
+        route: '/products', 
+        description: 'Organic soil enhancers and plant nutrients' 
+      },
+      { 
+        text: 'Animal Feeds', 
+        icon: 'fas fa-paw', 
+        route: '/products', 
+        description: 'High-protein nutrition for livestock' 
+      },
+      { 
+        text: 'Shop All', 
+        icon: 'fas fa-shopping-bag', 
+        route: '/products', 
+        description: 'Complete catalog of organic products' 
+      }
+    ]
+  },
+  { 
+    text: 'Contact', 
+    icon: 'fas fa-envelope', 
+    route: '/contact' 
+  }
+];
   // Account Menu
   accountMenuItems: AccountMenuItem[] = [
     { text: 'My Profile', icon: 'fas fa-user-circle', route: '/account/profile' },
@@ -227,29 +270,46 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (this.isAccountMenuOpen) this.showHeader();
   }
 
-  // ============ DROPDOWNS ============
-  showDropdown(index: number) {
-    this.activeDropdown = index;
-    this.showHeader();
-  }
+ private dropdownTimeout: any;
 
-  hideDropdown(index: number) {
-    setTimeout(() => {
-      if (this.activeDropdown === index) {
-        this.activeDropdown = null;
-      }
-    }, 200);
+showDropdown(index: number) {
+  // Clear any pending hide timeout
+  if (this.dropdownTimeout) {
+    clearTimeout(this.dropdownTimeout);
+    this.dropdownTimeout = null;
   }
+  
+  this.activeDropdown = index;
+  this.showHeader();
+}
 
-  keepDropdownOpen(index: number) {
-    this.activeDropdown = index;
+hideDropdown(index: number) {
+  // Don't hide immediately - use a timeout
+  this.dropdownTimeout = setTimeout(() => {
+    if (this.activeDropdown === index) {
+      this.activeDropdown = null;
+    }
+  }, 150); // Give user time to move to dropdown
+}
+
+keepDropdownOpen(index: number) {
+  // Clear timeout when mouse enters dropdown
+  if (this.dropdownTimeout) {
+    clearTimeout(this.dropdownTimeout);
+    this.dropdownTimeout = null;
   }
+  
+  this.activeDropdown = index;
+}
 
-  toggleDropdown(index: number) {
+toggleDropdown(index: number) {
+  if (window.innerWidth <= 1024) {
+    // On mobile/tablet, use click toggling
     this.activeDropdown = this.activeDropdown === index ? null : index;
     this.showHeader();
   }
-
+  // On desktop, let hover handle it
+}
   // ============ SETTINGS ============
   loadSettings() {
     try {
@@ -436,6 +496,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.activeDropdown = null;
     }
   }
+  // ============ DROPDOWNS ============
+
+
+
+
+
+
+
+
 
   @HostListener('document:keydown.escape')
   handleEscape() {
