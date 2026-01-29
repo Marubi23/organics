@@ -35,14 +35,14 @@ export class ProductsComponent implements OnInit {
   products: Product[] = [
     {
       id: 1,
-      name: 'VermiFrass Active',
+      name: 'VermiFrass Active (25Kg)',
       description: 'Superior 100% organic fertilizer with active microbes',
       price: 1500,
       originalPrice: 1800,
       image: 'images/product3.jpg',
       category: 'Biofertilizers',
       rating: 4.9,
-      units: '25kg bag',
+      units: '25KG bag',
       inStock: true,
       stock: 45,
       features: ['100% Organic', 'Active Macrobes', 'Rich in NPK'],
@@ -52,19 +52,120 @@ export class ProductsComponent implements OnInit {
     },
     {
       id: 2,
-      name: 'BioVeg Plus',
+      name: 'BioVeg Plus (1 Litre)',
       description: 'Specialized organic fertilizer for vegetables',
-      price: 920,
+      price: 700,
       image: 'images/bio veg.jpeg',
       category: 'Biofertilizers',
       rating: 4.7,
-      units: '5kg bag',
+      units: '  1 Litre Bottle',
       inStock: true,
       stock: 32,
       features: ['For Vegetables', 'Balanced NPK', 'Improves Yield'],
       isOrganic: true,
       isNew: false
+    },
+
+    {
+       id:3,
+       name:'BioVeg Plus(Half Litre)',
+       description: 'Specialized organic fertilizer for vegetables',
+       price: 400,
+       image:'images/',
+       category: 'Biofertilizers',
+       rating:4.7,
+          units: '  Half Litre Bottle',
+      inStock: true,
+      stock: 32,
+      features: ['For Vegetables', 'Balanced NPK', 'Improves Yield'],
+      isOrganic: true,
+      isNew: false
+    },
+    {
+          id:4,
+       name:'BioFruity Plus (1 Litre)',
+       description: 'Specialized organic fertilizer for vegetables',
+       price: 700,
+       image:'images/',
+       category: 'Biofertilizers',
+       rating:4.7,
+          units: '  1 Litre Bottle',
+      inStock: true,
+      stock: 32,
+      features: ['For Vegetables', 'Balanced NPK', 'Improves Yield'],
+      isOrganic: true,
+      isNew: false
+      
+
+    },
+
+    {
+        id:5,
+       name:'BioFruity Plus ( Half litre)',
+       description: 'Specialized organic fertilizer for vegetables',
+       price: 400,
+       image:'images/',
+       category: 'Biofertilizers',
+       rating:4.7,
+      units: '  Half litre',
+      inStock: true,
+      stock: 32,
+      features: ['For Vegetables', 'Balanced NPK', 'Improves Yield'],
+      isOrganic: true,
+      isNew: false
+      
+
+    },
+    {
+        id:6,
+       name:'Liquid Frass',
+       description: 'Specialized organic fertilizer ',
+       price: 500,
+       image:'images/',
+       category: 'Biofertilizers',
+       rating:4.7,
+      units: '  1 Litre',
+      inStock: true,
+      stock: 32,
+      features: ['For Vegetables', 'Balanced NPK', 'Improves Yield'],
+      isOrganic: true,
+      isNew: false
+
+
+    },
+    {
+       id:7,
+       name:'NPK Active (25kg)',
+       description: 'Customized Organo-mineral fertilizer',
+       price: 500,
+       image:'images/',
+       category: 'Biofertilizers',
+       rating:4.7,
+      units: '25 KG bag',
+      inStock: true,
+      stock: 32,
+      features: ['For Vegetables', 'Balanced NPK', 'Improves Yield'],
+      isOrganic: true,
+      isNew: false
+    },
+    { id:8,
+       name:'NPK Active (50kg)',
+       description: 'Customized Organo-mineral fertilizer ',
+       price:1500,
+       image:'images/',
+       category: 'Biofertilizers',
+       rating:4.7,
+      units: '  50 KG bag',
+      inStock: true,
+      stock: 32,
+      features: ['For Vegetables', 'Balanced NPK', 'Improves Yield'],
+      isOrganic: true,
+      isNew: false
+
+
     }
+
+    
   ];
 
   // Cart State
