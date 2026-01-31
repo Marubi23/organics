@@ -6,84 +6,71 @@ export interface CartItem {
   id: number;
   name: string;
   price: number;
+  quantity: number;
   image: string;
   category: string;
   units: string;
-  quantity: number;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-  private cartItems: CartItem[] = [];
-  private cartItemsSubject = new BehaviorSubject<CartItem[]>([]);
-  cartItems$ = this.cartItemsSubject.asObservable();
+  private cartItems = new BehaviorSubject<CartItem[]>([]);
+  cartItems$ = this.cartItems.asObservable();
 
   constructor() {
-    this.loadFromLocalStorage();
+    // Load from localStorage
+    const savedCart = localStorage.getItem('cart');
+    if (savedCart) {
+      this.cartItems.next(JSON.parse(savedCart));
+    }
   }
 
   addToCart(item: CartItem) {
-    const existingItem = this.cartItems.find(i => i.id === item.id);
+    const currentItems = this.cartItems.value;
+    const existingItem = currentItems.find(i => i.id === item.id);
     
     if (existingItem) {
       existingItem.quantity += item.quantity;
     } else {
-      this.cartItems.push({ ...item });
+      currentItems.push(item);
     }
     
+    this.cartItems.next([...currentItems]);
     this.saveToLocalStorage();
-    this.cartItemsSubject.next([...this.cartItems]);
   }
 
   removeFromCart(id: number) {
-    this.cartItems = this.cartItems.filter(item => item.id !== id);
+    const currentItems = this.cartItems.value.filter(item => item.id !== id);
+    this.cartItems.next(currentItems);
     this.saveToLocalStorage();
-    this.cartItemsSubject.next([...this.cartItems]);
   }
 
   updateQuantity(id: number, quantity: number) {
-    const item = this.cartItems.find(i => i.id === id);
-    if (item) {
-      item.quantity = quantity;
-      this.saveToLocalStorage();
-      this.cartItemsSubject.next([...this.cartItems]);
-    }
+    const currentItems = this.cartItems.value.map(item => {
+      if (item.id === id) {
+        return { ...item, quantity };
+      }
+      return item;
+    });
+    
+    this.cartItems.next(currentItems);
+    this.saveToLocalStorage();
   }
 
   clearCart() {
-    this.cartItems = [];
-    this.saveToLocalStorage();
-    this.cartItemsSubject.next([]);
-  }
-
-  getCartItems(): CartItem[] {
-    return [...this.cartItems];
-  }
-
-  getTotalItems(): number {
-    return this.cartItems.reduce((total, item) => total + item.quantity, 0);
+    this.cartItems.next([]);
+    localStorage.removeItem('cart');
   }
 
   getTotalPrice(): number {
-    return this.cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+    return this.cartItems.value.reduce((total, item) => {
+      return total + (item.price * item.quantity);
+    }, 0);
   }
-
- public loadFromLocalStorage() {
-    const savedCart = localStorage.getItem('mzuri_cart');
-    if (savedCart) {
-      try {
-        this.cartItems = JSON.parse(savedCart);
-        this.cartItemsSubject.next([...this.cartItems]);
-      } catch (e) {
-        this.cartItems = [];
-      }
-    }
-  }
-
 
   private saveToLocalStorage() {
-    localStorage.setItem('mzuri_cart', JSON.stringify(this.cartItems));
+    localStorage.setItem('cart', JSON.stringify(this.cartItems.value));
   }
 }

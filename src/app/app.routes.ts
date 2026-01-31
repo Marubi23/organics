@@ -11,9 +11,11 @@ import { TestimonialsComponent } from './components/testimonials/testimonials';
 import { BlogComponent } from './components/blog/blog';
 import { ProblemsComponent } from './components/problems/problems';
 import { FaqComponent } from './components/faq/faq';
+import { CheckoutComponent } from './components/checkout/checkout';
 // REMOVE: import { LoginComponent } from './pages/login/login'; // Remove this
 
 export const routes: Routes = [
+  { path: 'order-success', component: OrderSuccessComponent },
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
   { path: 'challenges', component: ProblemsComponent },
@@ -27,6 +29,8 @@ export const routes: Routes = [
   { path: 'testimonials', component: TestimonialsComponent },
   { path: 'blog', component: BlogComponent },
   { path: 'faq', component: FaqComponent },
+  { path: 'checkout', component: CheckoutComponent },
+
 
   { 
     path: 'account', 

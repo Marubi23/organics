@@ -35,6 +35,25 @@ export class CartComponent {
       this.cartService.updateQuantity(id, item.quantity + 1);
     }
   }
+    loadFromLocalStorage(): void {
+    const savedCart = localStorage.getItem('cart');
+    if (savedCart) {
+      try {
+        this.cartItems.next(JSON.parse(savedCart));
+      } catch {
+        this.cartItems.next([]);
+      }
+    }
+  }
+    getCartItems(): CartItem[] {
+    return this.cartItems.value;
+  }
+
+  // ADD THIS METHOD
+  getTotalItems(): number {
+    return this.cartItems.value.reduce((total, item) => total + item.quantity, 0);
+  }
+  
 
   decreaseQuantity(id: number) {
     const item = this.cartItems.find(i => i.id === id);
@@ -53,11 +72,11 @@ export class CartComponent {
     this.cartService.clearCart();
   }
 
-  proceedToCheckout() {
-    // Navigate to checkout page
-    console.log('Proceeding to checkout');
-    this.onCloseCart();
-  }
+// Update your cart.component.ts
+proceedToCheckout() {
+  this.router.navigate(['/checkout']);
+  this.onCloseCart();
+}
 
   onCartClick(event: Event) {
     event.stopPropagation();

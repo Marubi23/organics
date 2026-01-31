@@ -1,129 +1,120 @@
-// checkout.component.ts
+// src/app/pages/checkout/checkout.ts
 import { Component, OnInit } from '@angular/core';
-import { CommonModule, DecimalPipe, DatePipe } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { CartService } from '../../services/cart';
+import { CartService,CartItem } from '../../services/cart';
+import { MpesaService,PaymentRequest,PaymentResponse} from '../../services/mpesa'
+import { from } from 'rxjs';
 
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, DecimalPipe, DatePipe],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './checkout.html',
   styleUrls: ['./checkout.css']
 })
 export class CheckoutComponent implements OnInit {
-  // Checkout Steps
-  currentStep: 'cart' | 'details' | 'payment' | 'confirmation' = 'cart';
-  
-  // Cart Info
-  cartItems: any[] = [];
-  cartTotal = 0;
-  
-  // Customer Details
-  customer = {
-    name: '',
-    email: '',
-    phone: '',
-    address: '',
-    city: '',
-    notes: ''
-  };
-  
-  // Payment Info
-  paymentMethod: 'mpesa' | 'cash' = 'mpesa';
-  mpesaNumber = '';
-  showPaymentModal = false;
-  
-  // Loading States
-  processingPayment = false;
-  paymentSuccessful = false;
-  
-  // Today's date for confirmation
-  today = new Date();
-  
-  // For template Math functions
-  Math = Math;
+  checkoutForm: FormGroup;
+  totalAmount: number = 0;
+  cartItems: CartItem[] = [];
+  isLoading: boolean = false;
+  paymentStatus: string = '';
+  paymentError: string = '';
 
   constructor(
+    private fb: FormBuilder,
     private cartService: CartService,
+    private mpesaService: MpesaService,
     private router: Router
-  ) {}
-  
-  ngOnInit() {
-    this.loadCart();
+  ) {
+    this.checkoutForm = this.fb.group({
+      firstName: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      phoneNumber: ['', [Validators.required, Validators.pattern(/^(07\d{8}|\+2547\d{8}|2547\d{8})$/)]],
+      address: ['', [Validators.required]]
+    });
   }
-  
-  loadCart() {
-    this.cartItems = this.cartService.getCartItems();
-    this.cartTotal = this.cartService.getTotalPrice();
-    
-    if (this.cartItems.length === 0) {
-      this.router.navigate(['/products']);
+
+  ngOnInit(): void {
+    this.cartService.cartItems$.subscribe((items: CartItem[]) => {
+      this.cartItems = items;
+      this.totalAmount = this.cartService.getTotalPrice();
+    });
+  }
+
+  formatPhoneNumber(phone: string): string {
+    let formatted = phone.trim();
+    if (formatted.startsWith('0')) {
+      return '254' + formatted.substring(1);
+    } else if (formatted.startsWith('+254')) {
+      return formatted.substring(1);
     }
+    return formatted;
   }
-  
-  goToStep(step: 'cart' | 'details' | 'payment' | 'confirmation') {
-    this.currentStep = step;
-  }
-  
-  nextStep() {
-    if (this.currentStep === 'cart') {
-      this.currentStep = 'details';
-    } else if (this.currentStep === 'details') {
-      if (this.validateDetails()) {
-        this.currentStep = 'payment';
-      }
-    } else if (this.currentStep === 'payment') {
+
+  onSubmit(): void {
+    if (this.checkoutForm.valid) {
       this.initiatePayment();
+    } else {
+      this.markFormGroupTouched(this.checkoutForm);
     }
   }
-  
-  previousStep() {
-    if (this.currentStep === 'details') {
-      this.currentStep = 'cart';
-    } else if (this.currentStep === 'payment') {
-      this.currentStep = 'details';
-    }
+
+  initiatePayment(): void {
+    this.isLoading = true;
+    this.paymentStatus = '';
+    this.paymentError = '';
+
+    const formData = this.checkoutForm.value;
+    const paymentData: PaymentRequest = {
+      phoneNumber: this.formatPhoneNumber(formData.phoneNumber),
+      amount: this.totalAmount,
+      accountReference: `ORD-${Date.now()}`,
+      transactionDesc: 'Organic Products Purchase'
+    };
+
+    this.mpesaService.initiatePayment(paymentData).subscribe({
+      next: (response: PaymentResponse) => {
+        this.isLoading = false;
+        if (response.success) {
+          this.paymentStatus = 'success';
+          this.paymentError = '';
+          
+          this.cartService.clearCart();
+          
+          setTimeout(() => {
+            this.router.navigate(['/order-success'], {
+              queryParams: { 
+                reference: response.checkoutRequestID 
+              }
+            });
+          }, 3000);
+        } else {
+          this.paymentError = response.message;
+          this.paymentStatus = 'error';
+        }
+      },
+      error: (error: any) => {
+        this.isLoading = false;
+        this.paymentError = 'Payment initiation failed. Please try again.';
+        this.paymentStatus = 'error';
+        console.error('Payment error:', error);
+      }
+    });
   }
-  
-  validateDetails(): boolean {
-    const { name, phone, address, city } = this.customer;
-    return !!(name && phone && address && city);
+
+  markFormGroupTouched(formGroup: FormGroup) {
+    Object.values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
   }
-  
-  initiatePayment() {
-    if (this.paymentMethod === 'mpesa') {
-      this.showPaymentModal = true;
-    } else if (this.paymentMethod === 'cash') {
-      this.processCashPayment();
-    }
-  }
-  
-  processMpesaPayment() {
-    if (!this.mpesaNumber) {
-      alert('Please enter your M-Pesa number');
-      return;
-    }
-    
-    this.processingPayment = true;
-    
-    // Simulate M-Pesa API call
-    setTimeout(() => {
-      this.processingPayment = false;
-      this.paymentSuccessful = true;
-      this.cartService.clearCart();
-      this.currentStep = 'confirmation';
-    }, 3000);
-  }
-  
-  processCashPayment() {
-    this.paymentSuccessful = true;
-    this.cartService.clearCart();
-    this.currentStep = 'confirmation';
-  }
-  
-  continueShopping() {
-    this.router.navigate(['/products']);
+
+  get formControls() {
+    return this.checkoutForm.controls;
   }
 }
