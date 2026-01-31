@@ -1,8 +1,9 @@
-// src/app/components/cart/cart.ts
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+// src/app/pages/cart/cart.component.ts
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { CartService, CartItem } from '../../services/cart';
+import { Router, RouterModule } from '@angular/router';
+import { CartService, CartItem} from'../../services/cart';
+import { from } from 'rxjs';
 
 @Component({
   selector: 'app-cart',
@@ -11,51 +12,44 @@ import { CartService, CartItem } from '../../services/cart';
   templateUrl: './cart.html',
   styleUrls: ['./cart.css']
 })
-export class CartComponent {
+export class CartComponent implements OnInit {
   @Input() isOpen = false;
   @Output() closeCart = new EventEmitter<void>();
   
   cartItems: CartItem[] = [];
   totalPrice = 0;
 
-  constructor(private cartService: CartService) {
+  constructor(
+    private cartService: CartService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    // Subscribe to cart items observable
     this.cartService.cartItems$.subscribe(items => {
       this.cartItems = items;
-      this.totalPrice = this.cartService.getTotalPrice();
+      this.calculateTotalPrice();
     });
   }
 
-  onCloseCart() {
+  calculateTotalPrice(): void {
+    this.totalPrice = this.cartItems.reduce((total: number, item: CartItem) => {
+      return total + (item.price * item.quantity);
+    }, 0);
+  }
+
+  onCloseCart(): void {
     this.closeCart.emit();
   }
 
-  increaseQuantity(id: number) {
+  increaseQuantity(id: number): void {
     const item = this.cartItems.find(i => i.id === id);
     if (item) {
       this.cartService.updateQuantity(id, item.quantity + 1);
     }
   }
-    loadFromLocalStorage(): void {
-    const savedCart = localStorage.getItem('cart');
-    if (savedCart) {
-      try {
-        this.cartItems.next(JSON.parse(savedCart));
-      } catch {
-        this.cartItems.next([]);
-      }
-    }
-  }
-    getCartItems(): CartItem[] {
-    return this.cartItems.value;
-  }
 
-  // ADD THIS METHOD
-  getTotalItems(): number {
-    return this.cartItems.value.reduce((total, item) => total + item.quantity, 0);
-  }
-  
-
-  decreaseQuantity(id: number) {
+  decreaseQuantity(id: number): void {
     const item = this.cartItems.find(i => i.id === id);
     if (item && item.quantity > 1) {
       this.cartService.updateQuantity(id, item.quantity - 1);
@@ -64,25 +58,24 @@ export class CartComponent {
     }
   }
 
-  removeItem(id: number) {
+  removeItem(id: number): void {
     this.cartService.removeFromCart(id);
   }
 
-  clearCart() {
+  clearCart(): void {
     this.cartService.clearCart();
   }
 
-// Update your cart.component.ts
-proceedToCheckout() {
-  this.router.navigate(['/checkout']);
-  this.onCloseCart();
-}
+  proceedToCheckout(): void {
+    this.router.navigate(['/checkout']);
+    this.onCloseCart();
+  }
 
-  onCartClick(event: Event) {
+  onCartClick(event: Event): void {
     event.stopPropagation();
   }
 
-  handleImageError(event: Event) {
+  handleImageError(event: Event): void {
     const imgElement = event.target as HTMLImageElement;
     imgElement.src = '/images/placeholder-product.jpg';
     imgElement.alt = 'Product image not available';

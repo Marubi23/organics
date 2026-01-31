@@ -1,9 +1,9 @@
 // products.component.ts
 import { Component, OnInit, HostListener } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { CartService } from '../../services/cart';
+import { CartService, CartItem } from '../../services/cart';
 
 interface Product {
   id: number;
@@ -58,23 +58,7 @@ export class ProductsComponent implements OnInit {
       image: 'images/bio veg.jpeg',
       category: 'Biofertilizers',
       rating: 4.7,
-      units: '  1 Litre Bottle',
-      inStock: true,
-      stock: 32,
-      features: ['For Vegetables', 'Balanced NPK', 'Improves Yield'],
-      isOrganic: true,
-      isNew: false
-    },
-
-    {
-       id:3,
-       name:'BioVeg Plus(Half Litre)',
-       description: 'Specialized organic fertilizer for vegetables',
-       price: 400,
-       image:'images/',
-       category: 'Biofertilizers',
-       rating:4.7,
-          units: '  Half Litre Bottle',
+      units: '1 Litre Bottle',
       inStock: true,
       stock: 32,
       features: ['For Vegetables', 'Balanced NPK', 'Improves Yield'],
@@ -82,65 +66,73 @@ export class ProductsComponent implements OnInit {
       isNew: false
     },
     {
-          id:4,
-       name:'BioFruity Plus (1 Litre)',
-       description: 'Specialized organic fertilizer for vegetables',
-       price: 700,
-       image:'images/',
-       category: 'Biofertilizers',
-       rating:4.7,
-          units: '  1 Litre Bottle',
+      id: 3,
+      name: 'BioVeg Plus(Half Litre)',
+      description: 'Specialized organic fertilizer for vegetables',
+      price: 400,
+      image: 'images/',
+      category: 'Biofertilizers',
+      rating: 4.7,
+      units: 'Half Litre Bottle',
       inStock: true,
       stock: 32,
       features: ['For Vegetables', 'Balanced NPK', 'Improves Yield'],
       isOrganic: true,
       isNew: false
-      
-
     },
-
     {
-        id:5,
-       name:'BioFruity Plus ( Half litre)',
-       description: 'Specialized organic fertilizer for vegetables',
-       price: 400,
-       image:'images/',
-       category: 'Biofertilizers',
-       rating:4.7,
-      units: '  Half litre',
+      id: 4,
+      name: 'BioFruity Plus (1 Litre)',
+      description: 'Specialized organic fertilizer for vegetables',
+      price: 700,
+      image: 'images/',
+      category: 'Biofertilizers',
+      rating: 4.7,
+      units: '1 Litre Bottle',
       inStock: true,
       stock: 32,
       features: ['For Vegetables', 'Balanced NPK', 'Improves Yield'],
       isOrganic: true,
       isNew: false
-      
-
     },
     {
-        id:6,
-       name:'Liquid Frass',
-       description: 'Specialized organic fertilizer ',
-       price: 500,
-       image:'images/',
-       category: 'Biofertilizers',
-       rating:4.7,
-      units: '  1 Litre',
+      id: 5,
+      name: 'BioFruity Plus (Half litre)',
+      description: 'Specialized organic fertilizer for vegetables',
+      price: 400,
+      image: 'images/',
+      category: 'Biofertilizers',
+      rating: 4.7,
+      units: 'Half litre',
       inStock: true,
       stock: 32,
       features: ['For Vegetables', 'Balanced NPK', 'Improves Yield'],
       isOrganic: true,
       isNew: false
-
-
     },
     {
-       id:7,
-       name:'NPK Active (25kg)',
-       description: 'Customized Organo-mineral fertilizer',
-       price: 500,
-       image:'images/',
-       category: 'Biofertilizers',
-       rating:4.7,
+      id: 6,
+      name: 'Liquid Frass',
+      description: 'Specialized organic fertilizer',
+      price: 500,
+      image: 'images/',
+      category: 'Biofertilizers',
+      rating: 4.7,
+      units: '1 Litre',
+      inStock: true,
+      stock: 32,
+      features: ['For Vegetables', 'Balanced NPK', 'Improves Yield'],
+      isOrganic: true,
+      isNew: false
+    },
+    {
+      id: 7,
+      name: 'NPK Active (25kg)',
+      description: 'Customized Organo-mineral fertilizer',
+      price: 500,
+      image: 'images/',
+      category: 'Biofertilizers',
+      rating: 4.7,
       units: '25 KG bag',
       inStock: true,
       stock: 32,
@@ -148,24 +140,21 @@ export class ProductsComponent implements OnInit {
       isOrganic: true,
       isNew: false
     },
-    { id:8,
-       name:'NPK Active (50kg)',
-       description: 'Customized Organo-mineral fertilizer ',
-       price:1500,
-       image:'images/',
-       category: 'Biofertilizers',
-       rating:4.7,
-      units: '  50 KG bag',
+    {
+      id: 8,
+      name: 'NPK Active (50kg)',
+      description: 'Customized Organo-mineral fertilizer',
+      price: 1500,
+      image: 'images/',
+      category: 'Biofertilizers',
+      rating: 4.7,
+      units: '50 KG bag',
       inStock: true,
       stock: 32,
       features: ['For Vegetables', 'Balanced NPK', 'Improves Yield'],
       isOrganic: true,
       isNew: false
-
-
     }
-
-    
   ];
 
   // Cart State
@@ -194,7 +183,10 @@ export class ProductsComponent implements OnInit {
   // For template
   Math = Math;
 
-  constructor(private cartService: CartService) {}
+  constructor(
+    private cartService: CartService,
+    private router: Router // ADDED Router injection
+  ) {}
 
   ngOnInit() {
     this.filteredProducts = [...this.products];
@@ -203,33 +195,34 @@ export class ProductsComponent implements OnInit {
 
   // ========== CART METHODS ==========
   loadCart() {
-    this.cartItems = this.cartService.getCartItems();
-    this.cartCount = this.cartService.getTotalItems();
-    this.cartTotal = this.cartService.getTotalPrice();
+    // FIXED: Use the cart service methods correctly
+    this.cartService.cartItems$.subscribe(items => {
+      this.cartItems = items;
+      this.cartCount = this.cartService.getTotalItems();
+      this.cartTotal = this.cartService.getTotalPrice();
+    });
   }
 
   addToCart(product: Product) {
     if (!product.inStock) return;
 
-    const cartItem = {
+    const cartItem: CartItem = {
       id: product.id,
       name: product.name,
       price: product.price,
+      quantity: 1,
       image: product.image,
       category: product.category,
-      units: product.units,
-      quantity: 1
+      units: product.units
     };
 
     this.cartService.addToCart(cartItem);
     this.showAddSuccess(product.name);
-    this.loadCart();
     this.animateAddToCart(product.id);
   }
 
   removeFromCart(productId: number) {
     this.cartService.removeFromCart(productId);
-    this.loadCart();
   }
 
   updateQuantity(productId: number, quantity: number) {
@@ -238,12 +231,10 @@ export class ProductsComponent implements OnInit {
     } else {
       this.cartService.updateQuantity(productId, quantity);
     }
-    this.loadCart();
   }
 
   clearCart() {
     this.cartService.clearCart();
-    this.loadCart();
     this.isCartOpen = false;
   }
 
@@ -254,6 +245,20 @@ export class ProductsComponent implements OnInit {
     } else {
       document.body.style.overflow = '';
     }
+  }
+
+  onCloseCart(): void {
+    this.isCartOpen = false;
+    document.body.style.overflow = '';
+  }
+
+  // ========== CHECKOUT ==========
+  proceedToCheckout(): void {
+    // Close the cart sidebar
+    this.onCloseCart();
+    
+    // Navigate to checkout page
+    this.router.navigate(['/checkout']);
   }
 
   // ========== UI ANIMATIONS ==========
@@ -305,18 +310,6 @@ export class ProductsComponent implements OnInit {
     }
 
     this.filteredProducts = filtered;
-  }
-
-  // ========== CHECKOUT ==========
-  proceedToCheckout() {
-    if (this.cartCount === 0) {
-      alert('Your cart is empty!');
-      return;
-    }
-    
-    this.isCartOpen = false;
-    // Navigate to checkout page
-    // this.router.navigate(['/checkout']);
   }
 
   // ========== UTILITIES ==========

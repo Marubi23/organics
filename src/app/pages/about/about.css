@@ -11,9 +11,8 @@
   top: 85px;
   right: 30px;
   z-index: 1000;
-  background: /* products.component.css - DIRECT ORANGE & GREEN THEME */
+ /* products.component.css - DIRECT ORANGE & GREEN THEME */
 }
-/* Color Variables */
 :root {
   --primary-green: hsl(125, 89%, 31%);     /* #1a7f27 */
   --primary-orange: hsl(31, 100%, 47%);    /* #fb8f1f */
@@ -1409,7 +1408,7 @@
   border: 1px solid var(--gray-border);
 }
 
-.pagination-btn:hover:{
+.pagination-btn:hover{
   color: white;
   width: 80px;
   height: 50px;

@@ -11,7 +11,8 @@ import { TestimonialsComponent } from './components/testimonials/testimonials';
 import { BlogComponent } from './components/blog/blog';
 import { ProblemsComponent } from './components/problems/problems';
 import { FaqComponent } from './components/faq/faq';
-import { CheckoutComponent } from './components/checkout/checkout';
+import { CheckoutComponent } from './pages/checkout/checkout';
+import { OrderSuccessComponent } from './pages/order-success/order-success';
 // REMOVE: import { LoginComponent } from './pages/login/login'; // Remove this
 
 export const routes: Routes = [

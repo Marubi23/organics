@@ -1,22 +1,65 @@
-<!-- src/app/components/checkout/checkout.component.html -->
+<!-- src/app/pages/checkout/checkout.component.html -->
 <div class="checkout-container">
-  <div class="checkout-header">
-    <h2><i class="fas fa-lock"></i> Secure Checkout</h2>
-    <p>Complete your purchase securely</p>
+  
+  <!-- Trust Header -->
+  <div class="checkout-trust-header">
+    <div class="trust-logo">
+      <img src="images/mzuri-logo.png" alt="Mzuri Organics" class="brand-logo">
+      <span class="brand-tagline">Premium Organic Products</span>
+    </div>
+    <div class="trust-security">
+      <div class="secure-badge">
+        <i class="fas fa-lock"></i>
+        <span>256-Bit SSL Encrypted</span>
+      </div>
+      <div class="secure-badge">
+        <i class="fas fa-shield-alt"></i>
+        <span>Secure Payment</span>
+      </div>
+    </div>
   </div>
 
-  <div class="checkout-grid">
-    <!-- Order Summary -->
-    <div class="order-summary">
-      <h3>Order Summary</h3>
+  <!-- Progress Steps -->
+  <div class="checkout-progress">
+    <div class="progress-steps">
+      <div class="step" [class.active]="currentStep === 1" [class.completed]="currentStep > 1">
+        <div class="step-number">1</div>
+        <span class="step-label">Your Details</span>
+      </div>
+      <div class="step" [class.active]="currentStep === 2" [class.completed]="currentStep > 2">
+        <div class="step-number">2</div>
+        <span class="step-label">Delivery</span>
+      </div>
+      <div class="step" [class.active]="currentStep === 3" [class.completed]="currentStep > 3">
+        <div class="step-number">3</div>
+        <span class="step-label">Payment</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="checkout-wrapper">
+    <!-- Order Summary Sidebar -->
+    <aside class="order-summary-sidebar">
+      <div class="summary-header">
+        <h3><i class="fas fa-receipt"></i> Order Summary</h3>
+        <span class="order-badge">Order #{{ mpesaPaymentCode }}</span>
+      </div>
+
       <div class="summary-items">
         <div *ngFor="let item of cartItems" class="summary-item">
-          <img [src]="item.image" [alt]="item.name" class="summary-image">
-          <div class="summary-details">
-            <h4>{{ item.name }}</h4>
-            <p>Qty: {{ item.quantity }} × KES {{ item.price | number }}</p>
+          <div class="item-image">
+            <img [src]="item.image" [alt]="item.name" class="product-thumb">
+            <span class="item-quantity">{{ item.quantity }}</span>
           </div>
-          <div class="summary-total">
+          <div class="item-details">
+            <h4>{{ item.name }}</h4>
+            <p class="item-category">{{ item.category }}</p>
+            <div class="item-price">
+              <span class="price">KES {{ item.price | number }}</span>
+              <span class="unit">{{ item.units }}</span>
+            </div>
+          </div>
+          <div class="item-total">
             KES {{ (item.price * item.quantity) | number }}
           </div>
         </div>
@@ -24,117 +67,447 @@
 
       <div class="summary-totals">
         <div class="total-row">
-          <span>Subtotal:</span>
-          <span>KES {{ totalAmount | number }}</span>
+          <span>Subtotal</span>
+          <span>KES {{ (totalAmount - getDeliveryPrice()) | number }}</span>
         </div>
         <div class="total-row">
-          <span>Shipping:</span>
-          <span class="free">FREE</span>
+          <span>Delivery</span>
+          <span *ngIf="getDeliveryPrice() === 0" class="free-delivery">
+            <i class="fas fa-check-circle"></i> FREE
+          </span>
+          <span *ngIf="getDeliveryPrice() > 0">KES {{ getDeliveryPrice() | number }}</span>
         </div>
         <div class="total-row grand-total">
-          <strong>Total:</strong>
-          <strong>KES {{ totalAmount | number }}</strong>
+          <strong>Total Amount</strong>
+          <strong class="total-amount">KES {{ totalAmount | number }}</strong>
+        </div>
+      </div>
+
+      <div class="summary-guarantee">
+        <div class="guarantee-item">
+          <i class="fas fa-leaf"></i>
+          <span>100% Organic Guarantee</span>
+        </div>
+        <div class="guarantee-item">
+          <i class="fas fa-truck"></i>
+          <span>Free Delivery over KES 2,000</span>
+        </div>
+        <div class="guarantee-item">
+          <i class="fas fa-undo"></i>
+          <span>30-Day Return Policy</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Checkout Steps Content -->
+    <main class="checkout-steps">
+      
+      <!-- Step 1: Customer Details -->
+  <!-- Step 1: Customer Details -->
+<div *ngIf="currentStep === 1" class="checkout-step step-1">
+  <div class="step-header">
+    <h2><i class="fas fa-user-circle"></i> Your Information</h2>
+    <p>Please provide your details for order confirmation</p>
+  </div>
+
+  <form [formGroup]="checkoutForm">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="firstName">
+          <i class="fas fa-user"></i> First Name *
+        </label>
+        <input type="text" id="firstName" formControlName="firstName" 
+               placeholder="Enter your first name" class="form-input">
+        <div class="form-error" *ngIf="formControls['firstName'].touched && formControls['firstName'].invalid">
+          <i class="fas fa-exclamation-circle"></i>
+          Please enter a valid first name
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="lastName">
+          <i class="fas fa-user"></i> Last Name *
+        </label>
+        <input type="text" id="lastName" formControlName="lastName" 
+               placeholder="Enter your last name" class="form-input">
+        <div class="form-error" *ngIf="formControls['lastName'].touched && formControls['lastName'].invalid">
+          <i class="fas fa-exclamation-circle"></i>
+          Please enter a valid last name
         </div>
       </div>
     </div>
 
-    <!-- Checkout Form -->
-    <div class="checkout-form-section">
-      <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
-        <h3>Customer Details</h3>
+    <div class="form-group">
+      <label for="email">
+        <i class="fas fa-envelope"></i> Email Address *
+      </label>
+      <input type="email" id="email" formControlName="email" 
+             placeholder="you@example.com" class="form-input">
+      <div class="form-hint">Order confirmation will be sent to this email</div>
+      <div class="form-error" *ngIf="formControls['email'].touched && formControls['email'].invalid">
+        <i class="fas fa-exclamation-circle"></i>
+        Please enter a valid email address
+      </div>
+    </div>
 
-        <div class="form-grid">
-          <div class="form-group">
-            <label for="firstName">First Name *</label>
-            <input type="text" id="firstName" formControlName="firstName">
-            <div class="error" *ngIf="formControls['firstName'].touched && formControls['firstName'].invalid">
-              First name is required
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="lastName">Last Name *</label>
-            <input type="text" id="lastName" formControlName="lastName">
-            <div class="error" *ngIf="formControls['lastName'].touched && formControls['lastName'].invalid">
-              Last name is required
-            </div>
-          </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="phoneNumber">
+          <i class="fas fa-mobile-alt"></i> M-Pesa Phone Number *
+        </label>
+        <div class="phone-input-wrapper">
+          <span class="phone-prefix">+254</span>
+          <input type="tel" id="phoneNumber" formControlName="phoneNumber" 
+                 placeholder="712345678" class="form-input phone-input"
+                 (input)="formatPhoneInput($event)">
         </div>
-
-        <div class="form-group">
-          <label for="email">Email Address *</label>
-          <input type="email" id="email" formControlName="email">
-          <div class="error" *ngIf="formControls['email'].touched && formControls['email'].invalid">
-            Valid email is required
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="phoneNumber">M-Pesa Phone Number *</label>
-          <div class="phone-input">
-            <span class="prefix">+254</span>
-            <input type="tel" id="phoneNumber" formControlName="phoneNumber" 
-                   placeholder="7XXXXXXXX">
-          </div>
-          <small>Enter your Safaricom number (e.g., 0712345678)</small>
-          <div class="error" *ngIf="formControls['phoneNumber'].touched && formControls['phoneNumber'].invalid">
-            Valid phone number is required
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="address">Delivery Address *</label>
-          <textarea id="address" formControlName="address" rows="3"></textarea>
-          <div class="error" *ngIf="formControls['address'].touched && formControls['address'].invalid">
-            Address is required
-          </div>
-        </div>
-
-        <!-- Payment Status Messages -->
-        <div *ngIf="paymentStatus === 'success'" class="alert success">
-          <i class="fas fa-check-circle"></i>
-          <div>
-            <h4>Payment Request Sent!</h4>
-            <p>Check your phone to complete the M-Pesa payment. You'll be redirected shortly...</p>
-          </div>
-        </div>
-
-        <div *ngIf="paymentError" class="alert error">
+        <div class="form-hint">Enter your Safaricom number (e.g., 0712345678 or 712345678)</div>
+        <div class="form-error" *ngIf="formControls['phoneNumber'].touched && formControls['phoneNumber'].invalid">
           <i class="fas fa-exclamation-circle"></i>
-          <div>
-            <h4>Payment Failed</h4>
-            <p>{{ paymentError }}</p>
+          Please enter a valid Safaricom number (e.g., 0712345678)
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPhone">
+          <i class="fas fa-mobile-alt"></i> Confirm Phone Number *
+        </label>
+        <input type="tel" id="confirmPhone" formControlName="confirmPhone" 
+               placeholder="Confirm your number" class="form-input">
+        <div class="form-error" *ngIf="formControls['confirmPhone'].touched && checkoutForm.hasError('phoneMismatch')">
+          <i class="fas fa-exclamation-circle"></i>
+          Phone numbers do not match
+        </div>
+      </div>
+    </div>
+
+    <div class="step-actions">
+      <button type="button" class="btn-next" (click)="nextStep()" 
+              [disabled]="checkoutForm.invalid">
+        Continue to Delivery
+        <i class="fas fa-arrow-right"></i>
+      </button>
+    </div>
+  </form>
+</div>
+
+
+      <!-- Step 2: Delivery Information -->
+      <div *ngIf="currentStep === 2" class="checkout-step step-2">
+        <div class="step-header">
+          <h2><i class="fas fa-truck"></i> Delivery Information</h2>
+          <p>Where should we deliver your organic products?</p>
+        </div>
+
+        <form [formGroup]="deliveryForm">
+          <div class="delivery-options">
+            <h3>Select Delivery Method</h3>
+            <div class="options-grid">
+              <div *ngFor="let option of deliveryOptions" 
+                   class="delivery-option"
+                   [class.selected]="selectedDelivery === option.id"
+                   (click)="selectDelivery(option.id)">
+                <div class="option-icon">
+                  <i class="fas" 
+                     [class.fa-truck]="option.id === 'standard'"
+                     [class.fa-bolt]="option.id === 'express'"
+                     [class.fa-store]="option.id === 'pickup'"></i>
+                </div>
+                <div class="option-details">
+                  <h4>{{ option.name }}</h4>
+                  <p>{{ option.days }}</p>
+                </div>
+                <div class="option-price" *ngIf="option.price > 0">
+                  +KES {{ option.price | number }}
+                </div>
+                <div class="option-price free" *ngIf="option.price === 0">
+                  FREE
+                </div>
+                <div class="option-check" *ngIf="selectedDelivery === option.id">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="delivery-form">
+            <div class="form-group">
+              <label for="county">
+                <i class="fas fa-map-marker-alt"></i> County *
+              </label>
+              <select id="county" formControlName="county" class="form-input">
+                <option value="">Select County</option>
+                <option value="nairobi">Nairobi</option>
+                <option value="kiambu">Kiambu</option>
+                <option value="nakuru">Nakuru</option>
+                <option value="mombasa">Mombasa</option>
+                <option value="kisumu">Kisumu</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="town">
+                <i class="fas fa-building"></i> Town/City *
+              </label>
+              <input type="text" id="town" formControlName="town" 
+                     placeholder="Enter your town or city" class="form-input">
+            </div>
+
+            <div class="form-group">
+              <label for="address">
+                <i class="fas fa-home"></i> Delivery Address *
+              </label>
+              <textarea id="address" formControlName="address" rows="3" 
+                        placeholder="House number, Street, Estate, Apartment (if any)"
+                        class="form-input"></textarea>
+              <div class="form-hint">Please provide detailed address for easy delivery</div>
+            </div>
+
+            <div class="form-group">
+              <label for="deliveryNotes">
+                <i class="fas fa-sticky-note"></i> Delivery Notes (Optional)
+              </label>
+              <textarea id="deliveryNotes" formControlName="deliveryNotes" rows="2"
+                        placeholder="Any special delivery instructions?"
+                        class="form-input"></textarea>
+            </div>
+          </div>
+
+          <div class="step-actions">
+            <button type="button" class="btn-back" (click)="prevStep()">
+              <i class="fas fa-arrow-left"></i>
+              Back to Details
+            </button>
+            <button type="button" class="btn-next" (click)="nextStep()" 
+                    [disabled]="deliveryForm.invalid">
+              Continue to Payment
+              <i class="fas fa-lock"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Step 3: Payment -->
+      <div *ngIf="currentStep === 3" class="checkout-step step-3">
+        <div class="step-header">
+          <h2><i class="fas fa-lock"></i> Secure Payment</h2>
+          <p>Complete your payment securely via M-Pesa</p>
+        </div>
+
+        <div class="payment-summary">
+          <div class="summary-card">
+            <h3><i class="fas fa-file-invoice"></i> Order Summary</h3>
+            <div class="summary-details">
+              <div class="detail-row">
+                <span>Order Number:</span>
+                <strong>{{ mpesaPaymentCode }}</strong>
+              </div>
+              <div class="detail-row">
+                <span>Payment Method:</span>
+                <div class="mpesa-method">
+                  <i class="fas fa-mobile-alt"></i>
+                  <span>M-Pesa</span>
+                </div>
+              </div>
+              <div class="detail-row">
+                <span>Items Total:</span>
+                <span>KES {{ (totalAmount - getDeliveryPrice()) | number }}</span>
+              </div>
+              <div class="detail-row">
+                <span>Delivery:</span>
+                <span *ngIf="getDeliveryPrice() === 0" class="free">FREE</span>
+                <span *ngIf="getDeliveryPrice() > 0">KES {{ getDeliveryPrice() | number }}</span>
+              </div>
+              <div class="detail-row total">
+                <span>Amount to Pay:</span>
+                <strong class="amount-due">KES {{ totalAmount | number }}</strong>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- Payment Instructions -->
-        <div class="payment-instructions">
-          <h4><i class="fas fa-mobile-alt"></i> How to Pay:</h4>
-          <ol>
-            <li>Click "Pay with M-Pesa" button</li>
-            <li>Check your phone for STK Push prompt</li>
-            <li>Enter your M-Pesa PIN</li>
-            <li>Wait for confirmation</li>
-          </ol>
+        <div class="payment-security">
+          <h3><i class="fas fa-shield-alt"></i> Payment Security</h3>
+          <div class="security-features">
+            <div class="security-item">
+              <i class="fas fa-lock"></i>
+              <div>
+                <h4>256-Bit SSL Encryption</h4>
+                <p>Your payment details are securely encrypted</p>
+              </div>
+            </div>
+            <div class="security-item">
+              <i class="fas fa-user-shield"></i>
+              <div>
+                <h4>Verified by Safaricom</h4>
+                <p>Direct integration with M-Pesa secure gateway</p>
+              </div>
+            </div>
+            <div class="security-item">
+              <i class="fas fa-history"></i>
+              <div>
+                <h4>Instant Confirmation</h4>
+                <p>Real-time payment confirmation</p>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <!-- Submit Button -->
-        <button type="submit" class="pay-btn" [disabled]="isLoading || checkoutForm.invalid">
+        <div class="payment-confirmation">
+          <div class="confirmation-box">
+            <div class="confirmation-header">
+              <i class="fas fa-check-circle"></i>
+              <h3>Ready to Complete Your Order</h3>
+            </div>
+            <p class="confirmation-text">
+              By clicking "Pay with M-Pesa", you'll receive an STK Push notification on your 
+              phone to complete the payment securely.
+            </p>
+            
+            <div class="payment-alert" *ngIf="paymentError">
+              <div class="alert error">
+                <i class="fas fa-exclamation-circle"></i>
+                <div>
+                  <h4>Payment Error</h4>
+                  <p>{{ paymentError }}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="confirmation-actions">
+              <button type="button" class="btn-back" (click)="prevStep()">
+                <i class="fas fa-arrow-left"></i>
+                Edit Order
+              </button>
+              <button type="button" class="btn-pay" (click)="onSubmit()" 
+                      [disabled]="isLoading || cartItems.length === 0">
+                <span *ngIf="!isLoading">
+                  <i class="fas fa-mobile-alt"></i>
+                  Pay KES {{ totalAmount | number }} with M-Pesa
+                </span>
+                <span *ngIf="isLoading">
+                  <i class="fas fa-spinner fa-spin"></i>
+                  Processing...
+                </span>
+              </button>
+            </div>
+
+            <div class="confirmation-footer">
+              <p class="disclaimer">
+                <i class="fas fa-info-circle"></i>
+                Your payment is processed securely by Safaricom M-Pesa. 
+                No card details are stored on our servers.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Trust Badges Footer -->
+  <app-trust-badges></app-trust-badges>
+
+  <!-- M-Pesa Payment Modal -->
+  <div class="mpesa-modal" [class.active]="showMpesaModal">
+    <div class="modal-overlay" (click)="cancelPayment()"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3><i class="fas fa-mobile-alt"></i> Complete M-Pesa Payment</h3>
+        <button class="modal-close" (click)="cancelPayment()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="payment-countdown">
+          <div class="countdown-circle">
+            <svg width="100" height="100">
+              <circle cx="50" cy="50" r="45" class="countdown-bg"></circle>
+              <circle cx="50" cy="50" r="45" class="countdown-progress"
+                      [style.stroke-dashoffset]="(282.6 * (60 - countdown) / 60)"></circle>
+            </svg>
+            <span class="countdown-number">{{ countdown }}</span>
+          </div>
+          <p class="countdown-text">Payment request expires in {{ countdown }} seconds</p>
+        </div>
+
+        <div class="payment-instructions">
+          <h4><i class="fas fa-list-ol"></i> How to Complete Payment:</h4>
+          <div class="instruction-steps">
+            <div class="instruction-step">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <h5>Check Your Phone</h5>
+                <p>Look for an M-Pesa STK Push notification on your phone</p>
+              </div>
+            </div>
+            <div class="instruction-step">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <h5>Enter Your PIN</h5>
+                <p>Enter your M-Pesa PIN when prompted</p>
+              </div>
+            </div>
+            <div class="instruction-step">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <h5>Confirm Payment</h5>
+                <p>Confirm the payment of KES {{ totalAmount | number }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="payment-details">
+          <div class="detail-card">
+            <div class="detail-row">
+              <span>Order Number:</span>
+              <code>{{ mpesaPaymentCode }}</code>
+            </div>
+            <div class="detail-row">
+              <span>Amount:</span>
+              <strong class="amount">KES {{ totalAmount | number }}</strong>
+            </div>
+            <div class="detail-row">
+              <span>Paybill Number:</span>
+              <code>123456</code>
+            </div>
+            <div class="detail-row">
+              <span>Account Number:</span>
+              <code>{{ mpesaPaymentCode }}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="payment-help">
+          <div class="help-item">
+            <i class="fas fa-question-circle"></i>
+            <div>
+              <h5>Didn't receive the prompt?</h5>
+              <p>Ensure your phone is connected and try again. You can also use 
+                 <strong>*234*1#</strong> and enter Paybill: <strong>123456</strong>, 
+                 Account: <strong>{{ mpesaPaymentCode }}</strong></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-cancel" (click)="cancelPayment()" [disabled]="isLoading">
+          Cancel Payment
+        </button>
+        <button class="btn-confirm" (click)="confirmPayment()" [disabled]="isLoading">
           <span *ngIf="!isLoading">
-            <i class="fas fa-mobile-alt"></i>
-            Pay KES {{ totalAmount | number }} with M-Pesa
+            <i class="fas fa-check-circle"></i>
+            I've Completed Payment
           </span>
           <span *ngIf="isLoading">
             <i class="fas fa-spinner fa-spin"></i>
-            Processing...
+            Verifying Payment...
           </span>
         </button>
-
-        <div class="security-notice">
-          <i class="fas fa-shield-alt"></i>
-          <span>Your payment is secured with Safaricom M-Pesa</span>
-        </div>
-      </form>
+      </div>
     </div>
   </div>
 </div>

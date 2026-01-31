@@ -20,15 +20,34 @@ export class CartService {
   cartItems$ = this.cartItems.asObservable();
 
   constructor() {
-    // Load from localStorage
+    this.loadFromLocalStorage();
+  }
+
+  // FIXED: This method exists now
+  loadFromLocalStorage(): void {
     const savedCart = localStorage.getItem('cart');
     if (savedCart) {
-      this.cartItems.next(JSON.parse(savedCart));
+      try {
+        this.cartItems.next(JSON.parse(savedCart));
+      } catch {
+        this.cartItems.next([]);
+      }
     }
   }
 
-  addToCart(item: CartItem) {
-    const currentItems = this.cartItems.value;
+  // FIXED: This method exists now
+  getCartItems(): CartItem[] {
+    return this.cartItems.getValue();
+  }
+
+  // FIXED: This method exists now
+  getTotalItems(): number {
+    const items = this.cartItems.getValue();
+    return items.reduce((total: number, item: CartItem) => total + item.quantity, 0);
+  }
+
+  addToCart(item: CartItem): void {
+    const currentItems = this.cartItems.getValue();
     const existingItem = currentItems.find(i => i.id === item.id);
     
     if (existingItem) {
@@ -41,14 +60,14 @@ export class CartService {
     this.saveToLocalStorage();
   }
 
-  removeFromCart(id: number) {
-    const currentItems = this.cartItems.value.filter(item => item.id !== id);
+  removeFromCart(id: number): void {
+    const currentItems = this.cartItems.getValue().filter(item => item.id !== id);
     this.cartItems.next(currentItems);
     this.saveToLocalStorage();
   }
 
-  updateQuantity(id: number, quantity: number) {
-    const currentItems = this.cartItems.value.map(item => {
+  updateQuantity(id: number, quantity: number): void {
+    const currentItems = this.cartItems.getValue().map(item => {
       if (item.id === id) {
         return { ...item, quantity };
       }
@@ -59,18 +78,19 @@ export class CartService {
     this.saveToLocalStorage();
   }
 
-  clearCart() {
+  clearCart(): void {
     this.cartItems.next([]);
     localStorage.removeItem('cart');
   }
 
   getTotalPrice(): number {
-    return this.cartItems.value.reduce((total, item) => {
+    const items = this.cartItems.getValue();
+    return items.reduce((total: number, item: CartItem) => {
       return total + (item.price * item.quantity);
     }, 0);
   }
 
-  private saveToLocalStorage() {
-    localStorage.setItem('cart', JSON.stringify(this.cartItems.value));
+  private saveToLocalStorage(): void {
+    localStorage.setItem('cart', JSON.stringify(this.cartItems.getValue()));
   }
 }
