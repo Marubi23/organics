@@ -939,3 +939,89 @@ input:checked + .slider:before {
     top: 100%;
   }
 }
+/* Add to your existing header.css */
+
+/* ============ MOBILE NAV TOGGLE ============ */
+.mobile-nav-toggle {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .mobile-nav-toggle {
+    display: block;
+    margin-left: 10px;
+  }
+  
+  /* Hide regular nav links on mobile */
+  .nav-links {
+    display: none;
+  }
+  
+  /* Adjust icon actions for mobile */
+  .icon-actions {
+    display: flex;
+  }
+  
+  /* Make cart icon more prominent on mobile */
+  .cart-icon {
+    position: relative;
+  }
+  
+ /* Add to your header.css */
+.mobile-nav-toggle {
+  display: none;
+}
+}
+
+@media (max-width: 1024px) {
+  .mobile-nav-toggle {
+    display: block;
+    margin-left: 8px;
+  }
+  
+  .nav-links {
+    display: none; /* Hide regular nav links on mobile */
+  }
+  
+  .hamburger-button {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 6px;
+    transition: all 0.2s ease;
+  }
+  
+  .hamburger-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: #FFD700;
+  }
+  
+  .hamburger-button span {
+    display: block;
+    height: 2px;
+    width: 18px;
+    background: white;
+    border-radius: 1px;
+    margin: 2px 0;
+    transition: all 0.3s ease;
+  }
+  
+  .hamburger-button.active span:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+  }
+  
+  .hamburger-button.active span:nth-child(2) {
+    opacity: 0;
+  }
+  
+  .hamburger-button.active span:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+}

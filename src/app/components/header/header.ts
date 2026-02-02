@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { filter } from 'rxjs/operators';
 import { CartService } from '../../services/cart';
 import { AuthService, User } from '../../services/auth.service';
+import { HamburgerMenuComponent } from '../hamburger-menu/hamburger-menu';
 
 // Define interfaces at the top
 interface NavItem {
@@ -49,7 +50,7 @@ interface AccountMenuItem {
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule,HamburgerMenuComponent],
   templateUrl: './header.html',
   styleUrls: ['./header.css']
 })
@@ -198,6 +199,33 @@ export class HeaderComponent implements OnInit, OnDestroy {
       })
     );
   }
+  // Add to your header.component.ts
+showMobileMenu = false;
+isMobileMenuOpen = false;
+
+// Check if mobile screen
+get isMobileScreen(): boolean {
+  return window.innerWidth <= 1024;
+}
+
+toggleMobileMenu() {
+  this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  this.showMobileMenu = this.isMobileMenuOpen;
+}
+
+onMenuToggle(isOpen: boolean) {
+  this.isMobileMenuOpen = isOpen;
+  this.showMobileMenu = isOpen;
+}
+
+// Add to ngOnInit to handle screen resize
+@HostListener('window:resize')
+onResize() {
+  if (window.innerWidth > 1024 && this.isMobileMenuOpen) {
+    this.isMobileMenuOpen = false;
+    this.showMobileMenu = false;
+  }
+}
 
   ngOnDestroy() {
     this.subscriptions.forEach(sub => sub.unsubscribe());

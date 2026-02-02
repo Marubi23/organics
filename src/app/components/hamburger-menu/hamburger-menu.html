@@ -1,0 +1,71 @@
+<!-- src/app/components/hamburger-menu/hamburger-menu.html -->
+<div class="hamburger-menu-overlay" [class.open]="isOpen" (click)="onClose()">
+  <div class="hamburger-menu" (click)="$event.stopPropagation()">
+    <!-- Menu Header -->
+    <div class="menu-header">
+      <div class="mobile-logo" (click)="navigate('/home')">
+        <img src="/images/mzuri.JPG" alt="Mzuri Organics" class="logo-img">
+        <span>Mzuri Organics</span>
+      </div>
+      <button class="close-btn" (click)="onClose()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <!-- Menu Content -->
+    <div class="menu-content">
+      <nav class="mobile-nav">
+        <div class="nav-list">
+          <div *ngFor="let item of menuItems" class="nav-item">
+            <!-- Items with children -->
+            <div *ngIf="item.children" class="has-children">
+              <button class="nav-link" (click)="toggleSubmenu(item)">
+                <i [class]="item.icon"></i>
+                <span>{{ item.text }}</span>
+                <i class="chevron" [class.rotated]="item.isOpen">›</i>
+              </button>
+              
+              <!-- Submenu -->
+              <div class="submenu" [class.open]="item.isOpen">
+                <a *ngFor="let child of item.children" 
+                   [routerLink]="child.route" 
+                   class="submenu-link"
+                   (click)="onClose()">
+                  <i [class]="child.icon"></i>
+                  <span>{{ child.text }}</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Simple items -->
+            <a *ngIf="!item.children" 
+               [routerLink]="item.route" 
+               class="nav-link"
+               (click)="onClose()">
+              <i [class]="item.icon"></i>
+              <span>{{ item.text }}</span>
+            </a>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Quick Actions -->
+      <div class="quick-actions">
+        <button class="action-btn" routerLink="/cart" (click)="onClose()">
+          <i class="fas fa-shopping-cart"></i>
+          <span>Cart</span>
+        </button>
+        
+        <button class="action-btn" routerLink="/checkout" (click)="onClose()">
+          <i class="fas fa-credit-card"></i>
+          <span>Checkout</span>
+        </button>
+        
+        <a href="tel:+254700123456" class="action-btn">
+          <i class="fas fa-phone"></i>
+          <span>Call Us</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

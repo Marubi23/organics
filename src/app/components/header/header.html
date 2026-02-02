@@ -10,7 +10,7 @@
         </div>
       </div>
       
-      <!-- Navigation Links -->
+      <!-- Navigation Links (Hidden on mobile) -->
       <div class="nav-links">
         <div class="nav-link-container" *ngFor="let navItem of navItems; let i = index">
           <a 
@@ -55,6 +55,19 @@
 
       <!-- Right Actions - Icon Only -->
       <div class="nav-right">
+        <!-- Mobile Hamburger Button (Visible on mobile) -->
+        <div class="mobile-nav-toggle">
+          <button class="hamburger-button" 
+            [class.active]="isMobileMenuOpen"
+            (click)="toggleMobileMenu()"
+            aria-label="Toggle mobile menu"
+            title="Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+
         <!-- Quick Menu for Hidden State -->
         <button class="quick-menu-btn" 
                 *ngIf="isHeaderHidden"
@@ -336,3 +349,8 @@
     </div>
   </div>
 </nav>
+
+<app-hamburger-menu 
+  [isOpen]="isMobileMenuOpen"
+  (closeMenu)="toggleMobileMenu()">
+</app-hamburger-menu>
