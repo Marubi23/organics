@@ -15,15 +15,24 @@
 }
 
 /* Remove any .animating class references if they exist in CSS */
-/* Update hero-slider to remove background */
+
+/* Wrap hero slider in a container for the flowing gradient */
+.hero-slider-container {
+  position: relative;
+  background: var(--cream);
+  overflow: hidden;
+}
+
+/* Update hero-slider to ensure full height on mobile */
 .hero-slider {
   position: relative;
   height: 85vh;
   min-height: 650px;
+  max-height: 800px;
   overflow: hidden;
-  /* Remove the black background since we have it in container */
   background: transparent;
 }
+
 /* PROGRESS BAR - Top of the slider */
 .slide-progress-bar {
   position: absolute;
@@ -82,6 +91,7 @@
   opacity: 1;
 }
 
+/* CRITICAL FIX: Ensure slide-background covers full area */
 .slide-background {
   position: absolute;
   top: 0;
@@ -90,24 +100,29 @@
   height: 100%;
   opacity: 0;
   transition: opacity 0.8s ease;
-  background: var(--cream);
-  /* Add a subtle gradient to help blending */
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.05) 0%,
-    transparent 30%,
-    var(--cream) 100%
-  );
+  /* Remove conflicting background */
+  background: transparent;
 }
 
 .slide.active .slide-background {
   opacity: 1;
 }
 
+/* CRITICAL FIX: Ensure image container covers full slide */
+.image-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* FIX: Ensure background image covers properly */
 .background-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center center;
   transform: scale(1);
   transition: transform 12s ease-out;
   filter: brightness(1.1) contrast(1.05) saturate(1.1);
@@ -272,54 +287,6 @@
   );
 }
 
-/* Add this for extra visual interest - subtle floating particles */
-.image-overlay::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: 
-    radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.05) 2px, transparent 3px),
-    radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.03) 1px, transparent 2px),
-    radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.04) 1.5px, transparent 2.5px),
-    radial-gradient(circle at 90% 70%, rgba(255, 255, 255, 0.02) 1px, transparent 1.5px),
-    radial-gradient(circle at 50% 80%, rgba(255, 255, 255, 0.03) 2px, transparent 3px);
-  background-size: 
-    200px 200px,
-    150px 150px,
-    180px 180px,
-    120px 120px,
-    160px 160px;
-  animation: particlesFloat 40s linear infinite;
-  opacity: 0.3;
-  pointer-events: none;
-}
-
-@keyframes particlesFloat {
-  0% {
-    background-position: 
-      0px 0px,
-      0px 0px,
-      0px 0px,
-      0px 0px,
-      0px 0px;
-  }
-  100% {
-    background-position: 
-      200px 200px,
-      150px 150px,
-      180px 180px,
-      120px 120px,
-      160px 160px;
-  }
-}
-
-.slide.active .image-overlay {
-  opacity: 1;
-}
-
 /* Content Styling - Appears immediately with photo */
 .slide-content {
   position: relative;
@@ -433,7 +400,7 @@
 
 /* Shop Now Button Enhancement */
 .shop-now-btn {
-  background:   hsl(31, 100%, 47%);
+  background: hsl(31, 100%, 47%);
   color: var(--white);
   border: none;
 }
@@ -533,6 +500,248 @@
   100% { width: 100%; }
 }
 
+/* ================================
+   RESPONSIVE DESIGN - MOBILE FIXES
+   ================================ */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .hero-slider {
+    height: 75vh;
+    min-height: 550px;
+  }
+  
+  .slide-title {
+    font-size: 3rem;
+  }
+  
+  .slide-description {
+    font-size: 1.2rem;
+  }
+  
+  .slider-nav {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .slider-nav.prev {
+    left: 1.5rem;
+  }
+  
+  .slider-nav.next {
+    right: 1.5rem;
+  }
+}
+
+/* Mobile - CRITICAL FIXES */
+@media (max-width: 768px) {
+  /* Fix height for mobile */
+  .hero-slider {
+    height: 70vh;
+    min-height: 500px;
+    max-height: 600px;
+  }
+  
+  /* Ensure background covers full area */
+  .slide-background {
+    height: 100%;
+  }
+  
+  /* Ensure image covers properly */
+  .background-image {
+    object-fit: cover;
+    object-position: center center;
+    height: 100%;
+  }
+  
+  /* Fix content positioning */
+  .slide-content {
+    padding: 0 1.5rem;
+    text-align: center;
+    margin-top: 20px; /* Add some top margin on mobile */
+  }
+  
+  /* Center text content */
+  .text-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .slide-title {
+    font-size: 2.3rem;
+    text-align: center;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  
+  .slide-description {
+    font-size: 1.1rem;
+    text-align: center;
+    line-height: 1.5;
+    margin-bottom: 2rem;
+    max-width: 90%;
+  }
+  
+  /* Fix button layout */
+  .slide-buttons {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+  }
+  
+  .btn {
+    width: 100%;
+    max-width: 250px;
+    padding: 0.9rem 1.5rem;
+    font-size: 1rem;
+  }
+  
+  /* Hide navigation arrows on mobile */
+  .slider-nav {
+    display: none;
+  }
+  
+  /* Adjust progress bar */
+  .slide-progress-bar {
+    height: 3px;
+  }
+  
+  /* Adjust indicators position */
+  .slide-indicators {
+    bottom: 25px;
+    gap: 8px;
+  }
+  
+  .indicator {
+    width: 35px;
+    height: 3px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .hero-slider {
+    height: 65vh;
+    min-height: 450px;
+    max-height: 550px;
+  }
+  
+  /* Further adjust for very small screens */
+  .slide-title {
+    font-size: 1.8rem;
+    margin-bottom: 0.8rem;
+  }
+  
+  .slide-description {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    max-width: 95%;
+  }
+  
+  .slide-content {
+    padding: 0 1rem;
+    margin-top: 10px;
+  }
+  
+  .btn {
+    padding: 0.8rem 1.2rem;
+    font-size: 0.95rem;
+    max-width: 220px;
+  }
+  
+  .slide-indicators {
+    bottom: 20px;
+  }
+  
+  .indicator {
+    width: 30px;
+    height: 2px;
+  }
+  
+  .slide-progress-bar {
+    height: 2px;
+  }
+}
+
+/* Landscape mode on mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero-slider {
+    height: 85vh;
+    min-height: 400px;
+  }
+  
+  .slide-title {
+    font-size: 2rem;
+  }
+  
+  .slide-description {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .slide-buttons {
+    flex-direction: row;
+    justify-content: center;
+    gap: 0.8rem;
+  }
+  
+  .btn {
+    padding: 0.7rem 1rem;
+    font-size: 0.9rem;
+    width: auto;
+    max-width: none;
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .slides,
+  .background-image,
+  .slide-content,
+  .slide-background,
+  .slide-title,
+  .slide-description,
+  .slide-buttons {
+    transition: none !important;
+    animation: none !important;
+  }
+  
+  .indicator-progress,
+  .progress-track {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .slide-content {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  
+  .background-image {
+    transform: none !important;
+  }
+}
+
+/* Performance optimizations */
+.slide-content, .slide-background, .background-image {
+  will-change: transform, opacity;
+}
+
+/* Seamless transition element */
+.hero-gradient-transition {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  pointer-events: none;
+  z-index: 3;
+  background: linear-gradient(to bottom, transparent, var(--cream));
+}
+
 /* Animation for slide transitions */
 .slide-exit .slide-background {
   opacity: 0;
@@ -565,140 +774,6 @@
   transition: opacity 0.6s ease 0.3s, transform 0.6s ease 0.3s;
 }
 
-/* Responsive Design */
-@media (max-width: 1024px) {
-  .hero-slider {
-    height: 75vh;
-    min-height: 550px;
-  }
-  
-  .slide-title {
-    font-size: 3rem;
-  }
-  
-  .slide-description {
-    font-size: 1.2rem;
-  }
-  
-  .slider-nav {
-    width: 50px;
-    height: 50px;
-  }
-  
-  .slider-nav.prev {
-    left: 1.5rem;
-  }
-  
-  .slider-nav.next {
-    right: 1.5rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .hero-slider {
-    height: 70vh;
-    min-height: 500px;
-  }
-  
-  .slide-title {
-    font-size: 2.3rem;
-  }
-  
-  .slide-description {
-    font-size: 1.1rem;
-  }
-  
-  .slide-content {
-    padding: 0 1.5rem;
-    text-align: center;
-  }
-  
-  .text-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .slide-buttons {
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-  }
-  
-  .slider-nav {
-    display: none;
-  }
-  
-  .slide-progress-bar {
-    height: 3px;
-  }
-}
-
-@media (max-width: 480px) {
-  .hero-slider {
-    height: 65vh;
-    min-height: 450px;
-  }
-  
-  .slide-title {
-    font-size: 1.8rem;
-  }
-  
-  .slide-description {
-    font-size: 1rem;
-  }
-  
-  .slide-content {
-    padding: 0 1rem;
-  }
-  
-  .btn {
-    padding: 0.9rem 1.8rem;
-    font-size: 1rem;
-  }
-  
-  .slide-indicators {
-    bottom: 25px;
-  }
-  
-  .indicator {
-    width: 35px;
-  }
-  
-  .slide-progress-bar {
-    height: 2px;
-  }
-}
-
-/* Reduced motion preference */
-@media (prefers-reduced-motion: reduce) {
-  .slides,
-  .background-image,
-  .slide-content,
-  .slide-background,
-  .slide-title,
-  .slide-description,
-  .slide-buttons {
-    transition: none !important;
-    animation: none !important;
-  }
-  
-  .indicator-progress,
-  .progress-track {
-    animation: none !important;
-    transition: none !important;
-  }
-  
-  .slide-content {
-    opacity: 1 !important;
-    transform: none !important;
-  }
-}
-
-/* Performance optimizations */
-.slide-content, .slide-background, .background-image {
-  will-change: transform, opacity;
-}
 /* Mini Video Player Styles */
 .mini-video-player {
   position: fixed;
@@ -791,7 +866,7 @@
 }
 
 .video-play-btn {
-  background: hsl(125, 89%, 31%); /* YouTube red for video button */
+  background: hsl(125, 89%, 31%);
   color: white;
   font-weight: 600;
   border: none;
@@ -829,39 +904,4 @@
     padding: 10px 12px;
     font-size: 0.85rem;
   }
-}
-/* Seamless transition element */
-.hero-gradient-transition {
-  position: absolute;
-  bottom: -1px; /* Overlap by 1px to prevent gap */
-  left: 0;
-  width: 100%;
-  height: 100px;
-  pointer-events: none;
-  z-index: 3;
-}
-
-/* Add a subtle wave effect at the top of the next section */
-.impact-cta-section::before {
-  content: '';
-  position: absolute;
-  top: -80px;
-  left: 0;
-  width: 100%;
-  height: 80px;
-  background: 
-    linear-gradient(to bottom, transparent, var(--cream) 70%),
-    repeating-linear-gradient(
-      90deg,
-      transparent,
-      transparent 2px,
-      rgba(62, 142, 11, 0.05) 2px,
-      rgba(62, 142, 11, 0.05) 4px
-    );
-  mask-image: linear-gradient(to bottom, transparent, black 30%);
-  -webkit-mask-image: linear-gradient(to bottom, transparent, black 30%);
-}
-.hero-slider-container {
-  position: relative;
-  background: var(--cream); /* Match next section background */
 }
