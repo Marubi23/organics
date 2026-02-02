@@ -9,26 +9,18 @@ import { ToastService } from '../../services/toast';
 
 @Component({
   selector: 'app-checkout',
-  standalone: true, // <-- Add this for standalone component
-  imports: [CommonModule, ReactiveFormsModule], // <-- Add this for imports
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './checkout.html',
   styleUrls: ['./checkout.css']
 })
 export class CheckoutComponent implements OnInit, OnDestroy {
-  // Current step in checkout process (1, 2, or 3)
   currentStep: number = 1;
-  
-  // Cart items from cart service
   cartItems: any[] = [];
-  
-  // Total amount to be paid
   totalAmount: number = 0;
   subtotal: number = 0;
-  
-  // Order code for tracking
   orderCode: string = '';
   
-  // Delivery options
   deliveryOptions = [
     { 
       id: 'standard', 
@@ -50,19 +42,15 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     }
   ];
   
-  // Selected delivery option
   selectedDelivery: string = 'standard';
-  
-  // Form groups for checkout steps
   checkoutForm!: FormGroup;
   deliveryForm!: FormGroup;
-  
-  // Modal state
   showConfirmationModal: boolean = false;
   isLoading: boolean = false;
   
-  // WhatsApp configuration - UPDATE THESE VALUES
-  readonly WHATSAPP_NUMBER: string = '+254 701 934918'; // Replace with your WhatsApp number
+  // WhatsApp configuration - FIXED: No spaces
+  readonly WHATSAPP_NUMBER: string = '254701934918';
+  readonly DISPLAY_PHONE_NUMBER: string = '+254 701 934918';
   readonly TILL_NUMBER: string = '8589836';
   readonly BUSINESS_NAME: string = 'Mzuri Organics';
 
@@ -81,15 +69,9 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     this.loadCartItems();
   }
 
-  ngOnDestroy(): void {
-    // Cleanup if needed
-  }
+  ngOnDestroy(): void {}
 
-  /**
-   * Initialize all form groups with validators
-   */
   private initializeForms(): void {
-    // Step 1: Customer Details Form
     this.checkoutForm = this.fb.group({
       firstName: ['', [
         Validators.required, 
@@ -114,7 +96,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       validators: this.phoneMatchValidator 
     });
 
-    // Step 2: Delivery Form
     this.deliveryForm = this.fb.group({
       county: ['', Validators.required],
       town: ['', [
@@ -129,9 +110,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     });
   }
 
-  /**
-   * Getter for easy access to form controls in template
-   */
   get formControls() {
     return this.checkoutForm.controls;
   }
@@ -140,9 +118,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     return this.deliveryForm.controls;
   }
 
-  /**
-   * Custom validator to check if phone numbers match
-   */
   phoneMatchValidator(group: AbstractControl): ValidationErrors | null {
     const phone = group.get('phoneNumber')?.value;
     const confirmPhone = group.get('confirmPhone')?.value;
@@ -153,26 +128,18 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     return null;
   }
 
-  /**
-   * Load cart items from cart service
-   */
   loadCartItems(): void {
     this.cartItems = this.cartService.getCartItems();
     this.calculateTotal();
     
-    // If cart is empty, redirect to cart page
     if (this.cartItems.length === 0) {
       this.router.navigate(['/cart']);
-      // Only show warning if we have toast service
       if (this.toastService) {
         this.toastService.showWarning('Your cart is empty. Please add items before checkout.');
       }
     }
   }
 
-  /**
-   * Calculate total amount including delivery
-   */
   calculateTotal(): void {
     this.subtotal = this.cartItems.reduce((sum, item) => {
       return sum + (item.price * item.quantity);
@@ -182,11 +149,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     this.totalAmount = this.subtotal + delivery;
   }
 
-  /**
-   * Get delivery price based on selected option
-   */
   getDeliveryPrice(): number {
-    // Apply free delivery if subtotal >= 2000
     if (this.subtotal >= 2000 && this.selectedDelivery === 'standard') {
       return 0;
     }
@@ -195,20 +158,13 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     return selected ? selected.price : 0;
   }
 
-  /**
-   * Get selected delivery method name
-   */
   getSelectedDeliveryName(): string {
     const selected = this.deliveryOptions.find(opt => opt.id === this.selectedDelivery);
     return selected ? selected.name : 'Standard Delivery';
   }
 
-  /**
-   * Navigate to next step
-   */
   nextStep(): void {
     if (this.currentStep < 3) {
-      // Validate current step before proceeding
       if (this.currentStep === 1 && this.checkoutForm.invalid) {
         this.markFormGroupTouched(this.checkoutForm);
         if (this.toastService) {
@@ -227,34 +183,24 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       
       this.currentStep++;
       
-      // If moving to step 3, ensure order code is generated
       if (this.currentStep === 3) {
         this.generateOrderCode();
-        this.calculateTotal(); // Recalculate in case delivery changed
+        this.calculateTotal();
       }
     }
   }
 
-  /**
-   * Navigate to previous step
-   */
   prevStep(): void {
     if (this.currentStep > 1) {
       this.currentStep--;
     }
   }
 
-  /**
-   * Select delivery option
-   */
   selectDelivery(methodId: string): void {
     this.selectedDelivery = methodId;
     this.calculateTotal();
   }
 
-  /**
-   * Generate unique order code
-   */
   generateOrderCode(): string {
     const timestamp = Date.now().toString().slice(-6);
     const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
@@ -262,25 +208,16 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     return this.orderCode;
   }
 
-  /**
-   * Get WhatsApp contact link
-   */
   getWhatsAppContactLink(): string {
     return `https://wa.me/${this.WHATSAPP_NUMBER}`;
   }
 
-  /**
-   * Get item summary for WhatsApp message
-   */
   getItemSummary(): string {
     return this.cartItems
       .map(item => `${item.quantity}x ${item.name} (KES ${item.price * item.quantity})`)
       .join(', ');
   }
 
-  /**
-   * Generate WhatsApp message with order details
-   */
   generateWhatsAppMessage(): string {
     const customer = this.checkoutForm.value;
     const delivery = this.deliveryForm.value;
@@ -308,17 +245,14 @@ Delivery: ${this.getDeliveryPrice() === 0 ? 'FREE' : `KES ${this.getDeliveryPric
 
 💳 *Payment Method:* M-Pesa Till ${this.TILL_NUMBER}
 
-✅ *I have made the payment and attached my M-Pesa confirmation screenshot.*
+*I have made the payment and attached my M-Pesa confirmation screenshot.*
 
-Thank you for choosing Mzuri Organics! 🌿
+Thank you for choosing Mzuri Organics! We appreciate your business
     `.trim();
     
     return encodeURIComponent(message);
   }
 
-  /**
-   * Open WhatsApp with pre-filled message
-   */
   openWhatsAppWithMessage(): void {
     if (!this.checkoutForm.valid || !this.deliveryForm.valid) {
       if (this.toastService) {
@@ -332,9 +266,6 @@ Thank you for choosing Mzuri Organics! 🌿
     window.open(whatsappUrl, '_blank');
   }
 
-  /**
-   * Copy text to clipboard
-   */
   copyToClipboard(text: string): void {
     navigator.clipboard.writeText(text).then(() => {
       if (this.toastService) {
@@ -348,11 +279,7 @@ Thank you for choosing Mzuri Organics! 🌿
     });
   }
 
-  /**
-   * Proceed to payment confirmation
-   */
   proceedToPaymentConfirmation(): void {
-    // Validate all forms
     if (this.checkoutForm.invalid || this.deliveryForm.invalid) {
       this.markFormGroupTouched(this.checkoutForm);
       this.markFormGroupTouched(this.deliveryForm);
@@ -362,7 +289,6 @@ Thank you for choosing Mzuri Organics! 🌿
       return;
     }
 
-    // Check if cart is empty
     if (this.cartItems.length === 0) {
       if (this.toastService) {
         this.toastService.showError('Your cart is empty');
@@ -371,13 +297,9 @@ Thank you for choosing Mzuri Organics! 🌿
       return;
     }
 
-    // Save order to storage
     this.saveOrderToStorage();
   }
 
-  /**
-   * Save order to localStorage and backend
-   */
   saveOrderToStorage(): void {
     this.isLoading = true;
     
@@ -403,7 +325,6 @@ Thank you for choosing Mzuri Organics! 🌿
       deliveryCost: this.getDeliveryPrice()
     };
 
-    // Create order using OrderService
     if (this.orderService) {
       this.orderService.createOrder(orderData).subscribe({
         next: (response: CreateOrderResponse) => {
@@ -416,7 +337,6 @@ Thank you for choosing Mzuri Organics! 🌿
             }
             this.showConfirmationModal = true;
             
-            // Scroll to top of modal
             setTimeout(() => {
               const modalContent = document.querySelector('.modal-content');
               if (modalContent) {
@@ -438,7 +358,6 @@ Thank you for choosing Mzuri Organics! 🌿
         }
       });
     } else {
-      // Fallback: Save to localStorage directly
       this.isLoading = false;
       const order = {
         id: this.orderCode,
@@ -461,41 +380,27 @@ Thank you for choosing Mzuri Organics! 🌿
     }
   }
 
-  /**
-   * Close confirmation modal
-   */
   closeConfirmationModal(): void {
     this.showConfirmationModal = false;
     this.isLoading = false;
     
-    // Optionally redirect to home after a delay
     setTimeout(() => {
       this.router.navigate(['/']);
     }, 500);
   }
 
-  /**
-   * View order summary details
-   */
   viewOrderSummary(): void {
     this.showConfirmationModal = false;
-    
-    // Save order to session for viewing
     sessionStorage.setItem('current_order', this.orderCode);
     
-    // You can navigate to an order details page or show in modal
     if (this.toastService) {
       this.toastService.showInfo(`Order #${this.orderCode} details saved`);
     }
   }
 
-  /**
-   * Send order email confirmation
-   */
   sendOrderEmail(): void {
     this.isLoading = true;
     
-    // Simulate API call
     setTimeout(() => {
       this.isLoading = false;
       if (this.toastService) {
@@ -504,39 +409,29 @@ Thank you for choosing Mzuri Organics! 🌿
     }, 1500);
   }
 
-  /**
-   * Format phone input (remove non-digits, handle leading 0)
-   */
   formatPhoneInput(event: any): void {
     let value = event.target.value.replace(/\D/g, '');
     
-    // Remove leading 0 if present
     if (value.startsWith('0')) {
       value = value.substring(1);
     }
     
-    // Ensure it starts with 7 for Kenya mobile
     if (value.length > 0 && !value.startsWith('7')) {
       value = '7' + value;
     }
     
-    // Limit to 9 digits (Kenya mobile without country code)
     if (value.length > 9) {
       value = value.substring(0, 9);
     }
     
     this.checkoutForm.patchValue({ phoneNumber: value });
     
-    // Also update confirm phone if it matches the old value
     const confirmPhone = this.checkoutForm.get('confirmPhone')?.value;
     if (confirmPhone === event.target.value) {
       this.checkoutForm.patchValue({ confirmPhone: value });
     }
   }
 
-  /**
-   * Mark all form controls as touched to trigger validation
-   */
   private markFormGroupTouched(formGroup: FormGroup): void {
     Object.values(formGroup.controls).forEach(control => {
       control.markAsTouched();
@@ -547,9 +442,6 @@ Thank you for choosing Mzuri Organics! 🌿
     });
   }
 
-  /**
-   * Format currency display (using toLocaleString instead of pipe)
-   */
   formatCurrency(amount: number): string {
     return 'KES ' + amount.toLocaleString('en-KE', {
       minimumFractionDigits: 0,
@@ -557,31 +449,19 @@ Thank you for choosing Mzuri Organics! 🌿
     });
   }
 
-  /**
-   * Format number for display (using toLocaleString instead of pipe)
-   */
   formatNumber(amount: number): string {
     return amount.toLocaleString('en-KE');
   }
 
-  /**
-   * Check if free delivery applies
-   */
   isFreeDelivery(): boolean {
     return this.subtotal >= 2000 && this.selectedDelivery === 'standard';
   }
 
-  /**
-   * Get delivery time estimate
-   */
   getDeliveryTime(): string {
     const selected = this.deliveryOptions.find(opt => opt.id === this.selectedDelivery);
     return selected ? selected.days : '2-3 business days';
   }
 
-  /**
-   * Confirm payment was made
-   */
   confirmPaymentMade(): void {
     this.isLoading = true;
     
@@ -617,25 +497,16 @@ Thank you for choosing Mzuri Organics! 🌿
     }
   }
 
-  /**
-   * Get cart item count
-   */
   getCartItemCount(): number {
     return this.cartItems.reduce((total, item) => total + item.quantity, 0);
   }
 
-  /**
-   * Clear cart after successful order
-   */
   clearCart(): void {
     this.cartService.clearCart();
     this.cartItems = [];
     this.calculateTotal();
   }
 
-  /**
-   * Reset checkout process (for testing)
-   */
   resetCheckout(): void {
     this.currentStep = 1;
     this.checkoutForm.reset();
@@ -647,9 +518,6 @@ Thank you for choosing Mzuri Organics! 🌿
     }
   }
 
-  /**
-   * Get counties list for Kenya
-   */
   getCounties(): string[] {
     return [
       'Nairobi', 'Mombasa', 'Kisumu', 'Nakuru', 'Eldoret', 'Thika',
@@ -665,24 +533,15 @@ Thank you for choosing Mzuri Organics! 🌿
     ].sort();
   }
 
-  /**
-   * Update towns when county changes
-   */
   onCountyChange(): void {
     this.deliveryForm.patchValue({ town: '' });
   }
 
-  /**
-   * Validate email format
-   */
   isValidEmail(email: string): boolean {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return emailRegex.test(email);
   }
 
-  /**
-   * Get order summary for display
-   */
   getOrderSummary(): any {
     return {
       orderNumber: this.orderCode,

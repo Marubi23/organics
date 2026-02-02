@@ -444,8 +444,9 @@
                   <div class="contact-details">
                     <div class="contact-number">
                       <i class="fas fa-phone"></i>
-                      <a [href]="getWhatsAppContactLink()" class="whatsapp-link">
-                        +254 7XX XXX XXX
+                      <!-- Fixed: Use actual WhatsApp number for display -->
+                      <a href="https://wa.me/254701934918" class="whatsapp-link" target="_blank">
+                        {{ DISPLAY_PHONE_NUMBER }}
                       </a>
                     </div>
                     <p class="contact-hours">
@@ -468,6 +469,7 @@
                       <p>Customer: {{ checkoutForm.get('firstName')?.value }} {{ checkoutForm.get('lastName')?.value }}</p>
                     </div>
                   </div>
+                  <!-- Fixed: This button will now work correctly -->
                   <button class="btn-open-whatsapp" (click)="openWhatsAppWithMessage()">
                     <i class="fab fa-whatsapp"></i>
                     Open WhatsApp with Pre-filled Message
@@ -583,7 +585,8 @@
               <div class="step-number">2</div>
               <div class="step-content">
                 <h5>Send Confirmation</h5>
-                <p>WhatsApp your M-Pesa confirmation screenshot to our team</p>
+                <!-- Fixed: Use actual WhatsApp number in instructions -->
+                <p>WhatsApp your M-Pesa confirmation screenshot to {{ DISPLAY_PHONE_NUMBER }}</p>
               </div>
             </div>
             <div class="step-item">
@@ -614,7 +617,8 @@
         <div class="support-options">
           <h4><i class="fas fa-life-ring"></i> Need Help?</h4>
           <div class="support-buttons">
-            <a [href]="getWhatsAppContactLink()" class="support-btn whatsapp-btn" target="_blank">
+            <!-- Fixed: Use actual WhatsApp link -->
+            <a href="https://wa.me/254701934918" class="support-btn whatsapp-btn" target="_blank">
               <i class="fab fa-whatsapp"></i>
               WhatsApp Support
             </a>
