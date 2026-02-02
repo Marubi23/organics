@@ -32,8 +32,7 @@
    ============================================ */
 .mission-hero {
   text-align: center;
-  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
-              url('/images/farmland.JPG');
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4));
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -97,7 +96,7 @@
   max-width: 700px;
   margin: 0 auto;
   color: #333;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: 400;
   padding-top: 25px;
   border-top: 2px solid rgba(0, 0, 0, 0.1);
