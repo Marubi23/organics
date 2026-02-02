@@ -69,7 +69,7 @@
 /* Header - Like Mzuri's mission content */
 .cart-header {
   padding: 30px;
-  background: linear-gradient(135deg, var(--primary-green), var(--primary-green-dark));
+  background:hsl(125, 89%, 25%);
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   position: sticky;
   top: 0;
@@ -110,7 +110,7 @@
   margin: 0;
   font-size: 1.5rem;
   font-weight: 700;
-  color:hsl(125, 89%, 31%);
+  color:white;
   font-family: 'Poppins', sans-serif;
   letter-spacing: -0.2px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
@@ -120,7 +120,7 @@
   margin: 4px 0 0 0;
   font-size: 0.9rem;
   opacity: 0.9;
-  color: black;
+  color: white;
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
 }
@@ -501,22 +501,24 @@
   padding: 10px 0;
   font-size: 0.9rem;
   color: var(--text-dark);
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .summary-row.total {
   padding-top: 15px;
-  border-top: 2px solid var(--border-color);
+  border-top: 2px solid hsl(125, 89%, 41%);
   font-size: 1.1rem;
   font-family: 'Poppins', sans-serif;
 }
 
 .amount {
-  font-weight: 600;
+  font-weight: 900;
+  color:hsl(31, 100%, 47%);
+  font-size: 20px;
 }
 
 .free-shipping {
-  color: var(--primary-green);
+  color: hsl(125, 89%, 41%);
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -527,11 +529,11 @@
 
 .free-shipping i {
   font-size: 0.9rem;
-  color: var(--primary-green);
+  color: hsl(125, 89%, 41%);
 }
 
 .total-price {
-  color: var(--primary-green);
+  color: hsl(31, 100%, 47%);
   font-size: 1.3rem;
   font-weight: 700;
 }
@@ -545,7 +547,7 @@
 .btn-primary, .btn-secondary {
   flex: 1;
   padding: 14px 20px;
-  border-radius: var(--radius-sm);
+  border-radius: 50px;
   font-weight: 600;
   font-size: 0.9rem;
   cursor: pointer;
@@ -560,26 +562,26 @@
 
 .btn-primary {
   background: linear-gradient(135deg, var(--primary-green), var(--primary-green-dark));
-  color: white;
-  box-shadow: 0 6px 20px rgba(33, 196, 18, 0.3);
+  color: hsl(125, 89%, 31%);
+  border: solid 2px hsl(125, 89%, 41%);
 }
 
 .btn-primary:hover {
   background: linear-gradient(135deg, var(--primary-green-light), var(--primary-green));
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(33, 196, 18, 0.4);
 }
 
 .btn-secondary {
   background: white;
   color: var(--text-dark);
-  border: 1px solid var(--border-color);
+  font-weight: 500;
+  border: 1px solid hsl(31, 100%, 47%);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .btn-secondary:hover {
   background: #f8f9fa;
-  border-color: var(--primary-green);
+  border-color: hsl(125, 89%, 31%);
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
 }
