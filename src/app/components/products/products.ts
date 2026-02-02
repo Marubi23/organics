@@ -1,9 +1,10 @@
-// products.component.ts
+// src/app/components/products/products.component.ts
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CartService, CartItem } from '../../services/cart';
+import { CartComponent } from '../../pages/cart/cart';
 
 interface Product {
   id: number;
@@ -26,7 +27,7 @@ interface Product {
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, CartComponent],
   templateUrl: './products.html',
   styleUrls: ['./products.css']
 })
@@ -39,7 +40,7 @@ export class ProductsComponent implements OnInit {
       description: 'Superior 100% organic fertilizer with active microbes',
       price: 1500,
       originalPrice: 1800,
-      image: 'images/product3.jpg',
+      image: 'images/product4.jpg',
       category: 'Biofertilizers',
       rating: 4.9,
       units: '25KG bag',
@@ -55,7 +56,7 @@ export class ProductsComponent implements OnInit {
       name: 'BioVeg Plus (1 Litre)',
       description: 'Specialized organic fertilizer for vegetables',
       price: 700,
-      image: 'images/bio veg.jpeg',
+      image: 'images/product6.jpg',
       category: 'Biofertilizers',
       rating: 4.7,
       units: '1 Litre Bottle',
@@ -70,7 +71,7 @@ export class ProductsComponent implements OnInit {
       name: 'BioVeg Plus(Half Litre)',
       description: 'Specialized organic fertilizer for vegetables',
       price: 400,
-      image: 'images/',
+      image: 'images/product6.jpg',
       category: 'Biofertilizers',
       rating: 4.7,
       units: 'Half Litre Bottle',
@@ -85,7 +86,7 @@ export class ProductsComponent implements OnInit {
       name: 'BioFruity Plus (1 Litre)',
       description: 'Specialized organic fertilizer for vegetables',
       price: 700,
-      image: 'images/',
+      image: 'images/product2.jpg',
       category: 'Biofertilizers',
       rating: 4.7,
       units: '1 Litre Bottle',
@@ -100,7 +101,7 @@ export class ProductsComponent implements OnInit {
       name: 'BioFruity Plus (Half litre)',
       description: 'Specialized organic fertilizer for vegetables',
       price: 400,
-      image: 'images/',
+      image: 'images/product2.jpg',
       category: 'Biofertilizers',
       rating: 4.7,
       units: 'Half litre',
@@ -115,7 +116,7 @@ export class ProductsComponent implements OnInit {
       name: 'Liquid Frass',
       description: 'Specialized organic fertilizer',
       price: 500,
-      image: 'images/',
+      image: 'images/liquid frass.jpeg',
       category: 'Biofertilizers',
       rating: 4.7,
       units: '1 Litre',
@@ -130,7 +131,7 @@ export class ProductsComponent implements OnInit {
       name: 'NPK Active (25kg)',
       description: 'Customized Organo-mineral fertilizer',
       price: 500,
-      image: 'images/',
+      image: 'images/product3.jpg',
       category: 'Biofertilizers',
       rating: 4.7,
       units: '25 KG bag',
@@ -145,7 +146,7 @@ export class ProductsComponent implements OnInit {
       name: 'NPK Active (50kg)',
       description: 'Customized Organo-mineral fertilizer',
       price: 1500,
-      image: 'images/',
+      image: 'images/product3.jpg',
       category: 'Biofertilizers',
       rating: 4.7,
       units: '50 KG bag',
@@ -158,10 +159,9 @@ export class ProductsComponent implements OnInit {
   ];
 
   // Cart State
-  cartItems: any[] = [];
+  cartItems: CartItem[] = [];
   cartCount = 0;
   cartTotal = 0;
-  isCartOpen = false;
   showAddedMessage = false;
   addedProductName = '';
 
@@ -184,18 +184,14 @@ export class ProductsComponent implements OnInit {
   Math = Math;
 
   constructor(
-    private cartService: CartService,
-    private router: Router // ADDED Router injection
+    public cartService: CartService,
+    private router: Router
   ) {}
 
   ngOnInit() {
     this.filteredProducts = [...this.products];
-    this.loadCart();
-  }
-
-  // ========== CART METHODS ==========
-  loadCart() {
-    // FIXED: Use the cart service methods correctly
+    
+    // Subscribe to cart items from service
     this.cartService.cartItems$.subscribe(items => {
       this.cartItems = items;
       this.cartCount = this.cartService.getTotalItems();
@@ -203,6 +199,7 @@ export class ProductsComponent implements OnInit {
     });
   }
 
+  // ========== CART METHODS ==========
   addToCart(product: Product) {
     if (!product.inStock) return;
 
@@ -235,27 +232,12 @@ export class ProductsComponent implements OnInit {
 
   clearCart() {
     this.cartService.clearCart();
-    this.isCartOpen = false;
-  }
-
-  toggleCart() {
-    this.isCartOpen = !this.isCartOpen;
-    if (this.isCartOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-  }
-
-  onCloseCart(): void {
-    this.isCartOpen = false;
-    document.body.style.overflow = '';
   }
 
   // ========== CHECKOUT ==========
   proceedToCheckout(): void {
-    // Close the cart sidebar
-    this.onCloseCart();
+    // Close cart using service
+    this.cartService.closeCart();
     
     // Navigate to checkout page
     this.router.navigate(['/checkout']);
@@ -327,8 +309,9 @@ export class ProductsComponent implements OnInit {
 
   @HostListener('document:keydown.escape')
   handleEscape() {
-    if (this.isCartOpen) {
-      this.toggleCart();
+    // Close cart using service when escape is pressed
+    if (this.cartService.getCartState()) {
+      this.cartService.closeCart();
     }
   }
 }

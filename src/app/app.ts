@@ -6,7 +6,8 @@ import { FooterComponent } from './components/footer/footer';
 import { HeroComponent } from './components/hero/hero';
 import { CategoriesComponent } from './components/categories/categories';
 import { ProductsComponent } from './components/products/products';
-import { FeaturesComponent } from './components/features/features'; // Add this import
+import { FeaturesComponent } from './components/features/features';
+import { CartComponent } from './pages/cart/cart';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,7 @@ import { FeaturesComponent } from './components/features/features'; // Add this 
   imports: [
     CommonModule, 
     RouterOutlet, 
+    CartComponent,
     HeaderComponent, 
     FooterComponent
   ],

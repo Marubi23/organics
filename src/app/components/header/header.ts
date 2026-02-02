@@ -1,3 +1,4 @@
+// src/app/components/header/header.component.ts (RENAME FILE from header.ts to header.component.ts)
 import { Component, HostListener, OnInit, OnDestroy, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
@@ -6,6 +7,7 @@ import { filter } from 'rxjs/operators';
 import { CartService } from '../../services/cart';
 import { AuthService, User } from '../../services/auth.service';
 
+// Define interfaces at the top
 interface NavItem {
   text: string;
   icon: string;
@@ -74,80 +76,80 @@ export class HeaderComponent implements OnInit, OnDestroy {
   scrollThreshold = 100;
 
   // Navigation
-// Navigation
-navItems: NavItem[] = [
-  { 
-    text: 'Home', 
-    icon: 'fas fa-home', 
-    route: '/home' 
-  },
-  {
-    text: 'About Us',
-    icon: 'fas fa-info-circle',
-    children: [
-      { 
-        text: 'Overview', 
-        icon: 'fas fa-eye', 
-        route: '/about', 
-        description: 'Our mission and vision' 
-      },
-      { 
-        text: 'What We Do', 
-        icon: 'fas fa-hands-helping', 
-        route: '/what-we-do', 
-        description: 'Our innovative solutions' 
-      },
-      { 
-        text: 'Challenges', 
-        icon: 'fas fa-exclamation-triangle', 
-        route: '/challenges', 
-        description: 'Agricultural challenges we address' 
-      },
-      { 
-        text: 'Impacts', 
-        icon: 'fas fa-chart-line', 
-        route: '/impacts', 
-        description: 'Our significant environmental impact' 
-      }
-    ]
-  },
-  {
-    text: 'Products',
-    icon: 'fas fa-box-open',
-    children: [
-      { 
-        text: 'Biofertilizers', 
-        icon: 'fas fa-vial', 
-        route: '/products', 
-        description: 'Organic soil enhancers and plant nutrients' 
-      },
-      { 
-        text: 'Animal Feeds', 
-        icon: 'fas fa-paw', 
-        route: '/products', 
-        description: 'High-protein nutrition for livestock' 
-      },
-      { 
-        text: 'Shop All', 
-        icon: 'fas fa-shopping-bag', 
-        route: '/products', 
-        description: 'Complete catalog of organic products' 
-      }
-    ]
-  },
-  { 
-    text: 'Contact', 
-    icon: 'fas fa-envelope', 
-    route: '/contact' 
-  }
-];
+  navItems: NavItem[] = [
+    { 
+      text: 'Home', 
+      icon: 'fas fa-home', 
+      route: '/home' 
+    },
+    {
+      text: 'About Us',
+      icon: 'fas fa-info-circle',
+      children: [
+        { 
+          text: 'Overview', 
+          icon: 'fas fa-eye', 
+          route: '/about', 
+          description: 'Our mission and vision' 
+        },
+        { 
+          text: 'What We Do', 
+          icon: 'fas fa-hands-helping', 
+          route: '/what-we-do', 
+          description: 'Our innovative solutions' 
+        },
+        { 
+          text: 'Challenges', 
+          icon: 'fas fa-exclamation-triangle', 
+          route: '/challenges', 
+          description: 'Agricultural challenges we address' 
+        },
+        { 
+          text: 'Impacts', 
+          icon: 'fas fa-chart-line', 
+          route: '/impacts', 
+          description: 'Our significant environmental impact' 
+        }
+      ]
+    },
+    {
+      text: 'Products',
+      icon: 'fas fa-box-open',
+      children: [
+        { 
+          text: 'Biofertilizers', 
+          icon: 'fas fa-vial', 
+          route: '/products', 
+          description: 'Organic soil enhancers and plant nutrients' 
+        },
+        { 
+          text: 'Animal Feeds', 
+          icon: 'fas fa-paw', 
+          route: '/products', 
+          description: 'High-protein nutrition for livestock' 
+        },
+        { 
+          text: 'Shop All', 
+          icon: 'fas fa-shopping-bag', 
+          route: '/products', 
+          description: 'Complete catalog of organic products' 
+        }
+      ]
+    },
+    { 
+      text: 'Contact', 
+      icon: 'fas fa-envelope', 
+      route: '/contact' 
+    }
+  ];
+
   // Account Menu
   accountMenuItems: AccountMenuItem[] = [
-    { text: 'My Profile', icon: 'fas fa-user-circle', route: '/account/profile' },
-    { text: 'Orders', icon: 'fas fa-shopping-bag', route: '/account/orders' },
-    { text: 'Wishlist', icon: 'fas fa-heart', route: '/account/wishlist' },
-    { text: 'Settings', icon: 'fas fa-cog', route: '/account/settings' },
-    { text: 'Help Center', icon: 'fas fa-question-circle', route: '/help' }
+    { text: 'My Profile', icon: 'fas fa-user-circle', route: '/login' },
+    { text: 'Orders', icon: 'fas fa-shopping-bag', route: '/login' },
+    { text: 'Wishlist', icon: 'fas fa-heart', route: '/login' },
+    { text: 'Settings', icon: 'fas fa-cog', route: '/settings' },
+    { text: 'Help Center', icon: 'fas fa-question-circle', route: '/contact' }
   ];
 
   // Search
@@ -172,10 +174,11 @@ navItems: NavItem[] = [
   isDarkTheme = false;
 
   private subscriptions: any[] = [];
+  private dropdownTimeout: any;
 
   constructor(
+    public cartService: CartService,
     private router: Router,
-    private cartService: CartService,
     private authService: AuthService,
     private renderer: Renderer2
   ) {}
@@ -185,11 +188,31 @@ navItems: NavItem[] = [
     this.subscribeToServices();
     this.setupRouterListener();
     this.loadTheme();
+    
+    // Subscribe to cart state changes
+    this.subscriptions.push(
+      this.cartService.isCartOpen$.subscribe(() => {
+        if (this.cartService.getCartState()) {
+          this.showHeader();
+        }
+      })
+    );
   }
 
   ngOnDestroy() {
     this.subscriptions.forEach(sub => sub.unsubscribe());
     if (this.hideTimeout) clearTimeout(this.hideTimeout);
+    if (this.dropdownTimeout) clearTimeout(this.dropdownTimeout);
+  }
+
+  // ============ CART FUNCTIONALITY ============
+  toggleCart() {
+    this.cartService.toggleCart();
+    this.showHeader();
+  }
+
+  get isCartOpen(): boolean {
+    return this.cartService.getCartState();
   }
 
   // ============ HEADER AUTO-HIDE ============
@@ -237,21 +260,25 @@ navItems: NavItem[] = [
   private showHeader() {
     if (this.isHeaderHidden) {
       this.isHeaderHidden = false;
-      this.renderer.removeClass(this.headerElement?.nativeElement, 'header-hidden');
+      if (this.headerElement?.nativeElement) {
+        this.renderer.removeClass(this.headerElement.nativeElement, 'header-hidden');
+      }
     }
   }
 
   private hideHeader() {
     if (!this.isHeaderHidden && !this.isMenuOpen()) {
       this.isHeaderHidden = true;
-      this.renderer.addClass(this.headerElement?.nativeElement, 'header-hidden');
+      if (this.headerElement?.nativeElement) {
+        this.renderer.addClass(this.headerElement.nativeElement, 'header-hidden');
+      }
     }
   }
 
   private isMenuOpen(): boolean {
     return this.isQuickMenuOpen || this.isSettingsMenuOpen || 
            this.isAccountMenuOpen || this.isSearchOpen || 
-           this.activeDropdown !== null;
+           this.activeDropdown !== null || this.cartService.getCartState();
   }
 
   // ============ MENU CONTROLS ============
@@ -270,46 +297,40 @@ navItems: NavItem[] = [
     if (this.isAccountMenuOpen) this.showHeader();
   }
 
- private dropdownTimeout: any;
-
-showDropdown(index: number) {
-  // Clear any pending hide timeout
-  if (this.dropdownTimeout) {
-    clearTimeout(this.dropdownTimeout);
-    this.dropdownTimeout = null;
-  }
-  
-  this.activeDropdown = index;
-  this.showHeader();
-}
-
-hideDropdown(index: number) {
-  // Don't hide immediately - use a timeout
-  this.dropdownTimeout = setTimeout(() => {
-    if (this.activeDropdown === index) {
-      this.activeDropdown = null;
+  showDropdown(index: number) {
+    if (this.dropdownTimeout) {
+      clearTimeout(this.dropdownTimeout);
+      this.dropdownTimeout = null;
     }
-  }, 150); // Give user time to move to dropdown
-}
-
-keepDropdownOpen(index: number) {
-  // Clear timeout when mouse enters dropdown
-  if (this.dropdownTimeout) {
-    clearTimeout(this.dropdownTimeout);
-    this.dropdownTimeout = null;
-  }
-  
-  this.activeDropdown = index;
-}
-
-toggleDropdown(index: number) {
-  if (window.innerWidth <= 1024) {
-    // On mobile/tablet, use click toggling
-    this.activeDropdown = this.activeDropdown === index ? null : index;
+    
+    this.activeDropdown = index;
     this.showHeader();
   }
-  // On desktop, let hover handle it
-}
+
+  hideDropdown(index: number) {
+    this.dropdownTimeout = setTimeout(() => {
+      if (this.activeDropdown === index) {
+        this.activeDropdown = null;
+      }
+    }, 150);
+  }
+
+  keepDropdownOpen(index: number) {
+    if (this.dropdownTimeout) {
+      clearTimeout(this.dropdownTimeout);
+      this.dropdownTimeout = null;
+    }
+    
+    this.activeDropdown = index;
+  }
+
+  toggleDropdown(index: number) {
+    if (window.innerWidth <= 1024) {
+      this.activeDropdown = this.activeDropdown === index ? null : index;
+      this.showHeader();
+    }
+  }
+
   // ============ SETTINGS ============
   loadSettings() {
     try {
@@ -445,27 +466,21 @@ toggleDropdown(index: number) {
     this.toggleAccountMenu();
   }
 
-  // ============ CART ============
-  toggleCart() {
-    // Implement cart toggle logic
-    console.log('Cart toggled');
-  }
-
   // ============ SERVICE SUBSCRIPTIONS ============
   private subscribeToServices() {
+    // Subscribe to cart items count with proper typing
     this.subscriptions.push(
-      this.cartService.cartItems$.subscribe(items => {
-        this.cartCount = this.cartService.getTotalItems();
+      this.cartService.cartItems$.subscribe((items: any[]) => {
+        this.cartCount = items.reduce((total: number, item: any) => total + item.quantity, 0);
       })
     );
     
+    // Subscribe to user auth state
     this.subscriptions.push(
-      this.authService.currentUser$.subscribe(user => {
+      this.authService.currentUser$.subscribe((user: User | null) => {
         this.currentUser = user;
       })
     );
-    
-    this.cartService.loadFromLocalStorage();
   }
 
   private setupRouterListener() {
@@ -495,16 +510,11 @@ toggleDropdown(index: number) {
     if (!target.closest('.dropdown') && !target.closest('.dropdown-toggle')) {
       this.activeDropdown = null;
     }
+    
+    if (!target.closest('.quick-menu') && !target.closest('.quick-menu-icon')) {
+      this.isQuickMenuOpen = false;
+    }
   }
-  // ============ DROPDOWNS ============
-
-
-
-
-
-
-
-
 
   @HostListener('document:keydown.escape')
   handleEscape() {
@@ -512,5 +522,9 @@ toggleDropdown(index: number) {
     this.isAccountMenuOpen = false;
     this.isSearchOpen = false;
     this.activeDropdown = null;
+    
+    if (this.cartService.getCartState()) {
+      this.cartService.closeCart();
+    }
   }
 }

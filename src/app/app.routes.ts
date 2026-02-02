@@ -12,6 +12,8 @@ import { BlogComponent } from './components/blog/blog';
 import { ProblemsComponent } from './components/problems/problems';
 import { FaqComponent } from './components/faq/faq';
 import { CheckoutComponent } from './pages/checkout/checkout';
+import { SignupComponent } from './pages/signup/signup';
+import { LoginComponent } from './pages/login/login';
 import { OrderSuccessComponent } from './pages/order-success/order-success';
 // REMOVE: import { LoginComponent } from './pages/login/login'; // Remove this
 
@@ -20,6 +22,8 @@ export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
   { path: 'challenges', component: ProblemsComponent },
+  {path:'signup',component:SignupComponent},
+  {path:'login', component:LoginComponent},
   { path: 'shop', component: HomeComponent },
   { path: 'about', component: AboutComponent },
   { path: 'contact', component: ContactComponent },

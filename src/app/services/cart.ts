@@ -1,4 +1,3 @@
-// src/app/services/cart.service.ts
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
@@ -18,12 +17,42 @@ export interface CartItem {
 export class CartService {
   private cartItems = new BehaviorSubject<CartItem[]>([]);
   cartItems$ = this.cartItems.asObservable();
+  
+  // ADD: Cart visibility state (for sidebar)
+  private isCartOpen = new BehaviorSubject<boolean>(false);
+  isCartOpen$ = this.isCartOpen.asObservable();
 
   constructor() {
     this.loadFromLocalStorage();
   }
 
-  // FIXED: This method exists now
+  // ========== SIDEBAR CART METHODS ==========
+  openCart(): void {
+    this.isCartOpen.next(true);
+    document.body.style.overflow = 'hidden';
+  }
+
+  closeCart(): void {
+    this.isCartOpen.next(false);
+    document.body.style.overflow = '';
+  }
+
+  toggleCart(): void {
+    const currentState = this.isCartOpen.value;
+    this.isCartOpen.next(!currentState);
+    
+    if (!currentState) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+  }
+
+  getCartState(): boolean {
+    return this.isCartOpen.value;
+  }
+
+  // ========== CART ITEMS METHODS ==========
   loadFromLocalStorage(): void {
     const savedCart = localStorage.getItem('cart');
     if (savedCart) {
@@ -35,19 +64,17 @@ export class CartService {
     }
   }
 
-  // FIXED: This method exists now
   getCartItems(): CartItem[] {
-    return this.cartItems.getValue();
+    return this.cartItems.value;
   }
 
-  // FIXED: This method exists now
   getTotalItems(): number {
-    const items = this.cartItems.getValue();
+    const items = this.cartItems.value;
     return items.reduce((total: number, item: CartItem) => total + item.quantity, 0);
   }
 
   addToCart(item: CartItem): void {
-    const currentItems = this.cartItems.getValue();
+    const currentItems = this.cartItems.value;
     const existingItem = currentItems.find(i => i.id === item.id);
     
     if (existingItem) {
@@ -61,13 +88,13 @@ export class CartService {
   }
 
   removeFromCart(id: number): void {
-    const currentItems = this.cartItems.getValue().filter(item => item.id !== id);
+    const currentItems = this.cartItems.value.filter(item => item.id !== id);
     this.cartItems.next(currentItems);
     this.saveToLocalStorage();
   }
 
   updateQuantity(id: number, quantity: number): void {
-    const currentItems = this.cartItems.getValue().map(item => {
+    const currentItems = this.cartItems.value.map(item => {
       if (item.id === id) {
         return { ...item, quantity };
       }
@@ -84,13 +111,13 @@ export class CartService {
   }
 
   getTotalPrice(): number {
-    const items = this.cartItems.getValue();
+    const items = this.cartItems.value;
     return items.reduce((total: number, item: CartItem) => {
       return total + (item.price * item.quantity);
     }, 0);
   }
 
   private saveToLocalStorage(): void {
-    localStorage.setItem('cart', JSON.stringify(this.cartItems.getValue()));
+    localStorage.setItem('cart', JSON.stringify(this.cartItems.value));
   }
 }

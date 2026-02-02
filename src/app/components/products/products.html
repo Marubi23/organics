@@ -1,3 +1,4 @@
+<!-- src/app/components/products/products.html -->
 <!-- Add to Cart Success Message -->
 <div class="add-success-message" [class.show]="showAddedMessage">
   <div class="success-content">
@@ -5,7 +6,7 @@
     <div class="success-text">
       <strong>{{addedProductName}}</strong> added to cart successfully!
     </div>
-    <button class="view-cart-btn" (click)="toggleCart()">
+    <button class="view-cart-btn" (click)="cartService.toggleCart()">
       View Cart ({{cartCount}})
     </button>
   </div>
@@ -95,7 +96,7 @@
         <div class="product-card" *ngFor="let product of filteredProducts">
           <!-- Product Image -->
           <div class="product-image">
-            <img [src]="product.image" [alt]="product.name">
+            <img [src]="product.image" [alt]="product.name" (error)="product.image = 'images/product-placeholder.jpg'">
             
             <!-- Badges -->
             <div class="product-badges">
@@ -112,12 +113,20 @@
               </span>
             </div>
 
+            <!-- Stock Badge -->
+            <div class="stock-badge" [class]="getStockClass(product)">
+              {{getStockText(product)}}
+            </div>
+
             <!-- Quick Actions -->
             <div class="quick-actions">
               <button class="quick-view-btn" title="Quick View">
                 <i class="fas fa-eye"></i>
               </button>
-              <button class="quick-cart-btn" (click)="addToCart(product)" title="Add to Cart">
+              <button class="quick-cart-btn" (click)="addToCart(product)" 
+                      [disabled]="!product.inStock"
+                      title="Add to Cart"
+                      [attr.data-product-id]="product.id">
                 <i class="fas fa-cart-plus"></i>
               </button>
             </div>
@@ -142,10 +151,13 @@
             <p class="product-desc">{{product.description}}</p>
 
             <!-- Features -->
-            <div class="product-features">
+            <div class="product-features" *ngIf="product.features && product.features.length > 0">
               <div class="feature" *ngFor="let feature of product.features.slice(0, 2)">
                 <i class="fas fa-check"></i>
                 <span>{{feature}}</span>
+              </div>
+              <div class="feature-more" *ngIf="product.features.length > 2">
+                +{{product.features.length - 2}} more
               </div>
             </div>
 
@@ -156,13 +168,14 @@
                 <div class="original-price" *ngIf="product.originalPrice">
                   KSh {{product.originalPrice | number}}
                 </div>
+                <div class="save-amount" *ngIf="product.discount">
+                  Save {{product.discount}}%
+                </div>
               </div>
               
-              <div class="stock-section">
-                <div class="stock-status" [class]="getStockClass(product)">
-                  <i class="fas fa-circle"></i>
-                  {{getStockText(product)}}
-                </div>
+              <div class="units-info">
+                <i class="fas fa-weight-hanging"></i>
+                <span>{{product.units}}</span>
               </div>
             </div>
 
@@ -171,9 +184,9 @@
                     (click)="addToCart(product)"
                     [disabled]="!product.inStock"
                     [class.disabled]="!product.inStock"
-                  [attr.data-product-id]="product.id">
-              <i class="fas fa-cart-plus"></i>
-              <span>Add to Cart</span>
+                    [attr.data-product-id]="product.id">
+              <i class="fas" [class]="product.inStock ? 'fa-cart-plus' : 'fa-ban'"></i>
+              <span>{{product.inStock ? 'Add to Cart' : 'Out of Stock'}}</span>
               <span class="price-badge">KSh {{product.price | number}}</span>
             </button>
           </div>
@@ -184,7 +197,11 @@
       <div class="products-list" *ngIf="viewMode === 'list'">
         <div class="list-item" *ngFor="let product of filteredProducts">
           <div class="list-image">
-            <img [src]="product.image" [alt]="product.name">
+            <img [src]="product.image" [alt]="product.name" (error)="product.image = 'images/product-placeholder.jpg'">
+            <div class="list-badges">
+              <span class="badge organic" *ngIf="product.isOrganic">Organic</span>
+              <span class="badge new" *ngIf="product.isNew">New</span>
+            </div>
           </div>
           
           <div class="list-content">
@@ -197,127 +214,63 @@
             </div>
             
             <h3>{{product.name}}</h3>
-            <p>{{product.description}}</p>
+            <p class="list-desc">{{product.description}}</p>
             
-            <div class="list-features">
-              <span *ngFor="let feature of product.features">
+            <div class="list-features" *ngIf="product.features && product.features.length > 0">
+              <span *ngFor="let feature of product.features.slice(0, 3)">
                 <i class="fas fa-check"></i> {{feature}}
               </span>
             </div>
             
             <div class="list-footer">
-              <div class="price">
-                <strong>KSh {{product.price | number}}</strong>
-                <span *ngIf="product.originalPrice" class="old-price">
-                  KSh {{product.originalPrice | number}}
-                </span>
+              <div class="price-info">
+                <div class="price">
+                  <strong>KSh {{product.price | number}}</strong>
+                  <span *ngIf="product.originalPrice" class="old-price">
+                    KSh {{product.originalPrice | number}}
+                  </span>
+                </div>
+                <div class="units">
+                  <i class="fas fa-weight-hanging"></i>
+                  {{product.units}}
+                </div>
               </div>
               
-              <button class="list-cart-btn" (click)="addToCart(product)">
-                <i class="fas fa-cart-plus"></i>
-                Add to Cart
-              </button>
+              <div class="list-actions">
+                <div class="stock-status" [class]="getStockClass(product)">
+                  {{getStockText(product)}}
+                </div>
+                <button class="list-cart-btn" 
+                        (click)="addToCart(product)"
+                        [disabled]="!product.inStock">
+                  <i class="fas" [class]="product.inStock ? 'fa-cart-plus' : 'fa-ban'"></i>
+                  {{product.inStock ? 'Add to Cart' : 'Out of Stock'}}
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      <!-- No Products Message -->
+      <div class="no-products" *ngIf="filteredProducts.length === 0">
+        <i class="fas fa-search"></i>
+        <h3>No products found</h3>
+        <p>Try adjusting your search or filter to find what you're looking for.</p>
+        <button class="clear-filters-btn" (click)="selectedCategory = 'all'; searchQuery = ''; applyFilters()">
+          Clear All Filters
+        </button>
+      </div>
     </div>
   </section>
 
-  <!-- Floating Cart Icon (Jumia Style) -->
-  <div class="floating-cart" [class.active]="cartCount > 0" (click)="toggleCart()">
+  <!-- Floating Cart Icon -->
+  <div class="floating-cart" [class.active]="cartCount > 0" (click)="cartService.toggleCart()">
     <i class="fas fa-shopping-cart"></i>
     <span class="cart-count" *ngIf="cartCount > 0">{{cartCount}}</span>
+    <span class="cart-total" *ngIf="cartCount > 0">KSh {{cartTotal | number}}</span>
   </div>
 </div>
 
-<!-- Cart Sidebar -->
-<div class="cart-sidebar-overlay" [class.active]="isCartOpen" (click)="toggleCart()">
-  <div class="cart-sidebar" (click)="$event.stopPropagation()">
-    <!-- Cart Header -->
-    <div class="cart-header">
-      <h3>
-        <i class="fas fa-shopping-cart"></i>
-        Shopping Cart ({{cartCount}})
-      </h3>
-      <button class="close-cart" (click)="toggleCart()">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-
-    <!-- Cart Items -->
-    <div class="cart-items" *ngIf="cartItems.length > 0; else emptyCart">
-      <div class="cart-item" *ngFor="let item of cartItems">
-        <img [src]="item.image" [alt]="item.name" class="item-image">
-        
-        <div class="item-details">
-          <h4>{{item.name}}</h4>
-          <p class="item-unit">{{item.units}}</p>
-          <div class="item-price">KSh {{item.price | number}}</div>
-          
-          <div class="quantity-controls">
-            <button class="qty-btn" (click)="updateQuantity(item.id, item.quantity - 1)">
-              <i class="fas fa-minus"></i>
-            </button>
-            <span class="quantity">{{item.quantity}}</span>
-            <button class="qty-btn" (click)="updateQuantity(item.id, item.quantity + 1)">
-              <i class="fas fa-plus"></i>
-            </button>
-          </div>
-        </div>
-        
-        <button class="remove-btn" (click)="removeFromCart(item.id)">
-          <i class="fas fa-trash"></i>
-        </button>
-      </div>
-    </div>
-
-    <ng-template #emptyCart>
-      <div class="empty-cart">
-        <i class="fas fa-shopping-cart"></i>
-        <p>Your cart is empty</p>
-        <button class="continue-shopping" (click)="toggleCart()">
-          Continue Shopping
-        </button>
-      </div>
-    </ng-template>
-
-    <!-- Cart Footer -->
-    <div class="cart-footer" *ngIf="cartItems.length > 0">
-      <div class="cart-summary">
-        <div class="summary-row">
-          <span>Subtotal:</span>
-          <span>KSh {{cartTotal | number}}</span>
-        </div>
-        <div class="summary-row">
-          <span>Delivery:</span>
-          <span class="free">FREE</span>
-        </div>
-        <div class="total-row">
-          <strong>Total:</strong>
-          <strong>KSh {{cartTotal | number}}</strong>
-        </div>
-      </div>
-
-      <div class="cart-actions">
-        <button class="clear-cart-btn" (click)="clearCart()">
-          <i class="fas fa-trash"></i>
-          Clear Cart
-        </button>
-        <button class="checkout-btn" (click)="proceedToCheckout()">
-          <i class="fas fa-lock"></i>
-          Proceed to Checkout
-        </button>
-      </div>
-
-      <div class="payment-methods">
-        <span>We accept:</span>
-        <div class="methods">
-          <i class="fas fa-mobile-alt" title="M-Pesa"></i>
-          <i class="fab fa-cc-visa" title="Visa"></i>
-          <i class="fas fa-credit-card" title="Card"></i>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<!-- Cart Sidebar Component -->
+<app-cart></app-cart>

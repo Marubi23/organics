@@ -1,9 +1,7 @@
-// src/app/pages/cart/cart.component.ts
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { CartService, CartItem} from'../../services/cart';
-import { from } from 'rxjs';
+import { CartService, CartItem } from '../../services/cart';
 
 @Component({
   selector: 'app-cart',
@@ -13,11 +11,10 @@ import { from } from 'rxjs';
   styleUrls: ['./cart.css']
 })
 export class CartComponent implements OnInit {
-  @Input() isOpen = false;
-  @Output() closeCart = new EventEmitter<void>();
-  
+  // REMOVE: @Input() and @Output() - we'll use service directly
   cartItems: CartItem[] = [];
   totalPrice = 0;
+  isOpen = false;
 
   constructor(
     private cartService: CartService,
@@ -25,10 +22,15 @@ export class CartComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Subscribe to cart items observable
+    // Subscribe to cart items
     this.cartService.cartItems$.subscribe(items => {
       this.cartItems = items;
       this.calculateTotalPrice();
+    });
+
+    // Subscribe to cart visibility state
+    this.cartService.isCartOpen$.subscribe(state => {
+      this.isOpen = state;
     });
   }
 
@@ -38,8 +40,9 @@ export class CartComponent implements OnInit {
     }, 0);
   }
 
+  // Use service methods instead of events
   onCloseCart(): void {
-    this.closeCart.emit();
+    this.cartService.closeCart();
   }
 
   increaseQuantity(id: number): void {
@@ -67,8 +70,8 @@ export class CartComponent implements OnInit {
   }
 
   proceedToCheckout(): void {
+    this.cartService.closeCart();
     this.router.navigate(['/checkout']);
-    this.onCloseCart();
   }
 
   onCartClick(event: Event): void {
