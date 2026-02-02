@@ -11,10 +11,17 @@ import { CartService, CartItem } from '../../services/cart';
   styleUrls: ['./cart.css']
 })
 export class CartComponent implements OnInit {
-  // REMOVE: @Input() and @Output() - we'll use service directly
   cartItems: CartItem[] = [];
   totalPrice = 0;
   isOpen = false;
+  
+  // Toast notifications
+  showToast = false;
+  toastTitle = '';
+  toastMessage = '';
+  toastType: 'success' | 'error' | 'info' | 'warning' = 'success';
+  toastIcon = '';
+  private toastTimeout: any;
 
   constructor(
     private cartService: CartService,
@@ -40,7 +47,46 @@ export class CartComponent implements OnInit {
     }, 0);
   }
 
-  // Use service methods instead of events
+  // Toast notification system
+  private showNotification(title: string, message: string, type: 'success' | 'error' | 'info' | 'warning') {
+    this.toastTitle = title;
+    this.toastMessage = message;
+    this.toastType = type;
+    
+    // Set appropriate icon
+    switch(type) {
+      case 'success':
+        this.toastIcon = 'fas fa-check-circle';
+        break;
+      case 'error':
+        this.toastIcon = 'fas fa-exclamation-circle';
+        break;
+      case 'info':
+        this.toastIcon = 'fas fa-info-circle';
+        break;
+      case 'warning':
+        this.toastIcon = 'fas fa-exclamation-triangle';
+        break;
+    }
+    
+    // Show toast
+    this.showToast = true;
+    
+    // Auto-hide after 3 seconds
+    if (this.toastTimeout) {
+      clearTimeout(this.toastTimeout);
+    }
+    
+    this.toastTimeout = setTimeout(() => {
+      this.hideToast();
+    }, 3000);
+  }
+
+  hideToast(): void {
+    this.showToast = false;
+  }
+
+  // Cart methods with toast notifications
   onCloseCart(): void {
     this.cartService.closeCart();
   }
@@ -49,6 +95,11 @@ export class CartComponent implements OnInit {
     const item = this.cartItems.find(i => i.id === id);
     if (item) {
       this.cartService.updateQuantity(id, item.quantity + 1);
+      this.showNotification(
+        'Quantity Updated',
+        `${item.name} quantity increased to ${item.quantity + 1}`,
+        'success'
+      );
     }
   }
 
@@ -56,17 +107,37 @@ export class CartComponent implements OnInit {
     const item = this.cartItems.find(i => i.id === id);
     if (item && item.quantity > 1) {
       this.cartService.updateQuantity(id, item.quantity - 1);
+      this.showNotification(
+        'Quantity Updated',
+        `${item.name} quantity decreased to ${item.quantity - 1}`,
+        'info'
+      );
     } else {
-      this.cartService.removeFromCart(id);
+      this.removeItem(id);
     }
   }
 
   removeItem(id: number): void {
-    this.cartService.removeFromCart(id);
+    const item = this.cartItems.find(i => i.id === id);
+    if (item) {
+      this.cartService.removeFromCart(id);
+      this.showNotification(
+        'Item Removed',
+        `${item.name} has been removed from your cart`,
+        'warning'
+      );
+    }
   }
 
   clearCart(): void {
-    this.cartService.clearCart();
+    if (this.cartItems.length > 0) {
+      this.cartService.clearCart();
+      this.showNotification(
+        'Cart Cleared',
+        'All items have been removed from your cart',
+        'info'
+      );
+    }
   }
 
   proceedToCheckout(): void {
