@@ -86,7 +86,8 @@
 }
 
 .logo-img {
-  height: 40px;
+  height: 60px;
+  border-radius: 50%;
   width: auto;
   transition: transform 0.3s ease;
 }
@@ -867,7 +868,8 @@ input:checked + .slider:before {
   }
   
   .logo-img {
-    height: 35px;
+    height: 55px;
+    border-radius: 50%;
   }
   
   .settings-menu,
