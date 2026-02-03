@@ -2364,3 +2364,379 @@
     display: none;
   }
 }
+/* ============================================
+   EXTRA SMALL MOBILE OPTIMIZATIONS (Below 375px)
+   ============================================ */
+@media (max-width: 375px) {
+  .checkout-container {
+    padding: 12px 10px;
+  }
+  
+  .checkout-trust-header {
+    padding: 15px;
+  }
+  
+  .brand-text .brand-name {
+    font-size: 22px;
+  }
+  
+  .trust-security {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    
+    .secure-badge {
+      justify-content: center;
+      min-width: auto;
+      padding: 10px 15px;
+      
+      span {
+        font-size: 12px;
+      }
+    }
+  }
+  
+  .progress-steps {
+    gap: 15px;
+    
+    &::before {
+      left: 5%;
+      right: 5%;
+    }
+    
+    .step {
+      .step-number {
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
+      }
+      
+      .step-label {
+        font-size: 10px;
+      }
+    }
+  }
+  
+  .order-summary-sidebar,
+  .checkout-steps {
+    padding: 15px;
+  }
+  
+  .step-header {
+    h2 {
+      font-size: 20px;
+    }
+    
+    p {
+      font-size: 14px;
+    }
+  }
+  
+  .form-row {
+    gap: 15px;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+    
+    .form-input {
+      padding: 12px 15px;
+      font-size: 14px;
+    }
+    
+    label {
+      font-size: 14px;
+    }
+  }
+  
+  .phone-input-wrapper {
+    .phone-prefix {
+      padding: 12px 15px;
+      font-size: 14px;
+    }
+  }
+  
+  .delivery-option {
+    padding: 15px;
+    
+    .option-icon i {
+      font-size: 20px;
+    }
+    
+    .option-details {
+      h4 {
+        font-size: 16px;
+      }
+      
+      p {
+        font-size: 13px;
+      }
+    }
+  }
+  
+  .till-number-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    
+    .till-number {
+      font-size: 22px;
+      padding: 10px 15px;
+    }
+  }
+  
+  .exact-amount {
+    font-size: 26px;
+  }
+  
+  .whatsapp-card {
+    .whatsapp-header {
+      padding: 20px;
+      
+      h3 {
+        font-size: 20px;
+      }
+    }
+    
+    .whatsapp-body {
+      padding: 20px;
+    }
+  }
+  
+  .message-preview {
+    padding: 15px;
+    max-height: 180px;
+  }
+  
+  .step-actions {
+    .btn-back, .btn-next, .btn-confirm-payment {
+      padding: 14px 20px;
+      font-size: 14px;
+    }
+  }
+  
+  .summary-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+    
+    .header-icon {
+      width: 50px;
+      height: 50px;
+      
+      i {
+        font-size: 24px;
+      }
+    }
+    
+    h3 {
+      font-size: 20px;
+    }
+  }
+  
+  .summary-item {
+    padding: 15px;
+    
+    .item-image {
+      .product-thumb {
+        width: 60px;
+        height: 60px;
+      }
+    }
+    
+    .item-details {
+      h4 {
+        font-size: 14px;
+      }
+      
+      .item-price {
+        .price {
+          font-size: 16px;
+        }
+      }
+    }
+    
+    .item-total {
+      font-size: 16px;
+    }
+  }
+  
+  .summary-guarantee {
+    padding: 15px;
+    
+    .guarantee-item {
+      margin-bottom: 15px;
+      
+      span {
+        font-size: 13px;
+      }
+    }
+  }
+}
+
+/* ============================================
+   IPHONE X/XS/11/12 SPECIFIC OPTIMIZATIONS
+   ============================================ */
+@media (max-width: 414px) and (min-height: 812px) {
+  .checkout-container {
+    min-height: calc(100vh - env(safe-area-inset-bottom));
+    padding-bottom: calc(20px + env(safe-area-inset-bottom));
+  }
+  
+  .order-summary-sidebar {
+    margin-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .step-actions {
+    margin-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* ============================================
+   LANDSCAPE MODE OPTIMIZATIONS
+   ============================================ */
+@media (max-height: 600px) and (orientation: landscape) {
+  .checkout-wrapper {
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+  
+  .checkout-progress {
+    padding: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .progress-steps {
+    gap: 20px;
+  }
+  
+  .summary-items {
+    max-height: 200px;
+  }
+  
+  .step-header {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+  }
+  
+  .whatsapp-message-section .message-preview {
+    max-height: 150px;
+  }
+}
+
+/* ============================================
+   HIGH DPI SCREENS (2x, 3x)
+   ============================================ */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .checkout-container {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  .checkout-trust-header,
+  .checkout-progress,
+  .order-summary-sidebar,
+  .checkout-steps {
+    border-width: 0.5px;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY: REDUCED MOTION
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  .checkout-container *,
+  .checkout-container *::before,
+  .checkout-container *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .checkout-trust-header,
+  .order-summary-sidebar,
+  .checkout-steps,
+  .payment-confirmation-modal .modal-content {
+    animation: none !important;
+  }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+  .checkout-container {
+    background: white !important;
+    color: black !important;
+    min-height: auto;
+    padding: 20px;
+  }
+  
+  .checkout-trust-header::before,
+  .checkout-container::before {
+    display: none;
+  }
+  
+  .trust-security,
+  .step-actions,
+  .btn-copy-till,
+  .btn-open-whatsapp {
+    display: none !important;
+  }
+  
+  .checkout-wrapper {
+    display: block;
+  }
+  
+  .order-summary-sidebar,
+  .checkout-steps {
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+    margin-bottom: 20px;
+  }
+  
+  .whatsapp-confirmation-section {
+    border: 2px solid #000 !important;
+  }
+}
+
+/* ============================================
+   WEBKIT SCROLLBAR STYLES FOR MOBILE
+   ============================================ */
+.summary-items,
+.message-preview {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(139, 195, 74, 0.3) transparent;
+}
+
+/* ============================================
+   FORM FOCUS VISIBLE ENHANCEMENT
+   ============================================ */
+.form-input:focus-visible {
+  outline: 2px solid hsl(125, 89%, 31%);
+  outline-offset: 2px;
+}
+
+/* ============================================
+   TOUCH TARGET SIZE ENHANCEMENTS
+   ============================================ */
+.delivery-option,
+.btn-copy-till,
+.btn-open-whatsapp,
+.support-btn,
+.secure-badge {
+  min-height: 44px;
+}
+
+.form-group label,
+.step .step-number {
+  cursor: pointer;
+}
+
+/* ============================================
+   PREVENT TEXT SIZE ADJUST ON IOS
+   ============================================ */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}

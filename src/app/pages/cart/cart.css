@@ -889,3 +889,478 @@
 .cart-content::-webkit-scrollbar-thumb:hover {
   background: var(--primary-green-light);
 }
+/* ============================================
+   EXTRA SMALL MOBILE OPTIMIZATIONS (Below 375px)
+   ============================================ */
+@media (max-width: 375px) {
+  .cart-sidebar {
+    width: 100%;
+    right: -100%;
+  }
+  
+  .cart-header {
+    padding: 20px 15px;
+  }
+  
+  .cart-title {
+    gap: 15px;
+  }
+  
+  .cart-icon {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .cart-icon i {
+    font-size: 1.2rem;
+  }
+  
+  .cart-title h3 {
+    font-size: 1.2rem;
+  }
+  
+  .cart-subtitle {
+    font-size: 0.8rem;
+  }
+  
+  .close-btn {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .cart-items {
+    padding: 15px;
+    gap: 10px;
+  }
+  
+  .cart-item {
+    padding: 15px;
+    gap: 12px;
+  }
+  
+  .item-image-container {
+    width: 65px;
+    height: 65px;
+  }
+  
+  .item-badge {
+    font-size: 0.7rem;
+    padding: 3px 6px;
+    top: -6px;
+    right: -6px;
+  }
+  
+  .item-name {
+    font-size: 0.9rem;
+  }
+  
+  .item-category {
+    font-size: 0.75rem;
+  }
+  
+  .quantity-controls {
+    gap: 8px;
+    padding: 5px 8px;
+  }
+  
+  .qty-btn {
+    width: 24px;
+    height: 24px;
+    font-size: 0.7rem;
+  }
+  
+  .quantity-display {
+    font-size: 0.8rem;
+  }
+  
+  .item-price {
+    font-size: 1rem;
+  }
+  
+  .item-unit {
+    font-size: 0.7rem;
+  }
+  
+  .item-total {
+    font-size: 0.8rem;
+    padding: 3px 8px;
+  }
+  
+  .empty-cart {
+    padding: 60px 20px;
+  }
+  
+  .empty-icon {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .empty-icon i {
+    font-size: 2rem;
+  }
+  
+  .empty-cart h4 {
+    font-size: 1.3rem;
+  }
+  
+  .empty-subtitle {
+    font-size: 0.9rem;
+    max-width: 220px;
+  }
+  
+  .continue-shopping {
+    padding: 12px 24px;
+    font-size: 0.85rem;
+  }
+  
+  .cart-footer {
+    padding: 20px 15px;
+  }
+  
+  .summary-row {
+    font-size: 0.85rem;
+  }
+  
+  .summary-row.total {
+    font-size: 1rem;
+  }
+  
+  .amount {
+    font-size: 18px;
+  }
+  
+  .free-shipping {
+    font-size: 0.85rem;
+  }
+  
+  .total-price {
+    font-size: 1.1rem;
+  }
+  
+  .btn-primary, .btn-secondary {
+    padding: 12px 18px;
+    font-size: 0.85rem;
+  }
+  
+  .trust-badges {
+    padding-top: 15px;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .trust-item {
+    font-size: 0.75rem;
+  }
+}
+
+/* ============================================
+   IPHONE X/XS/11/12 SPECIFIC OPTIMIZATIONS
+   ============================================ */
+@media (max-width: 414px) and (min-height: 812px) {
+  .cart-sidebar {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .cart-footer {
+    padding-bottom: calc(25px + env(safe-area-inset-bottom));
+  }
+}
+
+/* ============================================
+   LANDSCAPE MODE OPTIMIZATIONS
+   ============================================ */
+@media (max-height: 600px) and (orientation: landscape) {
+  .cart-sidebar {
+    height: 100vh;
+    overflow-y: auto;
+  }
+  
+  .cart-header {
+    padding: 15px;
+  }
+  
+  .cart-content {
+    max-height: 60vh;
+  }
+  
+  .cart-items {
+    padding: 15px;
+    gap: 10px;
+  }
+  
+  .cart-item {
+    padding: 12px;
+    gap: 10px;
+  }
+  
+  .item-image-container {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .cart-footer {
+    padding: 15px;
+  }
+}
+
+/* ============================================
+   HIGH DPI SCREENS (2x, 3x)
+   ============================================ */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .cart-sidebar {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    border-left-width: 0.5px;
+  }
+  
+  .cart-item {
+    border-width: 0.5px;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY: REDUCED MOTION
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  .cart-overlay,
+  .cart-sidebar,
+  .cart-item,
+  .toast,
+  .continue-shopping,
+  .btn-primary,
+  .btn-secondary,
+  .close-btn,
+  .action-btn,
+  .qty-btn {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .cart-item:hover {
+    transform: none;
+  }
+  
+  .continue-shopping:hover,
+  .btn-primary:hover,
+  .btn-secondary:hover,
+  .close-btn:hover {
+    transform: none;
+  }
+}
+
+/* ============================================
+   FORM FOCUS VISIBLE ENHANCEMENT
+   ============================================ */
+.close-btn:focus-visible,
+.action-btn:focus-visible,
+.qty-btn:focus-visible,
+.btn-primary:focus-visible,
+.btn-secondary:focus-visible {
+  outline: 2px solid hsl(125, 89%, 31%);
+  outline-offset: 2px;
+}
+
+/* ============================================
+   TOUCH TARGET SIZE ENHANCEMENTS
+   ============================================ */
+.close-btn,
+.action-btn,
+.qty-btn,
+.btn-primary,
+.btn-secondary,
+.continue-shopping {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+.close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-btn,
+.qty-btn {
+  position: relative;
+}
+
+.action-btn::after,
+.qty-btn::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+}
+
+/* ============================================
+   PREVENT TEXT SIZE ADJUST ON IOS
+   ============================================ */
+.cart-sidebar {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* ============================================
+   TOAST RESPONSIVE OPTIMIZATIONS
+   ============================================ */
+@media (max-width: 480px) {
+  .toast-container {
+    bottom: 70px;
+    left: 15px;
+    right: 15px;
+  }
+  
+  .toast {
+    min-width: auto;
+    width: 100%;
+    padding: 15px;
+  }
+  
+  .toast-content strong {
+    font-size: 0.85rem;
+  }
+  
+  .toast-content p {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-height: 500px) {
+  .toast-container {
+    bottom: 10px;
+  }
+}
+
+/* ============================================
+   SCROLLBAR OPTIMIZATIONS FOR TOUCH
+   ============================================ */
+.cart-content {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(125, 89%, 41%) transparent;
+}
+
+/* ============================================
+   TABLET SPECIFIC OPTIMIZATIONS (481px - 768px)
+   ============================================ */
+@media (min-width: 481px) and (max-width: 768px) {
+  .cart-sidebar {
+    width: 380px;
+    right: -380px;
+  }
+  
+  .cart-item {
+    padding: 18px;
+  }
+  
+  .item-image-container {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .cart-actions {
+    flex-direction: row;
+  }
+  
+  .btn-primary, .btn-secondary {
+    min-height: 50px;
+  }
+}
+
+/* ============================================
+   CART ITEM FLEX OPTIMIZATION FOR SMALL SCREENS
+   ============================================ */
+@media (max-width: 320px) {
+  .cart-item {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+  }
+  
+  .item-image-container {
+    width: 90px;
+    height: 90px;
+    margin: 0 auto;
+  }
+  
+  .item-header {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .item-footer {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .price-info {
+    text-align: center;
+  }
+  
+  .action-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+  }
+}
+
+/* ============================================
+   IMPROVED CLOSE BUTTON FOR MOBILE
+   ============================================ */
+@media (max-width: 768px) {
+  .close-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+  
+  .close-btn:active {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg);
+  }
+}
+
+/* ============================================
+   SAFE AREA INSETS FOR IOS HOME INDICATOR
+   ============================================ */
+@supports (padding: max(0px)) {
+  .cart-footer {
+    padding-bottom: max(25px, env(safe-area-inset-bottom));
+  }
+  
+  .cart-sidebar {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* ============================================
+   PREVENT MODAL BACKGROUND SCROLL ON MOBILE
+   ============================================ */
+.cart-overlay.active {
+  position: fixed;
+  overflow: hidden;
+}
+
+/* ============================================
+   IMPROVED BUTTON ACTIVE STATES FOR MOBILE
+   ============================================ */
+@media (hover: none) and (pointer: coarse) {
+  .btn-primary:active,
+  .btn-secondary:active,
+  .continue-shopping:active {
+    transform: scale(0.98);
+    opacity: 0.9;
+  }
+  
+  .qty-btn:active {
+    transform: scale(0.95);
+  }
+  
+  .cart-item:active {
+    transform: scale(0.99);
+  }
+}

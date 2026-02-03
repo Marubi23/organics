@@ -1,7 +1,9 @@
 // src/app/components/hamburger-menu/hamburger-menu.component.ts
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
+import { CartService } from '../../services/cart';
+import { AuthService, User } from '../../services/auth.service';
 
 interface HamburgerMenuItem {
   text: string;
@@ -18,10 +20,15 @@ interface HamburgerMenuItem {
   templateUrl: './hamburger-menu.html',
   styleUrls: ['./hamburger-menu.css']
 })
-export class HamburgerMenuComponent implements OnInit {
+export class HamburgerMenuComponent implements OnInit, OnDestroy {
   @Input() isOpen = false;
   @Output() closeMenu = new EventEmitter<void>();
   
+  currentUser: User | null = null;
+  cartCount = 0;
+  cartTotal = 0;
+  private subscriptions: any[] = [];
+
   // Mobile menu items matching your routes
   menuItems: HamburgerMenuItem[] = [
     { text: 'Home', icon: 'fas fa-home', route: '/home' },
@@ -55,9 +62,41 @@ export class HamburgerMenuComponent implements OnInit {
     { text: 'Login', icon: 'fas fa-sign-in-alt', route: '/login' }
   ];
 
-  constructor(private router: Router) {}
+  // Account menu items
+  accountMenuItems = [
+    { text: 'My Profile', icon: 'fas fa-user-circle', route: '/login' },
+    { text: 'Orders', icon: 'fas fa-shopping-bag', route: '/login' },
+    { text: 'Wishlist', icon: 'fas fa-heart', route: '/login' },
+    { text: 'Settings', icon: 'fas fa-cog', route: '/settings' },
+    { text: 'Help Center', icon: 'fas fa-question-circle', route: '/contact' }
+  ];
 
-  ngOnInit() {}
+  constructor(
+    private router: Router,
+    public cartService: CartService, // Changed to public for template access
+    private authService: AuthService
+  ) {}
+
+  ngOnInit() {
+    // Subscribe to cart items count
+    this.subscriptions.push(
+      this.cartService.cartItems$.subscribe((items: any[]) => {
+        this.cartCount = items.reduce((total: number, item: any) => total + item.quantity, 0);
+        this.cartTotal = this.cartService.getTotalPrice();
+      })
+    );
+    
+    // Subscribe to user auth state
+    this.subscriptions.push(
+      this.authService.currentUser$.subscribe((user: User | null) => {
+        this.currentUser = user;
+      })
+    );
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
 
   onClose() {
     this.closeMenu.emit();
@@ -74,5 +113,46 @@ export class HamburgerMenuComponent implements OnInit {
     } else {
       this.navigate(item.route);
     }
+  }
+
+  // ============ CART FUNCTIONALITY ============
+  toggleCart() {
+    // Same implementation as header component
+    this.cartService.toggleCart();
+    this.onClose(); // Close the hamburger menu
+  }
+
+  get isCartOpen(): boolean {
+    return this.cartService.getCartState();
+  }
+
+  // ============ CART DATA METHODS ============
+  getCartItems() {
+    return this.cartService.getCartItems();
+  }
+
+  getCartTotal() {
+    return this.cartService.getTotalPrice();
+  }
+
+  // ============ ACCOUNT FUNCTIONALITY ============
+  getUserInitials(): string {
+    if (!this.currentUser?.fullName) return 'U';
+    return this.currentUser.fullName
+      .split(' ')
+      .map(n => n[0])
+      .join('')
+      .toUpperCase()
+      .substring(0, 2);
+  }
+
+  logout() {
+    this.authService.logout();
+    this.onClose();
+  }
+
+  // ============ NAVIGATION HELPERS ============
+  isActive(route: string): boolean {
+    return this.router.url === route;
   }
 }

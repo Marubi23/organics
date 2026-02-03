@@ -7,10 +7,37 @@
         <img src="/images/mzuri.JPG" alt="Mzuri Organics" class="logo-img">
         <span>Mzuri Organics</span>
       </div>
-      <button class="close-btn" (click)="onClose()">
+      <button class="close-btn" (click)="onClose()" aria-label="Close menu">
         <i class="fas fa-times"></i>
       </button>
     </div>
+
+    <!-- User Info Section -->
+    <div class="user-section" *ngIf="currentUser; else guestSection">
+      <div class="user-avatar-menu">
+        {{ getUserInitials() }}
+      </div>
+      <div class="user-info-menu">
+        <h5>{{ currentUser.fullName }}</h5>
+        <span class="user-email">{{ currentUser.email }}</span>
+      </div>
+      <button class="logout-btn-menu" (click)="logout()" title="Sign out">
+        <i class="fas fa-sign-out-alt"></i>
+      </button>
+    </div>
+    
+    <ng-template #guestSection>
+      <div class="guest-section">
+        <div class="guest-avatar">
+          <i class="fas fa-user"></i>
+        </div>
+        <div class="guest-info">
+          <h5>Guest User</h5>
+       
+        </div>
+      
+      </div>
+    </ng-template>
 
     <!-- Menu Content -->
     <div class="menu-content">
@@ -19,7 +46,7 @@
           <div *ngFor="let item of menuItems" class="nav-item">
             <!-- Items with children -->
             <div *ngIf="item.children" class="has-children">
-              <button class="nav-link" (click)="toggleSubmenu(item)">
+              <button class="nav-link" (click)="toggleSubmenu(item)" [class.active]="isActive(item.route)">
                 <i [class]="item.icon"></i>
                 <span>{{ item.text }}</span>
                 <i class="chevron" [class.rotated]="item.isOpen">›</i>
@@ -30,6 +57,7 @@
                 <a *ngFor="let child of item.children" 
                    [routerLink]="child.route" 
                    class="submenu-link"
+                   [class.active]="isActive(child.route)"
                    (click)="onClose()">
                   <i [class]="child.icon"></i>
                   <span>{{ child.text }}</span>
@@ -41,6 +69,7 @@
             <a *ngIf="!item.children" 
                [routerLink]="item.route" 
                class="nav-link"
+               [class.active]="isActive(item.route)"
                (click)="onClose()">
               <i [class]="item.icon"></i>
               <span>{{ item.text }}</span>
@@ -49,22 +78,115 @@
         </div>
       </nav>
 
+      <!-- Account Menu Links -->
+      <div class="account-menu-section" *ngIf="currentUser">
+        <div class="section-title">My Account</div>
+        <div class="account-links">
+          <a *ngFor="let item of accountMenuItems" 
+             [routerLink]="item.route" 
+             class="account-link"
+             (click)="onClose()">
+            <i [class]="item.icon"></i>
+            <span>{{ item.text }}</span>
+          </a>
+        </div>
+      </div>
+
       <!-- Quick Actions -->
       <div class="quick-actions">
-        <button class="action-btn" routerLink="/cart" (click)="onClose()">
-          <i class="fas fa-shopping-cart"></i>
+        <!-- Cart Button with count badge -->
+        <button class="action-btn cart-action" (click)="toggleCart()">
+          <div class="cart-icon-wrapper">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-badge" *ngIf="cartCount > 0">{{ cartCount }}</span>
+          </div>
           <span>Cart</span>
+          <span class="cart-indicator" *ngIf="isCartOpen">(Open)</span>
         </button>
         
-        <button class="action-btn" routerLink="/checkout" (click)="onClose()">
+        <!-- Checkout Button -->
+        <button class="action-btn checkout-action" routerLink="/checkout" (click)="onClose()">
           <i class="fas fa-credit-card"></i>
           <span>Checkout</span>
+          <span class="checkout-total" *ngIf="cartCount > 0">
+            KES {{ getCartTotal() | number:'1.0-0' }}
+          </span>
         </button>
         
-        <a href="tel:+254700123456" class="action-btn">
+        <!-- Call Us Button -->
+        <a href="tel:+254 701 934918" class="action-btn call-action" (click)="onClose()">
           <i class="fas fa-phone"></i>
           <span>Call Us</span>
+          <span class="phone-number">+254 701 934918</span>
         </a>
+        
+        <!-- Search Button -->
+        <button class="action-btn search-action" routerLink="/shop" (click)="onClose()">
+          <i class="fas fa-search"></i>
+          <span>Search Products</span>
+        </button>
+      </div>
+
+      <!-- Cart Summary -->
+      <div class="cart-summary-section" *ngIf="cartCount > 0">
+        <div class="section-title">Cart Summary</div>
+        <div class="cart-items-preview">
+          <div class="cart-preview-item" *ngFor="let item of getCartItems().slice(0, 3)">
+            <img [src]="item.image || '/images/placeholder.jpg'" [alt]="item.name" class="cart-preview-img">
+            <div class="cart-preview-info">
+              <span class="cart-preview-name">{{ item.name }}</span>
+              <span class="cart-preview-qty">x{{ item.quantity }}</span>
+            </div>
+            <span class="cart-preview-price">
+              KES {{ (item.price * item.quantity) | number:'1.0-0' }}
+            </span>
+          </div>
+        </div>
+        <div class="cart-total-row">
+          <span>Total:</span>
+          <span class="cart-total-amount">KES {{ getCartTotal() | number:'1.0-0' }}</span>
+        </div>
+        <button class="view-cart-btn" (click)="toggleCart()">
+          View Full Cart
+        </button>
+      </div>
+
+      <!-- Theme Toggle -->
+      <div class="theme-toggle-section">
+        <div class="theme-toggle">
+          <i class="fas fa-sun"></i>
+          <label class="switch">
+            <input type="checkbox" id="themeToggle">
+            <span class="slider round"></span>
+          </label>
+          <i class="fas fa-moon"></i>
+          <span class="theme-label">Dark Mode</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="menu-footer">
+      <div class="social-links">
+        <a href="#" class="social-link" title="Facebook">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="#" class="social-link" title="Twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+        <a href="#" class="social-link" title="Instagram">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="#" class="social-link" title="WhatsApp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </div>
+      <div class="footer-info">
+        <span>© 2024 Mzuri Organics</span>
+        <span class="divider">|</span>
+        <a href="/privacy" (click)="navigate('/privacy')">Privacy Policy</a>
+        <span class="divider">|</span>
+        <a href="/terms" (click)="navigate('/terms')">Terms of Service</a>
       </div>
     </div>
   </div>
