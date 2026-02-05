@@ -2740,3 +2740,7 @@ html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
+.mode-toggle-btn{
+  padding: 10px 10px;
+  border-radius:20px
+}

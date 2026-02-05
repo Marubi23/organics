@@ -54,6 +54,22 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   readonly TILL_NUMBER: string = '8589836';
   readonly BUSINESS_NAME: string = 'Mzuri Organics';
 
+  // County properties
+  counties: string[] = [
+    'Nairobi', 'Mombasa', 'Kisumu', 'Nakuru', 'Eldoret', 'Thika',
+    'Kiambu', 'Machakos', 'Kajiado', 'Muranga', 'Nyeri', 'Meru',
+    'Embu', 'Kirinyaga', 'Laikipia', 'Nyandarua', 'Baringo',
+    'Bomet', 'Bungoma', 'Busia', 'Elgeyo-Marakwet', 'Garissa', 'Homa Bay',
+    'Isiolo', 'Kakamega', 'Kericho', 'Kilifi', 'Kisii',
+    'Kitui', 'Kwale', 'Lamu', 'Mandera',
+    'Marsabit', 'Migori', 'Nandi', 'Narok', 'Nyamira', 'Samburu',
+    'Siaya', 'Taita Taveta', 'Tana River', 'Tharaka-Nithi', 'Trans Nzoia',
+    'Turkana', 'Uasin Gishu', 'Vihiga', 'Wajir', 'West Pokot'
+  ].sort();
+
+  countyInputMode: 'select' | 'manual' = 'select';
+  countySuggestions: string[] = [];
+
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -98,6 +114,10 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
     this.deliveryForm = this.fb.group({
       county: ['', Validators.required],
+      countyManual: ['', [
+        Validators.minLength(3),
+        Validators.maxLength(100)
+      ]],
       town: ['', [
         Validators.required,
         Validators.minLength(2)
@@ -108,6 +128,14 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       ]],
       deliveryNotes: ['']
     });
+
+    // Listen to county manual input changes for suggestions
+    this.deliveryForm.get('countyManual')?.valueChanges.subscribe(value => {
+      this.filterCountySuggestions(value);
+    });
+
+    // Initialize county mode
+    this.setCountyInputMode('select');
   }
 
   get formControls() {
@@ -173,12 +201,27 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         return;
       }
       
-      if (this.currentStep === 2 && this.deliveryForm.invalid) {
-        this.markFormGroupTouched(this.deliveryForm);
-        if (this.toastService) {
-          this.toastService.showError('Please fill in all required delivery information.');
+      if (this.currentStep === 2) {
+        // Check county validation based on mode
+        let countyValid = false;
+        
+        if (this.countyInputMode === 'select') {
+          countyValid = this.deliveryForm.get('county')?.valid || false;
+        } else {
+          countyValid = this.deliveryForm.get('countyManual')?.valid || false;
         }
-        return;
+        
+        const otherFieldsValid = 
+          this.deliveryForm.get('town')?.valid && 
+          this.deliveryForm.get('address')?.valid;
+        
+        if (!countyValid || !otherFieldsValid) {
+          this.markFormGroupTouched(this.deliveryForm);
+          if (this.toastService) {
+            this.toastService.showError('Please fill in all required delivery information.');
+          }
+          return;
+        }
       }
       
       this.currentStep++;
@@ -222,6 +265,15 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     const customer = this.checkoutForm.value;
     const delivery = this.deliveryForm.value;
     
+    // Get county based on input mode
+    let county = '';
+    if (this.countyInputMode === 'select') {
+      const selectedCounty = this.counties.find(c => c.toLowerCase() === delivery.county);
+      county = selectedCounty || delivery.county || '';
+    } else {
+      county = delivery.countyManual || '';
+    }
+    
     const message = `
 *MZURI ORGANICS - ORDER CONFIRMATION*
 
@@ -231,7 +283,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 📧 *Email:* ${customer.email}
 
 📍 *Delivery Address:*
-${delivery.town}, ${delivery.county}
+${delivery.town}, ${county}
 ${delivery.address}
 ${delivery.deliveryNotes ? `📝 *Notes:* ${delivery.deliveryNotes}` : ''}
 
@@ -303,6 +355,15 @@ Thank you for choosing Mzuri Organics! We appreciate your business
   saveOrderToStorage(): void {
     this.isLoading = true;
     
+    // Get county based on input mode
+    let countyValue = '';
+    if (this.countyInputMode === 'select') {
+      const selectedCounty = this.counties.find(c => c.toLowerCase() === this.deliveryForm.value.county);
+      countyValue = selectedCounty || this.deliveryForm.value.county || '';
+    } else {
+      countyValue = this.deliveryForm.value.countyManual || '';
+    }
+    
     const orderData = {
       customer: {
         firstName: this.checkoutForm.value.firstName,
@@ -311,13 +372,14 @@ Thank you for choosing Mzuri Organics! We appreciate your business
         phoneNumber: this.checkoutForm.value.phoneNumber
       },
       delivery: {
-        county: this.deliveryForm.value.county,
+        county: countyValue,
         town: this.deliveryForm.value.town,
         address: this.deliveryForm.value.address,
         deliveryNotes: this.deliveryForm.value.deliveryNotes || '',
         method: this.getSelectedDeliveryName(),
         cost: this.getDeliveryPrice(),
-        selectedOption: this.selectedDelivery
+        selectedOption: this.selectedDelivery,
+        inputMode: this.countyInputMode
       },
       items: this.cartItems,
       total: this.totalAmount,
@@ -512,25 +574,56 @@ Thank you for choosing Mzuri Organics! We appreciate your business
     this.checkoutForm.reset();
     this.deliveryForm.reset();
     this.selectedDelivery = 'standard';
+    this.countyInputMode = 'select';
+    this.countySuggestions = [];
     this.generateOrderCode();
     if (this.toastService) {
       this.toastService.showInfo('Checkout form has been reset');
     }
   }
 
-  getCounties(): string[] {
-    return [
-      'Nairobi', 'Mombasa', 'Kisumu', 'Nakuru', 'Eldoret', 'Thika',
-      'Kiambu', 'Machakos', 'Kajiado', 'Muranga', 'Nyeri', 'Meru',
-      'Embu', 'Kirinyaga', 'Laikipia', 'Nyandarua', 'Nakuru', 'Baringo',
-      'Bomet', 'Bungoma', 'Busia', 'Elgeyo-Marakwet', 'Garissa', 'Homa Bay',
-      'Isiolo', 'Kakamega', 'Kericho', 'Kilifi', 'Kirinyaga', 'Kisii',
-      'Kisumu', 'Kitui', 'Kwale', 'Laikipia', 'Lamu', 'Mandera',
-      'Marsabit', 'Migori', 'Mombasa', 'Muranga', 'Nairobi', 'Nakuru',
-      'Nandi', 'Narok', 'Nyamira', 'Nyandarua', 'Nyeri', 'Samburu',
-      'Siaya', 'Taita Taveta', 'Tana River', 'Tharaka-Nithi', 'Trans Nzoia',
-      'Turkana', 'Uasin Gishu', 'Vihiga', 'Wajir', 'West Pokot'
-    ].sort();
+  // County Input Mode Methods
+  setCountyInputMode(mode: 'select' | 'manual'): void {
+    this.countyInputMode = mode;
+    
+    // Clear suggestions when switching modes
+    this.countySuggestions = [];
+    
+    // Update validation based on mode
+    if (mode === 'select') {
+      this.deliveryForm.get('county')?.setValidators([Validators.required]);
+      this.deliveryForm.get('countyManual')?.clearValidators();
+      this.deliveryForm.get('countyManual')?.setValue('');
+    } else {
+      this.deliveryForm.get('countyManual')?.setValidators([
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(100)
+      ]);
+      this.deliveryForm.get('county')?.clearValidators();
+      this.deliveryForm.get('county')?.setValue('');
+    }
+    
+    // Update validation status
+    this.deliveryForm.get('county')?.updateValueAndValidity();
+    this.deliveryForm.get('countyManual')?.updateValueAndValidity();
+  }
+
+  filterCountySuggestions(searchTerm: string): void {
+    if (!searchTerm || searchTerm.length < 2) {
+      this.countySuggestions = [];
+      return;
+    }
+    
+    const term = searchTerm.toLowerCase();
+    this.countySuggestions = this.counties.filter(county => 
+      county.toLowerCase().includes(term)
+    ).slice(0, 5); // Limit to 5 suggestions
+  }
+
+  selectCountySuggestion(county: string): void {
+    this.deliveryForm.get('countyManual')?.setValue(county);
+    this.countySuggestions = [];
   }
 
   onCountyChange(): void {
@@ -543,6 +636,15 @@ Thank you for choosing Mzuri Organics! We appreciate your business
   }
 
   getOrderSummary(): any {
+    // Get county based on input mode
+    let countyValue = '';
+    if (this.countyInputMode === 'select') {
+      const selectedCounty = this.counties.find(c => c.toLowerCase() === this.deliveryForm.value.county);
+      countyValue = selectedCounty || this.deliveryForm.value.county || '';
+    } else {
+      countyValue = this.deliveryForm.value.countyManual || '';
+    }
+    
     return {
       orderNumber: this.orderCode,
       items: this.cartItems,
@@ -550,7 +652,10 @@ Thank you for choosing Mzuri Organics! We appreciate your business
       delivery: this.getDeliveryPrice(),
       total: this.totalAmount,
       customer: this.checkoutForm.value,
-      deliveryInfo: this.deliveryForm.value
+      deliveryInfo: {
+        ...this.deliveryForm.value,
+        county: countyValue
+      }
     };
   }
 }

@@ -257,19 +257,74 @@
           </div>
 
           <div class="delivery-form">
-            <div class="form-group">
-              <label for="county">
-                <i class="fas fa-map-marker-alt"></i> County *
-              </label>
-              <select id="county" formControlName="county" class="form-input">
-                <option value="">Select County</option>
-                <option value="nairobi">Nairobi</option>
-                <option value="kiambu">Kiambu</option>
-                <option value="nakuru">Nakuru</option>
-                <option value="mombasa">Mombasa</option>
-                <option value="kisumu">Kisumu</option>
-              </select>
-            </div>
+          <!-- Updated County Field -->
+<div class="form-group">
+  <label for="county">
+    <i class="fas fa-map-marker-alt"></i> County *
+  </label>
+  
+  <!-- County Selection Mode Toggle -->
+  <div class="county-mode-toggle">
+    <button type="button" 
+            class="mode-toggle-btn"
+            [class.active]="countyInputMode === 'select'"
+            (click)="setCountyInputMode('select')">
+      <i class="fas fa-list"></i> Select from List
+    </button>
+    <button type="button" 
+            class="mode-toggle-btn"
+            [class.active]="countyInputMode === 'manual'"
+            (click)="setCountyInputMode('manual')">
+      <i class="fas fa-pencil-alt"></i> Enter Manually
+    </button>
+  </div>
+
+  <!-- Select Mode -->
+  <div *ngIf="countyInputMode === 'select'" class="county-select-wrapper">
+    <select id="county" formControlName="county" class="form-input" (change)="onCountyChange()">
+      <option value="">Select County</option>
+      <option *ngFor="let county of counties" [value]="county.toLowerCase()">
+        {{ county }}
+      </option>
+    </select>
+    <div class="county-count">
+      <i class="fas fa-info-circle"></i>
+      {{ counties.length }} counties available
+    </div>
+  </div>
+
+  <!-- Manual Input Mode -->
+  <div *ngIf="countyInputMode === 'manual'" class="county-input-wrapper">
+    <input type="text" 
+           id="countyManual" 
+           formControlName="countyManual" 
+           placeholder="Enter your county (e.g., Nairobi County)" 
+           class="form-input"
+           [class.is-invalid]="deliveryForm.get('countyManual')?.invalid && deliveryForm.get('countyManual')?.touched">
+    <div class="form-hint">
+      <i class="fas fa-lightbulb"></i>
+      Type your county name exactly as it appears officially
+    </div>
+    <div class="form-error" *ngIf="deliveryForm.get('countyManual')?.touched && deliveryForm.get('countyManual')?.invalid">
+      <i class="fas fa-exclamation-circle"></i>
+      Please enter a valid county name (minimum 3 characters)
+    </div>
+    
+    <!-- County Suggestions -->
+    <div *ngIf="countySuggestions.length > 0 && deliveryForm.get('countyManual')?.value?.length >= 2" 
+         class="county-suggestions">
+      <div class="suggestions-header">
+        <i class="fas fa-search"></i>
+        Did you mean one of these?
+      </div>
+      <div *ngFor="let suggestion of countySuggestions" 
+           class="suggestion-item"
+           (click)="selectCountySuggestion(suggestion)">
+        {{ suggestion }}
+      </div>
+    </div>
+  </div>
+</div>
 
             <div class="form-group">
               <label for="town">
