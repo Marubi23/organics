@@ -66,10 +66,7 @@ export class ProblemsComponent implements OnInit {
       id: 1,
       title: 'Declining Soil Fertility & Overdependence on Synthetic Fertilizers',
       category: 'critical',
-      stats: [
-        { value: '70%+', label: 'Soil Depletion' },
-        { value: '3x', label: 'Cost Increase' }
-      ],
+ 
       impacts: [
         'Farmers rely heavily on costly synthetic fertilizers (CAN, Urea, DAP) with diminishing returns',
         'Results in nutrient imbalance, acidification, and reduced yields',

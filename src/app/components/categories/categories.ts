@@ -37,7 +37,7 @@ export class CategoriesComponent implements OnInit, AfterViewInit, OnDestroy {
   // Impact stats for the new CTA section
   impactStats = signal<ImpactStat[]>([
     { value: 55, suffix: '+', label: 'Tons of Waste Upcycled Monthly', current: 0 },
-    { value: 1000, suffix: 'L+', label: 'Liquid Biofertilizer Weekly', current: 0 },
+    { value: 1000, suffix: 'L+', label: 'Liquid Biofertilizer Monthly', current: 0 },
     { value: 5, suffix: 'T+', label: 'Solid Fertilizer Monthly', current: 0 },
     { value: 40, suffix: '%', label: 'Savings on Farm Input Costs', current: 0 },
     { value: 60, suffix: '%', label: 'Increase in Farm Yields', current: 0 }
@@ -60,26 +60,26 @@ export class CategoriesComponent implements OnInit, AfterViewInit, OnDestroy {
     {
       image: 'images/product2.jpg', // VamiPlus NPK Plus image
       category: 'Biofertilizer',
-      name: 'VamiPlus NPK Plus',
-      description: 'Premium organo-mineral biofertilizer with active microbes for enhanced nutrient uptake and soil health restoration',
-      price: 1500,
-      unit: '/25kg bag'
+      name: 'Bio Veg Plus',
+      description: 'Specialized organic fertilizer for vegetables',
+      price: 400,
+      unit: '/half-litre bottle'
     },
     {
       image: 'images/product1.jpg', // BioFruity Plus image
       category: 'Biofertilizer',
       name: 'BioFruity Plus',
-      description: 'Specialized liquid biofertilizer for fruit trees, boosting flowering, fruit quality, and sweetness',
-      price: 700,
-      unit: '/1L bottle'
+      description: 'Specialized organic fertilizer for vegetables',
+      price: 400,
+      unit: '/half-litre bottle'
     },
     {
-      image: 'images/vermifrass.jpeg',
+      image: 'images/vermifrassprod.jpeg',
       category: 'Biofertilizer',
       name: 'VermiFrass Active',
-      description: 'Superior organic fertilizer with active macrobes and microbes for comprehensive soil regeneration',
-      price: 850,
-      unit: '/5kg bag'
+      description: 'Superior 100% organic fertilizer with active microbes',
+      price: 1500,
+      unit: '/25kg bag'
     }
   ];
 

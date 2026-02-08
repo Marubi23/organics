@@ -3,7 +3,7 @@
   <div class="container">
     <div class="hero-content">
       <h1>Mzuri Organics Impact in Kenya</h1>
-      <p class="hero-subtitle">Transforming Kenyan agriculture, empowering local farmers, and building sustainable communities across East Africa</p>
+      <p class="hero-subtitle">Transforming Kenyan agriculture, empowering local farmers, and building sustainable communities across Kenya</p>
     </div>
   </div>
 </section>
@@ -21,7 +21,7 @@
         <h3>Proven Kenyan Results</h3>
         <p>Measurable outcomes demonstrating sustainable agricultural transformation across Kenyan farming communities</p>
         <div class="overview-context">
-          <small>Verified impact in East Africa</small>
+          <small>Verified impact in Kenya</small>
         </div>
       </div>
       
@@ -35,7 +35,7 @@
           </svg>
         </div>
         <h3>Kenyan Community Impact</h3>
-        <p>Empowering Kenyan smallholder farmers and building resilient communities across East Africa</p>
+        <p>Empowering Kenyan smallholder farmers and building resilient communities across Kenya</p>
         <div class="overview-context">
           <small>Local community development</small>
         </div>
@@ -89,7 +89,7 @@
   <div class="container">
     <div class="section-header" @fadeInUp>
       <h2>Kenyan Outcomes & Results</h2>
-      <p>Transforming agricultural practices and improving livelihoods across East African communities</p>
+      <p>Transforming agricultural practices and improving livelihoods across Kenyan communities</p>
     </div>
     
     <div class="outcomes-grid">
@@ -128,12 +128,7 @@
         <div class="sdg-number">SDG {{ sdg.number }}</div>
         <h4>{{ sdg.title }}</h4>
         <p>{{ sdg.impact }}</p>
-        <div class="sdg-progress">
-          <div class="progress-bar">
-            <div class="progress-fill" [style.width.%]="sdg.progress"></div>
-          </div>
-          <span class="progress-text">{{ sdg.progress }}% Contribution in Kenya</span>
-        </div>
+       
       </div>
     </div>
   </div>
@@ -200,33 +195,8 @@
   </div>
 </section>
 
-<section class="future-goals" id="goals">
-  <div class="container">
-    <div class="section-header" @fadeInUp>
-      <h2>Mzuri Organics Future Goals & Expansion</h2>
-      <p>Our Kenyan roadmap for scaling impact and reaching more East African communities</p>
-    </div>
-    
-    <div class="goals-timeline">
-      <div class="timeline-item" *ngFor="let goal of futureGoals; let i = index" @staggerAnimation>
-        <div class="timeline-marker">{{ goal.year }}</div>
-        <div class="timeline-content">
-          <h4>{{ goal.title }}</h4>
-          <p>{{ goal.description }}</p>
-          <div class="goal-metrics">
-            <div class="goal-metric" *ngFor="let metric of goal.metrics">
-              <span class="metric-target">{{ metric.target }}</span>
-              <span class="metric-label">{{ metric.label }}</span>
-            </div>
-          </div>
-          <div class="goal-context">
-            <small>Focus on Kenyan agriculture</small>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+
+
 
 <section class="impact-cta" id="cta">
   <div class="container">

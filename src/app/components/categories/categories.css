@@ -5,7 +5,7 @@
    ============================================ */
 .impact-cta-section {
   padding: 100px 0;
-  background-image: url('/images/mzuri5.jpg');
+  background-color:white ;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -32,7 +32,7 @@
    ============================================ */
 .mission-hero {
   text-align: center;
-  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4));
+   background-color: white;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -278,7 +278,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: url('/images/mzuri8.jpg');
+  background-color: white;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -301,7 +301,7 @@
   font-size: 2.8rem;
   font-weight: 600;
   margin-bottom: 15px;
-  color: hsl(0, 0%, 100%);
+  color: hsl(125, 89%, 41%);
   font-family: 'Poppins', sans-serif;
   position: relative;
   display: inline-block;
@@ -686,7 +686,7 @@
 
 .sdg-15 { 
   border-top: 4px solid hsl(125, 89%, 31%);
-  grid-column: span 2;
+
 }
 .sdg-15 .sdg-number { 
   color: hsl(125, 89%, 31%); 

@@ -105,7 +105,7 @@ export class AboutComponent {
   problems: Problem[] = [
     {
       title: 'Declining Soil Fertility & Chemical Dependence',
-      description: 'Kenyan soils severely depleted of organic matter. Farmers rely on costly synthetic fertilizers with diminishing returns, leading to nutrient imbalance and reduced yields.',
+      description: 'Kenyan soils severely depleted of organic matter. Farmers rely on costly synthetic fertilizers with diminishing returns, leading to nutrient imbalance and poor soil health.',
       icon: 'soil'
     },
     {
@@ -249,7 +249,7 @@ export class AboutComponent {
       icon: 'fertilizer'
     },
     {
-      title: 'NPK ActivePlus',
+      title: 'Blended Organo-Mineral Fertilizers',
       description: 'Precision-engineered organo-mineral fertilizer blending living organic biology with targeted mineral nutrition for fast, balanced nutrients.',
       type: 'blended',
       icon: 'npk'

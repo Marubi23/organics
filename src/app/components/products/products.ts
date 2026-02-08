@@ -40,7 +40,7 @@ export class ProductsComponent implements OnInit {
       description: 'Superior 100% organic fertilizer with active microbes',
       price: 1500,
       originalPrice: 1800,
-      image: 'images/product4.jpg',
+      image: 'images/vermifrassprod.jpeg',
       category: 'Biofertilizers',
       rating: 4.9,
       units: '25KG bag',
@@ -111,27 +111,12 @@ export class ProductsComponent implements OnInit {
       isOrganic: true,
       isNew: false
     },
-    {
+       {
       id: 6,
-      name: 'Liquid Frass',
-      description: 'Specialized organic fertilizer',
-      price: 500,
-      image: 'images/liquid frass.jpeg',
-      category: 'Biofertilizers',
-      rating: 4.7,
-      units: '1 Litre',
-      inStock: true,
-      stock: 32,
-      features: ['For Vegetables', 'Balanced NPK', 'Improves Yield'],
-      isOrganic: true,
-      isNew: false
-    },
-    {
-      id: 7,
-      name: 'NPK Active (25kg)',
+      name: 'Organo-Mineral DAP 10% ',
       description: 'Customized Organo-mineral fertilizer',
-      price: 500,
-      image: 'images/product3.jpg',
+      price: 2200,
+      image: 'images/dap10.jpeg',
       category: 'Biofertilizers',
       rating: 4.7,
       units: '25 KG bag',
@@ -141,21 +126,53 @@ export class ProductsComponent implements OnInit {
       isOrganic: true,
       isNew: false
     },
-    {
-      id: 8,
-      name: 'NPK Active (50kg)',
+
+     {
+      id:7,
+      name: 'Organo-Mineral CAN 10% ',
       description: 'Customized Organo-mineral fertilizer',
-      price: 1500,
-      image: 'images/product3.jpg',
+      price: 1900,
+      image: 'images/can10.jpeg',
       category: 'Biofertilizers',
       rating: 4.7,
-      units: '50 KG bag',
+      units: '25 KG bag',
+      inStock: true,
+      stock: 32,
+      features: ['For Vegetables', 'Balanced NPK', 'Improves Yield'],
+      isOrganic: true,
+      isNew: false
+    },
+          {
+      id:8,
+      name: 'Organo-Mineral NPK 10% ',
+     description: 'Customized Organo-mineral fertilizer',
+      price: 2000,
+      image: 'images/npk10.jpeg',
+      category: 'Biofertilizers',
+      rating: 4.7,
+      units: '25 KG bag',
+      inStock: true,
+      stock: 32,
+      features: ['For Vegetables', 'Balanced NPK', 'Improves Yield'],
+      isOrganic: true,
+      isNew: false
+    },
+             {
+      id:9,
+      name: 'Organo-Mineral UREA 10% ',
+     description: 'Customized Organo-mineral fertilizer',
+      price: 2200,
+      image: 'images/urea10.jpeg',
+      category: 'Biofertilizers',
+      rating: 4.7,
+      units: '25 KG bag',
       inStock: true,
       stock: 32,
       features: ['For Vegetables', 'Balanced NPK', 'Improves Yield'],
       isOrganic: true,
       isNew: false
     }
+
   ];
 
   // Cart State

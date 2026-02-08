@@ -12,34 +12,13 @@ import { CommonModule } from '@angular/common';
 export class FeaturesComponent implements AfterViewInit {
   private cdr = inject(ChangeDetectorRef);
 
-  features = [
-    {
-      title: 'Free Delivery',
-      description: 'Enjoy free delivery on all orders over $50, straight to your doorstep.',
-      badge: 'FREE'
-    },
-    {
-      title: '100% Organic',
-      description: 'All our products are certified organic with no harmful chemicals or pesticides.',
-      badge: 'CERTIFIED'
-    },
-    {
-      title: 'Fresh Guarantee',
-      description: 'We guarantee the freshness of all our products with our farm-to-table process.',
-      badge: 'GUARANTEED'
-    },
-    {
-      title: 'Support Farmers',
-      description: 'Your purchase directly supports local farmers and sustainable agriculture.',
-      badge: 'IMPACT'
-    }
-  ];
+
 
   stats = [
-    { value: 100, label: 'Happy Customers', target: 10000 },
-    { value: 3000, label: 'Organic Products', target: 5000 },
-    { value: 7000, label: 'Farm Partners', target: 10000 },
-    { value: 10, label: 'Years Experience', target: 20 }
+    { value: 100, label: 'Happy Customers', target: 8000 },
+    { value: 1, label: 'Organic Products', target: 5 },
+    { value: 10, label: 'Farm Partners', target: 100 },
+    { value: 1, label: 'Years Experience', target: 5 }
   ];
 
   ngAfterViewInit() {
