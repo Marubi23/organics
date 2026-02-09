@@ -487,7 +487,8 @@
 }
 
 .partner-logo {
-  height: 90px;
+  height: 50px;
+  width:50px;
   background: white;
   border-radius: 12px;
   display: flex;
