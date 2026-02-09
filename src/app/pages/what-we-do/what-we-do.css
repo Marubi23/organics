@@ -502,7 +502,10 @@
   border: 1px solid rgba(0, 0, 0, 0.08);
   font-family: 'Poppins', sans-serif;
 }
-
+.partner-logo img{
+  height:50px;
+  width:50px;
+}
 .partner-logo:hover {
   transform: translateY(-3px);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
