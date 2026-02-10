@@ -2,12 +2,310 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>MzuriOrganics</title>
+  <title>Mzuri Organics - Regenerative Agriculture & Circular Economy Solutions</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mzuri Organics transforms Kenyan agriculture through circular bioeconomy, precision farming, and regenerative models. Organic waste to premium biofertilizers.">
+  <meta name="keywords" content="organic farming, biofertilizers, circular economy, Kenya agriculture, regenerative farming, organic waste management">
+  <meta name="author" content="Mzuri Organics">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://organics-wvl5.onrender.com/">
+  <meta property="og:title" content="Mzuri Organics - Transforming Kenyan Agriculture">
+  <meta property="og:description" content="Circular bioeconomy solutions for regenerative agriculture in Kenya">
+  <meta property="og:image" content="https://organics-wvl5.onrender.com/images/mzuri5.jpg">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://organics-wvl5.onrender.com/">
+  <meta property="twitter:title" content="Mzuri Organics - Transforming Kenyan Agriculture">
+  <meta property="twitter:description" content="Circular bioeconomy solutions for regenerative agriculture in Kenya">
+  <meta property="twitter:image" content="https://organics-wvl5.onrender.com/images/mzuri5.jpg">
+  
+  <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- Preload critical resources -->
+  <link rel="preload" href="styles.css" as="style">
+  
+  <!-- Loading system styles -->
+  <style>
+    /* Critical loading styles - Inlined for immediate rendering */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', sans-serif;
+      background: #f5f5dc;
+      overflow-x: hidden;
+    }
+    
+    /* App loading bar */
+    #app-loading-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 4px;
+      background: linear-gradient(90deg, hsl(125, 89%, 31%), hsl(31, 100%, 47%));
+      z-index: 10000;
+      transition: width 0.3s ease;
+      box-shadow: 0 2px 8px rgba(62, 142, 11, 0.3);
+    }
+    
+    #app-loading-bar.complete {
+      opacity: 0;
+      transition: opacity 0.5s ease 0.3s;
+      pointer-events: none;
+    }
+    
+    /* Full page loader - shown before Angular loads */
+    #initial-loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #f5f5dc;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+      gap: 20px;
+    }
+    
+    #initial-loader.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    
+    /* Brand text */
+    .loader-brand {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: hsl(125, 89%, 31%);
+      text-align: center;
+      opacity: 0;
+      animation: fadeIn 0.8s ease forwards 0.3s;
+    }
+    
+    /* Minimal spinner */
+    .minimal-spinner {
+      width: 60px;
+      height: 60px;
+      border: 4px solid rgba(62, 142, 11, 0.1);
+      border-radius: 50%;
+      border-top-color: hsl(125, 89%, 31%);
+      border-right-color: hsl(31, 100%, 47%);
+      animation: spin 1.2s ease-in-out infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* App root styling */
+    app-root {
+      display: block;
+      min-height: 100vh;
+    }
+    
+    /* Performance optimizations */
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+    
+    /* Skip to content for accessibility */
+    .skip-to-content {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: hsl(125, 89%, 31%);
+      color: white;
+      padding: 8px 16px;
+      z-index: 10001;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .skip-to-content:focus {
+      top: 0;
+    }
+    
+    /* Reduced motion preference */
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      
+      .minimal-spinner {
+        animation: none;
+        border-top-color: rgba(62, 142, 11, 0.3);
+      }
+      
+      .loader-brand {
+        animation: none;
+        opacity: 1;
+      }
+    }
+    
+    /* Mobile responsiveness */
+    @media (max-width: 480px) {
+      .loader-brand {
+        font-size: 1.5rem;
+      }
+      
+      .minimal-spinner {
+        width: 50px;
+        height: 50px;
+      }
+    }
+  </style>
 </head>
 <body>
+  <!-- Skip to content link for accessibility -->
+  <a href="#main-content" class="skip-to-content">Skip to main content</a>
+  
+  <!-- App loading progress bar -->
+  <div id="app-loading-bar"></div>
+  
+  <!-- Initial loader - shown before Angular app loads -->
+  <div id="initial-loader">
+    <div class="loader-brand">Mzuri Organics</div>
+    <div class="minimal-spinner"></div>
+  </div>
+  
+  <!-- Angular app root -->
   <app-root></app-root>
+  
+  <!-- Loading system scripts -->
+  <script>
+    // Performance monitoring
+    const startTime = performance.now();
+    
+    // Initial loader and progress bar
+    const initialLoader = document.getElementById('initial-loader');
+    const appLoadingBar = document.getElementById('app-loading-bar');
+    
+    // App loading progress bar
+    let appProgress = 0;
+    const appProgressInterval = setInterval(() => {
+      appProgress += Math.random() * 12;
+      if (appProgress >= 80) {
+        appProgress = 80;
+      }
+      appLoadingBar.style.width = appProgress + '%';
+    }, 150);
+    
+    // Hide initial loader when Angular is ready
+    window.addEventListener('AngularReady', () => {
+      // Complete progress bar
+      appLoadingBar.style.width = '100%';
+      
+      // Clear interval
+      clearInterval(appProgressInterval);
+      
+      // Hide initial loader
+      setTimeout(() => {
+        initialLoader.classList.add('hidden');
+        
+        // Complete app loading bar
+        setTimeout(() => {
+          appLoadingBar.classList.add('complete');
+          
+          // Log performance
+          const loadTime = performance.now() - startTime;
+          console.log(`🚀 Mzuri Organics loaded in ${Math.round(loadTime)}ms`);
+        }, 300);
+      }, 500);
+    });
+    
+    // Safety timeout - hide loader after 6 seconds max
+    setTimeout(() => {
+      if (!initialLoader.classList.contains('hidden')) {
+        console.log('Safety timeout triggered - forcing loader hide');
+        initialLoader.classList.add('hidden');
+        appLoadingBar.style.width = '100%';
+        setTimeout(() => {
+          appLoadingBar.classList.add('complete');
+        }, 300);
+      }
+    }, 6000);
+    
+    // Error handling
+    window.addEventListener('error', (event) => {
+      console.error('Page error:', event.error);
+      // Hide loader on error to prevent stuck state
+      setTimeout(() => {
+        initialLoader.classList.add('hidden');
+        appLoadingBar.classList.add('complete');
+      }, 1000);
+    });
+    
+    // Before unload event
+    window.addEventListener('beforeunload', () => {
+      // Show loading state for navigation
+      appLoadingBar.style.width = '0%';
+      appLoadingBar.classList.remove('complete');
+    });
+    
+    // Performance observer
+    if ('PerformanceObserver' in window) {
+      const observer = new PerformanceObserver((list) => {
+        for (const entry of list.getEntries()) {
+          console.log(`${entry.name}: ${entry.duration.toFixed(2)}ms`);
+        }
+      });
+      observer.observe({ entryTypes: ['largest-contentful-paint', 'first-input'] });
+    }
+  </script>
+  
+  <!-- Fonts (non-blocking) -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" media="print" onload="this.media='all'">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
+  <!-- Service Worker Registration (optional) -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js').then(registration => {
+          console.log('ServiceWorker registration successful');
+        }).catch(err => {
+          console.log('ServiceWorker registration failed: ', err);
+        });
+      });
+    }
+  </script>
 </body>
 </html>

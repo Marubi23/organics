@@ -1,3 +1,4 @@
+/* hero.css */
 /* Color Variables - Mzuri Organics Theme */
 :root {
   --primary-green: #3e8e0b;
@@ -13,8 +14,6 @@
   --background: #fafaf7;
   --border-light: #e8efe8;
 }
-
-/* Remove any .animating class references if they exist in CSS */
 
 /* Wrap hero slider in a container for the flowing gradient */
 .hero-slider-container {

@@ -1,0 +1,69 @@
+@if (backdrop) {
+  <div class="loading-backdrop">
+    <div class="spinner-container" [class]="size">
+      @switch (type) {
+        @case ('pulse') {
+          <div class="pulse-spinner">
+            <div class="pulse-ring ring-1"></div>
+            <div class="pulse-ring ring-2"></div>
+            <div class="pulse-ring ring-3"></div>
+            <div class="pulse-core"></div>
+          </div>
+        }
+        @case ('spin') {
+          <div class="spin-spinner">
+            <div class="spin-arc arc-1"></div>
+            <div class="spin-arc arc-2"></div>
+            <div class="spin-arc arc-3"></div>
+          </div>
+        }
+        @case ('dual') {
+          <div class="dual-spinner">
+            <div class="dual-orbit orbit-1">
+              <div class="orbit-dot dot-1"></div>
+              <div class="orbit-dot dot-2"></div>
+            </div>
+            <div class="dual-orbit orbit-2">
+              <div class="orbit-dot dot-3"></div>
+              <div class="orbit-dot dot-4"></div>
+            </div>
+            <div class="center-glow"></div>
+          </div>
+        }
+      }
+    </div>
+  </div>
+} @else {
+  <div class="spinner-container" [class]="size">
+    @switch (type) {
+      @case ('pulse') {
+        <div class="pulse-spinner">
+          <div class="pulse-ring ring-1"></div>
+          <div class="pulse-ring ring-2"></div>
+          <div class="pulse-ring ring-3"></div>
+          <div class="pulse-core"></div>
+        </div>
+      }
+      @case ('spin') {
+        <div class="spin-spinner">
+          <div class="spin-arc arc-1"></div>
+          <div class="spin-arc arc-2"></div>
+          <div class="spin-arc arc-3"></div>
+        </div>
+      }
+      @case ('dual') {
+        <div class="dual-spinner">
+          <div class="dual-orbit orbit-1">
+            <div class="orbit-dot dot-1"></div>
+            <div class="orbit-dot dot-2"></div>
+          </div>
+          <div class="dual-orbit orbit-2">
+            <div class="orbit-dot dot-3"></div>
+            <div class="orbit-dot dot-4"></div>
+          </div>
+          <div class="center-glow"></div>
+        </div>
+      }
+    }
+  </div>
+}

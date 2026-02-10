@@ -1,3 +1,4 @@
+// hero.component.ts
 import { Component, AfterViewInit, OnDestroy, ChangeDetectorRef, inject, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
@@ -20,7 +21,7 @@ interface Slide {
 })
 export class HeroComponent implements AfterViewInit, OnDestroy {
   private cdr = inject(ChangeDetectorRef);
-  private router = inject(Router); // Add Router injection
+  private router = inject(Router);
   
   @ViewChild('miniVideo') miniVideoRef!: ElementRef<HTMLVideoElement>;
   
@@ -36,7 +37,6 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   
   private slideInterval: any;
   private progressInterval: any;
-  private loadedImages: Set<number> = new Set();
 
   // Slide duration in milliseconds
   private readonly SLIDE_DURATION = 5000;
@@ -88,37 +88,17 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     }
   ];
 
-  constructor() {
-    // Constructor can be empty or used for other initializations
-  }
-
   ngAfterViewInit() {
-    // Preload all images
-    this.preloadAllImages();
-    
-    // Start with first slide visible
-    this.loadedImages.add(0);
-    
     // Start auto-slide after a short delay
     setTimeout(() => {
       this.startAutoSlide();
-    }, 300);
+    }, 1000);
   }
 
   ngOnDestroy() {
     this.stopAutoSlide();
     this.stopProgressBar();
     this.closeMiniVideo();
-  }
-
-  private preloadAllImages(): void {
-    this.slides.forEach((slide, index) => {
-      const img = new Image();
-      img.src = slide.image;
-      img.onload = () => {
-        this.loadedImages.add(index);
-      };
-    });
   }
 
   startAutoSlide() {
@@ -162,11 +142,10 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  // Helper method to scroll to products section
   private scrollToProductsSection(): void {
     const productsSection = document.getElementById('products-display');
     if (productsSection) {
-      const offset = 100; // Adjust this value based on your header height
+      const offset = 100;
       const elementPosition = productsSection.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - offset;
 
@@ -267,11 +246,6 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     this.resetAutoSlide();
   }
 
-  onImageLoad(index: number) {
-    this.loadedImages.add(index);
-  }
-
-  // Mini Video Player Methods
   playMiniVideo() {
     this.showMiniVideo = true;
     this.isUserInteracting = true;
