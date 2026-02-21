@@ -26,13 +26,13 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       id: 'standard', 
       name: 'Standard Delivery', 
       days: '2-3 business days', 
-      price: 200 
+      price: 0
     },
     { 
       id: 'express', 
       name: 'Express Delivery', 
       days: '24 hours', 
-      price: 500 
+      price: 0
     },
     { 
       id: 'pickup', 
