@@ -13,12 +13,18 @@ import { ProblemsComponent } from './components/problems/problems';
 import { FaqComponent } from './components/faq/faq';
 import { CheckoutComponent } from './pages/checkout/checkout';
 import { SignupComponent } from './pages/signup/signup';
+import { TermsComponent } from './pages/terms/terms';
+import { PrivacyComponent } from './pages/privacy/privacy';
+import { ReturnsComponent } from './pages/returns/returns'; 
 import { LoginComponent } from './pages/login/login';
 import { OrderSuccessComponent } from './pages/order-success/order-success';
 // REMOVE: import { LoginComponent } from './pages/login/login'; // Remove this
 
 export const routes: Routes = [
   { path: 'order-success', component: OrderSuccessComponent },
+  {path:'terms', component:TermsComponent},
+  {path:'privacy', component:PrivacyComponent},
+  {path:'returns', component:ReturnsComponent},
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
   { path: 'challenges', component: ProblemsComponent },

@@ -374,3 +374,70 @@
 .link-group a:nth-child(2) { animation-delay: 0.2s; }
 .link-group a:nth-child(3) { animation-delay: 0.3s; }
 .link-group a:nth-child(4) { animation-delay: 0.4s; }
+
+/* Add to your existing footer CSS */
+
+/* Powered by Marubi Labs */
+.powered-by {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.powered-by span {
+  font-weight: 300;
+}
+
+.marubi-link {
+  color: hsl(31, 100%, 47%);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  position: relative;
+  padding: 2px 4px;
+  letter-spacing: 0.3px;
+}
+
+.marubi-link:hover {
+  color: hsl(31, 100%, 57%);
+  text-shadow: 0 0 8px rgba(255, 152, 0, 0.3);
+}
+
+.marubi-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: hsl(31, 100%, 47%);
+  transition: width 0.3s ease;
+}
+
+.marubi-link:hover::after {
+  width: 100%;
+}
+
+/* Update footer-bottom-content for three items */
+.footer-bottom-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* Responsive adjustment */
+@media (max-width: 768px) {
+  .footer-bottom-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+  }
+  
+  .powered-by {
+    justify-content: center;
+  }
+}
