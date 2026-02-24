@@ -1,23 +1,24 @@
 // categories.component.ts
-import { Component, AfterViewInit, OnDestroy, signal, Inject, PLATFORM_ID, OnInit } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, signal, Inject, PLATFORM_ID, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 
-interface ImpactStat {
+// Export interfaces so they can be used throughout the component
+export interface ImpactStat {
   value: number;
   suffix: string;
   label: string;
   current: number;
 }
 
-interface SDG {
+export interface SDG {
   number: string;
   title: string;
   description: string;
 }
 
-interface Slide {
+export interface Slide {
   image: string;
   category: string;
   name: string;
@@ -30,6 +31,7 @@ interface Slide {
   selector: 'app-categories',
   standalone: true,
   imports: [CommonModule, RouterModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA], // ADD THIS LINE to recognize lottie-player
   templateUrl: './categories.html',
   styleUrls: ['./categories.css']
 })
@@ -43,7 +45,7 @@ export class CategoriesComponent implements OnInit, AfterViewInit, OnDestroy {
     { value: 60, suffix: '%', label: 'Increase in Farm Yields', current: 0 }
   ]);
 
-  // SDG data - Updated to match your HTML structure
+  // SDG data
   sdgs: SDG[] = [
     { number: '1', title: 'No Poverty', description: 'Creating new income streams for farmers, youth, and women through buy-back models and waste-to-value enterprises' },
     { number: '2', title: 'Zero Hunger', description: 'Boosting food security by regenerating soils, increasing yields, and improving crop nutrition through biological and organo-mineral fertilizers' },
@@ -53,12 +55,12 @@ export class CategoriesComponent implements OnInit, AfterViewInit, OnDestroy {
     { number: '6', title: 'Life on Land', description: 'Restoring degraded soils, improving biodiversity, and strengthening ecosystem health with microbe-rich inputs' }
   ];
 
-  // Slideshow data - Updated to feature main biofertilizers
+  // Slideshow data
   currentSlide = 0;
   slideInterval: any;
   slides: Slide[] = [
     {
-      image: 'images/product2.jpg', // VamiPlus NPK Plus image
+      image: 'images/product2.jpg',
       category: 'Biofertilizer',
       name: 'Bio Veg Plus',
       description: 'Specialized organic fertilizer for vegetables',
@@ -66,7 +68,7 @@ export class CategoriesComponent implements OnInit, AfterViewInit, OnDestroy {
       unit: '/half-litre bottle'
     },
     {
-      image: 'images/product1.jpg', // BioFruity Plus image
+      image: 'images/product1.jpg',
       category: 'Biofertilizer',
       name: 'BioFruity Plus',
       description: 'Specialized organic fertilizer for vegetables',
@@ -99,12 +101,10 @@ export class CategoriesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      // Give Angular time to render the component
       setTimeout(() => {
         this.setupIntersectionObserver();
       }, 300);
     } else {
-      // Server-side: show final values
       this.setFinalValues();
     }
   }
@@ -121,7 +121,7 @@ export class CategoriesComponent implements OnInit, AfterViewInit, OnDestroy {
     if (isPlatformBrowser(this.platformId)) {
       this.slideInterval = setInterval(() => {
         this.nextSlide();
-      }, 5000); // Change slide every 5 seconds
+      }, 5000);
     }
   }
 
@@ -149,7 +149,6 @@ export class CategoriesComponent implements OnInit, AfterViewInit, OnDestroy {
     this.startSlideshow();
   }
 
-  // New methods for glass stack slideshow
   getPrevSlide(): Slide {
     const prevIndex = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
     return this.slides[prevIndex];
@@ -162,7 +161,6 @@ export class CategoriesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   quickView(index: number): void {
     this.currentSlide = index;
-    // Optional: You could trigger a modal or quick view dialog here
     console.log('Quick view for:', this.slides[index].name);
   }
 
@@ -170,7 +168,6 @@ export class CategoriesComponent implements OnInit, AfterViewInit, OnDestroy {
   navigateToProductsWithScroll(): void {
     this.router.navigate(['/products']).then(() => {
       if (isPlatformBrowser(this.platformId)) {
-        // After navigation completes, scroll to top
         window.scrollTo({
           top: 0,
           behavior: 'smooth'
@@ -197,20 +194,17 @@ export class CategoriesComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
 
-    // Check if already in viewport
     if (this.isElementInViewport(statsElement)) {
       this.animateStats();
       return;
     }
 
-    // Set up IntersectionObserver with more sensitive settings
     this.observer = new IntersectionObserver(
       (entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting && !this.statsAnimated) {
             this.statsAnimated = true;
             this.animateStats();
-            // Stop observing after animation starts
             if (this.observer && entry.target) {
               this.observer.unobserve(entry.target);
             }
@@ -225,7 +219,6 @@ export class CategoriesComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.observer.observe(statsElement);
 
-    // Fallback: animate after 3 seconds if IntersectionObserver doesn't trigger
     setTimeout(() => {
       if (!this.statsAnimated) {
         console.log('Fallback: animating stats after timeout');
@@ -249,10 +242,8 @@ export class CategoriesComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log('Starting stats animation');
     
     const duration = 2500;
-    const steps = 120;
     
     this.impactStats().forEach((stat, index) => {
-      let step = 0;
       const startTime = Date.now();
       
       const animate = () => {
@@ -270,7 +261,6 @@ export class CategoriesComponent implements OnInit, AfterViewInit, OnDestroy {
         if (progress < 1) {
           requestAnimationFrame(animate);
         } else {
-          // Ensure final value is exact
           const finalStats = [...this.impactStats()];
           finalStats[index].current = stat.value;
           this.impactStats.set(finalStats);
@@ -281,7 +271,6 @@ export class CategoriesComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  // Smooth easing function
   private easeOutQuart(t: number): number {
     return 1 - Math.pow(1 - t, 4);
   }
@@ -302,19 +291,16 @@ export class CategoriesComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  // Helper method to get current impact stat by index (for template)
   getImpactStat(index: number): ImpactStat {
     return this.impactStats()[index];
   }
 
-  // Optional: Animation trigger for the new slideshow
   triggerSlideAnimation(): void {
-    // This can be used to add CSS animations programmatically
     if (isPlatformBrowser(this.platformId)) {
       const activeCard = document.querySelector('.active-product-card');
       if (activeCard) {
         activeCard.classList.remove('slide-animation');
-        void (activeCard as HTMLElement).offsetWidth; // Trigger reflow
+        void (activeCard as HTMLElement).offsetWidth;
         activeCard.classList.add('slide-animation');
       }
     }

@@ -1,17 +1,72 @@
 <!-- categories.component.html -->
 <section class="impact-cta-section">
   <div class="container">
-    <!-- Mission & Vision Focus -->
-  <div class="mission-hero">
-  <div class="mission-content">
-    <h1 class="mission-title">Regenerating Kenyan Agriculture<br>
-      <span class="highlight">Empowering Local Farmers</span>
-    </h1>
-    <p class="mission-statement">
-      We transform biomass into biofertilizers using regenerative agriculture and soil diagnostics. Our circular models empower farmers with affordable, science-backed solutions that restore soil health, boost yields, and build climate-resilient communities.
-    </p>
-  </div>
-</div>
+    <!-- Mission Section with Lottie Icons -->
+    <div class="mission-wrapper">
+      <div class="mission-content">
+        <h1 class="mission-title">
+          Regenerating Kenyan Agriculture<br>
+          <span class="highlight">Empowering Local Farmers</span>
+        </h1>
+        
+        <p class="mission-statement">
+          We transform biomass into biofertilizers using regenerative agriculture and soil diagnostics. 
+          Our circular models empower farmers with affordable, science-backed solutions that restore 
+          soil health, boost yields, and build climate-resilient communities.
+        </p>
+        
+        <!-- Icon grid below the paragraph -->
+        <div class="icon-grid">
+          <div class="icon-item">
+            <lottie-player
+              src="/assets/animations/lottieflow-ecommerce-14-1-000000-easey.json"
+              background="transparent"
+              speed="1"
+              style="width: 80px; height: 80px;"
+              loop
+              autoplay>
+            </lottie-player>
+            <span>Shop Products</span>
+          </div>
+          
+          <div class="icon-item">
+            <lottie-player
+              src="/assets/animations/lottieflow-ecommerce-14-16-000000-easey.json"
+              background="transparent"
+              speed="1"
+              style="width: 80px; height: 80px;"
+              loop
+              autoplay>
+            </lottie-player>
+            <span>Find Us</span>
+          </div>
+          
+          <div class="icon-item">
+            <lottie-player
+              src="/assets/animations/lottieflow-ecommerce-14-18-000000-easey.json"
+              background="transparent"
+              speed="1"
+              style="width: 80px; height: 80px;"
+              loop
+              autoplay>
+            </lottie-player>
+            <span>Call/Consult</span>
+          </div>
+          
+          <div class="icon-item">
+            <lottie-player
+              src="/assets/animations/lottieflow-ecommerce-14-19-000000-easey.json"
+              background="transparent"
+              speed="1"
+              style="width: 80px; height: 80px;"
+              loop
+              autoplay>
+            </lottie-player>
+            <span>Home Delivery</span>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Impact Stats - Animated -->
     <div class="impact-stats" id="impact-stats">
@@ -61,7 +116,7 @@
           <div class="stat-number">{{ formatStatValue(getImpactStat(3)) }}</div>
           <div class="stat-label">{{ getImpactStat(3).label }}</div>
         </div>
-       <div class="impact-stat">
+        <div class="impact-stat">
           <div class="stat-icon">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
               <path d="M12 2V22" stroke="currentColor" stroke-width="2"/>
@@ -239,8 +294,6 @@
             <p class="sdg-desc">Empowering women in agriculture through training, leadership roles, and economic opportunities</p>
           </div>
           
-      
-          
           <!-- SDG 12: Responsible Consumption -->
           <div class="sdg-card sdg-12">
             <div class="sdg-number">4</div>
@@ -256,7 +309,7 @@
           </div>
           
           <!-- SDG 15: Life on Land -->
-          <div class="sdg-card sdg-15" >
+          <div class="sdg-card sdg-15">
             <div class="sdg-number">6</div>
             <h3 class="sdg-title">Life on Land</h3>
             <p class="sdg-desc">Restoring degraded soils, improving biodiversity, and strengthening ecosystem health with microbe-rich inputs</p>
@@ -264,178 +317,177 @@
         </div>
       </div>
     </div>
-<!-- Replace the ENTIRE product-slideshow-banner section with this -->
-<!-- Enhanced Product Slideshow with Stacked Glass Effect -->
-<section class="featured-products-section">
-  <div class="container">
-    <div class="section-header">
-      <div class="header-left">
-        <div class="brand-icon">
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-  <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="#0a7e0a" stroke-width="2"/>
-  <path d="M2 17L12 22L22 17" stroke="#0a7e0a" stroke-width="2"/>
-  <path d="M2 12L12 17L22 12" stroke="#0a7e0a" stroke-width="2"/>
-</svg>
-        </div>
-        <div class="header-text">
-          <h2 class="section-title">Premium Biofertilizers</h2>
-          <p class="section-subtitle">Science-backed solutions for healthier soils & higher yields</p>
-        </div>
-      </div>
-      <a routerLink="/products" class="view-all-btn">
-     <div style="display: inline-flex; align-items: center; gap: 8px; color: hsl(31, 100%, 47%);">
-  <span>Shop All Products</span>
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-    <path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M12 5L19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
-</div>
-      </a>
-    </div>
 
-    <!-- Glass Stack Slideshow -->
-    <div class="glass-slideshow">
-      <!-- Previous Product Preview (left side, faint) -->
-      <div class="slide-preview prev-preview" [class.active]="currentSlide !== 0">
-        <div class="preview-card" [style.transform]="'translateX(-30%) scale(0.8)'">
-          <div class="product-image">
-            <img [src]="getPrevSlide().image" [alt]="getPrevSlide().name">
+    <!-- Enhanced Product Slideshow with Stacked Glass Effect -->
+    <section class="featured-products-section">
+      <div class="container">
+        <div class="section-header">
+          <div class="header-left">
+            <div class="brand-icon">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="#0a7e0a" stroke-width="2"/>
+                <path d="M2 17L12 22L22 17" stroke="#0a7e0a" stroke-width="2"/>
+                <path d="M2 12L12 17L22 12" stroke="#0a7e0a" stroke-width="2"/>
+              </svg>
+            </div>
+            <div class="header-text">
+              <h2 class="section-title">Premium Biofertilizers</h2>
+              <p class="section-subtitle">Science-backed solutions for healthier soils & higher yields</p>
+            </div>
           </div>
-          <div class="preview-overlay">
-            <span class="preview-label">Previous</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Current Active Product -->
-      <div class="active-product-card" [@slideAnimation]="currentSlide">
-        <div class="card-content">
-          <div class="product-badge">
-            <span class="badge-text">{{ slides[currentSlide].category }}</span>
-            <span class="badge-icon">
+          <a routerLink="/products" class="view-all-btn">
+            <div style="display: inline-flex; align-items: center; gap: 8px; color: hsl(31, 100%, 47%);">
+              <span>Shop All Products</span>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 5L19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- Glass Stack Slideshow -->
+        <div class="glass-slideshow">
+          <!-- Previous Product Preview (left side, faint) -->
+          <div class="slide-preview prev-preview" [class.active]="currentSlide !== 0">
+            <div class="preview-card" [style.transform]="'translateX(-30%) scale(0.8)'">
+              <div class="product-image">
+                <img [src]="getPrevSlide().image" [alt]="getPrevSlide().name">
+              </div>
+              <div class="preview-overlay">
+                <span class="preview-label">Previous</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Current Active Product -->
+          <div class="active-product-card">
+            <div class="card-content">
+              <div class="product-badge">
+                <span class="badge-text">{{ slides[currentSlide].category }}</span>
+                <span class="badge-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </div>
+              
+              <h3 class="product-title">{{ slides[currentSlide].name }}</h3>
+              
+              <p class="product-description">{{ slides[currentSlide].description }}</p>
+              
+              <div class="product-price">
+                <span class="price-main">KSh {{ slides[currentSlide].price | number }}</span>
+                <span class="price-unit">{{ slides[currentSlide].unit }}</span>
+              </div>
+              
+              <div class="product-features">
+                <div class="feature">
+                  <div class="feature-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                      <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2"/>
+                      <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2"/>
+                      <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                  </div>
+                  <span class="feature-text">100% Organic</span>
+                </div>
+                <div class="feature">
+                  <div class="feature-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                      <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2"/>
+                      <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                  </div>
+                  <span class="feature-text">Soil Regeneration</span>
+                </div>
+              </div>
+              
+              <div class="card-actions">
+                <button class="btn-primary" (click)="navigateToProductsWithScroll()">
+                  <span>Shop Now</span>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path d="M9 20L16 13L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+                <button class="btn-secondary" (click)="quickView(currentSlide)">
+                  <span>Quick View</span>
+                </button>
+              </div>
+            </div>
+            
+            <div class="card-image">
+              <div class="image-wrapper">
+                <img [src]="slides[currentSlide].image" [alt]="slides[currentSlide].name">
+              </div>
+              <div class="image-bg-effect"></div>
+            </div>
+          </div>
+
+          <!-- Next Product Preview (right side, faint) -->
+          <div class="slide-preview next-preview" [class.active]="currentSlide !== slides.length - 1">
+            <div class="preview-card" [style.transform]="'translateX(30%) scale(0.8)'">
+              <div class="product-image">
+                <img [src]="getNextSlide().image" [alt]="getNextSlide().name">
+              </div>
+              <div class="preview-overlay">
+                <span class="preview-label">Next</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide Indicators -->
+        <div class="slide-indicators">
+          <button 
+            *ngFor="let slide of slides; let i = index"
+            class="indicator" 
+            [class.active]="currentSlide === i"
+            (click)="goToSlide(i)">
+            <span class="indicator-dot"></span>
+            <span class="indicator-label">{{ slide.name }}</span>
+          </button>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="quick-stats">
+          <div class="stat-item">
+            <div class="stat-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
-            </span>
-          </div>
-          
-          <h3 class="product-title">{{ slides[currentSlide].name }}</h3>
-          
-          <p class="product-description">{{ slides[currentSlide].description }}</p>
-          
-          <div class="product-price">
-            <span class="price-main">KSh {{ slides[currentSlide].price | number }}</span>
-            <span class="price-unit">{{ slides[currentSlide].unit }}</span>
-          </div>
-          
-          <div class="product-features">
-            <div class="feature">
-              <div class="feature-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2"/>
-                  <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2"/>
-                  <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2"/>
-                </svg>
-              </div>
-              <span class="feature-text">100% Organic</span>
             </div>
-            <div class="feature">
-              <div class="feature-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2"/>
-                  <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2"/>
-                </svg>
-              </div>
-              <span class="feature-text">Soil Regeneration</span>
+            <div class="stat-content">
+              <div class="stat-value">100%</div>
+              <div class="stat-label">Organic</div>
             </div>
           </div>
-          
-          <div class="card-actions">
-            <button class="btn-primary" (click)="navigateToProductsWithScroll()">
-              <span>Shop Now</span>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                <path d="M9 20L16 13L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <div class="stat-item">
+            <div class="stat-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2"/>
+                <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2"/>
               </svg>
-            </button>
-            <button class="btn-secondary" (click)="quickView(currentSlide)">
-              <span>Quick View</span>
-            </button>
+            </div>
+            <div class="stat-content">
+              <div class="stat-value">60%↑</div>
+              <div class="stat-label">Yield Increase</div>
+            </div>
           </div>
-        </div>
-        
-        <div class="card-image">
-          <div class="image-wrapper">
-            <img [src]="slides[currentSlide].image" [alt]="slides[currentSlide].name">
-          </div>
-          <div class="image-bg-effect"></div>
-        </div>
-      </div>
-
-      <!-- Next Product Preview (right side, faint) -->
-      <div class="slide-preview next-preview" [class.active]="currentSlide !== slides.length - 1">
-        <div class="preview-card" [style.transform]="'translateX(30%) scale(0.8)'">
-          <div class="product-image">
-            <img [src]="getNextSlide().image" [alt]="getNextSlide().name">
-          </div>
-          <div class="preview-overlay">
-            <span class="preview-label">Next</span>
+          <div class="stat-item">
+            <div class="stat-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21" stroke="currentColor" stroke-width="2"/>
+                <path d="M9 11C11.2091 11 13 9.20914 13 7C13 4.79086 11.2091 3 9 3C6.79086 3 5 4.79086 5 7C5 9.20914 6.79086 11 9 11Z" stroke="currentColor" stroke-width="2"/>
+              </svg>
+            </div>
+            <div class="stat-content">
+              <div class="stat-value">8K+</div>
+              <div class="stat-label">Farmers Served</div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-
-    <!-- Slide Indicators -->
-    <div class="slide-indicators">
-      <button 
-        *ngFor="let slide of slides; let i = index"
-        class="indicator" 
-        [class.active]="currentSlide === i"
-        (click)="goToSlide(i)">
-        <span class="indicator-dot"></span>
-        <span class="indicator-label">{{ slide.name }}</span>
-      </button>
-    </div>
-
-    <!-- Quick Stats -->
-    <div class="quick-stats">
-      <div class="stat-item">
-        <div class="stat-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <div class="stat-content">
-          <div class="stat-value">100%</div>
-          <div class="stat-label">Organic</div>
-        </div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2"/>
-            <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2"/>
-          </svg>
-        </div>
-        <div class="stat-content">
-          <div class="stat-value">60%↑</div>
-          <div class="stat-label">Yield Increase</div>
-        </div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21" stroke="currentColor" stroke-width="2"/>
-            <path d="M9 11C11.2091 11 13 9.20914 13 7C13 4.79086 11.2091 3 9 3C6.79086 3 5 4.79086 5 7C5 9.20914 6.79086 11 9 11Z" stroke="currentColor" stroke-width="2"/>
-          </svg>
-        </div>
-        <div class="stat-content">
-          <div class="stat-value">8K+</div>
-          <div class="stat-label">Farmers Served</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-   
+    </section>
   </div>
 </section>
