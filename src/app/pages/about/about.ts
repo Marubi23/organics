@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'; // Added CUSTOM_ELEMENTS_SCHEMA
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { 
@@ -53,6 +53,7 @@ interface Product {
   selector: 'app-about',
   standalone: true,
   imports: [CommonModule, RouterModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA], // ADD THIS LINE to recognize lottie-player
   templateUrl: './about.html',
   styleUrls: ['./about.css'],
   animations: [
@@ -373,7 +374,7 @@ export class AboutComponent {
     }, 100);
   }
 
-  // Video Control Methods - RENAMED to match HTML
+  // Video Control Methods
   toggleVideoPlay(): void {
     if (this.videoElement) {
       if (this.videoElement.paused) {
@@ -389,7 +390,6 @@ export class AboutComponent {
     }
   }
 
-  // This method is called toggleVideoSound in HTML, so we need to match it
   toggleVideoSound(): void {
     if (this.videoElement) {
       this.videoElement.muted = !this.videoElement.muted;
@@ -507,7 +507,7 @@ export class AboutComponent {
     return titles[sectionId] || 'Home';
   }
 
-  // Close nav on Escape key - FIXED: Don't pass $event parameter
+  // Close nav on Escape key
   @HostListener('window:keydown.escape')
   onEscapeKey() {
     if (this.isNavVisible) {

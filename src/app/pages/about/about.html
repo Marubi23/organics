@@ -1,5 +1,5 @@
 <section class="about-section">
-    <!-- Minimal Trigger Button -->
+  <!-- Minimal Trigger Button -->
   <div class="nav-trigger" (mouseenter)="showNav()" (click)="toggleNav()">
     <div class="trigger-icon">
       <i class="fas" [class.fa-bars]="!isNavVisible" [class.fa-times]="isNavVisible"></i>
@@ -22,45 +22,59 @@
     
     <div class="nav-links">
       <a (click)="scrollToSection('home')" class="nav-link" [class.active]="activeSection === 'home'">
-  <div class="link-icon">
-    <i class="fas fa-home"></i>
-  </div>
-  <div class="link-text">Home</div>
-</a>
+        <div class="link-icon">
+          <i class="fas fa-home"></i>
+        </div>
+        <div class="link-text">Home</div>
+      </a>
       
       <a (click)="scrollToSection('mission-vision')" class="nav-link" [class.active]="activeSection === 'mission-vision'">
-        <i class="fas fa-bullseye"></i>
-        <span>Mission & Vision</span>
+        <div class="link-icon">
+          <i class="fas fa-bullseye"></i>
+        </div>
+        <div class="link-text">Mission & Vision</div>
       </a>
       
       <a (click)="scrollToSection('challenges')" class="nav-link" [class.active]="activeSection === 'challenges'">
-        <i class="fas fa-exclamation-triangle"></i>
-        <span>Challenges</span>
+        <div class="link-icon">
+          <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <div class="link-text">Challenges</div>
       </a>
       
       <a (click)="scrollToSection('solutions')" class="nav-link" [class.active]="activeSection === 'solutions'">
-        <i class="fas fa-lightbulb"></i>
-        <span>Solutions</span>
+        <div class="link-icon">
+          <i class="fas fa-lightbulb"></i>
+        </div>
+        <div class="link-text">Solutions</div>
       </a>
       
       <a (click)="scrollToSection('products')" class="nav-link" [class.active]="activeSection === 'products'">
-        <i class="fas fa-seedling"></i>
-        <span>Products</span>
+        <div class="link-icon">
+          <i class="fas fa-seedling"></i>
+        </div>
+        <div class="link-text">Products</div>
       </a>
       
       <a (click)="scrollToSection('impact')" class="nav-link" [class.active]="activeSection === 'impact'">
-        <i class="fas fa-chart-line"></i>
-        <span>Impact</span>
+        <div class="link-icon">
+          <i class="fas fa-chart-line"></i>
+        </div>
+        <div class="link-text">Impact</div>
       </a>
       
       <a (click)="scrollToSection('sdg')" class="nav-link" [class.active]="activeSection === 'sdg'">
-        <i class="fas fa-globe-africa"></i>
-        <span>SDG</span>
+        <div class="link-icon">
+          <i class="fas fa-globe-africa"></i>
+        </div>
+        <div class="link-text">SDG</div>
       </a>
       
       <a (click)="scrollToSection('contact')" class="nav-link" [class.active]="activeSection === 'contact'">
-        <i class="fas fa-envelope"></i>
-        <span>Contact</span>
+        <div class="link-icon">
+          <i class="fas fa-envelope"></i>
+        </div>
+        <div class="link-text">Contact</div>
       </a>
     </div>
     
@@ -71,7 +85,6 @@
       </div>
     </div>
   </div>
-
 
   <div class="container">
     <!-- Video-First Interactive Hero -->
@@ -92,70 +105,62 @@
           <div class="container">
             <!-- Brand Identity -->
             <div class="hero-brand">
-              <div class="brand-logo">
-                <i class="fas fa-seedling"></i>
-              </div>
+            
               <span class="brand-pre-title">Welcome to</span>
               <h1 class="brand-title">GreenCycle Innovations</h1>
             </div>
 
             <!-- Interactive Toggle Section -->
             <div class="hero-toggle-section">
-              <!-- Dual Options -->
-              <div class="experience-options">
-                <!-- Option 1: Watch Our Story -->
-                <div class="experience-card watch-story" (click)="toggleVideoSound()">
-                  <div class="card-icon">
-                    <i class="fas fa-play-circle"></i>
+              <!-- Media Options -->
+              <div class="media-options">
+                <!-- Option 1: Watch with Sound -->
+                <div class="media-card watch-card" (click)="toggleVideoSound()">
+                  <div class="media-icon">
+                    <lottie-player
+                      src="assets/animations/lottieflow-multimedia-8-14-000000-easey.json"
+                      background="transparent"
+                      speed="1"
+                      style="width: 64px; height: 64px;"
+                      loop
+                      autoplay>
+                    </lottie-player>
                   </div>
-                  <div class="card-content">
-                    <h3>Watch Our Story</h3>
-                    <p>Experience our journey through a short video with audio</p>
-                    <div class="card-meta">
-                      <span class="meta-item">
-                        <i class="fas fa-clock"></i>
-                        <span>2 min</span>
-                      </span>
-                      <span class="meta-item">
-                        <i class="fas fa-volume-up"></i>
-                        <span>Click to unmute</span>
-                      </span>
+                  <div class="media-content">
+                    <h3>Watch with Sound</h3>
+                    <p>Experience our story with full audio</p>
+                    <div class="media-badge" [class.sound-on]="!isVideoMuted" [class.sound-off]="isVideoMuted">
+                      <i class="fas" [class.fa-volume-up]="!isVideoMuted" [class.fa-volume-mute]="isVideoMuted"></i>
+                      <span>{{ isVideoMuted ? 'Click to unmute' : 'Sound enabled' }}</span>
                     </div>
                   </div>
-                  <button class="card-action">
-                    <i class="fas fa-play"></i>
-                    <span>Play with Sound</span>
-                  </button>
                 </div>
 
-                <!-- Option 2: Read About Us -->
-                <div class="experience-card read-about" (click)="scrollToMission()">
-                  <div class="card-icon">
-                    <i class="fas fa-book-open"></i>
+                <!-- Option 2: Play/Pause Video -->
+                <div class="media-card play-card" (click)="toggleVideoPlay()">
+                  <div class="media-icon">
+                    <lottie-player
+                      src="/assets/animations/lottieflow-multimedia-8-10-000000-easey.json"
+                      background="transparent"
+                      speed="1"
+                      style="width: 64px; height: 64px;"
+                      loop
+                      autoplay>
+                    </lottie-player>
                   </div>
-                  <div class="card-content">
-                    <h3>Read About Us</h3>
-                    <p>Explore our detailed mission, vision, and impact data</p>
-                    <div class="card-meta">
-                      <span class="meta-item">
-                        <i class="fas fa-file-alt"></i>
-                        <span>Detailed</span>
-                      </span>
-                      <span class="meta-item">
-                        <i class="fas fa-chart-line"></i>
-                        <span>Impact Data</span>
-                      </span>
+                  <div class="media-content">
+                    <h3>Video Controls</h3>
+                    <p>{{ isVideoPlaying ? 'Pause video' : 'Play video' }}</p>
+                    <div class="media-badge" [class.playing]="isVideoPlaying" [class.paused]="!isVideoPlaying">
+                      <i class="fas" [class.fa-pause]="isVideoPlaying" [class.fa-play]="!isVideoPlaying"></i>
+                      <span>{{ isVideoPlaying ? 'Playing' : 'Paused' }}</span>
                     </div>
                   </div>
-                  <button class="card-action">
-                    <i class="fas fa-arrow-down"></i>
-                    <span>Explore Below</span>
-                  </button>
                 </div>
               </div>
 
-              <!-- Video Controls -->
-              <div class="video-controls">
+              <!-- Video Controls (kept for compatibility) -->
+              <div class="video-controls" style="display: none;">
                 <button class="control-btn" (click)="toggleVideoPlay()">
                   <i class="fas" [class.fa-play]="!isVideoPlaying" [class.fa-pause]="isVideoPlaying"></i>
                 </button>
