@@ -753,7 +753,7 @@
 .impact-section {
   margin-bottom: 80px;
   padding: 60px 20px;
-  background: linear-gradient(135deg, #f5f5dc 0%, #e8f5e8 100%);
+  background: linear-gradient(135deg, hsl(125, 89%, 31%) 0%, #e8f5e8 100%);
 }
 
 .impact-grid {
@@ -768,7 +768,7 @@
 .outcomes-content h2 {
   font-size: 2rem;
   margin-bottom: 30px;
-  color: var(--primary-green);
+  color: white;
   font-weight: 600;
 }
 
@@ -874,7 +874,7 @@
   background: rgba(255, 255, 255, 0.9);
   padding: 25px;
   border-radius: 20px;
-  border: 1px solid rgba(46, 125, 50, 0.1);
+  border: 1px solid hsl(125, 89%, 31%);
   transition: all 0.3s ease;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
   backdrop-filter: blur(10px);
@@ -897,7 +897,7 @@
 .sdg-icon {
   width: 45px;
   height: 45px;
-  color: hsl(125, 89%, 31%);
+  color: hsl(31, 100%, 47%);
 }
 
 .sdg-number {
@@ -920,80 +920,219 @@
 }
 
 /* ===== CONTACT CTA ===== */
+/* ===== CONTACT CTA - JOIN US STYLES ===== */
 .contact-cta {
-  background: linear-gradient(135deg, #2e7d32, #ff8f00);
-  border-radius: 30px;
+  background:  hsl(125, 89%, 31%);
+  border-radius: 40px;
   padding: 60px 30px;
   text-align: center;
   color: white;
   margin: 40px 20px;
-  box-shadow: 0 20px 40px rgba(46, 125, 50, 0.2);
+  box-shadow: 0 20px 40px rgba(46, 125, 50, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-cta::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 30% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.join-icon-container {
+  margin-bottom: 30px;
+  animation: float 3s ease-in-out infinite;
+}
+
+.join-icon-container lottie-player {
+  margin: 0 auto;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
 }
 
 .cta-content h2 {
   font-size: 2.5rem;
   margin-bottom: 15px;
   font-weight: 700;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  position: relative;
+  display: inline-block;
 }
 
-.cta-content p {
+.cta-content h2::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: white;
+  border-radius: 2px;
+}
+
+.mission-tagline {
   font-size: 1.2rem;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
   opacity: 0.95;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
 }
 
-.contact-info {
+/* Contact Cards */
+.contact-cards {
   display: flex;
   justify-content: center;
   gap: 30px;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
   flex-wrap: wrap;
 }
 
-.contact-item {
+.contact-card {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 1.1rem;
-  background: rgba(255, 255, 255, 0.2);
-  padding: 12px 24px;
-  border-radius: 30px;
+  gap: 20px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  padding: 10px 50px;
+  border-radius: 50px;
   transition: all 0.3s ease;
   border: 1px solid rgba(255, 255, 255, 0.3);
+  min-width: 280px;
 }
 
-.contact-item:hover {
-  background: rgba(255, 255, 255, 0.3);
-  transform: translateY(-2px);
+.contact-card:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border-color: white;
 }
 
-.contact-item svg {
-  width: 20px;
-  height: 20px;
+.card-icon {
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
+.card-icon svg {
+  width: 24px;
+  height: 24px;
+  stroke: white;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.card-label {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  margin-bottom: 4px;
+}
+
+.card-value {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+/* Button */
 .btn-primary {
   background: white;
-  color: hsl(125, 89%, 31%);
+  color: #2e7d32;
   border: none;
-  padding: 15px 35px;
-  border-radius: 30px;
+  padding: 16px 40px;
+  border-radius: 50px;
   font-weight: 600;
   font-size: 1.1rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  display: inline-block;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .btn-primary:hover {
   transform: translateY(-3px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-  background: var(--primary-orange);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  background: #ff8f00;
   color: white;
 }
 
+.btn-primary svg {
+  transition: transform 0.3s ease;
+}
+
+.btn-primary:hover svg {
+  transform: translateX(5px);
+  stroke: white;
+}
+
+/* Floating Animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .contact-cta {
+    padding: 40px 20px;
+    margin: 30px 15px;
+  }
+  
+  .join-icon-container lottie-player {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .cta-content h2 {
+    font-size: 2rem;
+  }
+  
+  .mission-tagline {
+    font-size: 1.1rem;
+    padding: 0 15px;
+  }
+  
+  .contact-card {
+    min-width: 100%;
+    padding: 15px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .join-icon-container lottie-player {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .cta-content h2 {
+    font-size: 1.8rem;
+  }
+  
+  .btn-primary {
+    width: 100%;
+    justify-content: center;
+  }
+}
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 1024px) {
   .brand-title {
