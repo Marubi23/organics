@@ -54,7 +54,7 @@
 
 .nav-trigger:hover {
   width: 110px;
-  background:hsl(31, 100%, 47%) ;
+  background:hsl(31, 100%, 50%);
   transform: scale(1.05);
 }
 
@@ -163,7 +163,7 @@
 .nav-link .link-icon {
   width: 40px;
   height: 40px;
-  background: hsl(125, 89%, 31%);
+  background:hsl(125, 89%, 31%);
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -185,7 +185,7 @@
 }
 
 .nav-link:hover {
-  background: hsl(31, 100%, 47%);
+  background: hsl(125, 89%, 31%);
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(255, 143, 0, 0.2);
 }
