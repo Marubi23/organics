@@ -151,8 +151,9 @@
   text-align: center;
   padding: 20px 15px;
   color: #333;
+  font-family: poppins, sans-serif;
   text-decoration: none;
-  cursor: pointer;
+  curSor: pointer;
   transition: all 0.3s ease;
   border-radius: 12px;
   background: #f8f9fa;
