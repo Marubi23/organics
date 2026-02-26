@@ -64,7 +64,7 @@
 .mission-title {
   font-size: 3rem;
   font-weight: 700;
-  color: hsl(125, 89%, 31%);
+  color:hsl(84, 60%, 48%);
   margin-bottom: 25px;
   line-height: 1.2;
   font-family: 'Poppins', sans-serif;
@@ -72,7 +72,7 @@
 }
 
 .mission-title .highlight {
-  color: hsl(31, 100%, 47%);
+  color: #d49a42;
   font-weight: 800;
   position: relative;
   display: inline-block;
@@ -351,7 +351,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: hsl(125, 89%, 31%);
+  background:  hsl(127, 68%, 10%);
   transform: scaleX(0);
   transition: transform 0.4s ease;
 }
@@ -525,7 +525,7 @@
 }
 
 .sdg-vertical-card {
-  background: hsl(125, 89%, 31%);
+  background:  hsl(127, 68%, 10%);
   border-radius: 16px;
   padding: 50px 35px;
   display: flex;

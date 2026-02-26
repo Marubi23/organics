@@ -865,7 +865,7 @@
 }
 
 .video-play-btn {
-  background: hsl(125, 89%, 31%);
+  background:#ff0033;
   color: white;
   font-weight: 600;
   border: none;

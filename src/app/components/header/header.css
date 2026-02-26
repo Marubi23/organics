@@ -1,6 +1,6 @@
 /* ============ BASE STYLES ============ */
 .main-nav {
-  background: hsl(127, 68%, 10%);
+  background:hsl(127, 68%, 10%);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   position: fixed;
   top: 0;
@@ -113,7 +113,7 @@
   align-items: center;
   gap: 8px;
   padding: 10px 16px;
-  color: white;
+  color: #d49a42;
   text-decoration: none;
   border-radius: 8px;
   font-weight: 500;
