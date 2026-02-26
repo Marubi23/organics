@@ -32,12 +32,12 @@ interface Product {
   styleUrls: ['./products.css']
 })
 export class ProductsComponent implements OnInit {
-  // Products Data
+  // Products Data with updated descriptions
   products: Product[] = [
     {
       id: 1,
       name: 'VermiFrass Active (25Kg)',
-      description: 'Superior 100% organic fertilizer with active microbes',
+      description: 'Solid organic biofertilizer that restores soil organic matter, improves soil structure & moisture retention, and activates beneficial soil microbes. Ideal for vegetables, cereals & orchards.',
       price: 1500,
       originalPrice: 1800,
       image: 'images/vermifrassprod.jpeg',
@@ -46,7 +46,7 @@ export class ProductsComponent implements OnInit {
       units: '25KG bag',
       inStock: true,
       stock: 45,
-      features: ['100% Organic', 'Active Macrobes', 'Rich in NPK'],
+      features: ['Restores soil organic matter', 'Improves soil structure', 'Activates beneficial microbes'],
       discount: 17,
       isOrganic: true,
       isNew: true
@@ -54,7 +54,7 @@ export class ProductsComponent implements OnInit {
     {
       id: 2,
       name: 'BioVeg Plus (1 Litre)',
-      description: 'Specialized organic fertilizer for vegetables',
+      description: 'Liquid organic nitrogen booster that drives fast vegetative growth, improves leaf size & greenness, and enhances microbial activity. Ideal for vegetables, cereals & young crops.',
       price: 700,
       image: 'images/product6.jpg',
       category: 'Biofertilizers',
@@ -62,14 +62,14 @@ export class ProductsComponent implements OnInit {
       units: '1 Litre Bottle',
       inStock: true,
       stock: 32,
-      features: ['For Vegetables', 'Balanced NPK', 'Improves Yield'],
+      features: ['Drives fast vegetative growth', 'Improves leaf size & greenness', 'Enhances microbial activity'],
       isOrganic: true,
       isNew: false
     },
     {
       id: 3,
-      name: 'BioVeg Plus(Half Litre)',
-      description: 'Specialized organic fertilizer for vegetables',
+      name: 'BioVeg Plus (Half Litre)',
+      description: 'Liquid organic nitrogen booster that drives fast vegetative growth, improves leaf size & greenness, and enhances microbial activity. Ideal for vegetables, cereals & young crops.',
       price: 400,
       image: 'images/product6.jpg',
       category: 'Biofertilizers',
@@ -77,14 +77,14 @@ export class ProductsComponent implements OnInit {
       units: 'Half Litre Bottle',
       inStock: true,
       stock: 32,
-      features: ['For Vegetables', 'Balanced NPK', 'Improves Yield'],
+      features: ['Drives fast vegetative growth', 'Improves leaf size & greenness', 'Enhances microbial activity'],
       isOrganic: true,
       isNew: false
     },
     {
       id: 4,
       name: 'BioFruity Plus (1 Litre)',
-      description: 'Specialized organic fertilizer for vegetables',
+      description: 'Balanced liquid nutrition formula that supports flowering & fruit set, improves nutrient uptake & crop quality, and boosts stress tolerance. Ideal for fruiting crops, maize & perennials.',
       price: 700,
       image: 'images/product2.jpg',
       category: 'Biofertilizers',
@@ -92,14 +92,14 @@ export class ProductsComponent implements OnInit {
       units: '1 Litre Bottle',
       inStock: true,
       stock: 32,
-      features: ['For Vegetables', 'Balanced NPK', 'Improves Yield'],
+      features: ['Supports flowering & fruit set', 'Improves nutrient uptake', 'Boosts stress tolerance'],
       isOrganic: true,
       isNew: false
     },
     {
       id: 5,
       name: 'BioFruity Plus (Half litre)',
-      description: 'Specialized organic fertilizer for vegetables',
+      description: 'Balanced liquid nutrition formula that supports flowering & fruit set, improves nutrient uptake & crop quality, and boosts stress tolerance. Ideal for fruiting crops, maize & perennials.',
       price: 400,
       image: 'images/product2.jpg',
       category: 'Biofertilizers',
@@ -107,14 +107,14 @@ export class ProductsComponent implements OnInit {
       units: 'Half litre',
       inStock: true,
       stock: 32,
-      features: ['For Vegetables', 'Balanced NPK', 'Improves Yield'],
+      features: ['Supports flowering & fruit set', 'Improves nutrient uptake', 'Boosts stress tolerance'],
       isOrganic: true,
       isNew: false
     },
-       {
+    {
       id: 6,
-      name: 'Organo-Mineral DAP 10% ',
-      description: 'Customized Organo-mineral fertilizer',
+      name: 'Organi-Mineral VF DAP 10%',
+      description: 'Organo-mineral starter fertilizer that enhances early root development, improves phosphorus efficiency, and reduces nutrient losses. Ideal for planting stage crops.',
       price: 2200,
       image: 'images/dap10.jpeg',
       category: 'Biofertilizers',
@@ -122,15 +122,14 @@ export class ProductsComponent implements OnInit {
       units: '25 KG bag',
       inStock: true,
       stock: 32,
-      features: ['For Vegetables', 'Balanced NPK', 'Improves Yield'],
+      features: ['Enhances early root development', 'Improves phosphorus efficiency', 'Reduces nutrient losses'],
       isOrganic: true,
       isNew: false
     },
-
-     {
-      id:7,
-      name: 'Organo-Mineral CAN 10% ',
-      description: 'Customized Organo-mineral fertilizer',
+    {
+      id: 7,
+      name: 'Organi-Mineral VF CAN 10%',
+      description: 'Nitrogen & calcium blend that supports steady vegetative growth, strengthens plant cell walls, and improves nitrogen use efficiency. Ideal for cereals, vegetables & fodder.',
       price: 1900,
       image: 'images/can10.jpeg',
       category: 'Biofertilizers',
@@ -138,14 +137,14 @@ export class ProductsComponent implements OnInit {
       units: '25 KG bag',
       inStock: true,
       stock: 32,
-      features: ['For Vegetables', 'Balanced NPK', 'Improves Yield'],
+      features: ['Supports steady vegetative growth', 'Strengthens plant cell walls', 'Improves nitrogen efficiency'],
       isOrganic: true,
       isNew: false
     },
-          {
-      id:8,
-      name: 'Organo-Mineral NPK 10% ',
-     description: 'Customized Organo-mineral fertilizer',
+    {
+      id: 8,
+      name: 'Organi-Mineral VF NPK 10%',
+      description: 'Balanced NPK organo-mineral fertilizer that feeds crops & regenerates soil, improves nutrient availability, and supports all growth stages. Ideal for general crop production.',
       price: 2000,
       image: 'images/npk10.jpeg',
       category: 'Biofertilizers',
@@ -153,14 +152,14 @@ export class ProductsComponent implements OnInit {
       units: '25 KG bag',
       inStock: true,
       stock: 32,
-      features: ['For Vegetables', 'Balanced NPK', 'Improves Yield'],
+      features: ['Feeds crops & regenerates soil', 'Improves nutrient availability', 'Supports all growth stages'],
       isOrganic: true,
       isNew: false
     },
-             {
-      id:9,
-      name: 'Organo-Mineral UREA 10% ',
-     description: 'Customized Organo-mineral fertilizer',
+    {
+      id: 9,
+      name: 'Organi-Mineral VF Urea 10%',
+      description: 'Controlled-release nitrogen fertilizer that reduces nitrogen losses, protects soil biology, and sustains crop growth. Ideal for maize, sugarcane & vegetables.',
       price: 2200,
       image: 'images/urea10.jpeg',
       category: 'Biofertilizers',
@@ -168,11 +167,10 @@ export class ProductsComponent implements OnInit {
       units: '25 KG bag',
       inStock: true,
       stock: 32,
-      features: ['For Vegetables', 'Balanced NPK', 'Improves Yield'],
+      features: ['Controlled-release nitrogen', 'Reduces nitrogen losses', 'Protects soil biology'],
       isOrganic: true,
       isNew: false
     }
-
   ];
 
   // Cart State
