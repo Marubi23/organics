@@ -399,13 +399,13 @@
 
 /* Shop Now Button Enhancement */
 .shop-now-btn {
-  background: hsl(31, 100%, 47%);
+  background: hsl(127, 68%, 10%);
   color: var(--white);
   border: none;
 }
 
 .shop-now-btn:hover {
-  background: linear-gradient(135deg, var(--secondary-green) 0%, var(--primary-green) 100%);
+  background: #88c431;
   box-shadow: 0 8px 25px rgba(62, 142, 11, 0.4);
 }
 
