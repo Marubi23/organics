@@ -1175,7 +1175,7 @@
 
 /* ===== CONTACT CTA - JOIN US STYLES ===== */
 .contact-cta {
-  background: linear-gradient(135deg, #88c431, #d49a42);
+   background: linear-gradient(135deg, #88c431, #d49a42);
   border-radius: 40px;
   padding: 60px 30px;
   text-align: center;
@@ -1217,7 +1217,7 @@
 .cta-content h2 {
   font-size: 2.5rem;
   margin-bottom: 15px;
-  color: white;
+  color: hsl(127, 68%, 10% );
   font-weight: 700;
   position: relative;
   display: inline-block;
@@ -1243,7 +1243,7 @@
   margin-left: auto;
   margin-right: auto;
   line-height: 1.6;
-  color: white;
+  color: hsl(127, 68%, 10% );
 }
 
 /* Contact Cards */
@@ -1259,7 +1259,7 @@
   display: flex;
   align-items: center;
   gap: 20px;
-  background: rgba(255, 255, 255, 0.15);
+  background: hsl(127, 68%, 10% );
   backdrop-filter: blur(10px);
   padding: 15px 30px;
   border-radius: 50px;
@@ -1270,7 +1270,7 @@
 }
 
 .contact-card:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: hsl(127, 70%, 21%);
   transform: translateY(-3px);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   border-color: white;
@@ -1314,8 +1314,8 @@
 
 /* Button */
 .btn-primary {
-  background: white;
-  color: #88c431;
+  background: hsl(127, 68%, 10% );
+  color: #d49a42;
   border: none;
   padding: 16px 40px;
   border-radius: 50px;
@@ -1332,7 +1332,7 @@
 .btn-primary:hover {
   transform: translateY(-3px);
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-  background: #d49a42;
+  background: hsl(127, 70%, 21%);
   color: white;
 }
 
