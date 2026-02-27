@@ -673,10 +673,11 @@
 }
 
 .cta-text p {
-  font-size: 1.2rem;
+  font-size: 1.7rem;
   opacity: 0.95;
   margin-bottom: 40px;
   line-height: 1.6;
+  color: wheat;
   font-family: 'Roboto', sans-serif;
 }
 
@@ -690,10 +691,10 @@
 .cta-stat {
   text-align: center;
   padding: 25px;
-  background: rgba(255, 255, 255, 0.1);
+  background: white;
   border-radius: 12px;
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(118, 20, 20, 0.2);
   transition: transform 0.3s ease;
 }
 
@@ -711,8 +712,8 @@
 }
 
 .cta-stat-label {
-  font-size: 1.1rem;
-  opacity: 0.9;
+  font-size: 0.9rem;
+  color: white;
   font-weight: 500;
   font-family: 'Roboto', sans-serif;
 }
