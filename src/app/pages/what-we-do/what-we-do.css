@@ -651,7 +651,7 @@ body {
   min-width: 180px;
   max-width: 200px;
   box-shadow: var(--shadow-md);
-  border: 3px solid hsl(125, 89%, 41%);
+  border: 3px solid #88c431;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   z-index: 1;
@@ -660,7 +660,7 @@ body {
 .flow-step:hover {
   transform: translateY(-15px);
   box-shadow: var(--shadow-lg);
-  border-color: hsl(31, 100%, 47%);
+  border-color: #d49a42;
   background: linear-gradient(to bottom, white, #f9fff9);
 }
 
@@ -668,7 +668,7 @@ body {
   width: 70px;
   height: 70px;
   margin: 0 auto 20px;
-  background: hsl(125, 89%, 41%);
+  background: #d49a42;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -683,7 +683,7 @@ body {
 
 .flow-step:hover .step-icon {
   transform: rotate(360deg) scale(1.1);
-  background: hsl(31, 100%, 47%);
+  background: #88c431;
   box-shadow: 0 15px 30px rgba(255, 123, 0, 0.3);
 }
 
@@ -692,12 +692,12 @@ body {
   margin-bottom: 12px;
   font-weight: 700;
   line-height: 1.3;
-  color: hsl(125, 89%, 41%);
+  color: #88c431;
   transition: color 0.3s ease;
 }
 
 .flow-step:hover h4 {
-  color: hsl(31, 100%, 47%);
+  color: #d49a42;
 }
 
 .flow-step p {
@@ -726,7 +726,7 @@ body {
 }
 
 .impact-metrics .section-header h2 {
-  color: hsl(125, 89%, 41%);
+  color: #88c431;
 }
 
 .impact-metrics .section-header p {
