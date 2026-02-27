@@ -470,7 +470,7 @@
 .mission-card h2, .vision-card h2 {
   font-size: 2rem;
   margin-bottom: 15px;
-  color: hsl(125, 89%, 31%);
+  color: #88c431;
   font-weight: 600;
 }
 
@@ -491,7 +491,7 @@
   font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 15px;
-  color: hsl(125, 89%, 31%);
+  color: #88c431;
   position: relative;
   display: inline-block;
 }
@@ -560,7 +560,7 @@
 .problem-number {
   font-size: 2.5rem;
   font-weight: 800;
-  color: hsl(31, 100%, 47%);
+  color: #d49a42;
   margin-bottom: 10px;
 }
 
@@ -630,7 +630,7 @@
 .solution-icon {
   width: 50px;
   height: 50px;
-  background: hsl(31, 100%, 47%);
+  background: #d49a42;
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -923,7 +923,7 @@
 /* ===== CONTACT CTA ===== */
 /* ===== CONTACT CTA - JOIN US STYLES ===== */
 .contact-cta {
-  background:  hsl(125, 89%, 31%);
+  background:  #d49a42;
   border-radius: 40px;
   padding: 60px 30px;
   text-align: center;
@@ -958,8 +958,8 @@
 .cta-content h2 {
   font-size: 2.5rem;
   margin-bottom: 15px;
+  color:white;
   font-weight: 700;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
   position: relative;
   display: inline-block;
 }
@@ -999,7 +999,7 @@
   display: flex;
   align-items: center;
   gap: 20px;
-  background: rgba(255, 255, 255, 0.15);
+  background: hsl(125, 89%, 31%);
   backdrop-filter: blur(10px);
   padding: 10px 50px;
   border-radius: 50px;
@@ -1009,7 +1009,7 @@
 }
 
 .contact-card:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: #88c431;
   transform: translateY(-3px);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   border-color: white;
@@ -1051,8 +1051,8 @@
 
 /* Button */
 .btn-primary {
-  background: white;
-  color: #2e7d32;
+  background: hsl(125, 89%, 31%);
+  color: white;
   border: none;
   padding: 16px 40px;
   border-radius: 50px;
@@ -1069,7 +1069,7 @@
 .btn-primary:hover {
   transform: translateY(-3px);
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-  background: #ff8f00;
+  background: #88c431;
   color: white;
 }
 
