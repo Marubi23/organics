@@ -2,218 +2,187 @@
 <section class="contact-hero">
   <div class="container">
     <div class="hero-content">
-      <h1>Contact Us</h1>
-      <p>Get in touch with us for any inquiries and we will be delighted to assist you.</p>
+      <span class="hero-badge">Get in Touch</span>
+      <h1 class="hero-title">Let's Cultivate<span> Growth Together</span></h1>
+      <p class="hero-description">Whether you're a farmer, partner, or curious mind — we're here to listen, advise, and grow with you.</p>
     </div>
   </div>
 </section>
 
 <section class="contact-main">
   <div class="container">
+    <!-- Simple Two-Column Layout -->
     <div class="contact-grid">
-      <!-- Contact Information -->
-      <div class="contact-info">
-        <div class="info-section">
-          <h2>Contact Details</h2>
-          <div class="contact-details">
-            <div class="contact-item">
-              <div class="contact-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </div>
-              <div class="contact-text">
-                <h3>Phone</h3>
-                <a href="tel:+254701934918">+254 701 934 918</a>
-              </div>
+      
+      <!-- LEFT: Human Connection (Simple & Warm) -->
+      <div class="connect-section">
+        <div class="section-tag">Connect With Us</div>
+        <h2 class="section-title">We'd love to hear from you</h2>
+        <p class="section-description">No complicated forms, no automated responses — just real conversations with real people who care about your success.</p>
+        
+        <!-- Direct Contact Cards (Simple & Clean) -->
+        <div class="connect-cards">
+          <!-- Phone Card -->
+          <div class="connect-card" (click)="callUs()">
+            <div class="card-icon phone-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
             </div>
-
-            <div class="contact-item">
-              <div class="contact-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" stroke-width="2"/>
-                  <polyline points="22,6 12,13 2,6" stroke="currentColor" stroke-width="2"/>
-                </svg>
-              </div>
-              <div class="contact-text">
-                <h3>Email</h3>
-                <a href="mailto:info@mzuriorganics.co.ke">info@mzuriorganics.co.ke</a>
-              </div>
+            <div class="card-content">
+              <span class="card-label">Call us directly</span>
+              <span class="card-value">{{ displayPhone }}</span>
+              <span class="card-action">Tap to call →</span>
             </div>
-
-            <div class="contact-item">
-              <div class="contact-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z" stroke="currentColor" stroke-width="2"/>
-                </svg>
-              </div>
-              <div class="contact-text">
-                <h3>Address</h3>
-                <p>
-                  Musembe Shopping Center,<br>
-                  Eldoret – Malaba Road,<br>
-                  P.O Box 254711949520 – 50100,<br>
-                  Kakamega, KENYA.
-                </p>
-              </div>
+          </div>
+          
+          <!-- WhatsApp Card (Primary) -->
+          <div class="connect-card whatsapp-card" (click)="openWhatsApp()">
+            <div class="card-icon whatsapp-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.473-.149-.673.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                <path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.556 4.12 1.526 5.854L.04 23.96l6.172-1.52C8.055 23.302 10.043 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.93 0-3.78-.526-5.36-1.45l-.37-.22-4.08 1.01 1.1-3.98-.23-.4A9.94 9.94 0 012 12c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10z"/>
+              </svg>
+            </div>
+            <div class="card-content">
+              <span class="card-label">Chat on WhatsApp</span>
+              <span class="card-value">+254 701 934 918</span>
+              <span class="card-action">Quickest response →</span>
+            </div>
+          </div>
+          
+          <!-- Email Card -->
+          <div class="connect-card" (click)="sendEmail()">
+            <div class="card-icon email-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" stroke-width="2"/>
+                <polyline points="22,6 12,13 2,6" stroke="currentColor" stroke-width="2"/>
+              </svg>
+            </div>
+            <div class="card-content">
+              <span class="card-label">Email us</span>
+              <span class="card-value">info@mzuriorganics.co.ke</span>
+              <span class="card-action">Send a message →</span>
             </div>
           </div>
         </div>
-
-        <!-- Social Media -->
-        <div class="info-section">
-          <h2>Follow Us</h2>
-          <div class="social-links">
-            <a href="#" class="social-link" aria-label="LinkedIn">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-              </svg>
-            </a>
-            <a href="#" class="social-link" aria-label="Twitter">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
-              </svg>
-            </a>
-            <a href="#" class="social-link" aria-label="Facebook">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-              </svg>
-            </a>
-            <a href="#" class="social-link" aria-label="YouTube">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-              </svg>
-            </a>
-          </div>
-        </div>
-
-        <!-- Newsletter -->
-        <div class="info-section">
-          <h2>Stay Updated</h2>
-          <div class="newsletter-card">
-            <div class="newsletter-icon">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-                <path d="M19 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M3 7L12 13L21 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        
+        <!-- Visit Us (Simple Address) -->
+        <div class="visit-section">
+          <div class="visit-header">
+            <div class="visit-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z" stroke="currentColor" stroke-width="2"/>
               </svg>
             </div>
-            <h3>Join Our Newsletter</h3>
-            <p>Get farming insights, product updates, and exclusive offers</p>
-            
-            <form [formGroup]="newsletterForm" (ngSubmit)="onNewsletterSubmit()" class="newsletter-form">
-              <div class="form-group">
-                <input 
-                  type="email" 
-                  formControlName="email"
-                  placeholder="Enter your email"
-                  class="newsletter-input"
-                >
-                <button 
-                  type="submit" 
-                  class="newsletter-btn"
-                  [disabled]="!newsletterForm.valid || newsletterSubmitted"
-                  [class.success]="newsletterSubmitted"
-                >
-                  <span *ngIf="!newsletterSubmitted">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                      <path d="M22 2L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                      <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    Subscribe
-                  </span>
-                  <span *ngIf="newsletterSubmitted">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                      <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    Subscribed!
-                  </span>
-                </button>
-              </div>
-            </form>
-            
-            <p class="privacy-note">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
-                <path d="M12 22C12 22 21 18 21 12C21 6 17 2 12 2C7 2 3 6 3 12C3 18 12 22 12 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              We respect your privacy. Unsubscribe anytime.
-            </p>
+            <h3>Visit our farm</h3>
           </div>
+          <p class="visit-address">
+            Musembe Shopping Center, Eldoret – Malaba Road,<br>
+            P.O Box 254711949520 – 50100, Kakamega, Kenya.
+          </p>
         </div>
       </div>
-
-      <!-- Contact Form -->
-      <div class="contact-form-section">
-        <h2>Send Us a Message</h2>
-        <p class="form-description">To send us an email, fill the form below and submit. We will get back to you as soon as possible.</p>
+      
+      <!-- RIGHT: Simple Form (No clutter) -->
+      <div class="message-section">
+        <div class="section-tag">Send a message</div>
+        <h2 class="section-title">How can we help?</h2>
+        <p class="section-description">Tell us what you need — we'll get back to you within 24 hours.</p>
         
-        <form class="contact-form" [formGroup]="contactForm" (ngSubmit)="onSubmit()">
-          <div class="form-group">
-            <label for="name">Name *</label>
+        <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="simple-form">
+          <!-- Name Field -->
+          <div class="form-field">
+            <label for="name">Your name</label>
             <input 
               type="text" 
               id="name" 
               formControlName="name"
-              placeholder="Your full name">
-            <div class="error" *ngIf="contactForm.get('name')?.invalid && contactForm.get('name')?.touched">
-              Name is required
+              placeholder="e.g., John Mwangi"
+              [class.has-error]="contactForm.get('name')?.invalid && contactForm.get('name')?.touched">
+            <div class="field-error" *ngIf="contactForm.get('name')?.invalid && contactForm.get('name')?.touched">
+              Please tell us your name
             </div>
           </div>
-
-          <div class="form-group">
-            <label for="email">Email *</label>
+          
+          <!-- Email Field -->
+          <div class="form-field">
+            <label for="email">Email address</label>
             <input 
               type="email" 
               id="email" 
               formControlName="email"
-              placeholder="your.email@example.com">
-            <div class="error" *ngIf="contactForm.get('email')?.invalid && contactForm.get('email')?.touched">
-              Valid email is required
+              placeholder="you@example.com"
+              [class.has-error]="contactForm.get('email')?.invalid && contactForm.get('email')?.touched">
+            <div class="field-error" *ngIf="contactForm.get('email')?.invalid && contactForm.get('email')?.touched">
+              Valid email needed
             </div>
           </div>
-
-          <div class="form-group">
-            <label for="phone">Phone</label>
+          
+          <!-- Phone Field (Optional but helpful) -->
+          <div class="form-field">
+            <label for="phone">Phone number <span>(optional)</span></label>
             <input 
               type="tel" 
               id="phone" 
               formControlName="phone"
-              placeholder="0712 123456">
+              placeholder="0712 345 678"
+              (input)="formatPhoneInput($event)">
           </div>
-
-          <div class="form-group">
-            <label for="subject">Subject</label>
-            <select id="subject" formControlName="subject">
-              <option value="">Select a subject</option>
-              <option value="General Inquiry">General Inquiry</option>
-              <option value="Product Information">Product Information</option>
-              <option value="Order Inquiry">Order Inquiry</option>
-              <option value="Partnership">Partnership</option>
-              <option value="Technical Support">Technical Support</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="message">Comment or Message *</label>
+          
+          <!-- Message Field -->
+          <div class="form-field">
+            <label for="message">Your message</label>
             <textarea 
               id="message" 
               formControlName="message"
-              rows="5"
-              placeholder="Your message..."></textarea>
-            <div class="error" *ngIf="contactForm.get('message')?.invalid && contactForm.get('message')?.touched">
-              Message is required
+              rows="4"
+              placeholder="What would you like to know?"
+              [class.has-error]="contactForm.get('message')?.invalid && contactForm.get('message')?.touched"></textarea>
+            <div class="field-error" *ngIf="contactForm.get('message')?.invalid && contactForm.get('message')?.touched">
+              Please write your message
             </div>
           </div>
-
+          
+          <!-- Submit Button -->
           <button 
             type="submit" 
-            class="submit-btn"
-            [disabled]="contactForm.invalid">
-            Send Message
+            class="submit-button"
+            [disabled]="contactForm.invalid || isSubmitting">
+            <span *ngIf="!isSubmitting">Send message</span>
+            <span *ngIf="isSubmitting">Sending...</span>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M1 8H15M15 8L8 1M15 8L8 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
           </button>
+          
+          <!-- Success Message (Simple) -->
+          <div class="form-success" *ngIf="showSuccessMessage">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="2"/>
+              <path d="M6 10L9 13L14 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <span>Message sent! We'll reply within 24 hours.</span>
+          </div>
         </form>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- Simple Footer CTA -->
+<section class="simple-cta">
+  <div class="container">
+    <div class="cta-content">
+      <h3>Prefer WhatsApp?</h3>
+      <p>Tap below to start a conversation — we're usually online during business hours.</p>
+      <button class="whatsapp-cta" (click)="openWhatsApp()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M17.05 3.03C15.35 1.33 13.08.4 10.64.4 5.62.4 1.54 4.48 1.54 9.5c0 1.63.42 3.22 1.22 4.62L.4 19.6l5.7-1.49c1.35.74 2.87 1.13 4.45 1.13 5.02 0 9.1-4.08 9.1-9.1 0-2.43-.93-4.71-2.6-6.41zM10.64 17.7c-1.37 0-2.71-.37-3.88-1.07l-.28-.16-3.38.88.9-3.3-.18-.3c-.66-1.15-1.01-2.46-1.01-3.82 0-4.12 3.35-7.47 7.48-7.47 2 0 3.88.78 5.3 2.2 1.41 1.41 2.19 3.29 2.19 5.29 0 4.13-3.35 7.48-7.48 7.48z"/>
+          <path d="M14.45 11.33c-.24-.12-1.43-.7-1.65-.78-.22-.08-.38-.12-.54.12-.16.24-.63.78-.77.94-.14.16-.28.18-.52.06-.24-.12-1.01-.37-1.93-1.18-.71-.63-1.19-1.41-1.33-1.65-.14-.24-.01-.37.11-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.77-.19-.47-.39-.4-.54-.41-.14-.01-.3-.01-.46-.01-.16 0-.42.06-.64.3-.22.24-.84.81-.84 1.98 0 1.17.85 2.3.97 2.46.12.16 1.68 2.56 4.07 3.59.57.25 1.01.39 1.36.5.57.18 1.09.16 1.5.09.46-.07 1.41-.58 1.61-1.13.2-.55.2-1.03.14-1.13-.06-.1-.22-.16-.46-.28z"/>
+        </svg>
+        Start WhatsApp Chat
+      </button>
     </div>
   </div>
 </section>
