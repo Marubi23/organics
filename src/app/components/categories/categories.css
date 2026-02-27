@@ -145,12 +145,12 @@
   border: 2px solid transparent;
   border-radius: 16px;
   background: linear-gradient(135deg, 
-    hsl(125, 89%, 31%) 0%, 
-    hsl(125, 89%, 31%) 25%, 
+     hsl(127, 68%, 10%) 0%, 
+     hsl(127, 68%, 10%) 25%, 
     transparent 25%, 
     transparent 75%, 
-    hsl(31, 100%, 47%) 75%, 
-    hsl(31, 100%, 47%) 100%
+    #d49a42 75%, 
+    #d49a42 100%
   );
   background-origin: border-box;
   background-clip: padding-box, border-box;
@@ -212,7 +212,7 @@
 .stat-number {
   font-size: 3rem;
   font-weight: 700;
-  color: hsl(31, 100%, 47%);
+  color: #d49a42;
   margin-bottom: 8px;
   line-height: 1;
   font-family: 'Poppins', sans-serif;
@@ -301,7 +301,7 @@
   font-size: 2.8rem;
   font-weight: 600;
   margin-bottom: 15px;
-  color: hsl(125, 89%, 41%);
+  color: #88c431;
   font-family: 'Poppins', sans-serif;
   position: relative;
   display: inline-block;
@@ -482,7 +482,7 @@
 }
 
 .solution-card.precision .check-icon {
-  background: hsl(31, 100%, 47%);
+  background: #d49a42;
 }
 
 .check-icon svg {
@@ -1081,7 +1081,7 @@
   font-family: 'Poppins', sans-serif;
   font-size: 2.5rem;
   font-weight: 700;
-  color:hsl(125, 89%, 41%);
+  color:#88c431;
   margin: 0 0 8px 0;
   line-height: 1.2;
 }
