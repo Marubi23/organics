@@ -41,7 +41,7 @@
   z-index: 1000;
   width: 50px;
   height: 50px;
-  background: hsl(125, 89%, 31%);
+  background: #88c431;
   color: white;
   border-radius: 25px;
   display: flex;
@@ -54,7 +54,7 @@
 
 .nav-trigger:hover {
   width: 110px;
-  background:hsl(31, 100%, 50%);
+  background:#d49a42;
   transform: scale(1.05);
 }
 
@@ -164,7 +164,7 @@
 .nav-link .link-icon {
   width: 40px;
   height: 40px;
-  background:hsl(125, 89%, 31%);
+  background: hsl(125, 89%, 31%);
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -186,7 +186,7 @@
 }
 
 .nav-link:hover {
-  background: hsl(125, 89%, 31%);
+  background: #d49a42;
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(255, 143, 0, 0.2);
 }
@@ -204,7 +204,7 @@
 }
 
 .nav-link.active {
-  background: hsl(125, 89%, 31%);
+  background: #d49a42;
 }
 
 .nav-link.active .link-icon {
@@ -366,7 +366,7 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 20px;
-  background: hsl(31, 100%, 50%);
+  background:#d49a42;
   border-radius: 40px;
   padding: 8px;
 }
