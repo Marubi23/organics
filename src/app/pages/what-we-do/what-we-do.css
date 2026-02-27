@@ -457,6 +457,7 @@ body {
   align-items: center;
   gap: 16px;
   color: white;
+  font-weight: 500;
   padding: 16px 20px;
   background: #88c431;
   border-radius: var(--radius-sm);
@@ -501,7 +502,7 @@ body {
 .step-number {
   width: 40px;
   height: 40px;
-  background: hsl(125, 89%, 41%);
+  background: #88c431;
   color: white;
   border-radius: 50%;
   display: flex;
@@ -514,11 +515,11 @@ body {
 }
 
 .initiative-card:last-child .step-number {
-  background: hsl(125, 89%, 41%);
+  background: #88c431;
 }
 
 .initiative-card:last-child:hover .step-number {
-  background: hsl(31, 100%, 47%);
+  background: #d49a42;
   transform: scale(1.1);
 }
 
@@ -543,7 +544,7 @@ body {
 }
 
 .upcycling-section h4 {
-  color: hsl(125, 89%, 41%);
+  color: #88c431;
   font-size: 1.2rem;
   margin-bottom: 20px;
   font-weight: 700;
@@ -552,7 +553,7 @@ body {
 }
 
 .initiative-card:last-child .upcycling-section h4 {
-  color: hsl(125, 89%, 41%);
+  color: #d49a42;
 }
 
 .upcycling-list {
@@ -565,9 +566,9 @@ body {
   display: flex;
   align-items: center;
   gap: 15px;
-  color: var(--text-dark);
+  color: white;
   padding: 12px 15px;
-  background:hsla(31, 100%, 47%, 0.485);
+  background:#d49a42;
   border-radius: var(--radius-sm);
   font-weight: 500;
   transition: all 0.3s ease;
@@ -579,7 +580,7 @@ body {
 }
 
 .upcycling-item:hover {
-  background:hsl(125, 89%, 41%);
+  background:#88c431;
   transform: translateX(8px);
 }
 
