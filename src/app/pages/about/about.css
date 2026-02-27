@@ -567,7 +567,7 @@
 .problem-card h3 {
   font-size: 1.2rem;
   margin-bottom: 15px;
-  color: hsl(125, 89%, 31%);
+  color: #88c431;
   font-weight: 600;
 }
 
@@ -683,7 +683,7 @@
 .feature-check {
   width: 18px;
   height: 18px;
-  background: hsl(125, 89%, 31%);
+  background: #88c431;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -923,7 +923,7 @@
 /* ===== CONTACT CTA ===== */
 /* ===== CONTACT CTA - JOIN US STYLES ===== */
 .contact-cta {
-  background:  #d49a42;
+  background: linear-gradient(135deg, hsl(125, 89%, 31%) 0%, #e8f5e8 100%);
   border-radius: 40px;
   padding: 60px 30px;
   text-align: center;
@@ -972,7 +972,7 @@
   transform: translateX(-50%);
   width: 60px;
   height: 3px;
-  background: white;
+  background: hsl(125, 89%, 31%);
   border-radius: 2px;
 }
 
@@ -1009,7 +1009,7 @@
 }
 
 .contact-card:hover {
-  background: #88c431;
+  background: hsl(125, 91%, 13%);
   transform: translateY(-3px);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   border-color: white;
@@ -1069,7 +1069,7 @@
 .btn-primary:hover {
   transform: translateY(-3px);
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-  background: #88c431;
+  background:  hsl(125, 91%, 13%);
   color: white;
 }
 
