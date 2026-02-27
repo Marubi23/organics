@@ -1,4 +1,5 @@
 <!-- src/app/components/products/products.html -->
+
 <!-- Add to Cart Success Message -->
 <div class="add-success-message" [class.show]="showAddedMessage">
   <div class="success-content">
@@ -18,7 +19,7 @@
   <section class="products-hero">
     <div class="hero-overlay">
       <div class="container">
-        <h1>Mzuri Organics Shop</h1>
+        <h1>Mzuri Organics <span>Shop</span></h1>
         <p>Premium organic fertilizers & animal feeds</p>
         <div class="hero-stats">
           <div class="stat">
@@ -114,13 +115,13 @@
             </div>
 
             <!-- Stock Badge -->
-            <div class="stock-badge" [class]="getStockClass(product)">
+            <div class="stock-badge" [class]="'stock-' + getStockClass(product)">
               {{getStockText(product)}}
             </div>
 
             <!-- Quick Actions -->
             <div class="quick-actions">
-              <button class="quick-view-btn" title="Quick View">
+              <button class="quick-view-btn" title="Quick View" (click)="openQuickView(product)">
                 <i class="fas fa-eye"></i>
               </button>
               <button class="quick-cart-btn" (click)="addToCart(product)" 
@@ -161,7 +162,7 @@
               </div>
             </div>
 
-            <!-- Price & Stock -->
+            <!-- Price & Units -->
             <div class="product-footer">
               <div class="price-section">
                 <div class="current-price">KSh {{product.price | number}}</div>
@@ -240,12 +241,17 @@
                 <div class="stock-status" [class]="getStockClass(product)">
                   {{getStockText(product)}}
                 </div>
-                <button class="list-cart-btn" 
-                        (click)="addToCart(product)"
-                        [disabled]="!product.inStock">
-                  <i class="fas" [class]="product.inStock ? 'fa-cart-plus' : 'fa-ban'"></i>
-                  {{product.inStock ? 'Add to Cart' : 'Out of Stock'}}
-                </button>
+                <div class="action-buttons">
+                  <button class="list-view-btn" (click)="openQuickView(product)" title="Quick View">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="list-cart-btn" 
+                          (click)="addToCart(product)"
+                          [disabled]="!product.inStock">
+                    <i class="fas" [class]="product.inStock ? 'fa-cart-plus' : 'fa-ban'"></i>
+                    {{product.inStock ? 'Add to Cart' : 'Out of Stock'}}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -269,6 +275,128 @@
     <i class="fas fa-shopping-cart"></i>
     <span class="cart-count" *ngIf="cartCount > 0">{{cartCount}}</span>
     <span class="cart-total" *ngIf="cartCount > 0">KSh {{cartTotal | number}}</span>
+  </div>
+</div>
+
+<!-- Quick View Modal -->
+<div class="quick-view-modal-overlay" [class.active]="showQuickView" (click)="closeQuickView()">
+  <div class="quick-view-modal" (click)="$event.stopPropagation()" *ngIf="selectedProduct">
+    <button class="modal-close" (click)="closeQuickView()">
+      <i class="fas fa-times"></i>
+    </button>
+    
+    <div class="modal-content">
+      <!-- Left: Image Gallery -->
+      <div class="modal-gallery">
+        <div class="main-image" [class.zoomed]="isZoomed" (click)="toggleZoom()">
+          <img [src]="getSelectedProductMainImage()" [alt]="selectedProduct.name">
+        </div>
+        
+        <div class="image-thumbnails" *ngIf="hasMultipleImages()">
+          <div class="thumbnail" 
+               *ngFor="let img of getSelectedProductImages(); let i = index"
+               [class.active]="i === selectedProduct.mainImageIndex"
+               (click)="selectImage(i)">
+            <img [src]="img" [alt]="selectedProduct.name + ' ' + (i+1)">
+          </div>
+        </div>
+        
+        <!-- Navigation Arrows -->
+        <button class="gallery-nav prev" (click)="prevImage()" *ngIf="hasMultipleImages()">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="gallery-nav next" (click)="nextImage()" *ngIf="hasMultipleImages()">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+        
+        <!-- Zoom Hint -->
+        <div class="zoom-hint">
+          <i class="fas fa-search-plus"></i>
+          <span>Click image to zoom</span>
+        </div>
+      </div>
+      
+      <!-- Right: Product Info -->
+      <div class="modal-info">
+        <div class="modal-header">
+          <span class="modal-category">{{selectedProduct.category}}</span>
+          <h2 class="modal-title">{{selectedProduct.name}}</h2>
+          
+          <div class="modal-rating">
+            <div class="stars">
+              <i class="fas fa-star" *ngFor="let star of [1,2,3,4,5]"
+                 [class.filled]="star <= Math.floor(selectedProduct.rating)">
+              </i>
+            </div>
+            <span class="review-count">{{selectedProduct.rating}} ({{getSelectedProductStock()}} reviews)</span>
+          </div>
+          
+          <div class="modal-price">
+            <span class="modal-current-price">KSh {{selectedProduct.price | number}}</span>
+            <span class="modal-original-price" *ngIf="selectedProduct.originalPrice">
+              KSh {{selectedProduct.originalPrice | number}}
+            </span>
+            <span class="modal-discount" *ngIf="selectedProduct.discount">
+              Save {{selectedProduct.discount}}%
+            </span>
+          </div>
+        </div>
+        
+        <div class="modal-description">
+          <p>{{selectedProduct.description}}</p>
+        </div>
+        
+        <div class="modal-features" *ngIf="selectedProduct.features.length > 0">
+          <h4>Key Benefits</h4>
+          <ul>
+            <li *ngFor="let feature of selectedProduct.features">
+              <i class="fas fa-check-circle"></i>
+              {{feature}}
+            </li>
+          </ul>
+        </div>
+        
+        <div class="modal-stock">
+          <div class="stock-indicator" [class]="getStockIndicator(selectedProduct)"></div>
+          <span class="stock-text">{{getStockStatus(selectedProduct).text}}</span>
+          <span class="stock-count" *ngIf="selectedProduct.inStock">{{selectedProduct.stock}} available</span>
+        </div>
+        
+        <div class="modal-quantity">
+          <label>Quantity:</label>
+          <div class="quantity-controls">
+            <button class="qty-btn" (click)="updateQuickViewQuantity(-1)" [disabled]="isQuantityDecreaseDisabled()">
+              <i class="fas fa-minus"></i>
+            </button>
+            <span class="quantity">{{getSelectedProductQuantity()}}</span>
+            <button class="qty-btn" (click)="updateQuickViewQuantity(1)" [disabled]="isQuantityIncreaseDisabled()">
+              <i class="fas fa-plus"></i>
+            </button>
+          </div>
+          <span class="unit">{{selectedProduct.units}}</span>
+        </div>
+        
+        <div class="modal-actions">
+          <button class="modal-add-to-cart" 
+                  (click)="addFromQuickView()"
+                  [disabled]="!selectedProduct.inStock">
+            <i class="fas fa-shopping-cart"></i>
+            Add to Cart (KSh {{selectedProduct.price * getSelectedProductQuantity() | number}})
+          </button>
+          
+          <button class="modal-wishlist" 
+                  [class.active]="isWishlisted"
+                  (click)="toggleWishlist()">
+            <i class="fas" [class.fa-heart]="isWishlisted" [class.fa-heart-o]="!isWishlisted"></i>
+          </button>
+        </div>
+        
+        <div class="modal-meta">
+          <p><i class="fas fa-tag"></i> SKU: MZ-{{selectedProduct.id}}-{{selectedProduct.category.substring(0,3).toUpperCase()}}</p>
+          <p><i class="fas fa-box"></i> {{selectedProduct.units}}</p>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
