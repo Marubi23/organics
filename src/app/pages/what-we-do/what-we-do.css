@@ -770,11 +770,11 @@ body {
 }
 
 .metric-card:nth-child(odd) {
-  border-color: hsl(125, 89%, 41%);
+  border-color: #88c431;
 }
 
 .metric-card:nth-child(even) {
-  border-color: hsl(31, 100%, 47%);
+  border-color: #d49a42;
 }
 
 .metric-card:hover {
@@ -793,11 +793,11 @@ body {
 }
 
 .metric-card:nth-child(odd) .metric-value {
-  color: hsl(125, 89%, 41%);
+  color: #88c431;
 }
 
 .metric-card:nth-child(even) .metric-value {
-  color: hsl(31, 100%, 47%);
+  color: #d49a42;
 }
 
 .metric-card:hover .metric-value {
@@ -822,7 +822,7 @@ body {
   gap: 8px;
   font-size: 1rem;
   font-weight: 600;
-  color: hsl(31, 100%, 47%);
+  color: #2f2008;
   transition: all 0.3s ease;
   padding: 8px 20px;
   background: hsla(31, 100%, 47%, 0.1);
@@ -831,7 +831,7 @@ body {
 }
 
 .metric-card:hover .metric-trend {
-  background: hsl(31, 100%, 47%);
+  background: #d49a42;
   color: white;
   transform: translateY(-3px);
 }
