@@ -624,11 +624,12 @@ body {
 }
 
 .circular-model .section-header h2 {
-  color: hsl(125, 89%, 41%);
+  color: #88c431;
+  font-family: 'Poppins', sans-serif;
 }
 
 .circular-model .section-header p {
-  color: rgb(55, 51, 51);
+  color: rgb(37, 32, 32);
   font-family: 'Poppins', sans-serif;
 }
 
