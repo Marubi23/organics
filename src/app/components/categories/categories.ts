@@ -55,23 +55,21 @@ export class CategoriesComponent implements OnInit, AfterViewInit, OnDestroy {
     { number: '6', title: 'Life on Land', description: 'Restoring degraded soils, improving biodiversity, and strengthening ecosystem health with microbe-rich inputs' }
   ];
 
-  // Slideshow data
-  currentSlide = 0;
-  slideInterval: any;
+  // Slideshow data - UPDATED with correct descriptions from products component
   slides: Slide[] = [
     {
       image: 'images/product2.jpg',
       category: 'Biofertilizer',
-      name: 'Bio Veg Plus',
-      description: 'Specialized organic fertilizer for vegetables',
+      name: 'BioFruity Plus',
+      description: 'Balanced liquid nutrition formula that supports flowering & fruit set, improves nutrient uptake & crop quality, and boosts stress tolerance. Ideal for fruiting crops, maize & perennials.',
       price: 400,
       unit: '/half-litre bottle'
     },
     {
-      image: 'images/product1.jpg',
+      image: 'images/product6.jpg',
       category: 'Biofertilizer',
-      name: 'BioFruity Plus',
-      description: 'Specialized organic fertilizer for vegetables',
+      name: 'BioVeg Plus',
+      description: 'Liquid organic nitrogen booster that drives fast vegetative growth, improves leaf size & greenness, and enhances microbial activity. Ideal for vegetables, cereals & young crops.',
       price: 400,
       unit: '/half-litre bottle'
     },
@@ -79,11 +77,14 @@ export class CategoriesComponent implements OnInit, AfterViewInit, OnDestroy {
       image: 'images/vermifrassprod.jpeg',
       category: 'Biofertilizer',
       name: 'VermiFrass Active',
-      description: 'Superior 100% organic fertilizer with active microbes',
+      description: 'Solid organic biofertilizer that restores soil organic matter, improves soil structure & moisture retention, and activates beneficial soil microbes. Ideal for vegetables, cereals & orchards.',
       price: 1500,
       unit: '/25kg bag'
     }
   ];
+
+  currentSlide = 0;
+  slideInterval: any;
 
   private statsAnimated = false;
   private observer: IntersectionObserver | null = null;
@@ -133,14 +134,17 @@ export class CategoriesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   nextSlide(): void {
     this.currentSlide = (this.currentSlide + 1) % this.slides.length;
+    this.triggerSlideAnimation();
   }
 
   prevSlide(): void {
     this.currentSlide = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
+    this.triggerSlideAnimation();
   }
 
   goToSlide(index: number): void {
     this.currentSlide = index;
+    this.triggerSlideAnimation();
     this.resetSlideshowTimer();
   }
 

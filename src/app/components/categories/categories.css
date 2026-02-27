@@ -1013,7 +1013,7 @@
 
 .stat-label {
   font-size: 14px;
-  color: #718096;
+  color: #121417;
   font-weight: 600;
 }
 
@@ -1066,7 +1066,7 @@
 .brand-icon {
   width: 70px;
   height: 70px;
-  background: linear-gradient(135deg, hsl(125, 89%, 31%), hsl(125, 80%, 25%));
+  background: linear-gradient(135deg, #88c431, #d49a42);
   border-radius: 18px;
   display: flex;
   align-items: center;
@@ -1077,6 +1077,7 @@
     0 4px 16px rgba(33, 196, 18, 0.2);
 }
 
+
 .section-title {
   font-family: 'Poppins', sans-serif;
   font-size: 2.5rem;
@@ -1085,10 +1086,13 @@
   margin: 0 0 8px 0;
   line-height: 1.2;
 }
+.header-text h2{
+  color: #88c431;
+}
 
 .section-subtitle {
   font-size: 1.1rem;
-  color: #718096;
+  color: #212325;
   margin: 0;
   font-weight: 500;
 }
@@ -1156,8 +1160,8 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  background: rgba(33, 196, 18, 0.12);
-  color: #1a3c07;
+  background: #88c431;
+  color: black;
   padding: 10px 20px;
   border-radius: 50px;
   font-size: 0.9rem;
@@ -1168,21 +1172,21 @@
 }
 
 .badge-icon {
-  color: hsl(125, 89%, 31%);
+  color: white;
 }
 
 .product-title {
   font-family: 'Poppins', sans-serif;
   font-size: 2.2rem;
   font-weight: 700;
-  color: #1a3c07;
+  color: #d49a42;
   margin: 0 0 20px 0;
   line-height: 1.2;
 }
 
 .product-description {
   font-size: 1.1rem;
-  color: #718096;
+  color: #191b1f;
   line-height: 1.6;
   margin: 0 0 30px 0;
   flex-grow: 1;
@@ -1199,12 +1203,12 @@
   font-family: 'Poppins', sans-serif;
   font-size: 2.5rem;
   font-weight: 700;
-  color: #1a3c07;
+  color: #d49a42;
 }
 
 .price-unit {
   font-size: 1.1rem;
-  color: #a0aec0;
+  color: #000000;
   font-weight: 500;
 }
 
@@ -1233,7 +1237,7 @@
 
 .feature-text {
   font-size: 0.95rem;
-  color: #718096;
+  color: #22252a;
   font-weight: 500;
 }
 
@@ -1352,6 +1356,7 @@
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-radius: 20px;
+  border-color: hsl(125, 89%, 41%);
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.3);
   box-shadow: 
@@ -1430,7 +1435,7 @@
 }
 
 .indicator.active .indicator-dot {
-  background: hsl(125, 89%, 31%);
+  background: #88c431;
   transform: scale(1.2);
 }
 
