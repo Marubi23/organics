@@ -856,8 +856,8 @@ body {
 
 .modal-category {
   display: inline-block;
-  font-size: 0.9rem;
-  color: var(--green);
+  font-size: 1.2rem;
+  color: hsl(127, 75%, 31%);
   background: var(--green-soft);
   padding: 6px 16px;
   border-radius: 30px;
@@ -868,7 +868,7 @@ body {
 .modal-title {
   font-size: 2rem;
   font-weight: 800;
-  color: var(--dark);
+  color: #d49a42;
   margin-bottom: 12px;
   line-height: 1.2;
 }
@@ -891,11 +891,11 @@ body {
 }
 
 .stars i.filled {
-  color: var(--gold);
+  color: 		#FFB800;
 }
 
 .review-count {
-  color: var(--gray);
+  color: hsl(127, 75%, 31%);
   font-size: 0.9rem;
 }
 
@@ -909,7 +909,7 @@ body {
 .modal-current-price {
   font-size: 2.5rem;
   font-weight: 800;
-  color: var(--green);
+  color: hsl(127, 75%, 31%);
 }
 
 .modal-original-price {
@@ -919,8 +919,8 @@ body {
 }
 
 .modal-discount {
-  background: var(--gold-light);
-  color: var(--gold-dark);
+  background: #d49a42;
+  color: white;
   padding: 6px 16px;
   border-radius: 30px;
   font-weight: 700;
@@ -942,7 +942,7 @@ body {
 .modal-features h4 {
   font-size: 1.1rem;
   font-weight: 700;
-  color: var(--dark);
+  color: #d49a42;
   margin-bottom: 16px;
 }
 
@@ -957,7 +957,7 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  color: var(--gray-dark);
+  color: hsl(127, 75%, 31%);
   font-size: 0.95rem;
 }
 
@@ -971,9 +971,9 @@ body {
   align-items: center;
   gap: 10px;
   padding: 16px;
-  background: var(--white);
+  background: #d49a42;
   border: 1px solid var(--gray-light);
-  border-radius: var(--radius-md);
+  border-radius: 50px;
 }
 
 .stock-indicator {
@@ -983,12 +983,12 @@ body {
 }
 
 .stock-indicator.in-stock {
-  background: var(--green);
+  background: hsl(127, 75%, 31%);
   box-shadow: 0 0 0 4px var(--green-light);
 }
 
 .stock-indicator.low-stock {
-  background: var(--gold);
+  background: rgba(237, 45, 45, 0.549);
   box-shadow: 0 0 0 4px var(--gold-light);
 }
 
@@ -999,12 +999,12 @@ body {
 
 .stock-text {
   font-weight: 600;
-  color: var(--dark);
+  color: white;
 }
 
 .stock-count {
   margin-left: auto;
-  color: var(--gray);
+  color: white;
   font-size: 0.9rem;
 }
 
@@ -1013,13 +1013,13 @@ body {
   align-items: center;
   gap: 16px;
   padding: 16px;
-  background: var(--gray-soft);
-  border-radius: var(--radius-md);
+  background: #88c431;
+  border-radius: 50px;
 }
 
 .modal-quantity label {
   font-weight: 600;
-  color: var(--dark);
+  color: white;
   min-width: 70px;
 }
 
@@ -1032,10 +1032,10 @@ body {
 .qty-btn {
   width: 36px;
   height: 36px;
-  background: var(--white);
+  background: white;
   border: 1px solid var(--gray-light);
   border-radius: 8px;
-  color: var(--green);
+  color: black;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -1044,8 +1044,8 @@ body {
 }
 
 .qty-btn:hover:not(:disabled) {
-  background: var(--green);
-  color: var(--white);
+  background: white;
+  color: black;
   border-color: var(--green);
 }
 
@@ -1063,7 +1063,7 @@ body {
 }
 
 .unit {
-  color: var(--gray);
+  color: white;
   font-size: 0.9rem;
   margin-left: auto;
 }
@@ -1530,8 +1530,8 @@ body {
   position: fixed;
   top: 20px;
   right: 20px;
-  background: var(--white);
-  border-radius: var(--radius-lg);
+  background: hsl(134, 98%, 20%);
+  border-radius: 10px;
   box-shadow: var(--shadow-lg);
   padding: 20px;
   z-index: 10000;
@@ -1555,17 +1555,18 @@ body {
 
 .success-content i {
   font-size: 2rem;
-  color: var(--green);
+  color: white;
   flex-shrink: 0;
 }
 
 .success-text {
   flex: 1;
   min-width: 200px;
+  color: white;
 }
 
 .success-text strong {
-  color: var(--dark);
+  color: white;
   display: block;
   margin-bottom: 4px;
   word-break: break-word;
@@ -1573,12 +1574,12 @@ body {
 }
 
 .success-text span {
-  color: var(--gray);
+  color: white;
   font-size: 0.9rem;
 }
 
 .view-cart-btn {
-  background: var(--gold);
+  background: hsl(31, 100%, 47%);
   color: var(--white);
   border: none;
   padding: 10px 20px;
@@ -1592,7 +1593,7 @@ body {
 }
 
 .view-cart-btn:hover {
-  background: var(--green);
+  background: hsl(31, 98%, 40%);
   transform: translateY(-2px);
   box-shadow: var(--shadow-green);
 }
