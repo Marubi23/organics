@@ -1,9 +1,35 @@
-/* Problems Page - Complete CSS */
+/* Problems Page - Complete CSS with Mzuri Organics Theme */
+
+/* ============================================
+   PAGE HERO
+   ============================================ */
 .page-hero {
-  background: hsl(125, 89%, 31%);
+  background: linear-gradient(135deg, hsl(127, 68%, 10%) 0%, hsl(125, 89%, 31%) 100%);
   color: white;
   padding: 100px 20px;
   text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.page-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(136, 196, 49, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(212, 154, 66, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .hero-content h1 {
@@ -11,6 +37,7 @@
   font-weight: 700;
   margin-bottom: 20px;
   font-family: 'Poppins', sans-serif;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .hero-subtitle {
@@ -28,10 +55,23 @@
   padding: 0 20px;
 }
 
-/* Problem Overview */
+/* ============================================
+   PROBLEM OVERVIEW
+   ============================================ */
 .problem-overview {
   padding: 80px 0;
-  background: #f9f9f7;
+  background: white;
+  position: relative;
+}
+
+.problem-overview::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #88c431, #d49a42, hsl(125, 89%, 31%));
 }
 
 .section-header {
@@ -43,8 +83,22 @@
   font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 15px;
-  color: hsl(125, 89%, 31%);
+  color: #88c431;
   font-family: 'Poppins', sans-serif;
+  position: relative;
+  display: inline-block;
+}
+
+.section-header h2::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: #d49a42;
+  border-radius: 2px;
 }
 
 .section-header p {
@@ -73,18 +127,34 @@
   overflow: hidden;
 }
 
+.problem-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #88c431, #d49a42);
+  transform: scaleX(0);
+  transition: transform 0.4s ease;
+}
+
+.problem-card:hover::before {
+  transform: scaleX(1);
+}
+
 .problem-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
 }
 
-/* Left border colors */
+/* Left border colors - using theme colors */
 .problem-card.critical {
   border-left: 4px solid #dc3545;
 }
 
 .problem-card.environmental {
-  border-left: 4px solid #17a2b8;
+  border-left: 4px solid #88c431;
 }
 
 .problem-card.access {
@@ -92,7 +162,7 @@
 }
 
 .problem-card.economic {
-  border-left: 4px solid hsl(31, 100%, 47%);
+  border-left: 4px solid #d49a42;
 }
 
 .problem-card.knowledge {
@@ -137,8 +207,8 @@
 }
 
 .problem-card.environmental .problem-badge {
-  background: rgba(23, 162, 184, 0.1);
-  color: #17a2b8;
+  background: rgba(136, 196, 49, 0.1);
+  color: #88c431;
 }
 
 .problem-card.access .problem-badge {
@@ -147,8 +217,8 @@
 }
 
 .problem-card.economic .problem-badge {
-  background: hsla(31, 100%, 47%, 0.1);
-  color: hsl(31, 100%, 47%);
+  background: rgba(212, 154, 66, 0.1);
+  color: #d49a42;
 }
 
 .problem-card.knowledge .problem-badge {
@@ -173,6 +243,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  background: linear-gradient(135deg, 
+    hsla(125, 89%, 31%, 0.1), 
+    rgba(212, 154, 66, 0.1));
+  border-radius: 50%;
+  padding: 15px;
 }
 
 .problem-icon svg {
@@ -258,19 +333,21 @@
   justify-content: center;
   flex-shrink: 0;
   margin-top: 2px;
+  background: #88c431;
+  border-radius: 50%;
 }
 
 .impact-icon svg {
-  width: 16px;
-  height: 16px;
-  color: hsl(125, 89%, 31%);
+  width: 12px;
+  height: 12px;
+  color: white;
 }
 
 .solution-preview {
-  background: hsla(125, 89%, 31%, 0.05);
+  background: rgba(136, 196, 49, 0.05);
   padding: 20px;
   border-radius: 12px;
-  border-left: 4px solid hsl(125, 89%, 31%);
+  border-left: 4px solid #d49a42;
 }
 
 .solution-preview h5 {
@@ -288,12 +365,29 @@
   font-family: 'Roboto', sans-serif;
 }
 
-/* ==================== REDESIGNED INTERCONNECTIONS SECTION ==================== */
+/* ============================================
+   REDESIGNED INTERCONNECTIONS SECTION
+   ============================================ */
 .interconnections {
   padding: 80px 0;
-  background: white;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(241, 248, 233, 0.95) 100%);
   position: relative;
   overflow: hidden;
+}
+
+.interconnections::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 10% 20%, rgba(136, 196, 49, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 90% 80%, rgba(212, 154, 66, 0.05) 0%, transparent 50%);
+  pointer-events: none;
 }
 
 /* Central Problem Visualization */
@@ -307,7 +401,7 @@
   width: 180px;
   height: 180px;
   margin: 0 auto 30px;
-  background: hsl(125, 89%, 31%);
+  background: linear-gradient(135deg, hsl(125, 89%, 31%), #88c431);
   border-radius: 50%;
   display: flex;
   flex-direction: column;
@@ -318,6 +412,7 @@
   position: relative;
   z-index: 2;
   box-shadow: 0 15px 40px hsla(125, 89%, 31%, 0.3);
+  border: 2px solid rgba(212, 154, 66, 0.3);
 }
 
 .problem-core h3 {
@@ -353,18 +448,22 @@
   transition: all 0.3s ease;
   position: relative;
   z-index: 2;
+  border-bottom: 3px solid transparent;
 }
 
 .satellite-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+  border-bottom-color: #d49a42;
 }
 
 .satellite-icon {
   width: 50px;
   height: 50px;
   margin: 0 auto 15px;
-  background: hsla(125, 89%, 31%, 0.1);
+  background: linear-gradient(135deg, 
+    hsla(125, 89%, 31%, 0.1), 
+    rgba(212, 154, 66, 0.1));
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -409,7 +508,7 @@
   align-items: center;
   gap: 10px;
   padding: 10px 20px;
-  background: hsla(125, 89%, 31%, 0.05);
+  background: rgba(136, 196, 49, 0.05);
   border-radius: 25px;
   border: 1px solid rgba(0, 0, 0, 0.08);
 }
@@ -418,7 +517,11 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: hsl(125, 89%, 31%);
+  background: #88c431;
+}
+
+.connection-dot.causal {
+  background: #d49a42;
 }
 
 .connection-type span {
@@ -428,10 +531,17 @@
   font-family: 'Roboto', sans-serif;
 }
 
-/* Systemic Solutions */
+/* ============================================
+   SYSTEMIC SOLUTIONS
+   ============================================ */
 .systemic-solutions {
   padding: 80px 0;
-  background: #f9f9f7;
+  background: white;
+  position: relative;
+}
+
+.systemic-solutions .section-header p {
+  color: #666;
 }
 
 .solution-matrix {
@@ -441,12 +551,13 @@
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
   margin-top: 40px;
   overflow-x: auto;
+  border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .matrix-header {
   display: grid;
   grid-template-columns: 80px 1fr 1fr 1fr 1fr;
-  background: hsl(125, 89%, 31%);
+  background: linear-gradient(135deg, hsl(125, 89%, 31%), #88c431);
   color: white;
   font-weight: 600;
   text-transform: uppercase;
@@ -462,7 +573,7 @@
 }
 
 .matrix-row:hover {
-  background: hsla(125, 89%, 31%, 0.05);
+  background: rgba(136, 196, 49, 0.05);
 }
 
 .matrix-cell {
@@ -482,6 +593,7 @@
   font-size: 1.2rem;
   text-align: center;
   font-family: 'Poppins', sans-serif;
+  background: rgba(136, 196, 49, 0.05);
 }
 
 .matrix-cell.problem strong {
@@ -505,7 +617,7 @@
 }
 
 .matrix-cell.solution {
-  color: hsl(125, 89%, 31%);
+  color: #88c431;
   font-weight: 600;
   font-family: 'Roboto', sans-serif;
 }
@@ -513,22 +625,42 @@
 .matrix-cell.impact {
   font-weight: 600;
   text-align: center;
-  color: hsl(125, 89%, 31%);
-  background: hsla(125, 89%, 31%, 0.08);
+  color: white;
+  background: #d49a42;
   border-radius: 8px;
   margin: 5px;
   font-family: 'Poppins', sans-serif;
+  padding: 8px;
 }
 
-/* Call to Action */
+/* ============================================
+   CALL TO ACTION
+   ============================================ */
 .call-to-action {
   padding: 80px 0;
-  background: hsl(125, 89%, 31%);
+  background: linear-gradient(135deg, hsl(127, 68%, 10%) 0%, hsl(125, 89%, 31%) 100%);
   color: white;
   text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.call-to-action::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(136, 196, 49, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(212, 154, 66, 0.15) 0%, transparent 50%);
+  pointer-events: none;
 }
 
 .cta-content {
+  position: relative;
+  z-index: 2;
   max-width: 800px;
   margin: 0 auto;
 }
@@ -557,16 +689,24 @@
 
 .cta-stat {
   text-align: center;
+  padding: 25px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: transform 0.3s ease;
 }
-.stat .stat-label{
-  color: white;
+
+.cta-stat:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .cta-stat-number {
   font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 10px;
-  color: white;
+  color: #d49a42;
   font-family: 'Poppins', sans-serif;
 }
 
@@ -596,32 +736,38 @@
   min-width: 180px;
   font-size: 1rem;
   font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  border: none;
 }
 
 .btn-primary {
-  background: white;
-  color: hsl(125, 89%, 31%);
+  background: #d49a42;
+  color: hsl(127, 68%, 10%);
 }
 
 .btn-primary:hover {
-  background: #f0f0f0;
+  background: #c48930;
   transform: translateY(-3px);
-  box-shadow: 0 5px 20px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 5px 20px rgba(212, 154, 66, 0.3);
 }
 
 .btn-secondary {
   background: transparent;
   color: white;
-  border: 2px solid white;
+  border: 2px solid #88c431;
 }
 
 .btn-secondary:hover {
-  background: white;
-  color: hsl(125, 89%, 31%);
+  background: #88c431;
+  color: hsl(127, 68%, 10%);
   transform: translateY(-3px);
 }
 
-/* Responsive Design */
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+/* Tablet Landscape (1024px and below) */
 @media (max-width: 1024px) {
   .hero-content h1 {
     font-size: 2.5rem;
@@ -640,6 +786,7 @@
   }
 }
 
+/* Tablet Portrait (768px and below) */
 @media (max-width: 768px) {
   .page-hero {
     padding: 80px 20px;
@@ -726,6 +873,7 @@
   }
 }
 
+/* Mobile Phones (576px and below) */
 @media (max-width: 576px) {
   .hero-content h1 {
     font-size: 1.8rem;
@@ -770,15 +918,62 @@
     font-size: 0.8rem;
   }
   
-  .cta-content h2 {
+  .cta-text h2 {
     font-size: 2rem;
   }
   
-  .cta-content p {
+  .cta-text p {
     font-size: 1.1rem;
   }
   
   .cta-stat-number {
     font-size: 2rem;
+  }
+}
+
+/* ============================================
+   TOUCH DEVICE OPTIMIZATIONS
+   ============================================ */
+@media (hover: none) and (pointer: coarse) {
+  .problem-card:hover,
+  .satellite-card:hover,
+  .cta-stat:hover,
+  .btn:hover {
+    transform: none !important;
+  }
+  
+  .problem-card:active,
+  .satellite-card:active,
+  .btn:active {
+    transform: scale(0.98) !important;
+    opacity: 0.9;
+  }
+  
+  button,
+  .btn,
+  .problem-card,
+  .satellite-card {
+    min-height: 44px;
+    cursor: pointer;
+  }
+}
+
+/* ============================================
+   IOS SPECIFIC FIXES
+   ============================================ */
+@supports (-webkit-touch-callout: none) {
+  .page-hero {
+    background-attachment: scroll;
+  }
+  
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  
+  .problem-overview,
+  .interconnections,
+  .systemic-solutions,
+  .call-to-action {
+    -webkit-overflow-scrolling: touch;
   }
 }
