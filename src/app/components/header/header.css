@@ -867,8 +867,9 @@ input:checked + .slider:before {
   }
   
   .logo-img {
-    height: 55px;
-    border-radius: 50%;
+    height: auto;
+    width: 150px;
+    border-radius: 8px;
   }
   
   .settings-menu,
