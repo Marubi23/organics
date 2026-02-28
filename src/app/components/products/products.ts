@@ -145,7 +145,7 @@ export class ProductsComponent implements OnInit {
     },
     {
       id: 6,
-      name: 'Organi-Mineral VF DAP 10%',
+      name: 'Organo-Mineral VF DAP 10%',
       description: 'Organo-mineral starter fertilizer that enhances early root development, improves phosphorus efficiency, and reduces nutrient losses. Ideal for planting stage crops.',
       price: 2200,
       image: 'images/dap10.jpeg',
@@ -165,7 +165,7 @@ export class ProductsComponent implements OnInit {
     },
     {
       id: 7,
-      name: 'Organi-Mineral VF CAN 10%',
+      name: 'Organo-Mineral VF CAN 10%',
       description: 'Nitrogen & calcium blend that supports steady vegetative growth, strengthens plant cell walls, and improves nitrogen use efficiency. Ideal for cereals, vegetables & fodder.',
       price: 1900,
       image: 'images/can10.jpeg',
@@ -185,7 +185,7 @@ export class ProductsComponent implements OnInit {
     },
     {
       id: 8,
-      name: 'Organi-Mineral VF NPK 10%',
+      name: 'Organo-Mineral VF NPK 10%',
       description: 'Balanced NPK organo-mineral fertilizer that feeds crops & regenerates soil, improves nutrient availability, and supports all growth stages. Ideal for general crop production.',
       price: 2000,
       image: 'images/npk10.jpeg',
@@ -205,7 +205,7 @@ export class ProductsComponent implements OnInit {
     },
     {
       id: 9,
-      name: 'Organi-Mineral VF Urea 10%',
+      name: 'Organo-Mineral VF Urea 10%',
       description: 'Controlled-release nitrogen fertilizer that reduces nitrogen losses, protects soil biology, and sustains crop growth. Ideal for maize, sugarcane & vegetables.',
       price: 2200,
       image: 'images/urea10.jpeg',
