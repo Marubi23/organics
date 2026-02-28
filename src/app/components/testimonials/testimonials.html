@@ -1,32 +1,50 @@
+<!-- Hero Section -->
 <section class="testimonials-hero">
   <div class="container">
     <div class="hero-content">
       <div class="hero-text">
         <h1 class="hero-title">
-          <i class="fas fa-heart"></i>
+          <i class="fas fa-heart" style="color: #d49a42;"></i>
           Stories That Inspire
         </h1>
-        <p class="hero-subtitle">Real people, real results. Discover how Mzuri Organics is transforming lives and communities across Kenya.</p>
+        <p class="hero-subtitle">From the farms of Western to the valleys of the Rift — real people, real results with Mzuri Organics.</p>
+        
+        <!-- Region Tags -->
+        <div class="region-tags">
+          <span class="region-tag western">
+            <i class="fas fa-mountain"></i>
+            Western Region
+          </span>
+          <span class="region-tag rift">
+            <i class="fas fa-mountain-sun"></i>
+            Rift Valley
+          </span>
+          <span class="region-tag nyanza">
+            <i class="fas fa-water"></i>
+            Nyanza
+          </span>
+        </div>
+
         <div class="impact-stats">
           <div class="stat">
-            <i class="fas fa-user-friends"></i>
+            <i class="fas fa-user-friends" style="color: #d49a42;"></i>
             <div>
-              <span class="stat-number">1000+</span>
+              <span class="stat-number">2,500+</span>
               <span class="stat-label">Farmers Empowered</span>
             </div>
           </div>
           <div class="stat">
-            <i class="fas fa-chart-line"></i>
+            <i class="fas fa-chart-line" style="color: #d49a42;"></i>
             <div>
               <span class="stat-number">60%</span>
               <span class="stat-label">Average Yield Increase</span>
             </div>
           </div>
           <div class="stat">
-            <i class="fas fa-leaf"></i>
+            <i class="fas fa-map-marker-alt" style="color: #d49a42;"></i>
             <div>
-              <span class="stat-number">100%</span>
-              <span class="stat-label">Organic Success</span>
+              <span class="stat-number">12</span>
+              <span class="stat-label">Counties Served</span>
             </div>
           </div>
         </div>
@@ -35,43 +53,79 @@
   </div>
 </section>
 
+<!-- Main Section -->
 <section class="testimonials-section">
   <div class="container">
-    <!-- Category Filters -->
-    <div class="category-filters">
-      <button 
-        class="filter-btn" 
-        [class.active]="activeCategory === 'all'"
-        (click)="filterTestimonials('all')">
-        <i class="fas fa-star"></i>
-        All Stories
-      </button>
-      <button 
-        class="filter-btn" 
-        [class.active]="activeCategory === 'farmer'"
-        (click)="filterTestimonials('farmer')">
-        <i class="fas fa-tractor"></i>
-        Farmer Stories
-      </button>
-      <button 
-        class="filter-btn" 
-        [class.active]="activeCategory === 'customer'"
-        (click)="filterTestimonials('customer')">
-        <i class="fas fa-shopping-bag"></i>
-        Customer Reviews
-      </button>
-      <button 
-        class="filter-btn" 
-        [class.active]="activeCategory === 'partner'"
-        (click)="filterTestimonials('partner')">
-        <i class="fas fa-handshake"></i>
-        Partner Stories
-      </button>
+    <!-- Dual Filters: Category + Region -->
+    <div class="filters-wrapper">
+      <!-- Category Filters -->
+      <div class="category-filters">
+        <button 
+          class="filter-btn" 
+          [class.active]="activeCategory === 'all'"
+          (click)="filterTestimonials('all')">
+          <i class="fas fa-star"></i>
+          All Stories
+        </button>
+        <button 
+          class="filter-btn" 
+          [class.active]="activeCategory === 'farmer'"
+          (click)="filterTestimonials('farmer')">
+          <i class="fas fa-tractor"></i>
+          Farmer Stories
+        </button>
+        <button 
+          class="filter-btn" 
+          [class.active]="activeCategory === 'customer'"
+          (click)="filterTestimonials('customer')">
+          <i class="fas fa-shopping-bag"></i>
+          Customer Reviews
+        </button>
+        <button 
+          class="filter-btn" 
+          [class.active]="activeCategory === 'partner'"
+          (click)="filterTestimonials('partner')">
+          <i class="fas fa-handshake"></i>
+          Partner Stories
+        </button>
+      </div>
+
+      <!-- Region Filters -->
+      <div class="region-filters">
+        <button 
+          class="region-btn" 
+          [class.active]="activeRegion === 'all'"
+          (click)="filterByRegion('all')">
+          All Regions
+        </button>
+        <button 
+          class="region-btn western" 
+          [class.active]="activeRegion === 'Western'"
+          (click)="filterByRegion('Western')">
+          <i class="fas fa-mountain"></i>
+          Western
+        </button>
+        <button 
+          class="region-btn rift" 
+          [class.active]="activeRegion === 'Rift Valley'"
+          (click)="filterByRegion('Rift Valley')">
+          <i class="fas fa-mountain-sun"></i>
+          Rift Valley
+        </button>
+        <button 
+          class="region-btn nyanza" 
+          [class.active]="activeRegion === 'Nyanza'"
+          (click)="filterByRegion('Nyanza')">
+          <i class="fas fa-water"></i>
+          Nyanza
+        </button>
+      </div>
     </div>
 
     <!-- Testimonials Grid -->
     <div class="testimonials-grid">
-      <div *ngFor="let testimonial of filteredTestimonials" class="testimonial-card">
+      <div *ngFor="let testimonial of filteredTestimonials" class="testimonial-card" [class.featured]="testimonial.featured">
+        
         <!-- Card Header -->
         <div class="card-header">
           <div class="user-info">
@@ -84,22 +138,28 @@
             <div class="user-details">
               <h3 class="user-name">{{ testimonial.name }}</h3>
               <p class="user-role">
-                <i class="fas fa-map-marker-alt"></i>
-                {{ testimonial.location }}
+                <i class="fas fa-map-marker-alt" [style.color]="getRegionColor(testimonial.region)"></i>
+                {{ testimonial.location }}, {{ testimonial.county }}
               </p>
-              <p class="user-title">
-                <i class="fas fa-briefcase"></i>
-                {{ testimonial.role }}
-              </p>
+              <div class="user-meta">
+                <span class="tribe-badge" [class]="testimonial.tribe.toLowerCase()">
+                  <i [class]="getTribeIcon(testimonial.tribe)"></i>
+                  {{ testimonial.tribe }}
+                </span>
+                <span class="region-badge" [class]="testimonial.region.toLowerCase().replace(' ', '-')">
+                  <i [class]="getRegionIcon(testimonial.region)"></i>
+                  {{ testimonial.region }}
+                </span>
+              </div>
             </div>
           </div>
           <div class="rating">
             <span class="stars">
-              <i *ngFor="let star of getRatingStars(testimonial.rating)" class="fas fa-star"></i>
+              <i *ngFor="let star of getRatingStars(testimonial.rating)" class="fas fa-star" style="color: #d49a42;"></i>
             </span>
             <span class="member-since">
-              <i class="fas fa-calendar"></i>
-              Member since {{ testimonial.joinDate }}
+              <i class="fas fa-calendar" style="color: #88c431;"></i>
+              Since {{ testimonial.joinDate }}
             </span>
           </div>
         </div>
@@ -117,7 +177,7 @@
         <!-- Full Story -->
         <div class="story-section">
           <h4>
-            <i class="fas fa-book-open"></i>
+            <i class="fas fa-book-open" style="color: #88c431;"></i>
             Their Journey
           </h4>
           <p class="full-story">{{ testimonial.story }}</p>
@@ -126,12 +186,12 @@
         <!-- Results -->
         <div class="results-section">
           <h4>
-            <i class="fas fa-trophy"></i>
+            <i class="fas fa-trophy" style="color: #d49a42;"></i>
             Amazing Results
           </h4>
           <div class="results-grid">
             <div *ngFor="let result of testimonial.results" class="result-item">
-              <div class="result-icon">
+              <div class="result-icon" [style.background]="'linear-gradient(135deg, #88c431, #d49a42)'">
                 <i [class]="result.icon"></i>
               </div>
               <div class="result-content">
@@ -147,6 +207,12 @@
           <i [class]="getCategoryIcon(testimonial.category)"></i>
           {{ testimonial.category | titlecase }}
         </div>
+
+        <!-- Featured Ribbon -->
+        <div class="featured-ribbon" *ngIf="testimonial.featured">
+          <i class="fas fa-crown"></i>
+          Featured Story
+        </div>
       </div>
     </div>
   </div>
@@ -157,7 +223,7 @@
   <div class="container">
     <div class="cta-content">
       <h2>Ready to Write Your Success Story?</h2>
-      <p>Join hundreds of farmers and customers who are transforming their lives with Mzuri Organics.</p>
+      <p>Join hundreds of farmers from Western, Rift Valley, and beyond who are transforming their lives with Mzuri Organics.</p>
       <div class="cta-buttons">
         <a routerLink="/products" class="btn btn-primary">
           <i class="fas fa-shopping-bag"></i>
