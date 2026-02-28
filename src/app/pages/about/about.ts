@@ -180,7 +180,7 @@ export class AboutComponent {
       icon: 'circular'
     },
     {
-      title: 'Easy Drop Urban Circularity',
+      title: 'Easy Drip Urban Circularity',
       subtitle: 'Compact domestic food systems',
       description: 'Turns small urban spaces into self-sustaining food production systems combining kitchen waste conversion, tower gardens, and BSFL chicken feed production.',
       features: [
