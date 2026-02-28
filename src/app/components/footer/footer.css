@@ -194,7 +194,7 @@
 }
 
 .newsletter-btn:hover {
-  background: hsl(31, 100%, 57%);
+  background: #aa7c38;
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(255, 152, 0, 0.2);
 }
@@ -217,7 +217,7 @@
 }
 
 .contact-item svg {
-  color: hsl(31, 100%, 47%);
+  color: #d49a42;
   flex-shrink: 0;
   opacity: 0.9;
 }
