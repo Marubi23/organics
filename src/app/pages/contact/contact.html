@@ -37,7 +37,7 @@
           </div>
           
           <!-- WhatsApp Card (Primary) -->
-          <div class="connect-card whatsapp-card" (click)="openWhatsApp()">
+          <div class="connect-card whatsapp-card" (click)="openDirectWhatsApp()">
             <div class="card-icon whatsapp-icon">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.473-.149-.673.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
@@ -46,7 +46,7 @@
             </div>
             <div class="card-content">
               <span class="card-label">Chat on WhatsApp</span>
-              <span class="card-value">+254 701 934 918</span>
+              <span class="card-value">{{ displayPhone }}</span>
               <span class="card-action">Quickest response →</span>
             </div>
           </div>
@@ -61,7 +61,7 @@
             </div>
             <div class="card-content">
               <span class="card-label">Email us</span>
-              <span class="card-value">info@mzuriorganics.co.ke</span>
+              <span class="card-value">{{ email }}</span>
               <span class="card-action">Send a message →</span>
             </div>
           </div>
@@ -119,15 +119,19 @@
             </div>
           </div>
           
-          <!-- Phone Field (Optional but helpful) -->
+          <!-- Phone Field (Required now) -->
           <div class="form-field">
-            <label for="phone">Phone number <span>(optional)</span></label>
+            <label for="phone">Phone number <span>*</span></label>
             <input 
               type="tel" 
               id="phone" 
               formControlName="phone"
               placeholder="0712 345 678"
-              (input)="formatPhoneInput($event)">
+              (input)="formatPhoneInput($event)"
+              [class.has-error]="contactForm.get('phone')?.invalid && contactForm.get('phone')?.touched">
+            <div class="field-error" *ngIf="contactForm.get('phone')?.invalid && contactForm.get('phone')?.touched">
+              Valid Kenyan phone number needed (e.g., 0712 345 678)
+            </div>
           </div>
           
           <!-- Message Field -->
@@ -140,8 +144,14 @@
               placeholder="What would you like to know?"
               [class.has-error]="contactForm.get('message')?.invalid && contactForm.get('message')?.touched"></textarea>
             <div class="field-error" *ngIf="contactForm.get('message')?.invalid && contactForm.get('message')?.touched">
-              Please write your message
+              Please write your message (minimum 10 characters)
             </div>
+          </div>
+          
+          <!-- Error Message Display -->
+          <div class="form-error-message" *ngIf="errorMessage">
+            <i class="fas fa-exclamation-circle"></i>
+            {{ errorMessage }}
           </div>
           
           <!-- Submit Button -->
@@ -149,20 +159,22 @@
             type="submit" 
             class="submit-button"
             [disabled]="contactForm.invalid || isSubmitting">
-            <span *ngIf="!isSubmitting">Send message</span>
-            <span *ngIf="isSubmitting">Sending...</span>
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M1 8H15M15 8L8 1M15 8L8 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            </svg>
+            <span *ngIf="!isSubmitting">Send message via WhatsApp</span>
+            <span *ngIf="isSubmitting">Opening WhatsApp...</span>
+            <i class="fab fa-whatsapp" *ngIf="!isSubmitting"></i>
+            <i class="fas fa-spinner fa-spin" *ngIf="isSubmitting"></i>
           </button>
           
           <!-- Success Message (Simple) -->
           <div class="form-success" *ngIf="showSuccessMessage">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="2"/>
-              <path d="M6 10L9 13L14 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-            <span>Message sent! We'll reply within 24 hours.</span>
+            <i class="fas fa-check-circle"></i>
+            <span>WhatsApp opened! Please send the message to complete.</span>
+          </div>
+          
+          <!-- WhatsApp Note -->
+          <div class="whatsapp-note">
+            <i class="fab fa-whatsapp"></i>
+            <span>You'll be redirected to WhatsApp with your message pre-filled. Just tap send!</span>
           </div>
         </form>
       </div>
@@ -176,11 +188,8 @@
     <div class="cta-content">
       <h3>Prefer WhatsApp?</h3>
       <p>Tap below to start a conversation — we're usually online during business hours.</p>
-      <button class="whatsapp-cta" (click)="openWhatsApp()">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
-          <path d="M17.05 3.03C15.35 1.33 13.08.4 10.64.4 5.62.4 1.54 4.48 1.54 9.5c0 1.63.42 3.22 1.22 4.62L.4 19.6l5.7-1.49c1.35.74 2.87 1.13 4.45 1.13 5.02 0 9.1-4.08 9.1-9.1 0-2.43-.93-4.71-2.6-6.41zM10.64 17.7c-1.37 0-2.71-.37-3.88-1.07l-.28-.16-3.38.88.9-3.3-.18-.3c-.66-1.15-1.01-2.46-1.01-3.82 0-4.12 3.35-7.47 7.48-7.47 2 0 3.88.78 5.3 2.2 1.41 1.41 2.19 3.29 2.19 5.29 0 4.13-3.35 7.48-7.48 7.48z"/>
-          <path d="M14.45 11.33c-.24-.12-1.43-.7-1.65-.78-.22-.08-.38-.12-.54.12-.16.24-.63.78-.77.94-.14.16-.28.18-.52.06-.24-.12-1.01-.37-1.93-1.18-.71-.63-1.19-1.41-1.33-1.65-.14-.24-.01-.37.11-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.77-.19-.47-.39-.4-.54-.41-.14-.01-.3-.01-.46-.01-.16 0-.42.06-.64.3-.22.24-.84.81-.84 1.98 0 1.17.85 2.3.97 2.46.12.16 1.68 2.56 4.07 3.59.57.25 1.01.39 1.36.5.57.18 1.09.16 1.5.09.46-.07 1.41-.58 1.61-1.13.2-.55.2-1.03.14-1.13-.06-.1-.22-.16-.46-.28z"/>
-        </svg>
+      <button class="whatsapp-cta" (click)="openDirectWhatsApp()">
+        <i class="fab fa-whatsapp"></i>
         Start WhatsApp Chat
       </button>
     </div>

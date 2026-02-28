@@ -655,3 +655,73 @@ body {
     transform: none;
   }
 }
+/* Error Message */
+.form-error-message {
+  background: #fee2e2;
+  color: #dc2626;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  border-left: 4px solid #dc2626;
+}
+
+/* Success Message Enhancement */
+.form-success {
+  background: #f0f7e6;
+  color: #88c431;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  border-left: 4px solid #88c431;
+}
+
+.form-success i {
+  font-size: 1.2rem;
+}
+
+/* WhatsApp Note */
+.whatsapp-note {
+  background: rgba(37, 211, 102, 0.1);
+  color: #075e54;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin: 15px 0 5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.85rem;
+  border: 1px dashed #25D366;
+}
+
+.whatsapp-note i {
+  color: #25D366;
+  font-size: 1.2rem;
+}
+
+/* Submit button enhancements */
+.submit-button i {
+  font-size: 1.1rem;
+}
+
+.submit-button .fa-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Phone field required star */
+.form-field label span {
+  color: #d49a42;
+  font-weight: 700;
+}
