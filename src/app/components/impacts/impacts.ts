@@ -114,7 +114,7 @@ export class ImpactComponent implements AfterViewInit {
 
   successStories = [
     {
-      farmer: 'Jane Wambui',
+      farmer: 'Vivian Nekesa',
       location: 'Kakamega County',
       quote: 'Mzuri Organics transformed my  farm from struggling to thriving. My maize yields increased by 60% using their organic fertilizers made in Kenya.',
       results: [
@@ -124,8 +124,8 @@ export class ImpactComponent implements AfterViewInit {
       ]
     },
     {
-      farmer: 'Samuel Otieno',
-      location: 'Busia County',
+      farmer: 'Sabina Kwamboka',
+      location: 'Kisii County',
       quote: 'The  training in vermicomposting changed everything. I now produce my own fertilizer and even sell surplus to neighbors across the border.',
       results: [
         { value: '100%', label: 'Organic Inputs' },
@@ -134,7 +134,7 @@ export class ImpactComponent implements AfterViewInit {
       ]
     },
     {
-      farmer: 'Grace Achieng',
+      farmer: 'Janet Khasiani',
       location: 'Vihiga County',
       quote: 'As a  woman farmer, the support from Mzuri Organics helped me become a leader in my community. I now train other  farmers.',
       results: [
