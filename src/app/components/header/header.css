@@ -1027,3 +1027,14 @@ input:checked + .slider:before {
     transform: translateY(-6px) rotate(-45deg);
   }
 }
+/* Add to header.css - Cart active state */
+.nav-icon.cart-icon.active {
+  background: rgba(136, 196, 49, 0.2);
+  border-color: #88c431;
+  color: #88c431;
+}
+
+.nav-icon.cart-icon.active .icon-tooltip {
+  background: #88c431;
+  color: white;
+}

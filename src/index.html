@@ -158,6 +158,35 @@
       top: 0;
     }
     
+    /* ===== CART Z-INDEX FIX ===== */
+    /* Cart overlay - Highest priority */
+    .cart-overlay {
+      z-index: 999999 !important;
+    }
+    
+    /* Cart sidebar - Even higher */
+    .cart-sidebar {
+      z-index: 1000000 !important;
+    }
+    
+    /* Body state when cart is open */
+    body.cart-open {
+      overflow: hidden;
+    }
+    
+    body.cart-open .main-nav,
+    body.cart-open .hero,
+    body.cart-open .hero-slider-container,
+    body.cart-open .categories-section,
+    body.cart-open .features-section,
+    body.cart-open .search-overlay,
+    body.cart-open .quick-view-modal-overlay,
+    body.cart-open .floating-cart,
+    body.cart-open .toast-container,
+    body.cart-open .add-success-message {
+      z-index: auto !important;
+    }
+    
     /* Reduced motion preference */
     @media (prefers-reduced-motion: reduce) {
       *,
@@ -288,6 +317,26 @@
       });
       observer.observe({ entryTypes: ['largest-contentful-paint', 'first-input'] });
     }
+    
+    // ===== CART Z-INDEX FIX - DYNAMIC BODY CLASS =====
+    // Listen for cart open/close events
+    document.addEventListener('cart-opened', function() {
+      document.body.classList.add('cart-open');
+    });
+    
+    document.addEventListener('cart-closed', function() {
+      document.body.classList.remove('cart-open');
+    });
+    
+    // Fallback: check for cart overlay every 500ms
+    setInterval(function() {
+      const cartOverlay = document.querySelector('.cart-overlay.active');
+      if (cartOverlay) {
+        document.body.classList.add('cart-open');
+      } else {
+        document.body.classList.remove('cart-open');
+      }
+    }, 500);
   </script>
   
   <!-- Fonts (non-blocking) -->

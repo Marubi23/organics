@@ -2,12 +2,13 @@
 import { Component, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { CartComponent } from '../../pages/cart/cart';
 import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
 
 @Component({
   selector: 'app-impact',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, CartComponent],
   templateUrl: './impacts.html',
   styleUrls: ['./impacts.css'],
   animations: [

@@ -11,6 +11,21 @@ body {
   color: #333;
 }
 
+/* Body state when cart is open */
+body.cart-open {
+  overflow: hidden;
+}
+
+body.cart-open .main-nav,
+body.cart-open .hero,
+body.cart-open .hero-slider-container,
+body.cart-open .categories-section,
+body.cart-open .features-section,
+body.cart-open .search-overlay,
+body.cart-open .quick-view-modal-overlay {
+  z-index: auto !important; /* Let cart overlay handle stacking */
+}
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -31,6 +46,15 @@ body {
   --text-light: #5d735d;         /* Medium green-gray for secondary text */
   --background: #fafaf7;         /* Off-white background */
   --border-light: #e8efe8;       /* Light green border */
+  
+  /* Z-index hierarchy */
+  --z-header: 1000;
+  --z-dropdown: 1100;
+  --z-search: 2000;
+  --z-floating: 8000;
+  --z-toast: 99999;
+  --z-cart-overlay: 999999;
+  --z-cart-sidebar: 1000000;
 }
 
 /* Top Bar */
@@ -39,6 +63,8 @@ body {
   color: var(--white);
   padding: 8px 0;
   font-size: 14px;
+  position: relative;
+  z-index: calc(var(--z-header) - 1);
 }
 
 .top-bar-content {
@@ -64,7 +90,7 @@ body {
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: var(--z-header);
 }
 
 .nav-content {
@@ -94,7 +120,7 @@ body {
 
 .logo-tagline {
   font-size: 0.8rem;
-  color: var(--accent-brown);
+  color: var(--earthy-brown);
   display: block;
 }
 
@@ -124,7 +150,7 @@ body {
   left: 0;
   width: 0;
   height: 2px;
-  background: var(--accent-brown);
+  background: var(--earthy-brown);
   transition: width 0.3s;
 }
 
@@ -137,6 +163,8 @@ body {
   background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
   color: var(--white);
   padding: 100px 0;
+  position: relative;
+  z-index: 1;
 }
 
 .hero-content {
@@ -177,7 +205,7 @@ body {
 }
 
 .btn-primary {
-  background: var(--accent-brown);
+  background: var(--earthy-brown);
   color: var(--white);
 }
 
@@ -200,7 +228,9 @@ body {
 /* Categories Section */
 .categories-section {
   padding: 80px 0;
-  background:rgba(19, 95, 33, 0.903);
+  background: rgba(19, 95, 33, 0.903);
+  position: relative;
+  z-index: 1;
 }
 
 .categories-grid {
@@ -220,7 +250,7 @@ body {
 }
 
 .category-card:hover {
-  border-color: var(--accent-brown);
+  border-color: var(--earthy-brown);
   transform: translateY(-5px);
 }
 
@@ -244,6 +274,8 @@ body {
   padding: 80px 0;
   background: #0a1a11;
   color: var(--white);
+  position: relative;
+  z-index: 1;
 }
 
 .features-grid {
@@ -271,3 +303,164 @@ body {
   line-height: 1.6;
 }
 
+/* ============================================
+   GLOBAL Z-INDEX HIERARCHY FOR CART
+   ============================================ */
+
+/* Cart Overlay - Highest priority */
+.cart-overlay {
+  z-index: var(--z-cart-overlay) !important;
+}
+
+/* Cart Sidebar - Even higher */
+.cart-sidebar {
+  z-index: var(--z-cart-sidebar) !important;
+}
+
+/* Toast notifications - High but below cart */
+.toast-container {
+  z-index: var(--z-toast) !important;
+}
+
+/* Floating cart button */
+.floating-cart {
+  z-index: var(--z-floating) !important;
+}
+
+/* Add success message */
+.add-success-message {
+  z-index: calc(var(--z-toast) - 1) !important;
+}
+
+/* Search overlay */
+.search-overlay {
+  z-index: var(--z-search) !important;
+}
+
+/* Quick view modal */
+.quick-view-modal-overlay {
+  z-index: calc(var(--z-search) - 1) !important;
+}
+
+/* Dropdown menus */
+.dropdown-menu {
+  z-index: var(--z-dropdown) !important;
+}
+
+/* Settings and account menus */
+.settings-menu,
+.account-menu {
+  z-index: calc(var(--z-dropdown) + 1) !important;
+}
+
+/* Hero slider container */
+.hero-slider-container {
+  position: relative;
+  z-index: 1;
+}
+
+/* Hero slider slides */
+.slide {
+  position: relative;
+  z-index: 1;
+}
+
+/* Hero content */
+.slide-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Video player */
+.mini-video-player {
+  z-index: calc(var(--z-floating) - 1) !important;
+}
+
+/* ============================================
+   CART OPEN STATE - OVERRIDES
+   ============================================ */
+body.cart-open .cart-overlay,
+body.cart-open .cart-sidebar {
+  z-index: var(--z-cart-overlay) !important;
+}
+
+body.cart-open .main-nav,
+body.cart-open .hero,
+body.cart-open .hero-slider-container,
+body.cart-open .categories-section,
+body.cart-open .features-section,
+body.cart-open .search-overlay,
+body.cart-open .quick-view-modal-overlay,
+body.cart-open .floating-cart,
+body.cart-open .toast-container,
+body.cart-open .add-success-message {
+  z-index: auto !important;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 768px) {
+  .hero-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .nav-links {
+    display: none; /* Add hamburger menu for mobile */
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+  
+  .hero-description {
+    font-size: 1rem;
+  }
+  
+  .hero-buttons {
+    flex-direction: column;
+  }
+  
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+.text-center {
+  text-align: center;
+}
+
+.mt-4 {
+  margin-top: 2rem;
+}
+
+.mb-4 {
+  margin-bottom: 2rem;
+}
+
+.p-4 {
+  padding: 2rem;
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

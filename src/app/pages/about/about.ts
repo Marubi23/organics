@@ -1,5 +1,6 @@
 import { Component, HostListener, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'; // Added CUSTOM_ELEMENTS_SCHEMA
 import { CommonModule } from '@angular/common';
+import { CartComponent } from '../cart/cart';
 import { RouterModule } from '@angular/router';
 import { 
   trigger, 
@@ -52,7 +53,7 @@ interface Product {
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, CartComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA], // ADD THIS LINE to recognize lottie-player
   templateUrl: './about.html',
   styleUrls: ['./about.css'],

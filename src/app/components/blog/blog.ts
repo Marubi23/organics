@@ -1,6 +1,7 @@
 // src/app/components/blog/blog.component.ts
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { CartComponent } from '../../pages/cart/cart';
 
 interface BlogPost {
   id: string;
@@ -20,7 +21,7 @@ interface BlogPost {
 @Component({
   selector: 'app-blog',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, CartComponent],
   templateUrl: './blog.html',
   styleUrls: ['./blog.css']
 })

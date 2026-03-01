@@ -1,4 +1,4 @@
-// src/app/components/header/header.component.ts (RENAME FILE from header.ts to header.component.ts)
+// src/app/components/header/header.component.ts
 import { Component, HostListener, OnInit, OnDestroy, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
@@ -50,7 +50,7 @@ interface AccountMenuItem {
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule,HamburgerMenuComponent],
+  imports: [CommonModule, RouterModule, FormsModule, HamburgerMenuComponent],
   templateUrl: './header.html',
   styleUrls: ['./header.css']
 })
@@ -69,6 +69,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isAccountMenuOpen = false;
   isSearchOpen = false;
   activeDropdown: number | null = null;
+  
+  // Mobile Menu State
+  showMobileMenu = false;
+  isMobileMenuOpen = false;
 
   // Header Settings
   autoHideEnabled = true;
@@ -173,6 +177,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   currentUser: User | null = null;
   cartCount = 0;
   isDarkTheme = false;
+  isCartOpen = false; // Track cart open state
 
   private subscriptions: any[] = [];
   private dropdownTimeout: any;
@@ -190,7 +195,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.setupRouterListener();
     this.loadTheme();
     
-    // Subscribe to cart state changes
+    // FIX: Subscribe to cart open state
+    this.subscriptions.push(
+      this.cartService.isCartOpen$.subscribe(state => {
+        this.isCartOpen = state;
+      })
+    );
+    
+    // Subscribe to cart state changes for header visibility
     this.subscriptions.push(
       this.cartService.isCartOpen$.subscribe(() => {
         if (this.cartService.getCartState()) {
@@ -199,33 +211,30 @@ export class HeaderComponent implements OnInit, OnDestroy {
       })
     );
   }
-  // Add to your header.component.ts
-showMobileMenu = false;
-isMobileMenuOpen = false;
 
-// Check if mobile screen
-get isMobileScreen(): boolean {
-  return window.innerWidth <= 1024;
-}
-
-toggleMobileMenu() {
-  this.isMobileMenuOpen = !this.isMobileMenuOpen;
-  this.showMobileMenu = this.isMobileMenuOpen;
-}
-
-onMenuToggle(isOpen: boolean) {
-  this.isMobileMenuOpen = isOpen;
-  this.showMobileMenu = isOpen;
-}
-
-// Add to ngOnInit to handle screen resize
-@HostListener('window:resize')
-onResize() {
-  if (window.innerWidth > 1024 && this.isMobileMenuOpen) {
-    this.isMobileMenuOpen = false;
-    this.showMobileMenu = false;
+  // Check if mobile screen
+  get isMobileScreen(): boolean {
+    return window.innerWidth <= 1024;
   }
-}
+
+  toggleMobileMenu() {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+    this.showMobileMenu = this.isMobileMenuOpen;
+  }
+
+  onMenuToggle(isOpen: boolean) {
+    this.isMobileMenuOpen = isOpen;
+    this.showMobileMenu = isOpen;
+  }
+
+  // Handle screen resize
+  @HostListener('window:resize')
+  onResize() {
+    if (window.innerWidth > 1024 && this.isMobileMenuOpen) {
+      this.isMobileMenuOpen = false;
+      this.showMobileMenu = false;
+    }
+  }
 
   ngOnDestroy() {
     this.subscriptions.forEach(sub => sub.unsubscribe());
@@ -237,10 +246,6 @@ onResize() {
   toggleCart() {
     this.cartService.toggleCart();
     this.showHeader();
-  }
-
-  get isCartOpen(): boolean {
-    return this.cartService.getCartState();
   }
 
   // ============ HEADER AUTO-HIDE ============
@@ -496,7 +501,7 @@ onResize() {
 
   // ============ SERVICE SUBSCRIPTIONS ============
   private subscribeToServices() {
-    // Subscribe to cart items count with proper typing
+    // Subscribe to cart items count
     this.subscriptions.push(
       this.cartService.cartItems$.subscribe((items: any[]) => {
         this.cartCount = items.reduce((total: number, item: any) => total + item.quantity, 0);

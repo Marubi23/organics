@@ -2,12 +2,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { CartComponent } from '../cart/cart';
 import { trigger, transition, style, animate, stagger, query } from '@angular/animations';
 
 @Component({
   selector: 'app-what-we-do',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule,CartComponent],
   templateUrl: './what-we-do.html',
   styleUrls: ['./what-we-do.css'],
   animations: [

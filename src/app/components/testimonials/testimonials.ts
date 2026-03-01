@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { CartComponent } from '../../pages/cart/cart';
 
 interface Testimonial {
   id: number;
@@ -27,7 +28,7 @@ interface Testimonial {
 @Component({
   selector: 'app-testimonials',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, CartComponent],
   templateUrl: './testimonials.html',
   styleUrls: ['./testimonials.css']
 })

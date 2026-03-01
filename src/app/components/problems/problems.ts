@@ -1,6 +1,7 @@
 // problems.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { CartComponent } from '../../pages/cart/cart';
 import { RouterModule } from '@angular/router';
 import { 
   trigger, 
@@ -15,7 +16,7 @@ import {
 @Component({
   selector: 'app-problems',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule,CartComponent],
   templateUrl: './problems.html',
   styleUrls: ['./problems.css'],
   animations: [
