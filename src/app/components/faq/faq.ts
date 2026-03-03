@@ -565,6 +565,46 @@ export class FaqComponent implements OnInit {
     this.loadSavedData();
   }
 
+downloadResource(resource: string) {
+  this.downloading = resource;
+  this.downloadProgress = 0;
+  
+  const interval = setInterval(() => {
+    this.downloadProgress += 10;
+    if (this.downloadProgress >= 100) {
+      clearInterval(interval);
+      setTimeout(() => {
+        this.downloading = null;
+        
+        // Map the resource IDs to actual file paths
+        const fileMap: any = {
+          'bsf-manual': {
+            path: '/images/Mzuri Organics BSF Training Manual.pdf',
+            name: 'Mzuri-Organics-BSF-Training-Manual.pdf',
+            displayName: 'BSF Training Manual'
+          },
+          'vermicomposting-manual': {
+            path: '/images/Mzuri Organics Vermicomposting Training Manual.pdf',
+            name: 'Mzuri-Organics-Vermicomposting-Training-Manual.pdf',
+            displayName: 'Vermicomposting Training Manual'
+          }
+        };
+        
+        const file = fileMap[resource];
+        if (file) {
+          // Create a download link
+          const link = document.createElement('a');
+          link.href = file.path;
+          link.download = file.name;
+          link.target = '_blank';
+          link.click();
+          
+          this.showToast('success', 'Download Started', `${file.displayName} is downloading`);
+        }
+      }, 500);
+    }
+  }, 200);
+}
   initializeVoiceRecognition() {
     if ('webkitSpeechRecognition' in window) {
       this.recognition = new (window as any).webkitSpeechRecognition();
@@ -807,34 +847,6 @@ export class FaqComponent implements OnInit {
       this.isListening = true;
       this.showToast('info', 'Listening...', 'Speak your question now');
     }
-  }
-
-  downloadResource(resource: string) {
-    this.downloading = resource;
-    this.downloadProgress = 0;
-    
-    const interval = setInterval(() => {
-      this.downloadProgress += 10;
-      if (this.downloadProgress >= 100) {
-        clearInterval(interval);
-        setTimeout(() => {
-          this.downloading = null;
-          this.showToast('success', 'Download Complete', 'Resource downloaded successfully');
-          
-          // In a real app, trigger actual download here
-          const links: any = {
-            'faq-guide': '/assets/downloads/mzuri-faq-guide.pdf',
-            'application-guide': '/assets/downloads/mzuri-application-guide.pdf',
-            'product-catalog': '/assets/downloads/mzuri-product-catalog.pdf',
-            'bsf-manual': '/assets/downloads/mzuri-bsf-manual.pdf'
-          };
-          
-          if (links[resource]) {
-            window.open(links[resource], '_blank');
-          }
-        }, 500);
-      }
-    }, 200);
   }
 
   submitQuestion(form: any) {

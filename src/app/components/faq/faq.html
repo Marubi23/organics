@@ -5,7 +5,6 @@
       
       <!-- Badge -->
       <div class="faq-badge">
-        <span class="badge-icon">🌱</span>
         <span class="badge-text">Knowledge Hub</span>
       </div>
       
@@ -265,90 +264,76 @@
       </div>
     </div>
     
-    <!-- Download Resources -->
-    <div class="download-section">
-      <h2>Download Resources</h2>
-      <p>Get comprehensive guides for offline reference</p>
-      
-      <div class="download-grid">
-        <div class="download-card" (click)="downloadResource('faq-guide')">
-          <div class="download-icon pdf">
-            <i class="fas fa-file-pdf"></i>
-          </div>
-          <h3>Complete FAQ Guide</h3>
-          <p>All 24 questions and answers in one PDF</p>
-          <div class="download-meta">
-            <span><i class="fas fa-file"></i> PDF</span>
-            <span><i class="fas fa-weight"></i> 2.4 MB</span>
-          </div>
-          <button class="btn-download" [class.downloading]="downloading === 'faq-guide'">
-            <i class="fas fa-download"></i>
-            {{downloading === 'faq-guide' ? 'Downloading...' : 'Download'}}
-          </button>
-          <div class="download-progress" *ngIf="downloading === 'faq-guide'">
-            <div class="progress-bar" [style.width.%]="downloadProgress"></div>
-          </div>
-        </div>
-        
-        <div class="download-card" (click)="downloadResource('application-guide')">
-          <div class="download-icon guide">
-            <i class="fas fa-book-open"></i>
-          </div>
-          <h3>Application Guide</h3>
-          <p>Crop-specific dosage and application methods</p>
-          <div class="download-meta">
-            <span><i class="fas fa-file"></i> PDF</span>
-            <span><i class="fas fa-weight"></i> 3.1 MB</span>
-          </div>
-          <button class="btn-download" [class.downloading]="downloading === 'application-guide'">
-            <i class="fas fa-download"></i>
-            {{downloading === 'application-guide' ? 'Downloading...' : 'Download'}}
-          </button>
-          <div class="download-progress" *ngIf="downloading === 'application-guide'">
-            <div class="progress-bar" [style.width.%]="downloadProgress"></div>
-          </div>
-        </div>
-        
-        <div class="download-card" (click)="downloadResource('product-catalog')">
-          <div class="download-icon catalog">
-            <i class="fas fa-images"></i>
-          </div>
-          <h3>Product Catalog</h3>
-          <p>Complete product listings with specifications</p>
-          <div class="download-meta">
-            <span><i class="fas fa-file"></i> PDF</span>
-            <span><i class="fas fa-weight"></i> 5.7 MB</span>
-          </div>
-          <button class="btn-download" [class.downloading]="downloading === 'product-catalog'">
-            <i class="fas fa-download"></i>
-            {{downloading === 'product-catalog' ? 'Downloading...' : 'Download'}}
-          </button>
-          <div class="download-progress" *ngIf="downloading === 'product-catalog'">
-            <div class="progress-bar" [style.width.%]="downloadProgress"></div>
-          </div>
-        </div>
-        
-        <div class="download-card" (click)="downloadResource('bsf-manual')">
-          <div class="download-icon bsf">
-            <i class="fas fa-bug"></i>
-          </div>
-          <h3>BSF Farming Manual</h3>
-          <p>Complete guide to Black Soldier Fly farming</p>
-          <div class="download-meta">
-            <span><i class="fas fa-file"></i> PDF</span>
-            <span><i class="fas fa-weight"></i> 4.2 MB</span>
-          </div>
-          <button class="btn-download" [class.downloading]="downloading === 'bsf-manual'">
-            <i class="fas fa-download"></i>
-            {{downloading === 'bsf-manual' ? 'Downloading...' : 'Download'}}
-          </button>
-          <div class="download-progress" *ngIf="downloading === 'bsf-manual'">
-            <div class="progress-bar" [style.width.%]="downloadProgress"></div>
-          </div>
-        </div>
+
+<!-- Download Resources -->
+<div class="download-section">
+  <div class="section-header">
+    <span class="section-subtitle">Free Resources</span>
+    <h2>Training Manuals & Guides</h2>
+    <p>Download comprehensive training materials for sustainable farming</p>
+  </div>
+  
+  <div class="download-grid">
+    <!-- BSF Training Manual -->
+    <div class="download-card" (click)="downloadResource('bsf-manual')">
+      <div class="card-badge">Popular</div>
+      <div class="download-icon bsf">
+        <i class="fas fa-bug"></i>
+      </div>
+      <h3>BSF Training Manual</h3>
+      <p class="card-description">Complete guide to Black Soldier Fly farming, bioconversion processes, and best practices</p>
+      <div class="download-features">
+        <span><i class="fas fa-check-circle"></i> 45+ Pages</span>
+        <span><i class="fas fa-check-circle"></i> Step-by-step guide</span>
+        <span><i class="fas fa-check-circle"></i> Illustrations included</span>
+      </div>
+      <div class="download-meta">
+        <span><i class="fas fa-file-pdf"></i> PDF</span>
+        <span><i class="fas fa-layer-group"></i> 4.2 MB</span>
+        <span><i class="fas fa-calendar"></i> Updated 2025</span>
+      </div>
+      <button class="btn-download" [class.downloading]="downloading === 'bsf-manual'">
+        <i class="fas fa-download"></i>
+        <span>{{downloading === 'bsf-manual' ? 'Downloading...' : 'Download BSF Manual'}}</span>
+      </button>
+      <div class="download-progress" *ngIf="downloading === 'bsf-manual'">
+        <div class="progress-bar" [style.width.%]="downloadProgress"></div>
       </div>
     </div>
     
+    <!-- Vermicomposting Training Manual -->
+    <div class="download-card" (click)="downloadResource('vermicomposting-manual')">
+      <div class="card-badge featured">Featured</div>
+      <div class="download-icon vermi">
+        <i class="fas fa-worm"></i>
+      </div>
+      <h3>Vermicomposting Manual</h3>
+      <p class="card-description">Essential guide to vermicomposting, worm farming, and organic fertilizer production</p>
+      <div class="download-features">
+        <span><i class="fas fa-check-circle"></i> 52+ Pages</span>
+        <span><i class="fas fa-check-circle"></i> Practical techniques</span>
+        <span><i class="fas fa-check-circle"></i> Troubleshooting guide</span>
+      </div>
+      <div class="download-meta">
+        <span><i class="fas fa-file-pdf"></i> PDF</span>
+        <span><i class="fas fa-layer-group"></i> 3.8 MB</span>
+        <span><i class="fas fa-calendar"></i> Updated 2025</span>
+      </div>
+      <button class="btn-download" [class.downloading]="downloading === 'vermicomposting-manual'">
+        <i class="fas fa-download"></i>
+        <span>{{downloading === 'vermicomposting-manual' ? 'Downloading...' : 'Download Vermicomposting Manual'}}</span>
+      </button>
+      <div class="download-progress" *ngIf="downloading === 'vermicomposting-manual'">
+        <div class="progress-bar" [style.width.%]="downloadProgress"></div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Additional Info -->
+  <div class="download-footer">
+    <p><i class="fas fa-info-circle"></i> These manuals are free for all Kenyan farmers. Share with your farming community!</p>
+  </div>
+</div>
     <!-- Ask Question Form -->
     <div class="ask-section">
       <h2>Still Have Questions?</h2>
