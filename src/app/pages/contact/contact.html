@@ -1,33 +1,105 @@
-<!-- contact.component.html -->
+<!-- Hero Section -->
 <section class="contact-hero">
   <div class="container">
     <div class="hero-content">
-      <span class="hero-badge">Get in Touch</span>
-      <h1 class="hero-title">Let's Cultivate<span> Growth Together</span></h1>
-      <p class="hero-description">Whether you're a farmer, partner, or curious mind — we're here to listen, advise, and grow with you.</p>
+      <div class="hero-badge animate-badge">
+        <span class="badge-icon">🌱</span>
+        <span class="badge-text">Get in Touch</span>
+      </div>
+      <h1 class="hero-title">
+        Let's Cultivate 
+        <span class="title-highlight">Growth Together</span>
+      </h1>
+      <p class="hero-description">
+        Whether you're a farmer, partner, or curious mind — we're here to listen, 
+        advise, and grow with you from our home in Musembe Market, Kakamega.
+      </p>
     </div>
   </div>
 </section>
 
+<!-- Main Contact Section -->
 <section class="contact-main">
   <div class="container">
-    <!-- Simple Two-Column Layout -->
+    
+    <!-- Location Map Section - Prominent Position -->
+    <div class="location-map-section">
+      <div class="map-header">
+        <div class="location-badge">
+          <i class="fas fa-map-marker-alt"></i>
+          <span>Visit Our Farm</span>
+        </div>
+        <h2>Musembe Market, <span class="highlight">Kakamega</span></h2>
+        <p class="location-description">Come visit us at our farm in Musembe Market. We'd love to show you around!</p>
+      </div>
+      
+      <div class="map-container">
+        <!-- Map Container -->
+        <div id="location-map" class="google-map"></div>
+        
+        <!-- Map Overlay Controls -->
+        <div class="map-controls">
+          <button class="map-control-btn" (click)="openDirections()">
+            <i class="fas fa-directions"></i>
+            <span>Get Directions</span>
+          </button>
+          <button class="map-control-btn" (click)="viewLargerMap()">
+            <i class="fas fa-expand"></i>
+            <span>View Larger</span>
+          </button>
+          <button class="map-control-btn" (click)="openStreetView()">
+            <i class="fas fa-street-view"></i>
+            <span>Street View</span>
+          </button>
+          <button class="map-control-btn" (click)="copyAddress()">
+            <i class="fas fa-copy"></i>
+            <span>Copy Address</span>
+          </button>
+        </div>
+        
+        <!-- Location Info Card -->
+        <div class="location-info-card">
+          <div class="info-card-content">
+            <div class="info-icon">
+              <i class="fas fa-store"></i>
+            </div>
+            <div class="info-details">
+              <h4>Musembe Shopping Center</h4>
+              <p class="address-line">Eldoret – Malaba Road</p>
+              <p class="address-line">P.O Box 254711949520 – 50100</p>
+              <p class="address-line">Kakamega, Kenya</p>
+              <div class="info-actions">
+                <a href="tel:0701934918" class="info-action">
+                  <i class="fas fa-phone-alt"></i> Call
+                </a>
+                <a href="https://wa.me/254701934918" class="info-action" target="_blank">
+                  <i class="fab fa-whatsapp"></i> WhatsApp
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Two-Column Layout for Contact Info and Form -->
     <div class="contact-grid">
       
-      <!-- LEFT: Human Connection (Simple & Warm) -->
-      <div class="connect-section">
+      <!-- LEFT COLUMN: Contact Information -->
+      <div class="contact-info-section">
         <div class="section-tag">Connect With Us</div>
         <h2 class="section-title">We'd love to hear from you</h2>
-        <p class="section-description">No complicated forms, no automated responses — just real conversations with real people who care about your success.</p>
+        <p class="section-description">
+          No complicated forms, no automated responses — just real conversations 
+          with real people who care about your success.
+        </p>
         
-        <!-- Direct Contact Cards (Simple & Clean) -->
-        <div class="connect-cards">
+        <!-- Quick Contact Cards -->
+        <div class="contact-cards">
           <!-- Phone Card -->
-          <div class="connect-card" (click)="callUs()">
+          <div class="contact-card" (click)="callUs()">
             <div class="card-icon phone-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
+              <i class="fas fa-phone-alt"></i>
             </div>
             <div class="card-content">
               <span class="card-label">Call us directly</span>
@@ -36,13 +108,10 @@
             </div>
           </div>
           
-          <!-- WhatsApp Card (Primary) -->
-          <div class="connect-card whatsapp-card" (click)="openDirectWhatsApp()">
+          <!-- WhatsApp Card -->
+          <div class="contact-card whatsapp-card" (click)="openDirectWhatsApp()">
             <div class="card-icon whatsapp-icon">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.473-.149-.673.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
-                <path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.556 4.12 1.526 5.854L.04 23.96l6.172-1.52C8.055 23.302 10.043 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.93 0-3.78-.526-5.36-1.45l-.37-.22-4.08 1.01 1.1-3.98-.23-.4A9.94 9.94 0 012 12c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10z"/>
-              </svg>
+              <i class="fab fa-whatsapp"></i>
             </div>
             <div class="card-content">
               <span class="card-label">Chat on WhatsApp</span>
@@ -52,12 +121,9 @@
           </div>
           
           <!-- Email Card -->
-          <div class="connect-card" (click)="sendEmail()">
+          <div class="contact-card" (click)="sendEmail()">
             <div class="card-icon email-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" stroke-width="2"/>
-                <polyline points="22,6 12,13 2,6" stroke="currentColor" stroke-width="2"/>
-              </svg>
+              <i class="fas fa-envelope"></i>
             </div>
             <div class="card-content">
               <span class="card-label">Email us</span>
@@ -67,133 +133,216 @@
           </div>
         </div>
         
-        <!-- Visit Us (Simple Address) -->
-        <div class="visit-section">
-          <div class="visit-header">
-            <div class="visit-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z" stroke="currentColor" stroke-width="2"/>
-              </svg>
+        <!-- Business Hours -->
+        <div class="business-hours">
+          <h3>
+            <i class="fas fa-clock"></i>
+            Business Hours
+          </h3>
+          <div class="hours-list">
+            <div class="hour-item" *ngFor="let hour of businessHours">
+              <span class="day">{{ hour.day }}</span>
+              <span class="time">{{ hour.hours }}</span>
             </div>
-            <h3>Visit our farm</h3>
           </div>
-          <p class="visit-address">
-            Musembe Shopping Center, Eldoret – Malaba Road,<br>
-            P.O Box 254711949520 – 50100, Kakamega, Kenya.
-          </p>
+        </div>
+        
+        <!-- Social Media Links -->
+        <div class="social-links">
+          <h3>Follow Us</h3>
+          <div class="social-grid">
+            <a *ngFor="let social of socialLinks" 
+               [href]="social.url" 
+               target="_blank"
+               class="social-link"
+               [style.background]="social.color + '10'"
+               [style.color]="social.color"
+               (click)="trackSocialClick(social.platform)">
+              <i [class]="social.icon"></i>
+              <span>{{ social.platform }}</span>
+            </a>
+          </div>
         </div>
       </div>
       
-      <!-- RIGHT: Simple Form (No clutter) -->
-      <div class="message-section">
-        <div class="section-tag">Send a message</div>
-        <h2 class="section-title">How can we help?</h2>
-        <p class="section-description">Tell us what you need — we'll get back to you within 24 hours.</p>
-        
-        <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="simple-form">
-          <!-- Name Field -->
-          <div class="form-field">
-            <label for="name">Your name</label>
-            <input 
-              type="text" 
-              id="name" 
-              formControlName="name"
-              placeholder="e.g., John Mwangi"
-              [class.has-error]="contactForm.get('name')?.invalid && contactForm.get('name')?.touched">
-            <div class="field-error" *ngIf="contactForm.get('name')?.invalid && contactForm.get('name')?.touched">
-              Please tell us your name
+      <!-- RIGHT COLUMN: Contact Form -->
+      <div class="contact-form-section">
+        <div class="form-card">
+          <div class="form-header">
+            <div class="section-tag">Send a message</div>
+            <h2 class="section-title">How can we help?</h2>
+            <p class="section-description">
+              Tell us what you need — we'll get back to you within 24 hours.
+            </p>
+          </div>
+          
+          <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="modern-form">
+            <!-- Inquiry Type -->
+            <div class="form-group">
+              <label>What is this regarding?</label>
+              <div class="inquiry-options">
+                <label class="inquiry-option">
+                  <input type="radio" formControlName="inquiryType" value="general">
+                  <span>General</span>
+                </label>
+                <label class="inquiry-option">
+                  <input type="radio" formControlName="inquiryType" value="products">
+                  <span>Products</span>
+                </label>
+                <label class="inquiry-option">
+                  <input type="radio" formControlName="inquiryType" value="pricing">
+                  <span>Pricing</span>
+                </label>
+                <label class="inquiry-option">
+                  <input type="radio" formControlName="inquiryType" value="partnership">
+                  <span>Partnership</span>
+                </label>
+                <label class="inquiry-option">
+                  <input type="radio" formControlName="inquiryType" value="visit">
+                  <span>Farm Visit</span>
+                </label>
+                <label class="inquiry-option">
+                  <input type="radio" formControlName="inquiryType" value="support">
+                  <span>Support</span>
+                </label>
+              </div>
             </div>
-          </div>
-          
-          <!-- Email Field -->
-          <div class="form-field">
-            <label for="email">Email address</label>
-            <input 
-              type="email" 
-              id="email" 
-              formControlName="email"
-              placeholder="you@example.com"
-              [class.has-error]="contactForm.get('email')?.invalid && contactForm.get('email')?.touched">
-            <div class="field-error" *ngIf="contactForm.get('email')?.invalid && contactForm.get('email')?.touched">
-              Valid email needed
+            
+            <!-- Name Field -->
+            <div class="form-group">
+              <label for="name">Your name *</label>
+              <div class="input-wrapper">
+                <i class="fas fa-user input-icon"></i>
+                <input 
+                  type="text" 
+                  id="name" 
+                  formControlName="name"
+                  placeholder="e.g., John Mwangi"
+                  [class.has-error]="contactForm.get('name')?.invalid && contactForm.get('name')?.touched">
+              </div>
+              <div class="error-message" *ngIf="contactForm.get('name')?.invalid && contactForm.get('name')?.touched">
+                <i class="fas fa-exclamation-circle"></i>
+                Please tell us your name
+              </div>
             </div>
-          </div>
-          
-          <!-- Phone Field (Required now) -->
-          <div class="form-field">
-            <label for="phone">Phone number <span>*</span></label>
-            <input 
-              type="tel" 
-              id="phone" 
-              formControlName="phone"
-              placeholder="0712 345 678"
-              (input)="formatPhoneInput($event)"
-              [class.has-error]="contactForm.get('phone')?.invalid && contactForm.get('phone')?.touched">
-            <div class="field-error" *ngIf="contactForm.get('phone')?.invalid && contactForm.get('phone')?.touched">
-              Valid Kenyan phone number needed (e.g., 0712 345 678)
+            
+            <!-- Email Field -->
+            <div class="form-group">
+              <label for="email">Email address *</label>
+              <div class="input-wrapper">
+                <i class="fas fa-envelope input-icon"></i>
+                <input 
+                  type="email" 
+                  id="email" 
+                  formControlName="email"
+                  placeholder="you@example.com"
+                  [class.has-error]="contactForm.get('email')?.invalid && contactForm.get('email')?.touched">
+              </div>
+              <div class="error-message" *ngIf="contactForm.get('email')?.invalid && contactForm.get('email')?.touched">
+                <i class="fas fa-exclamation-circle"></i>
+                Valid email needed
+              </div>
             </div>
-          </div>
-          
-          <!-- Message Field -->
-          <div class="form-field">
-            <label for="message">Your message</label>
-            <textarea 
-              id="message" 
-              formControlName="message"
-              rows="4"
-              placeholder="What would you like to know?"
-              [class.has-error]="contactForm.get('message')?.invalid && contactForm.get('message')?.touched"></textarea>
-            <div class="field-error" *ngIf="contactForm.get('message')?.invalid && contactForm.get('message')?.touched">
-              Please write your message (minimum 10 characters)
+            
+            <!-- Phone Field -->
+            <div class="form-group">
+              <label for="phone">Phone number *</label>
+              <div class="input-wrapper">
+                <i class="fas fa-phone-alt input-icon"></i>
+                <input 
+                  type="tel" 
+                  id="phone" 
+                  formControlName="phone"
+                  placeholder="0712 345 678"
+                  (input)="formatPhoneInput($event)"
+                  [class.has-error]="contactForm.get('phone')?.invalid && contactForm.get('phone')?.touched">
+              </div>
+              <div class="error-message" *ngIf="contactForm.get('phone')?.invalid && contactForm.get('phone')?.touched">
+                <i class="fas fa-exclamation-circle"></i>
+                Valid Kenyan phone number needed
+              </div>
             </div>
-          </div>
-          
-          <!-- Error Message Display -->
-          <div class="form-error-message" *ngIf="errorMessage">
-            <i class="fas fa-exclamation-circle"></i>
-            {{ errorMessage }}
-          </div>
-          
-          <!-- Submit Button -->
-          <button 
-            type="submit" 
-            class="submit-button"
-            [disabled]="contactForm.invalid || isSubmitting">
-            <span *ngIf="!isSubmitting">Send message via WhatsApp</span>
-            <span *ngIf="isSubmitting">Opening WhatsApp...</span>
-            <i class="fab fa-whatsapp" *ngIf="!isSubmitting"></i>
-            <i class="fas fa-spinner fa-spin" *ngIf="isSubmitting"></i>
-          </button>
-          
-          <!-- Success Message (Simple) -->
-          <div class="form-success" *ngIf="showSuccessMessage">
-            <i class="fas fa-check-circle"></i>
-            <span>WhatsApp opened! Please send the message to complete.</span>
-          </div>
-          
-          <!-- WhatsApp Note -->
-          <div class="whatsapp-note">
-            <i class="fab fa-whatsapp"></i>
-            <span>You'll be redirected to WhatsApp with your message pre-filled. Just tap send!</span>
-          </div>
-        </form>
+            
+            <!-- Message Field -->
+            <div class="form-group">
+              <label for="message">Your message *</label>
+              <div class="input-wrapper textarea-wrapper">
+                <i class="fas fa-comment input-icon"></i>
+                <textarea 
+                  id="message" 
+                  formControlName="message"
+                  rows="5"
+                  placeholder="What would you like to know?"
+                  [class.has-error]="contactForm.get('message')?.invalid && contactForm.get('message')?.touched"></textarea>
+              </div>
+              <div class="error-message" *ngIf="contactForm.get('message')?.invalid && contactForm.get('message')?.touched">
+                <i class="fas fa-exclamation-circle"></i>
+                Please write your message (minimum 10 characters)
+              </div>
+            </div>
+            
+            <!-- Error Message Display -->
+            <div class="form-error" *ngIf="errorMessage">
+              <i class="fas fa-exclamation-circle"></i>
+              {{ errorMessage }}
+            </div>
+            
+            <!-- Submit Button -->
+            <button 
+              type="submit" 
+              class="submit-button"
+              [disabled]="contactForm.invalid || isSubmitting">
+              <span *ngIf="!isSubmitting">Send via WhatsApp</span>
+              <span *ngIf="isSubmitting">Opening WhatsApp...</span>
+              <i class="fab fa-whatsapp" *ngIf="!isSubmitting"></i>
+              <i class="fas fa-spinner fa-spin" *ngIf="isSubmitting"></i>
+            </button>
+            
+            <!-- Success Message -->
+            <div class="success-message" *ngIf="showSuccessMessage">
+              <i class="fas fa-check-circle"></i>
+              <div>
+                <strong>Message ready!</strong>
+                <p>WhatsApp opened with your message. Just tap send!</p>
+              </div>
+            </div>
+            
+            <!-- WhatsApp Note -->
+            <div class="whatsapp-note">
+              <i class="fab fa-whatsapp"></i>
+              <span>You'll be redirected to WhatsApp with your message pre-filled. Just tap send!</span>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
+    
+    <!-- Farm Visit CTA -->
+    <div class="visit-cta">
+      <div class="cta-content">
+        <div class="cta-icon">
+          <i class="fas fa-tractor"></i>
+        </div>
+        <div class="cta-text">
+          <h3>Planning to visit Musembe Market?</h3>
+          <p>We'd love to give you a tour of our farm and show you our operations firsthand.</p>
+        </div>
+        <a href="https://wa.me/254701934918?text=Hello%20Mzuri%20Organics!%20I'd%20like%20to%20schedule%20a%20farm%20visit%20at%20Musembe%20Market." 
+           target="_blank" 
+           class="cta-button">
+          <i class="fab fa-whatsapp"></i>
+          Schedule a Visit
+        </a>
+      </div>
+    </div>
+    
   </div>
 </section>
 
-<!-- Simple Footer CTA -->
-<section class="simple-cta">
-  <div class="container">
-    <div class="cta-content">
-      <h3>Prefer WhatsApp?</h3>
-      <p>Tap below to start a conversation — we're usually online during business hours.</p>
-      <button class="whatsapp-cta" (click)="openDirectWhatsApp()">
-        <i class="fab fa-whatsapp"></i>
-        Start WhatsApp Chat
-      </button>
-    </div>
-  </div>
-</section>
-<!-- Add this at the very end -->
+<!-- Toast Notifications -->
+<div class="toast-container">
+  <!-- Add your toast notifications here if needed -->
+</div>
+
+<!-- Cart Component -->
 <app-cart></app-cart>
