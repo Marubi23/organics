@@ -11,6 +11,8 @@
     rgba(248, 252, 242, 0.98) 100%);
   position: relative;
   min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 .checkout-container::before {
@@ -24,6 +26,103 @@
     radial-gradient(circle at 10% 20%, rgba(136, 196, 49, 0.03) 0%, transparent 50%),
     radial-gradient(circle at 90% 80%, rgba(26, 60, 7, 0.03) 0%, transparent 50%);
   pointer-events: none;
+}
+
+/* ============================================
+   CRITICAL FIXES - PREVENT CONTENT CUT-OFF
+   ============================================ */
+
+/* Ensure all elements respect parent boundaries */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+/* Fix flexbox overflow issues */
+.checkout-wrapper {
+  display: flex;
+  gap: 40px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+/* Fix sidebar width for smaller laptops */
+.order-summary-sidebar {
+  flex: 0 0 380px;
+  max-width: 100%;
+  min-width: 280px;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(255, 255, 255, 0.9) 100%);
+  border-radius: 24px;
+  padding: 30px;
+  box-shadow: 
+    0 20px 40px rgba(26, 60, 7, 0.1),
+    0 8px 16px rgba(26, 60, 7, 0.06);
+  border: 1px solid rgba(136, 196, 49, 0.15);
+  height: fit-content;
+  position: sticky;
+  top: 30px;
+  backdrop-filter: blur(10px);
+  animation: slideInLeft 0.6s ease-out;
+}
+
+/* Fix main content area */
+.checkout-steps {
+  flex: 1;
+  min-width: 0;
+  max-width: 100%;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(255, 255, 255, 0.9) 100%);
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 
+    0 20px 40px rgba(26, 60, 7, 0.1),
+    0 8px 16px rgba(26, 60, 7, 0.06);
+  border: 1px solid rgba(136, 196, 49, 0.15);
+  backdrop-filter: blur(10px);
+  animation: slideInRight 0.6s ease-out;
+}
+
+/* Fix grid layouts to prevent overflow */
+.till-payment-section,
+.whatsapp-contact-info,
+.security-points,
+.delivery-options .options-grid,
+.support-buttons {
+  max-width: 100%;
+  overflow: hidden;
+}
+
+/* Fix tables and pre elements */
+pre,
+code,
+table {
+  max-width: 100%;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* Fix long words/numbers */
+h1, h2, h3, h4, h5, h6,
+p, span, div, a, button, li,
+.card-value, .item-total, .till-number {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+/* Fix images */
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+  height: auto;
 }
 
 /* ============================================
@@ -45,12 +144,16 @@
   align-items: center;
   backdrop-filter: blur(10px);
   animation: fadeIn 0.6s ease-out;
+  width: 100%;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 .trust-logo {
   display: flex;
   align-items: center;
   gap: 20px;
+  flex-wrap: wrap;
 }
 
 .trust-logo .brand-icon {
@@ -90,6 +193,8 @@
 .trust-security {
   display: flex;
   gap: 15px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .trust-security .secure-badge {
@@ -143,6 +248,7 @@
     0 10px 30px rgba(0, 0, 0, 0.06),
     0 4px 12px rgba(0, 0, 0, 0.04);
   border: 1px solid rgba(136, 196, 49, 0.1);
+  width: 100%;
 }
 
 .progress-steps {
@@ -150,6 +256,7 @@
   justify-content: center;
   gap: 60px;
   position: relative;
+  flex-wrap: wrap;
 }
 
 .progress-steps::before {
@@ -230,35 +337,12 @@
   display: flex;
   gap: 40px;
   min-height: 600px;
-}
-
-@media (max-width: 1024px) {
-  .checkout-wrapper {
-    flex-direction: column;
-  }
+  width: 100%;
 }
 
 /* ============================================
    ORDER SUMMARY SIDEBAR
    ============================================ */
-.order-summary-sidebar {
-  flex: 0 0 380px;
-  background: linear-gradient(135deg, 
-    rgba(255, 255, 255, 0.95) 0%,
-    rgba(255, 255, 255, 0.9) 100%);
-  border-radius: 24px;
-  padding: 30px;
-  box-shadow: 
-    0 20px 40px rgba(26, 60, 7, 0.1),
-    0 8px 16px rgba(26, 60, 7, 0.06);
-  border: 1px solid rgba(136, 196, 49, 0.15);
-  height: fit-content;
-  position: sticky;
-  top: 30px;
-  backdrop-filter: blur(10px);
-  animation: slideInLeft 0.6s ease-out;
-}
-
 .summary-header {
   display: flex;
   align-items: center;
@@ -266,6 +350,7 @@
   margin-bottom: 30px;
   padding-bottom: 20px;
   border-bottom: 2px solid rgba(136, 196, 49, 0.15);
+  flex-wrap: wrap;
 }
 
 .summary-header .header-icon {
@@ -339,6 +424,7 @@
   margin-bottom: 15px;
   border: 1px solid rgba(136, 196, 49, 0.1);
   transition: all 0.3s ease;
+  flex-wrap: wrap;
 }
 
 .summary-items .summary-item:hover {
@@ -409,6 +495,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 .summary-items .summary-item .item-details .item-price .price {
@@ -443,6 +530,8 @@
   margin-bottom: 15px;
   color: #4a5568;
   font-size: 16px;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .summary-totals .total-row .free-delivery {
@@ -485,6 +574,7 @@
   align-items: center;
   gap: 15px;
   margin-bottom: 20px;
+  flex-wrap: wrap;
 }
 
 .summary-guarantee .guarantee-item:last-child {
@@ -518,23 +608,8 @@
 }
 
 /* ============================================
-   CHECKOUT STEPS MAIN CONTENT
+   STEP HEADER
    ============================================ */
-.checkout-steps {
-  flex: 1;
-  background: linear-gradient(135deg, 
-    rgba(255, 255, 255, 0.95) 0%,
-    rgba(255, 255, 255, 0.9) 100%);
-  border-radius: 24px;
-  padding: 40px;
-  box-shadow: 
-    0 20px 40px rgba(26, 60, 7, 0.1),
-    0 8px 16px rgba(26, 60, 7, 0.06);
-  border: 1px solid rgba(136, 196, 49, 0.15);
-  backdrop-filter: blur(10px);
-  animation: slideInRight 0.6s ease-out;
-}
-
 .step-header {
   display: flex;
   align-items: center;
@@ -542,6 +617,7 @@
   margin-bottom: 40px;
   padding-bottom: 25px;
   border-bottom: 2px solid rgba(136, 196, 49, 0.15);
+  flex-wrap: wrap;
 }
 
 .step-header .step-icon {
@@ -583,17 +659,12 @@
   display: flex;
   gap: 25px;
   margin-bottom: 25px;
-}
-
-@media (max-width: 768px) {
-  .step-1 .form-row {
-    flex-direction: column;
-    gap: 20px;
-  }
+  flex-wrap: wrap;
 }
 
 .step-1 .form-row .form-group {
   flex: 1;
+  min-width: 250px;
 }
 
 .step-1 .form-group {
@@ -608,6 +679,7 @@
   font-weight: 600;
   color: #2d3748;
   font-size: 16px;
+  flex-wrap: wrap;
 }
 
 .step-1 .form-group label i {
@@ -641,6 +713,7 @@
 .step-1 .form-group .phone-input-wrapper {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .step-1 .form-group .phone-input-wrapper .phone-prefix {
@@ -657,6 +730,7 @@
 .step-1 .form-group .phone-input-wrapper .phone-input {
   border-radius: 0 14px 14px 0;
   flex: 1;
+  min-width: 200px;
 }
 
 .step-1 .form-group .form-hint {
@@ -695,6 +769,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
 .step-2 .delivery-options .options-grid {
@@ -714,6 +789,7 @@
   display: flex;
   align-items: center;
   gap: 20px;
+  flex-wrap: wrap;
 }
 
 .step-2 .delivery-options .options-grid .delivery-option:hover {
@@ -740,6 +816,7 @@
 
 .step-2 .delivery-options .options-grid .delivery-option .option-details {
   flex: 1;
+  min-width: 120px;
 }
 
 .step-2 .delivery-options .options-grid .delivery-option .option-details h4 {
@@ -798,6 +875,7 @@
   font-weight: 600;
   color: #2d3748;
   font-size: 16px;
+  flex-wrap: wrap;
 }
 
 .step-2 .delivery-form .form-group label i {
@@ -838,6 +916,13 @@
 }
 
 /* County Mode Toggle */
+.county-mode-toggle {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
 .mode-toggle-btn {
   padding: 10px 20px;
   border-radius: 30px;
@@ -900,12 +985,6 @@
   margin-bottom: 40px;
 }
 
-@media (max-width: 1024px) {
-  .till-payment-section {
-    grid-template-columns: 1fr;
-  }
-}
-
 .payment-instructions-card {
   background: rgba(255, 255, 255, 0.9);
   border-radius: 20px;
@@ -923,6 +1002,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
 .payment-instructions-card .instruction-steps .instruction-step {
@@ -931,6 +1011,7 @@
   margin-bottom: 30px;
   padding-bottom: 30px;
   border-bottom: 1px dashed rgba(136, 196, 49, 0.2);
+  flex-wrap: wrap;
 }
 
 .payment-instructions-card .instruction-steps .instruction-step:last-child {
@@ -966,6 +1047,7 @@
 
 .payment-instructions-card .instruction-steps .instruction-step .step-content {
   flex: 1;
+  min-width: 250px;
 }
 
 .payment-instructions-card .instruction-steps .instruction-step .step-content h5 {
@@ -1004,14 +1086,7 @@
   align-items: center;
   gap: 20px;
   margin-bottom: 12px;
-}
-
-@media (max-width: 480px) {
-  .payment-instructions-card .instruction-steps .instruction-step .step-content .till-display-box .till-info .till-number-container {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
-  }
+  flex-wrap: wrap;
 }
 
 .payment-instructions-card .instruction-steps .instruction-step .step-content .till-display-box .till-info .till-number-container .till-number {
@@ -1024,6 +1099,8 @@
   padding: 15px 25px;
   border-radius: 12px;
   border: 2px dashed #25D366;
+  overflow-x: auto;
+  white-space: nowrap;
 }
 
 .payment-instructions-card .instruction-steps .instruction-step .step-content .till-display-box .till-info .till-number-container .btn-copy-till {
@@ -1080,6 +1157,8 @@
   font-weight: 800;
   margin-bottom: 12px;
   font-family: 'Courier New', monospace;
+  overflow-x: auto;
+  white-space: nowrap;
 }
 
 .payment-instructions-card .instruction-steps .instruction-step .step-content .amount-display-box .amount-note {
@@ -1098,6 +1177,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
 .payment-instructions-card .instruction-steps .instruction-step .step-content .payment-tip i {
@@ -1129,6 +1209,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
 .payment-details-summary .summary-card .details-grid .detail-item {
@@ -1137,6 +1218,8 @@
   align-items: center;
   padding: 16px 0;
   border-bottom: 1px solid rgba(136, 196, 49, 0.1);
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .payment-details-summary .summary-card .details-grid .detail-item:last-child {
@@ -1167,6 +1250,7 @@
   padding: 8px 18px;
   background: rgba(136, 196, 49, 0.1);
   border-radius: 20px;
+  flex-wrap: wrap;
 }
 
 .payment-details-summary .summary-card .details-grid .detail-item .method-tag i {
@@ -1200,6 +1284,7 @@
   align-items: center;
   gap: 20px;
   background: rgba(0, 0, 0, 0.1);
+  flex-wrap: wrap;
 }
 
 .whatsapp-confirmation-section .whatsapp-card .whatsapp-header i {
@@ -1235,6 +1320,7 @@
   padding: 25px;
   display: flex;
   gap: 20px;
+  flex-wrap: wrap;
 }
 
 .whatsapp-confirmation-section .whatsapp-card .whatsapp-body .confirmation-important .important-alert i {
@@ -1264,12 +1350,6 @@
   margin-bottom: 30px;
 }
 
-@media (max-width: 768px) {
-  .whatsapp-confirmation-section .whatsapp-card .whatsapp-body .whatsapp-contact-info {
-    grid-template-columns: 1fr;
-  }
-}
-
 .whatsapp-confirmation-section .whatsapp-card .whatsapp-body .whatsapp-contact-info .contact-card {
   background: #f8fafc;
   border-radius: 16px;
@@ -1282,6 +1362,7 @@
   align-items: center;
   gap: 15px;
   margin-bottom: 25px;
+  flex-wrap: wrap;
 }
 
 .whatsapp-confirmation-section .whatsapp-card .whatsapp-body .whatsapp-contact-info .contact-card .contact-header i {
@@ -1301,6 +1382,7 @@
   align-items: center;
   gap: 12px;
   margin-bottom: 20px;
+  flex-wrap: wrap;
 }
 
 .whatsapp-confirmation-section .whatsapp-card .whatsapp-body .whatsapp-contact-info .contact-card .contact-details .contact-number i {
@@ -1326,6 +1408,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  flex-wrap: wrap;
 }
 
 .whatsapp-confirmation-section .whatsapp-card .whatsapp-body .whatsapp-contact-info .contact-card .contact-details .contact-hours i {
@@ -1340,6 +1423,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
 .whatsapp-confirmation-section .whatsapp-card .whatsapp-body .whatsapp-contact-info .whatsapp-message-section h5 i {
@@ -1390,6 +1474,7 @@
   justify-content: center;
   gap: 12px;
   transition: all 0.3s ease;
+  flex-wrap: wrap;
 }
 
 .whatsapp-confirmation-section .whatsapp-card .whatsapp-body .whatsapp-contact-info .whatsapp-message-section .btn-open-whatsapp:hover {
@@ -1410,6 +1495,7 @@
   background: #f8fafc;
   border-radius: 14px;
   border-left: 4px solid #25D366;
+  flex-wrap: wrap;
 }
 
 .whatsapp-confirmation-section .whatsapp-card .whatsapp-body .whatsapp-notes .note:last-child {
@@ -1455,6 +1541,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
 .trust-security-section .security-points {
@@ -1471,6 +1558,7 @@
   border-radius: 16px;
   border: 1px solid rgba(136, 196, 49, 0.1);
   transition: all 0.3s ease;
+  flex-wrap: wrap;
 }
 
 .trust-security-section .security-points .security-point:hover {
@@ -1509,6 +1597,8 @@
   margin-top: 50px;
   padding-top: 30px;
   border-top: 2px solid rgba(136, 196, 49, 0.15);
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
 .step-actions .btn-back,
@@ -1686,6 +1776,7 @@
   background: white;
   border-radius: 14px;
   margin-bottom: 15px;
+  flex-wrap: wrap;
 }
 
 .payment-confirmation-modal .modal-content .modal-body .order-summary-modal .summary-item:last-child {
@@ -1739,6 +1830,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
 .payment-confirmation-modal .modal-content .modal-body .next-steps h4 i {
@@ -1753,6 +1845,7 @@
   background: rgba(255, 255, 255, 0.8);
   border-radius: 16px;
   border-left: 4px solid #88c431;
+  flex-wrap: wrap;
 }
 
 .payment-confirmation-modal .modal-content .modal-body .next-steps .steps-list .step-item:last-child {
@@ -1776,6 +1869,7 @@
 
 .payment-confirmation-modal .modal-content .modal-body .next-steps .steps-list .step-item .step-content {
   flex: 1;
+  min-width: 200px;
 }
 
 .payment-confirmation-modal .modal-content .modal-body .next-steps .steps-list .step-item .step-content h5 {
@@ -1803,6 +1897,7 @@
   padding: 30px;
   display: flex;
   gap: 20px;
+  flex-wrap: wrap;
 }
 
 .payment-confirmation-modal .modal-content .modal-body .important-reminders .reminder-alert i {
@@ -1845,6 +1940,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
 .payment-confirmation-modal .modal-content .modal-body .support-options h4 i {
@@ -1871,6 +1967,7 @@
   text-decoration: none;
   border: none;
   text-align: center;
+  flex-wrap: wrap;
 }
 
 .payment-confirmation-modal .modal-content .modal-body .support-options .support-buttons .support-btn.whatsapp-btn {
@@ -1904,6 +2001,7 @@
   background: rgba(255, 255, 255, 0.8);
   border-radius: 0 0 28px 28px;
   border-top: 1px solid rgba(136, 196, 49, 0.2);
+  flex-wrap: wrap;
 }
 
 .payment-confirmation-modal .modal-content .modal-footer .btn-close-modal,
@@ -1920,6 +2018,7 @@
   gap: 12px;
   transition: all 0.3s ease;
   border: none;
+  min-width: 200px;
 }
 
 .payment-confirmation-modal .modal-content .modal-footer .btn-close-modal {
@@ -1983,27 +2082,165 @@
    RESPONSIVE DESIGN
    ============================================ */
 
-/* Tablet (1024px and below) */
-@media (max-width: 1024px) {
-  .checkout-wrapper {
-    gap: 30px;
+/* Small Laptops (1024px - 1280px) */
+@media screen and (min-width: 1024px) and (max-width: 1280px) {
+  .checkout-container {
+    padding: 30px 15px;
   }
   
   .order-summary-sidebar {
-    flex: 0 0 340px;
+    flex: 0 0 320px;
+    padding: 25px;
   }
   
   .checkout-steps {
     padding: 30px;
   }
   
+  .trust-logo .brand-icon {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .trust-logo .brand-icon i {
+    font-size: 28px;
+  }
+  
+  .trust-logo .brand-text .brand-name {
+    font-size: 24px;
+  }
+  
+  .trust-security .secure-badge {
+    padding: 10px 16px;
+  }
+  
+  .trust-security .secure-badge span {
+    font-size: 13px;
+  }
+  
+  .progress-steps {
+    gap: 40px;
+  }
+  
+  .progress-steps::before {
+    left: 12%;
+    right: 12%;
+  }
+  
+  .summary-items .summary-item {
+    padding: 15px;
+  }
+  
+  .summary-items .summary-item .item-image .product-thumb {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .step-header h2 {
+    font-size: 28px;
+  }
+  
   .till-payment-section {
     gap: 30px;
   }
   
-  .payment-instructions-card,
-  .payment-details-summary .summary-card {
-    padding: 25px;
+  .payment-instructions-card {
+    padding: 30px;
+  }
+  
+  .payment-instructions-card h3 {
+    font-size: 22px;
+  }
+  
+  .payment-instructions-card .instruction-step .step-number {
+    width: 42px;
+    height: 42px;
+    font-size: 18px;
+  }
+  
+  .payment-instructions-card .instruction-step .step-content h5 {
+    font-size: 18px;
+  }
+  
+  .payment-instructions-card .instruction-step .step-content .till-display-box .till-info .till-number-container .till-number {
+    font-size: 32px;
+    padding: 12px 20px;
+  }
+  
+  .exact-amount {
+    font-size: 36px;
+  }
+  
+  .whatsapp-card .whatsapp-header {
+    padding: 25px 30px;
+  }
+  
+  .whatsapp-card .whatsapp-header h3 {
+    font-size: 24px;
+  }
+  
+  .whatsapp-card .whatsapp-body {
+    padding: 30px;
+  }
+  
+  .security-points {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+  
+  .step-actions .btn-back,
+  .step-actions .btn-next,
+  .step-actions .btn-confirm-payment {
+    padding: 16px 28px;
+    font-size: 15px;
+  }
+}
+
+/* Fix for very small laptops (1024px - 1152px) */
+@media screen and (min-width: 1024px) and (max-width: 1152px) {
+  .order-summary-sidebar {
+    flex: 0 0 300px;
+  }
+  
+  .trust-security {
+    gap: 10px;
+  }
+  
+  .trust-security .secure-badge {
+    padding: 8px 14px;
+  }
+  
+  .trust-security .secure-badge span {
+    font-size: 12px;
+  }
+  
+  .trust-security .secure-badge i {
+    font-size: 14px;
+  }
+}
+
+/* Tablet (1024px and below) */
+@media (max-width: 1024px) {
+  .checkout-wrapper {
+    flex-direction: column;
+    gap: 30px;
+  }
+  
+  .order-summary-sidebar {
+    flex: 0 0 auto;
+    width: 100%;
+    position: static;
+  }
+  
+  .checkout-steps {
+    width: 100%;
+  }
+  
+  .till-payment-section {
+    grid-template-columns: 1fr;
+  }
+  
+  .whatsapp-contact-info {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -2043,11 +2280,6 @@
     font-size: 16px;
   }
   
-  .order-summary-sidebar {
-    position: static;
-    flex: 0 0 auto;
-  }
-  
   .checkout-steps {
     padding: 25px;
   }
@@ -2076,14 +2308,6 @@
   }
   
   .delivery-options .options-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .till-payment-section {
-    grid-template-columns: 1fr;
-  }
-  
-  .whatsapp-contact-info {
     grid-template-columns: 1fr;
   }
   
@@ -2498,8 +2722,6 @@
    TOUCH DEVICE OPTIMIZATIONS
    ============================================ */
 @media (hover: none) and (pointer: coarse) {
-  .impact-stat:hover,
-  .solution-card:hover,
   .delivery-option:hover,
   .secure-badge:hover,
   .btn-primary:hover,
@@ -2509,8 +2731,6 @@
     transform: none !important;
   }
   
-  .impact-stat:active,
-  .solution-card:active,
   .delivery-option:active,
   .secure-badge:active,
   .btn-primary:active,
@@ -2533,10 +2753,6 @@
   
   .form-input {
     font-size: 16px !important;
-  }
-  
-  .checkout-container {
-    font-size: 16px;
   }
 }
 
