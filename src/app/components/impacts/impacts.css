@@ -324,8 +324,8 @@
 
 .section-header h2 {
   font-size: 2.5rem;
-  font-weight: 700;
-  color: #88c431;
+  font-weight: 8300;
+  color: #ffa012;
   margin-bottom: 15px;
   font-family: 'Poppins', sans-serif;
   position: relative;
@@ -345,8 +345,8 @@
 }
 
 .section-header p {
-  font-size: 1.2rem;
-  color: #4a5568;
+  font-size: 1.3rem;
+  color: #303845;
   max-width: 700px;
   margin: 0 auto;
   line-height: 1.6;
