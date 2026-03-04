@@ -122,7 +122,7 @@ export class ContactComponent implements OnInit, AfterViewInit {
     this.marker.bindPopup(`
       <div style="text-align: center; min-width: 250px; font-family: 'Poppins', sans-serif;">
         <div style="background: #88c431; color: white; padding: 10px; margin: -12px -12px 10px -12px; border-radius: 8px 8px 0 0;">
-          <h4 style="margin:0; font-size: 1.1rem;">📍 Mzuri Organics</h4>
+          <h4 style="margin:0; font-size: 1.1rem;"> Mzuri Organics</h4>
         </div>
         <p style="margin:5px 0; color:#1a2e1f; font-weight: 500;">Musembe Market</p>
         <p style="margin:0 0 5px; color:#5a6b5a; font-size:13px;">Eldoret – Malaba Road</p>
