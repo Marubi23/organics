@@ -1205,3 +1205,41 @@
     height: 350px;
   }
 }
+/* Marker pulse animation */
+.marker-pulse {
+  animation: marker-pulse 2s infinite;
+}
+
+@keyframes marker-pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Custom popup styling */
+.leaflet-popup-content-wrapper {
+  border-radius: 12px !important;
+  padding: 0 !important;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2) !important;
+}
+
+.leaflet-popup-tip {
+  background: #88c431 !important;
+}
+
+.leaflet-popup-close-button {
+  color: white !important;
+  opacity: 0.8;
+  z-index: 10;
+}
+
+.leaflet-popup-close-button:hover {
+  opacity: 1;
+}

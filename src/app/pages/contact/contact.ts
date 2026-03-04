@@ -31,12 +31,13 @@ export class ContactComponent implements OnInit, AfterViewInit {
   readonly whatsappNumber = '254701934918';
   readonly email = 'info@mzuriorganics.co.ke';
   
-  // Location Details - Musembe Market, Kakamega (Corrected coordinates)
+  // Location Details - Mzuri Organics (Exact coordinates from Google Maps)
   readonly location = {
-    address: 'Musembe Shopping Center, Eldoret – Malaba Road, P.O Box 254711949520 – 50100, Kakamega, Kenya',
-    shortAddress: 'Musembe Market, Kakamega, Kenya',
-    coordinates: { lat: 0.3036, lng: 34.7543 },
-    market: 'Musembe Market'
+    address: 'Mzuri Organics, Musembe Shopping Center, Eldoret – Malaba Road, Kakamega, Kenya',
+    shortAddress: 'Mzuri Organics, Kakamega, Kenya',
+    coordinates: { lat: 0.6023014, lng: 34.9352222 }, // Exact coordinates from your link
+    placeId: '0x1781b7fa30d11c23:0xc93f21f2aa1af070',
+    market: 'Mzuri Organics, Musembe Market'
   };
 
   // Business Hours
@@ -73,17 +74,19 @@ export class ContactComponent implements OnInit, AfterViewInit {
   ngOnInit() {}
 
   ngAfterViewInit() {
-    this.initMap();
+    setTimeout(() => {
+      this.initMap();
+    }, 500);
   }
 
   private initMap(): void {
     const mapElement = document.getElementById('location-map');
     if (!mapElement) return;
 
-    // Initialize the map
+    // Initialize the map with exact coordinates
     this.map = L.map('location-map').setView(
       [this.location.coordinates.lat, this.location.coordinates.lng], 
-      15
+      17 // Zoom level 17 for closer view
     );
 
     // Add OpenStreetMap tiles (completely free)
@@ -95,34 +98,54 @@ export class ContactComponent implements OnInit, AfterViewInit {
     // Custom green icon to match Mzuri brand
     const customIcon = L.divIcon({
       className: 'custom-marker',
-      html: '<i class="fas fa-map-marker-alt" style="color: #88c431; font-size: 2rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);"></i>',
-      iconSize: [30, 30],
-      iconAnchor: [15, 30],
-      popupAnchor: [0, -30]
+      html: '<div class="marker-pulse"><i class="fas fa-map-marker-alt" style="color: #88c431; font-size: 2.5rem; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));"></i></div>',
+      iconSize: [40, 40],
+      iconAnchor: [20, 40],
+      popupAnchor: [0, -40]
     });
 
-    // Add marker
+    // Add marker at exact location
     this.marker = L.marker(
       [this.location.coordinates.lat, this.location.coordinates.lng], 
       { icon: customIcon }
     ).addTo(this.map);
 
-    // Add popup
+    // Add a circle to highlight the area
+    L.circle([this.location.coordinates.lat, this.location.coordinates.lng], {
+      color: '#88c431',
+      fillColor: '#88c431',
+      fillOpacity: 0.1,
+      radius: 50
+    }).addTo(this.map);
+
+    // Add popup with business info
     this.marker.bindPopup(`
-      <div style="text-align: center; min-width: 200px;">
-        <h4 style="margin:0 0 8px; color:#1a2e1f;">📍 Mzuri Organics</h4>
-        <p style="margin:0 0 5px; color:#5a6b5a;"><strong>Musembe Market</strong></p>
+      <div style="text-align: center; min-width: 250px; font-family: 'Poppins', sans-serif;">
+        <div style="background: #88c431; color: white; padding: 10px; margin: -12px -12px 10px -12px; border-radius: 8px 8px 0 0;">
+          <h4 style="margin:0; font-size: 1.1rem;">📍 Mzuri Organics</h4>
+        </div>
+        <p style="margin:5px 0; color:#1a2e1f; font-weight: 500;">Musembe Market</p>
         <p style="margin:0 0 5px; color:#5a6b5a; font-size:13px;">Eldoret – Malaba Road</p>
-        <p style="margin:0; color:#5a6b5a; font-size:13px;">Kakamega, Kenya</p>
+        <p style="margin:0 0 5px; color:#5a6b5a; font-size:13px;">Kakamega, Kenya</p>
         <hr style="margin:8px 0; border-color:#e8ede8;">
-        <p style="margin:0; color:#88c431; font-size:12px;">📞 ${this.displayPhone}</p>
+        <div style="display: flex; justify-content: center; gap: 15px; margin-top: 8px;">
+          <a href="tel:+254701934918" style="color: #88c431; text-decoration: none; font-size: 12px;">
+            <i class="fas fa-phone"></i> Call
+          </a>
+          <a href="https://wa.me/254701934918" target="_blank" style="color: #25D366; text-decoration: none; font-size: 12px;">
+            <i class="fab fa-whatsapp"></i> WhatsApp
+          </a>
+          <a href="https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(this.location.address)}" target="_blank" style="color: #d49a42; text-decoration: none; font-size: 12px;">
+            <i class="fas fa-directions"></i> Directions
+          </a>
+        </div>
       </div>
     `).openPopup();
   }
 
   openDirections() {
     const destination = encodeURIComponent(this.location.address);
-    window.open(`https://www.google.com/maps/dir/?api=1&destination=${destination}`, '_blank');
+    window.open(`https://www.google.com/maps/dir/?api=1&destination=${destination}&destination_place_id=${this.location.placeId}`, '_blank');
   }
 
   openStreetView() {
@@ -133,7 +156,11 @@ export class ContactComponent implements OnInit, AfterViewInit {
 
   viewLargerMap() {
     const destination = encodeURIComponent(this.location.address);
-    window.open(`https://www.google.com/maps/search/?api=1&query=${destination}`, '_blank');
+    window.open(`https://www.google.com/maps/search/?api=1&query=${destination}&query_place_id=${this.location.placeId}`, '_blank');
+  }
+
+  viewOnGoogleMaps() {
+    window.open(`https://www.google.com/maps/place/Mzuri+Organics/@${this.location.coordinates.lat},${this.location.coordinates.lng},17z/data=!3m1!4b1!4m6!3m5!1s0x1781b7fa30d11c23:0xc93f21f2aa1af070!8m2!3d${this.location.coordinates.lat}!4d${this.location.coordinates.lng}!16s%2Fg%2F11syz0ctlv`, '_blank');
   }
 
   copyAddress() {
@@ -142,7 +169,7 @@ export class ContactComponent implements OnInit, AfterViewInit {
   }
 
   private showToast(message: string) {
-    // Simple alert for now - you can replace with your toast system
+    // You can implement a proper toast notification here
     alert(message);
   }
 
@@ -239,7 +266,8 @@ export class ContactComponent implements OnInit, AfterViewInit {
 ${data.message}
 
 ━━━━━━━━━━━━━━━━━━━━━
-📍 *Location:* Musembe Market, Kakamega
+📍 *Location:* Mzuri Organics, Musembe Market, Kakamega
+🔗 *Google Maps:* https://maps.app.goo.gl/[your-shortlink]
 ✅ *Sent from Mzuri Organics Website`;
   }
 
@@ -285,5 +313,6 @@ ${data.message}
 
   trackSocialClick(platform: string) {
     console.log(`Social click: ${platform}`);
+    // Add analytics tracking here
   }
 }
