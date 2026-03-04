@@ -3,8 +3,15 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CartComponent } from '../cart/cart';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import * as L from 'leaflet';
 
-declare var google: any; // For Google Maps
+// Fix for Leaflet marker icons in Angular
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+});
 
 @Component({
   selector: 'app-contact',
@@ -24,12 +31,11 @@ export class ContactComponent implements OnInit, AfterViewInit {
   readonly whatsappNumber = '254701934918';
   readonly email = 'info@mzuriorganics.co.ke';
   
-  // Location Details - Musembe Market, Kakamega
+  // Location Details - Musembe Market, Kakamega (Corrected coordinates)
   readonly location = {
     address: 'Musembe Shopping Center, Eldoret – Malaba Road, P.O Box 254711949520 – 50100, Kakamega, Kenya',
     shortAddress: 'Musembe Market, Kakamega, Kenya',
-    coordinates: { lat: 0.3036, lng: 34.7543 }, // Approximate coordinates for Kakamega area
-    placeId: 'ChIJMXXXXXXXXX', // You can get this from Google Maps
+    coordinates: { lat: 0.3036, lng: 34.7543 },
     market: 'Musembe Market'
   };
 
@@ -50,42 +56,9 @@ export class ContactComponent implements OnInit, AfterViewInit {
     { platform: 'YouTube', icon: 'fab fa-youtube', url: 'https://youtube.com/@mzuriorganics', color: '#FF0000' }
   ];
 
-  // Map configuration
-  mapOptions: any = {
-    center: { lat: 0.3036, lng: 34.7543 },
-    zoom: 15,
-    mapTypeId: 'roadmap',
-    mapTypeControl: true,
-    streetViewControl: true,
-    fullscreenControl: true,
-    zoomControl: true,
-    styles: [
-      {
-        "featureType": "all",
-        "elementType": "geometry",
-        "stylers": [{ "color": "#f5f5f5" }]
-      },
-      {
-        "featureType": "water",
-        "elementType": "geometry",
-        "stylers": [{ "color": "#88c431" }, { "lightness": 30 }]
-      },
-      {
-        "featureType": "road",
-        "elementType": "geometry",
-        "stylers": [{ "color": "#ffffff" }]
-      },
-      {
-        "featureType": "road.highway",
-        "elementType": "geometry",
-        "stylers": [{ "color": "#d49a42" }, { "lightness": 20 }]
-      }
-    ]
-  };
-
-  map: any;
-  marker: any;
-  infoWindow: any;
+  // Leaflet map
+  private map: any;
+  private marker: any;
 
   constructor(private fb: FormBuilder) {
     this.contactForm = this.fb.group({
@@ -97,60 +70,46 @@ export class ContactComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngOnInit() {
-    // Load Google Maps API
-    this.loadGoogleMapsAPI();
-  }
+  ngOnInit() {}
 
   ngAfterViewInit() {
-    // Initialize map after view loads
-    setTimeout(() => {
-      this.initMap();
-    }, 1000);
+    this.initMap();
   }
 
-  loadGoogleMapsAPI() {
-    // Check if API is already loaded
-    if (typeof google !== 'undefined' && google.maps) {
-      return;
-    }
-
-    // Load Google Maps API script
-    const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places`;
-    script.async = true;
-    script.defer = true;
-    script.onload = () => this.initMap();
-    document.head.appendChild(script);
-  }
-
-  initMap() {
-    if (typeof google === 'undefined' || !google.maps) {
-      console.error('Google Maps API not loaded');
-      return;
-    }
-
+  private initMap(): void {
     const mapElement = document.getElementById('location-map');
     if (!mapElement) return;
 
-    // Initialize map
-    this.map = new google.maps.Map(mapElement, this.mapOptions);
+    // Initialize the map
+    this.map = L.map('location-map').setView(
+      [this.location.coordinates.lat, this.location.coordinates.lng], 
+      15
+    );
 
-    // Add marker for Musembe Market
-    this.marker = new google.maps.Marker({
-      position: { lat: 0.3036, lng: 34.7543 },
-      map: this.map,
-      title: 'Mzuri Organics - Musembe Market',
-      animation: google.maps.Animation.DROP,
-      icon: {
-        url: 'assets/images/marker-icon.png',
-        scaledSize: new google.maps.Size(40, 40)
-      }
+    // Add OpenStreetMap tiles (completely free)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      maxZoom: 19
+    }).addTo(this.map);
+
+    // Custom green icon to match Mzuri brand
+    const customIcon = L.divIcon({
+      className: 'custom-marker',
+      html: '<i class="fas fa-map-marker-alt" style="color: #88c431; font-size: 2rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);"></i>',
+      iconSize: [30, 30],
+      iconAnchor: [15, 30],
+      popupAnchor: [0, -30]
     });
 
-    // Create info window content
-    const infoContent = `
-      <div class="map-info-window">
+    // Add marker
+    this.marker = L.marker(
+      [this.location.coordinates.lat, this.location.coordinates.lng], 
+      { icon: customIcon }
+    ).addTo(this.map);
+
+    // Add popup
+    this.marker.bindPopup(`
+      <div style="text-align: center; min-width: 200px;">
         <h4 style="margin:0 0 8px; color:#1a2e1f;">📍 Mzuri Organics</h4>
         <p style="margin:0 0 5px; color:#5a6b5a;"><strong>Musembe Market</strong></p>
         <p style="margin:0 0 5px; color:#5a6b5a; font-size:13px;">Eldoret – Malaba Road</p>
@@ -158,19 +117,7 @@ export class ContactComponent implements OnInit, AfterViewInit {
         <hr style="margin:8px 0; border-color:#e8ede8;">
         <p style="margin:0; color:#88c431; font-size:12px;">📞 ${this.displayPhone}</p>
       </div>
-    `;
-
-    this.infoWindow = new google.maps.InfoWindow({
-      content: infoContent
-    });
-
-    // Open info window by default
-    this.infoWindow.open(this.map, this.marker);
-
-    // Add click listener to marker
-    this.marker.addListener('click', () => {
-      this.infoWindow.open(this.map, this.marker);
-    });
+    `).openPopup();
   }
 
   openDirections() {
@@ -187,6 +134,16 @@ export class ContactComponent implements OnInit, AfterViewInit {
   viewLargerMap() {
     const destination = encodeURIComponent(this.location.address);
     window.open(`https://www.google.com/maps/search/?api=1&query=${destination}`, '_blank');
+  }
+
+  copyAddress() {
+    navigator.clipboard.writeText(this.location.address);
+    this.showToast('Address copied to clipboard!');
+  }
+
+  private showToast(message: string) {
+    // Simple alert for now - you can replace with your toast system
+    alert(message);
   }
 
   onSubmit() {
@@ -303,11 +260,6 @@ ${data.message}
     window.location.href = `mailto:${this.email}?subject=${subject}&body=${body}`;
   }
 
-  copyAddress() {
-    navigator.clipboard.writeText(this.location.address);
-    alert('Address copied to clipboard!');
-  }
-
   formatPhoneInput(event: any) {
     let value = event.target.value.replace(/\D/g, '');
     
@@ -333,6 +285,5 @@ ${data.message}
 
   trackSocialClick(platform: string) {
     console.log(`Social click: ${platform}`);
-    // Add analytics tracking here
   }
 }
