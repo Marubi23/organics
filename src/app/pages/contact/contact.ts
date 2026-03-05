@@ -49,14 +49,14 @@ export class ContactComponent implements OnInit, AfterViewInit {
   ];
 
   // Social Media
-  socialLinks = [
+socialLinks = [
     { platform: 'WhatsApp', icon: 'fab fa-whatsapp', url: `https://wa.me/${this.whatsappNumber}`, color: '#25D366' },
     { platform: 'Facebook', icon: 'fab fa-facebook', url: 'https://facebook.com/mzuriorganics', color: '#1877F2' },
     { platform: 'Twitter', icon: 'fab fa-twitter', url: 'https://twitter.com/mzuriorganics', color: '#1DA1F2' },
     { platform: 'Instagram', icon: 'fab fa-instagram', url: 'https://instagram.com/mzuriorganics', color: '#E4405F' },
-    { platform: 'YouTube', icon: 'fab fa-youtube', url: 'https://youtube.com/@mzuriorganics', color: '#FF0000' }
-  ];
-
+    { platform: 'YouTube', icon: 'fab fa-youtube', url: 'https://www.youtube.com/@mzuriorganics', color: '#FF0000' },
+    { platform: 'LinkedIn', icon: 'fab fa-linkedin', url: 'https://www.linkedin.com/company/mzuri-organics/', color: '#0077B5' }
+];
   // Leaflet map
   private map: any;
   private marker: any;
