@@ -441,3 +441,66 @@
     justify-content: center;
   }
 }
+/* Contact Items Styling */
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+/* Link styling */
+.location-link,
+.email-link {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.location-link:hover,
+.email-link:hover {
+  color: #88c431; /* Mzuri green color - adjust to match your brand */
+}
+
+/* External link icon styling */
+.external-link-icon {
+  display: inline-flex;
+  align-items: center;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+.location-link:hover .external-link-icon {
+  opacity: 1;
+}
+
+.external-link-icon svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* Optional: Add a subtle underline effect */
+.location-link::after,
+.email-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: #88c431;
+  transition: width 0.3s ease;
+}
+
+.location-link,
+.email-link {
+  position: relative;
+}
+
+.location-link:hover::after,
+.email-link:hover::after {
+  width: 100%;
+}
