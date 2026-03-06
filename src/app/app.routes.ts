@@ -18,6 +18,7 @@ import { PrivacyComponent } from './pages/privacy/privacy';
 import { ReturnsComponent } from './pages/returns/returns'; 
 import { LoginComponent } from './pages/login/login';
 import { OrderSuccessComponent } from './pages/order-success/order-success';
+import { NotFoundComponent } from './components/not-found/not-found';
 // REMOVE: import { LoginComponent } from './pages/login/login'; // Remove this
 
 export const routes: Routes = [
@@ -48,5 +49,5 @@ export const routes: Routes = [
     loadChildren: () => import('./pages/account/account.routes').then(m => m.ACCOUNT_ROUTES)
   },
 
-  { path: '**', redirectTo: '' }
+  { path: '**', component: NotFoundComponent }  
 ];
