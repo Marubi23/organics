@@ -41,6 +41,9 @@
   <!-- Preload critical resources -->
   <link rel="preload" href="styles.css" as="style">
   
+  <!-- OpenDyslexic Font for accessibility -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/open-dyslexic-regular.min.css">
+  
   <!-- Loading system styles -->
   <style>
     /* Critical loading styles - Inlined for immediate rendering */
@@ -222,6 +225,157 @@
         height: 50px;
       }
     }
+
+    /* ============ WORKING ACCESSIBILITY STYLES ============ */
+    /* Font Size Classes - Starting from original size */
+    .font-normal {
+      /* No changes - uses original font sizes */
+    }
+    
+    .font-normal h1 { font-size: 3rem; } /* Original hero title */
+    .font-normal h2 { font-size: 2.5rem; } /* Original section titles */
+    .font-normal h3 { font-size: 1.5rem; } /* Original feature titles */
+    .font-normal p { font-size: 1.2rem; } /* Original hero description */
+    .font-normal .nav-link { font-size: 0.9rem; } /* Original nav links */
+    .font-normal .category-name { font-size: 1.1rem; } /* Original category names */
+    
+    /* Small font - 10% smaller than original */
+    .font-small h1 { font-size: 2.7rem !important; }
+    .font-small h2 { font-size: 2.25rem !important; }
+    .font-small h3 { font-size: 1.35rem !important; }
+    .font-small p { font-size: 1.08rem !important; }
+    .font-small .nav-link { font-size: 0.81rem !important; }
+    .font-small .category-name { font-size: 0.99rem !important; }
+    
+    /* Medium font - 10% larger than original */
+    .font-medium h1 { font-size: 3.3rem !important; }
+    .font-medium h2 { font-size: 2.75rem !important; }
+    .font-medium h3 { font-size: 1.65rem !important; }
+    .font-medium p { font-size: 1.32rem !important; }
+    .font-medium .nav-link { font-size: 0.99rem !important; }
+    .font-medium .category-name { font-size: 1.21rem !important; }
+    
+    /* Large font - 20% larger than original */
+    .font-large h1 { font-size: 3.6rem !important; }
+    .font-large h2 { font-size: 3.0rem !important; }
+    .font-large h3 { font-size: 1.8rem !important; }
+    .font-large p { font-size: 1.44rem !important; }
+    .font-large .nav-link { font-size: 1.08rem !important; }
+    .font-large .category-name { font-size: 1.32rem !important; }
+    
+    /* Extra Large font - 30% larger than original */
+    .font-xlarge h1 { font-size: 3.9rem !important; }
+    .font-xlarge h2 { font-size: 3.25rem !important; }
+    .font-xlarge h3 { font-size: 1.95rem !important; }
+    .font-xlarge p { font-size: 1.56rem !important; }
+    .font-xlarge .nav-link { font-size: 1.17rem !important; }
+    .font-xlarge .category-name { font-size: 1.43rem !important; }
+
+    /* High Contrast Mode */
+    .high-contrast {
+      filter: contrast(1.4) brightness(1.1);
+    }
+    
+    .high-contrast body {
+      background: #000000 !important;
+      color: #ffffff !important;
+    }
+    
+    .high-contrast a,
+    .high-contrast button,
+    .high-contrast .nav-link,
+    .high-contrast .nav-icon,
+    .high-contrast .logo,
+    .high-contrast .btn {
+      color: #ffff00 !important;
+      border-color: #ffff00 !important;
+    }
+    
+    .high-contrast .main-nav,
+    .high-contrast .top-bar,
+    .high-contrast .hero,
+    .high-contrast .categories-section,
+    .high-contrast .features-section,
+    .high-contrast .footer {
+      background: #000000 !important;
+      border-bottom: 2px solid #ffff00;
+    }
+    
+    .high-contrast img {
+      filter: brightness(0.9) contrast(1.3);
+      border: 2px solid #ffff00;
+    }
+    
+    .high-contrast .container {
+      background: #000000;
+    }
+
+    /* Reduced Motion */
+    .reduced-motion *,
+    .reduced-motion *::before,
+    .reduced-motion *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+    
+    .reduced-motion .minimal-spinner {
+      animation: none !important;
+    }
+
+    /* Line Spacing */
+    .line-spacing-relaxed,
+    .line-spacing-relaxed p,
+    .line-spacing-relaxed li,
+    .line-spacing-relaxed .nav-link,
+    .line-spacing-relaxed .hero-description,
+    .line-spacing-relaxed .feature-item p {
+      line-height: 1.8 !important;
+    }
+    
+    .line-spacing-loose,
+    .line-spacing-loose p,
+    .line-spacing-loose li,
+    .line-spacing-loose .nav-link,
+    .line-spacing-loose .hero-description,
+    .line-spacing-loose .feature-item p {
+      line-height: 2.2 !important;
+    }
+
+    /* Letter Spacing */
+    .letter-spacing-wide,
+    .letter-spacing-wide * {
+      letter-spacing: 0.05em !important;
+    }
+    
+    .letter-spacing-wider,
+    .letter-spacing-wider * {
+      letter-spacing: 0.1em !important;
+    }
+
+    /* Readable Font (Dyslexia-friendly) */
+    .readable-font,
+    .readable-font * {
+      font-family: 'OpenDyslexic', 'Comic Sans MS', 'Arial', sans-serif !important;
+      font-weight: 500 !important;
+      word-spacing: 0.1em !important;
+    }
+
+    /* Focus Indicators */
+    .focus-indicators :focus {
+      outline: 4px solid #ff0000 !important;
+      outline-offset: 4px !important;
+      box-shadow: 0 0 0 8px rgba(255, 255, 0, 0.3) !important;
+      transition: outline 0.1s ease;
+    }
+    
+    .focus-indicators button:focus,
+    .focus-indicators a:focus,
+    .focus-indicators input:focus,
+    .focus-indicators select:focus {
+      outline: 4px solid #ff0000 !important;
+    }
   </style>
 </head>
 <body>
@@ -340,6 +494,199 @@
         document.body.classList.remove('cart-open');
       }
     }, 500);
+
+    // ===== ACCESSIBILITY MANAGER =====
+    // This ensures all accessibility features work with your Angular component
+    window.AccessibilityManager = {
+      settings: {
+        fontSize: 'normal', // Changed from 'medium' to 'normal' to match original
+        highContrast: false,
+        reducedMotion: false,
+        lineSpacing: 'normal',
+        letterSpacing: 'normal',
+        readableFont: false,
+        focusIndicators: false
+      },
+      
+      fontSizeLevels: ['small', 'normal', 'medium', 'large', 'xlarge'], // 5 levels now
+      
+      init: function() {
+        this.loadSettings();
+        this.applyAll();
+        console.log('✅ Accessibility Manager initialized');
+      },
+      
+      loadSettings: function() {
+        try {
+          const saved = localStorage.getItem('mzuri_accessibility');
+          if (saved) {
+            this.settings = JSON.parse(saved);
+          }
+        } catch (e) {
+          console.error('Error loading settings:', e);
+        }
+      },
+      
+      saveSettings: function() {
+        localStorage.setItem('mzuri_accessibility', JSON.stringify(this.settings));
+      },
+      
+      applyAll: function() {
+        // Remove all classes first
+        const classes = [
+          'font-small', 'font-normal', 'font-medium', 'font-large', 'font-xlarge',
+          'high-contrast', 'reduced-motion',
+          'line-spacing-normal', 'line-spacing-relaxed', 'line-spacing-loose',
+          'letter-spacing-normal', 'letter-spacing-wide', 'letter-spacing-wider',
+          'readable-font', 'focus-indicators'
+        ];
+        document.body.classList.remove(...classes);
+        
+        // Apply font size
+        document.body.classList.add(`font-${this.settings.fontSize}`);
+        
+        // Apply high contrast
+        if (this.settings.highContrast) {
+          document.body.classList.add('high-contrast');
+        }
+        
+        // Apply reduced motion
+        if (this.settings.reducedMotion) {
+          document.body.classList.add('reduced-motion');
+        }
+        
+        // Apply line spacing
+        if (this.settings.lineSpacing !== 'normal') {
+          document.body.classList.add(`line-spacing-${this.settings.lineSpacing}`);
+        }
+        
+        // Apply letter spacing
+        if (this.settings.letterSpacing !== 'normal') {
+          document.body.classList.add(`letter-spacing-${this.settings.letterSpacing}`);
+        }
+        
+        // Apply readable font
+        if (this.settings.readableFont) {
+          document.body.classList.add('readable-font');
+        }
+        
+        // Apply focus indicators
+        if (this.settings.focusIndicators) {
+          document.body.classList.add('focus-indicators');
+        }
+      },
+      
+      // Methods for Angular component to call
+      increaseFontSize: function() {
+        const currentIndex = this.fontSizeLevels.indexOf(this.settings.fontSize);
+        if (currentIndex < this.fontSizeLevels.length - 1) {
+          this.settings.fontSize = this.fontSizeLevels[currentIndex + 1];
+          this.applyAll();
+          this.saveSettings();
+        }
+        return this.getFontSizeLabel();
+      },
+      
+      decreaseFontSize: function() {
+        const currentIndex = this.fontSizeLevels.indexOf(this.settings.fontSize);
+        if (currentIndex > 0) {
+          this.settings.fontSize = this.fontSizeLevels[currentIndex - 1];
+          this.applyAll();
+          this.saveSettings();
+        }
+        return this.getFontSizeLabel();
+      },
+      
+      setFontSize: function(size) {
+        if (this.fontSizeLevels.includes(size)) {
+          this.settings.fontSize = size;
+          this.applyAll();
+          this.saveSettings();
+        }
+      },
+      
+      setHighContrast: function(enabled) {
+        this.settings.highContrast = enabled;
+        this.applyAll();
+        this.saveSettings();
+      },
+      
+      setReducedMotion: function(enabled) {
+        this.settings.reducedMotion = enabled;
+        this.applyAll();
+        this.saveSettings();
+      },
+      
+      setLineSpacing: function(spacing) {
+        if (['normal', 'relaxed', 'loose'].includes(spacing)) {
+          this.settings.lineSpacing = spacing;
+          this.applyAll();
+          this.saveSettings();
+        }
+      },
+      
+      setLetterSpacing: function(spacing) {
+        if (['normal', 'wide', 'wider'].includes(spacing)) {
+          this.settings.letterSpacing = spacing;
+          this.applyAll();
+          this.saveSettings();
+        }
+      },
+      
+      setReadableFont: function(enabled) {
+        this.settings.readableFont = enabled;
+        this.applyAll();
+        this.saveSettings();
+      },
+      
+      setFocusIndicators: function(enabled) {
+        this.settings.focusIndicators = enabled;
+        this.applyAll();
+        this.saveSettings();
+      },
+      
+      resetAll: function() {
+        this.settings = {
+          fontSize: 'normal',
+          highContrast: false,
+          reducedMotion: false,
+          lineSpacing: 'normal',
+          letterSpacing: 'normal',
+          readableFont: false,
+          focusIndicators: false
+        };
+        this.applyAll();
+        this.saveSettings();
+      },
+      
+      getFontSizeLabel: function() {
+        const labels = { 
+          small: 'A-', 
+          normal: 'A', 
+          medium: 'A+', 
+          large: 'A++', 
+          xlarge: 'A+++' 
+        };
+        return labels[this.settings.fontSize] || 'A';
+      },
+      
+      canIncrease: function() {
+        const currentIndex = this.fontSizeLevels.indexOf(this.settings.fontSize);
+        return currentIndex < this.fontSizeLevels.length - 1;
+      },
+      
+      canDecrease: function() {
+        const currentIndex = this.fontSizeLevels.indexOf(this.settings.fontSize);
+        return currentIndex > 0;
+      }
+    };
+    
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => window.AccessibilityManager.init());
+    } else {
+      window.AccessibilityManager.init();
+    }
   </script>
   
   <!-- Fonts (non-blocking) -->
