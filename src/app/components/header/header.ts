@@ -148,15 +148,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   ];
 
-  // Account Menu
-  accountMenuItems: AccountMenuItem[] = [
-    { text: 'My Profile', icon: 'fas fa-user-circle', route: '/login' },
-    { text: 'Orders', icon: 'fas fa-shopping-bag', route: '/login' },
-    { text: 'Wishlist', icon: 'fas fa-heart', route: '/login' },
-    { text: 'Settings', icon: 'fas fa-cog', route: '/settings' },
-    { text: 'Help Center', icon: 'fas fa-question-circle', route: '/contact' }
-  ];
-
+// Account Menu - Minimal
+// Account Menu - Updated with proper icons
+accountMenuItems: AccountMenuItem[] = [
+  { 
+    text: 'Blog', 
+    icon: 'fas fa-newspaper',  // Changed from fa-envelope to fa-newspaper
+    route: '/blog' 
+  },
+  { 
+    text: 'FAQs', 
+    icon: 'fas fa-question-circle', 
+    route: '/faq'  // Changed from /faqs to /faq (singular)
+  }
+];
   // Search
   searchTerm = '';
   searchResults: SearchResult[] = [];
@@ -177,7 +182,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
   currentUser: User | null = null;
   cartCount = 0;
   isDarkTheme = false;
-  isCartOpen = false; // Track cart open state
+  isCartOpen = false;
+
+  // ============ ACCESSIBILITY SETTINGS ============
+  fontSize: 'small' | 'medium' | 'large' = 'medium';
+  highContrast = false;
+  reducedMotion = false;
+  lineSpacing: 'normal' | 'relaxed' | 'loose' = 'normal';
+  letterSpacing: 'normal' | 'wide' | 'wider' = 'normal';
+  readableFont = false;
+  focusIndicators = false;
 
   private subscriptions: any[] = [];
   private dropdownTimeout: any;
@@ -194,8 +208,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.subscribeToServices();
     this.setupRouterListener();
     this.loadTheme();
+    this.loadAccessibilitySettings(); // Add this line
     
-    // FIX: Subscribe to cart open state
+    // Subscribe to cart open state
     this.subscriptions.push(
       this.cartService.isCartOpen$.subscribe(state => {
         this.isCartOpen = state;
@@ -210,6 +225,168 @@ export class HeaderComponent implements OnInit, OnDestroy {
         }
       })
     );
+  }
+
+  // ============ ACCESSIBILITY METHODS ============
+  
+  // Font Size Methods
+  increaseFontSize() {
+    const sizes: ('small' | 'medium' | 'large')[] = ['small', 'medium', 'large'];
+    const currentIndex = sizes.indexOf(this.fontSize);
+    if (currentIndex < sizes.length - 1) {
+      this.fontSize = sizes[currentIndex + 1];
+      this.applyFontSize();
+      this.saveAccessibilitySettings();
+    }
+  }
+
+  decreaseFontSize() {
+    const sizes: ('small' | 'medium' | 'large')[] = ['small', 'medium', 'large'];
+    const currentIndex = sizes.indexOf(this.fontSize);
+    if (currentIndex > 0) {
+      this.fontSize = sizes[currentIndex - 1];
+      this.applyFontSize();
+      this.saveAccessibilitySettings();
+    }
+  }
+
+  getFontSizeLabel(): string {
+    const labels = {
+      small: 'A-',
+      medium: 'A',
+      large: 'A+'
+    };
+    return labels[this.fontSize];
+  }
+
+  applyFontSize() {
+    // Remove existing font size classes
+    document.body.classList.remove('font-small', 'font-medium', 'font-large');
+    // Add new font size class
+    document.body.classList.add(`font-${this.fontSize}`);
+  }
+
+  // High Contrast
+  toggleHighContrast() {
+    if (this.highContrast) {
+      document.body.classList.add('high-contrast');
+    } else {
+      document.body.classList.remove('high-contrast');
+    }
+    this.saveAccessibilitySettings();
+  }
+
+  // Reduced Motion
+  toggleReducedMotion() {
+    if (this.reducedMotion) {
+      document.body.classList.add('reduced-motion');
+    } else {
+      document.body.classList.remove('reduced-motion');
+    }
+    this.saveAccessibilitySettings();
+  }
+
+  // Line Spacing
+  updateLineSpacing() {
+    document.body.classList.remove('line-spacing-normal', 'line-spacing-relaxed', 'line-spacing-loose');
+    document.body.classList.add(`line-spacing-${this.lineSpacing}`);
+    this.saveAccessibilitySettings();
+  }
+
+  // Letter Spacing
+  updateLetterSpacing() {
+    document.body.classList.remove('letter-spacing-normal', 'letter-spacing-wide', 'letter-spacing-wider');
+    document.body.classList.add(`letter-spacing-${this.letterSpacing}`);
+    this.saveAccessibilitySettings();
+  }
+
+  // Readable Font
+  toggleReadableFont() {
+    if (this.readableFont) {
+      document.body.classList.add('readable-font');
+    } else {
+      document.body.classList.remove('readable-font');
+    }
+    this.saveAccessibilitySettings();
+  }
+
+  // Focus Indicators
+  toggleFocusIndicators() {
+    if (this.focusIndicators) {
+      document.body.classList.add('focus-indicators');
+    } else {
+      document.body.classList.remove('focus-indicators');
+    }
+    this.saveAccessibilitySettings();
+  }
+
+  // Save/Load Accessibility Settings
+  saveAccessibilitySettings() {
+    const settings = {
+      fontSize: this.fontSize,
+      highContrast: this.highContrast,
+      reducedMotion: this.reducedMotion,
+      lineSpacing: this.lineSpacing,
+      letterSpacing: this.letterSpacing,
+      readableFont: this.readableFont,
+      focusIndicators: this.focusIndicators
+    };
+    localStorage.setItem('mzuri_accessibility', JSON.stringify(settings));
+  }
+
+  loadAccessibilitySettings() {
+    try {
+      const saved = localStorage.getItem('mzuri_accessibility');
+      if (saved) {
+        const settings = JSON.parse(saved);
+        this.fontSize = settings.fontSize || 'medium';
+        this.highContrast = settings.highContrast || false;
+        this.reducedMotion = settings.reducedMotion || false;
+        this.lineSpacing = settings.lineSpacing || 'normal';
+        this.letterSpacing = settings.letterSpacing || 'normal';
+        this.readableFont = settings.readableFont || false;
+        this.focusIndicators = settings.focusIndicators || false;
+        
+        // Apply all settings
+        this.applyFontSize();
+        if (this.highContrast) document.body.classList.add('high-contrast');
+        if (this.reducedMotion) document.body.classList.add('reduced-motion');
+        if (this.readableFont) document.body.classList.add('readable-font');
+        if (this.focusIndicators) document.body.classList.add('focus-indicators');
+        
+        document.body.classList.add(`line-spacing-${this.lineSpacing}`);
+        document.body.classList.add(`letter-spacing-${this.letterSpacing}`);
+      }
+    } catch (error) {
+      console.error('Error loading accessibility settings:', error);
+    }
+  }
+
+  resetAccessibilitySettings() {
+    // Reset to defaults
+    this.fontSize = 'medium';
+    this.highContrast = false;
+    this.reducedMotion = false;
+    this.lineSpacing = 'normal';
+    this.letterSpacing = 'normal';
+    this.readableFont = false;
+    this.focusIndicators = false;
+    
+    // Remove all accessibility classes
+    document.body.classList.remove(
+      'font-small', 'font-medium', 'font-large',
+      'high-contrast', 'reduced-motion', 'readable-font',
+      'focus-indicators', 'line-spacing-normal', 'line-spacing-relaxed',
+      'line-spacing-loose', 'letter-spacing-normal', 'letter-spacing-wide',
+      'letter-spacing-wider'
+    );
+    
+    // Apply defaults
+    this.applyFontSize();
+    document.body.classList.add('line-spacing-normal', 'letter-spacing-normal');
+    
+    // Save settings
+    this.saveAccessibilitySettings();
   }
 
   // Check if mobile screen
