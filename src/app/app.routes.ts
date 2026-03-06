@@ -18,7 +18,7 @@ import { PrivacyComponent } from './pages/privacy/privacy';
 import { ReturnsComponent } from './pages/returns/returns'; 
 import { LoginComponent } from './pages/login/login';
 import { OrderSuccessComponent } from './pages/order-success/order-success';
-import { NotFoundComponent } from './components/not-found/not-found.component';
+import { NotFoundComponent } from './components/not-found/not-found';
 // REMOVE: import { LoginComponent } from './pages/login/login'; // Remove this
 
 export const routes: Routes = [
