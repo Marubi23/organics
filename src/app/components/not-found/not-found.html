@@ -1,0 +1,63 @@
+<!-- src/app/components/not-found/not-found.component.html -->
+<div class="farm-404-container">
+  <!-- Animated background -->
+  <div class="farm-background">
+    <div class="sun"></div>
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+    <div class="hill hill-1"></div>
+  </div>
+
+  <!-- Main content -->
+  <div class="farm-content">
+    <!-- Simple 404 with tractor -->
+    <div class="farm-number">
+      <span class="big-number">4</span>
+      <div class="farm-icon">
+        <i class="fas fa-tractor"></i>
+      </div>
+      <span class="big-number">4</span>
+    </div>
+
+    <!-- Simple message -->
+    <h1 class="farm-title">Lost Your Way?</h1>
+    <p class="farm-message">
+      You've wandered off the farm path.
+    </p>
+
+    <!-- Two simple buttons -->
+    <div class="action-buttons">
+      <button class="action-btn home-btn" (click)="goHome()">
+        <i class="fas fa-home"></i>
+        Take Route Home
+      </button>
+      
+      <button class="action-btn shop-btn" (click)="goToProducts()">
+        <i class="fas fa-shopping-bag"></i>
+        Take Route to Shop
+      </button>
+    </div>
+
+    <!-- Or return link -->
+    <div class="return-link">
+      <a (click)="goHome()">
+        <i class="fas fa-arrow-left"></i>
+        Return to Site
+      </a>
+    </div>
+  </div>
+
+  <!-- Decorative floating leaves -->
+  <div class="floating-leaves">
+    <div class="leaf leaf-1"><i class="fas fa-leaf"></i></div>
+    <div class="leaf leaf-2"><i class="fas fa-leaf"></i></div>
+    <div class="leaf leaf-3"><i class="fas fa-leaf"></i></div>
+    <div class="leaf leaf-4"><i class="fas fa-leaf"></i></div>
+    <div class="leaf leaf-5"><i class="fas fa-leaf"></i></div>
+  </div>
+
+  <!-- Simple footer -->
+  <div class="farm-footer">
+    <p> Grown in Kenya</p>
+  </div>
+</div>

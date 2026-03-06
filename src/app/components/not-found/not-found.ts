@@ -1,5 +1,5 @@
 // src/app/components/not-found/not-found.component.ts
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 
@@ -10,29 +10,15 @@ import { RouterModule, Router } from '@angular/router';
   templateUrl: './not-found.html',
   styleUrls: ['./not-found.css']
 })
-export class NotFoundComponent implements OnInit, OnDestroy {
-  countdown = 10;
-  private countdownInterval: any;
-
+export class NotFoundComponent {
   constructor(private router: Router) {}
 
-  ngOnInit(): void {
-    this.startCountdown();
+  // Simple navigation
+  goHome(): void {
+    this.router.navigate(['/']);
   }
 
-  ngOnDestroy(): void {
-    if (this.countdownInterval) {
-      clearInterval(this.countdownInterval);
-    }
-  }
-
-  startCountdown(): void {
-    this.countdownInterval = setInterval(() => {
-      this.countdown--;
-      if (this.countdown === 0) {
-        clearInterval(this.countdownInterval);
-        this.router.navigate(['/']);
-      }
-    }, 1000);
+  goToProducts(): void {
+    this.router.navigate(['/products']);
   }
 }
