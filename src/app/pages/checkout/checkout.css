@@ -149,30 +149,22 @@ canvas {
   gap: 20px;
 }
 
-.trust-logo {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  flex-wrap: wrap;
+
+
+/* ============ LOGO ============ */
+.logo {
+  flex-shrink: 0;
+  cursor: pointer;
+  position: relative;
 }
 
-.trust-logo .brand-icon {
-  width: 70px;
-  height: 70px;
-  background: linear-gradient(135deg, #88c431, #5e8c1f);
-  border-radius: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  box-shadow: 
-    0 10px 30px rgba(136, 196, 49, 0.3),
-    0 4px 16px rgba(136, 196, 49, 0.2);
+.logo-img {
+  height: 100px;
+  border-radius:8px;
+  width: 200px;
+  transition: transform 0.3s ease;
 }
 
-.trust-logo .brand-icon i {
-  font-size: 32px;
-}
 
 .trust-logo .brand-text .brand-name {
   font-family: 'Poppins', sans-serif;
