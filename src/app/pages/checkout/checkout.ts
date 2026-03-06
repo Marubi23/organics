@@ -4,13 +4,14 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CartService } from '../../services/cart';
+import { CartComponent } from '../cart/cart';
 import { OrderService, CreateOrderResponse } from '../../services/order';
 import { ToastService } from '../../services/toast';
 
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, CartComponent],
   templateUrl: './checkout.html',
   styleUrls: ['./checkout.css']
 })

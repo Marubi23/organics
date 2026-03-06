@@ -87,18 +87,24 @@
         
         <div class="total-row delivery-row">
           <span>Shipping</span>
-          <span class="delivery-status">
+          <span class="delivery-status" [class.free-eligible]="subtotal >= 25000">
             <i class="fab fa-whatsapp"></i>
-            TBC based on distance
+            {{ subtotal >= 25000 ? 'FREE (over 25K)' : 'TBC based on distance' }}
           </span>
         </div>
         
-        <!-- Free Delivery Notice for orders above 25,000 -->
+        <!-- Free Delivery Message - Clear and Prominent -->
+        <div class="free-delivery-message" *ngIf="subtotal < 25000">
+          <i class="fas fa-info-circle"></i>
+          <span><strong>Free shipping</strong> on orders over KES 25,000</span>
+        </div>
+        
+        <!-- Free Delivery Notice when eligible -->
         <div class="free-delivery-note" *ngIf="subtotal >= 25000">
           <i class="fas fa-gift"></i>
           <div class="free-delivery-content">
-            <strong>Free Shipping!</strong>
-            <span>Orders over KES 25,000</span>
+            <strong>✓ Free Shipping Eligible!</strong>
+            <span>Your order qualifies for FREE delivery</span>
           </div>
         </div>
 
@@ -109,7 +115,7 @@
         
         <div class="payment-note">
           <i class="fas fa-info-circle"></i>
-          <span>Pay subtotal now. Shipping TBC on WhatsApp.</span>
+          <span>Pay subtotal now. Shipping {{ subtotal >= 25000 ? 'free' : 'cost' }} confirmed on WhatsApp.</span>
         </div>
       </div>
 
@@ -241,19 +247,25 @@
           </div>
         </div>
 
-        <!-- Delivery Information Card - Simplified -->
+        <!-- Delivery Information Card - Clear Free Shipping Message -->
         <div class="delivery-info-card">
           <i class="fas fa-info-circle"></i>
           <div class="info-content">
             <strong>Shipping Information</strong>
-            <p>Small shipping fee may apply based on your distance. 
-               <span class="free-highlight">Free for orders over KES 25,000.</span>
-               Final cost confirmed via WhatsApp.</p>
+            <p *ngIf="subtotal < 25000">
+              <span class="free-highlight">Free shipping on orders over KES 25,000</span><br>
+              Small shipping fee may apply based on your distance for orders below 25,000.
+              Final cost confirmed via WhatsApp.
+            </p>
+            <p *ngIf="subtotal >= 25000">
+              <span class="free-highlight">✓ Your order qualifies for FREE shipping!</span><br>
+              We'll confirm your delivery details on WhatsApp.
+            </p>
           </div>
         </div>
 
         <form [formGroup]="deliveryForm">
-          <!-- Delivery Method Cards - Clean and Simple -->
+          <!-- Delivery Method Cards -->
           <div class="delivery-options-section">
             <h3><i class="fas fa-shipping-fast"></i> Select Delivery Method</h3>
             <div class="delivery-cards">
@@ -266,8 +278,9 @@
                     <i class="fas fa-truck"></i>
                   </div>
                   <div class="card-badge">
-                    <span class="badge whatsapp">
-                      <i class="fab fa-whatsapp"></i> TBC
+                    <span class="badge" [class.whatsapp]="subtotal < 25000" [class.free]="subtotal >= 25000">
+                      <i class="fab fa-whatsapp" *ngIf="subtotal < 25000"></i>
+                      {{ subtotal >= 25000 ? 'FREE' : 'TBC' }}
                     </span>
                   </div>
                 </div>
@@ -275,11 +288,13 @@
                   <h4>Standard Delivery</h4>
                   <p class="delivery-time">2-3 business days</p>
                   <p class="delivery-note">
-                    <i class="fas fa-road"></i> Distance-based fee
+                    <i class="fas fa-road"></i> 
+                    {{ subtotal >= 25000 ? 'Free shipping' : 'Distance-based fee' }}
                   </p>
                 </div>
                 <div class="card-footer">
-                  <span class="wa-hint">via WhatsApp</span>
+                  <span class="wa-hint" *ngIf="subtotal < 25000">via WhatsApp</span>
+                  <span class="free-hint" *ngIf="subtotal >= 25000">Free shipping</span>
                 </div>
               </div>
 
@@ -292,8 +307,9 @@
                     <i class="fas fa-bolt"></i>
                   </div>
                   <div class="card-badge">
-                    <span class="badge whatsapp">
-                      <i class="fab fa-whatsapp"></i> TBC
+                    <span class="badge" [class.whatsapp]="subtotal < 25000" [class.free]="subtotal >= 25000">
+                      <i class="fab fa-whatsapp" *ngIf="subtotal < 25000"></i>
+                      {{ subtotal >= 25000 ? 'FREE' : 'TBC' }}
                     </span>
                   </div>
                 </div>
@@ -301,11 +317,13 @@
                   <h4>Express Delivery</h4>
                   <p class="delivery-time">24 hours</p>
                   <p class="delivery-note">
-                    <i class="fas fa-road"></i> Distance-based fee
+                    <i class="fas fa-road"></i>
+                    {{ subtotal >= 25000 ? 'Free shipping' : 'Distance-based fee' }}
                   </p>
                 </div>
                 <div class="card-footer">
-                  <span class="wa-hint">via WhatsApp</span>
+                  <span class="wa-hint" *ngIf="subtotal < 25000">via WhatsApp</span>
+                  <span class="free-hint" *ngIf="subtotal >= 25000">Free shipping</span>
                 </div>
               </div>
 
@@ -325,7 +343,7 @@
                   <h4>Store Pickup</h4>
                   <p class="delivery-time">Ready in 2 hours</p>
                   <p class="delivery-note">
-                    <i class="fas fa-map-pin"></i> To be communicated 
+                    <i class="fas fa-map-pin"></i> To be communicated
                   </p>
                 </div>
                 <div class="card-footer">
@@ -468,13 +486,19 @@
           </div>
         </div>
 
-        <!-- Important Notice Card - Simplified -->
-        <div class="payment-info-card">
-          <i class="fas fa-exclamation-circle"></i>
+        <!-- Important Notice Card - Dynamic Based on Free Shipping -->
+        <div class="payment-info-card" [class.free]="subtotal >= 25000">
+          <i class="fas" [class.fa-exclamation-circle]="subtotal < 25000" [class.fa-gift]="subtotal >= 25000"></i>
           <div class="info-content">
-            <strong>Pay Subtotal Only</strong>
-            <p>Pay <span class="highlight-amount">KES {{ subtotal | number }}</span> now. 
-               Small shipping fee (if applicable) confirmed on WhatsApp.</p>
+            <strong>{{ subtotal >= 25000 ? 'Free Shipping Applied!' : 'Pay Subtotal Only' }}</strong>
+            <p *ngIf="subtotal < 25000">
+              Pay <span class="highlight-amount">KES {{ subtotal | number }}</span> now. 
+              Small shipping fee (if applicable) confirmed on WhatsApp.
+            </p>
+            <p *ngIf="subtotal >= 25000">
+              Pay <span class="highlight-amount">KES {{ subtotal | number }}</span> now.
+              <span class="free-highlight">Your shipping is FREE!</span> We'll confirm delivery on WhatsApp.
+            </p>
           </div>
         </div>
 
@@ -518,7 +542,8 @@
                   <div class="amount-display-box">
                     <span class="amount-label">Pay Exactly (Subtotal Only):</span>
                     <strong class="exact-amount">KES {{ subtotal | number }}</strong>
-                    <p class="amount-note">Enter this exact amount - shipping TBC</p>
+                    <p class="amount-note" *ngIf="subtotal < 25000">Enter this amount - shipping TBC on WhatsApp</p>
+                    <p class="amount-note free" *ngIf="subtotal >= 25000">Enter this amount - FREE shipping applied</p>
                   </div>
                 </div>
               </div>
@@ -561,17 +586,23 @@
                   <span>Delivery Method:</span>
                   <span>{{ getSelectedDeliveryName() }}</span>
                 </div>
-                <div class="detail-item delivery-cost">
+                <div class="detail-item delivery-cost" [class.free]="subtotal >= 25000">
                   <span>Shipping</span>
-                  <span class="whatsapp-badge">
-                    <i class="fab fa-whatsapp"></i> TBC based on distance
+                  <span class="shipping-badge" [class.whatsapp]="subtotal < 25000" [class.free]="subtotal >= 25000">
+                    <i class="fab fa-whatsapp" *ngIf="subtotal < 25000"></i>
+                    <i class="fas fa-check-circle" *ngIf="subtotal >= 25000"></i>
+                    {{ subtotal >= 25000 ? 'FREE' : 'TBC based on distance' }}
                   </span>
                 </div>
                 
                 <!-- Free Delivery Indicator -->
                 <div class="free-delivery-badge" *ngIf="subtotal >= 25000">
                   <i class="fas fa-check-circle"></i>
-                  <span>FREE SHIPPING ELIGIBLE</span>
+                  <span>✓ FREE SHIPPING APPLIED</span>
+                </div>
+                <div class="free-delivery-badge threshold" *ngIf="subtotal < 25000">
+                  <i class="fas fa-info-circle"></i>
+                  <span>Free shipping on orders over KES 25,000</span>
                 </div>
               </div>
             </div>
@@ -596,7 +627,7 @@
                   <div>
                     <h5>Important: Send Payment Confirmation</h5>
                     <p>After making payment, send your M-Pesa confirmation screenshot to our WhatsApp. 
-                       We'll assess the distance and confirm your shipping cost.</p>
+                       {{ subtotal >= 25000 ? 'We\'ll confirm your delivery details.' : 'We\'ll assess the distance and confirm your shipping cost.' }}</p>
                   </div>
                 </div>
               </div>
@@ -632,7 +663,9 @@
                       <p>Items: {{ getItemSummary() }}</p>
                       <p>Delivery to: {{ deliveryForm.get('town')?.value }}, {{ getCountyValue() }}</p>
                       <p>Customer: {{ checkoutForm.get('firstName')?.value }} {{ checkoutForm.get('lastName')?.value }}</p>
-                      <p class="delivery-note-message">🚚 Please assess distance and confirm shipping cost</p>
+                      <p class="delivery-note-message" [class.free]="subtotal >= 25000">
+                        {{ subtotal >= 25000 ? '🎁 FREE SHIPPING ELIGIBLE - Please confirm delivery details' : '🚚 Please assess distance and confirm shipping cost' }}
+                      </p>
                     </div>
                   </div>
                   <button class="btn-open-whatsapp" (click)="openWhatsAppWithMessage()">
@@ -642,15 +675,15 @@
                 </div>
               </div>
               
-              <!-- Simplified WhatsApp Notes -->
+              <!-- WhatsApp Notes -->
               <div class="whatsapp-notes">
                 <div class="note-item">
                   <i class="fab fa-whatsapp"></i>
-                  <span>Shipping fee confirmed on WhatsApp</span>
+                  <span>{{ subtotal >= 25000 ? 'Delivery details confirmed on WhatsApp' : 'Shipping fee confirmed on WhatsApp' }}</span>
                 </div>
-                <div class="note-item" *ngIf="subtotal >= 25000">
+                <div class="note-item free" *ngIf="subtotal >= 25000">
                   <i class="fas fa-gift"></i>
-                  <span><strong>Free shipping!</strong> We'll confirm on WhatsApp</span>
+                  <span><strong>Free shipping applied!</strong> We'll confirm delivery on WhatsApp</span>
                 </div>
               </div>
             </div>
@@ -735,11 +768,13 @@
               <code class="value till">8589836</code>
             </div>
           </div>
-          <div class="summary-item highlight-item">
+          <div class="summary-item highlight-item" [class.free]="subtotal >= 25000">
             <i class="fab fa-whatsapp"></i>
             <div>
-              <span class="label">Shipping Cost:</span>
-              <span class="value delivery-pending">TBC on WhatsApp (based on distance)</span>
+              <span class="label">Shipping:</span>
+              <span class="value" [class.delivery-pending]="subtotal < 25000" [class.free]="subtotal >= 25000">
+                {{ subtotal >= 25000 ? '✓ FREE SHIPPING' : 'TBC on WhatsApp (based on distance)' }}
+              </span>
             </div>
           </div>
         </div>
@@ -764,32 +799,32 @@
             <div class="step-item">
               <div class="step-number">3</div>
               <div class="step-content">
-                <h5>We Assess Distance</h5>
-                <p>Our team will calculate shipping cost based on your location</p>
+                <h5>{{ subtotal >= 25000 ? 'Confirm Delivery' : 'We Assess Distance' }}</h5>
+                <p>{{ subtotal >= 25000 ? 'We\'ll confirm your delivery details on WhatsApp' : 'Our team will calculate shipping cost based on your location' }}</p>
               </div>
             </div>
             <div class="step-item">
               <div class="step-number">4</div>
               <div class="step-content">
                 <h5>Confirm & Deliver</h5>
-                <p>We'll confirm total cost and schedule delivery via WhatsApp</p>
+                <p>We'll confirm and schedule delivery via WhatsApp</p>
               </div>
             </div>
           </div>
         </div>
 
         <div class="important-reminders">
-          <div class="reminder-alert">
-            <i class="fas fa-exclamation-circle"></i>
+          <div class="reminder-alert" [class.free]="subtotal >= 25000">
+            <i class="fas" [class.fa-exclamation-circle]="subtotal < 25000" [class.fa-gift]="subtotal >= 25000"></i>
             <div>
               <h5>Important Reminders:</h5>
               <ul>
-                <li>Send the <strong>exact amount</strong> of <strong>KES {{ subtotal | number }}</strong> (subtotal only)</li>
-                <li>Shipping cost will be <strong>calculated based on your distance</strong> and confirmed on WhatsApp</li>
-                <li *ngIf="subtotal >= 25000">✅ <strong>Free shipping eligible!</strong> We'll confirm on WhatsApp</li>
+                <li>Send the <strong>exact amount</strong> of <strong>KES {{ subtotal | number }}</strong></li>
+                <li *ngIf="subtotal < 25000">Shipping cost will be <strong>calculated based on your distance</strong> and confirmed on WhatsApp</li>
+                <li *ngIf="subtotal >= 25000">✅ <strong>Free shipping applied!</strong> We'll confirm delivery on WhatsApp</li>
                 <li>Include your <strong>order number ({{ orderCode }})</strong> in WhatsApp message</li>
                 <li>Keep your M-Pesa confirmation SMS safe</li>
-                <li>Delivery within 24-48 hours after cost confirmation</li>
+                <li>Delivery within 24-48 hours after confirmation</li>
               </ul>
             </div>
           </div>
@@ -823,3 +858,4 @@
     </div>
   </div>
 </div>
+<app-cart></app-cart>

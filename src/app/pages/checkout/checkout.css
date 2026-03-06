@@ -3574,3 +3574,151 @@ canvas {
     opacity: 0.9;
   }
 }
+/* ============================================
+   FREE DELIVERY MESSAGING UPDATES
+   ============================================ */
+
+/* Free Delivery Message */
+.free-delivery-message {
+  background: rgba(37, 211, 102, 0.08);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #2d3748;
+  border-left: 3px solid #25D366;
+}
+
+.free-delivery-message i {
+  color: #25D366;
+  font-size: 16px;
+}
+
+.free-delivery-message strong {
+  color: #25D366;
+}
+
+/* Delivery Status with Free Eligibility */
+.delivery-status.free-eligible {
+  background: rgba(136, 196, 49, 0.15);
+  color: #88c431;
+}
+
+/* Shipping Badge */
+.shipping-badge {
+  padding: 5px 12px;
+  border-radius: 30px;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.shipping-badge.whatsapp {
+  background: rgba(37, 211, 102, 0.1);
+  color: #25D366;
+}
+
+.shipping-badge.free {
+  background: rgba(136, 196, 49, 0.15);
+  color: #88c431;
+  font-weight: 600;
+}
+
+/* Delivery Cost Free State */
+.delivery-cost.free {
+  background: rgba(136, 196, 49, 0.1) !important;
+}
+
+/* Free Delivery Badge Threshold */
+.free-delivery-badge.threshold {
+  background: rgba(37, 211, 102, 0.05);
+  border: 1px dashed #25D366;
+  color: #25D366;
+}
+
+.free-delivery-badge.threshold i {
+  color: #25D366;
+}
+
+/* Amount Note Free */
+.amount-note.free {
+  color: #88c431 !important;
+  background: rgba(136, 196, 49, 0.1) !important;
+}
+
+/* Delivery Note Message Free */
+.delivery-note-message.free {
+  color: #88c431 !important;
+  background: rgba(136, 196, 49, 0.1) !important;
+  border-top: 1px dashed #88c431 !important;
+}
+
+/* Payment Info Card Free */
+.payment-info-card.free {
+  background: linear-gradient(135deg, rgba(136, 196, 49, 0.1), rgba(136, 196, 49, 0.05));
+  border-left: 4px solid #88c431;
+}
+
+.payment-info-card.free i {
+  color: #88c431;
+}
+
+/* Modal Summary Item Free */
+.summary-item.highlight-item.free {
+  background: rgba(136, 196, 49, 0.1) !important;
+  border: 1px solid rgba(136, 196, 49, 0.3) !important;
+}
+
+.summary-item.highlight-item.free i {
+  color: #88c431 !important;
+}
+
+.value.free {
+  color: #88c431 !important;
+  font-weight: 700 !important;
+}
+
+/* Reminder Alert Free */
+.reminder-alert.free {
+  background: rgba(136, 196, 49, 0.1) !important;
+  border: 1px solid rgba(136, 196, 49, 0.3) !important;
+}
+
+.reminder-alert.free i {
+  color: #88c431 !important;
+}
+
+.reminder-alert.free h5,
+.reminder-alert.free ul,
+.reminder-alert.free li {
+  color: #2d3748 !important;
+}
+
+/* Badge Updates */
+.badge.whatsapp {
+  background: rgba(37, 211, 102, 0.1);
+  color: #25D366;
+  border: 1px solid rgba(37, 211, 102, 0.3);
+}
+
+.badge.free {
+  background: #88c431;
+  color: white;
+}
+
+/* Responsive Updates */
+@media (max-width: 480px) {
+  .free-delivery-message {
+    font-size: 12px;
+    padding: 8px 10px;
+  }
+  
+  .shipping-badge {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+}
