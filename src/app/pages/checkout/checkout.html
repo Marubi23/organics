@@ -82,18 +82,33 @@
       <div class="summary-totals">
         <div class="total-row">
           <span>Subtotal</span>
-          <span>KES {{ (totalAmount - getDeliveryPrice()) | number }}</span>
+          <span>KES {{ subtotal | number }}</span>
         </div>
-        <div class="total-row">
+        <div class="total-row delivery-row">
           <span>Delivery</span>
-          <span *ngIf="getDeliveryPrice() === 0" class="free-delivery">
-            <i class="fas fa-check-circle"></i> FREE
+          <span class="delivery-status">
+            <i class="fab fa-whatsapp"></i>
+            To be confirmed on WhatsApp as we assess distance
           </span>
-          <span *ngIf="getDeliveryPrice() > 0">KES {{ getDeliveryPrice() | number }}</span>
         </div>
+        
+        <!-- Free Delivery Notice for orders above 25,000 -->
+        <div class="free-delivery-note" *ngIf="subtotal >= 25000">
+          <i class="fas fa-gift"></i>
+          <div class="free-delivery-content">
+            <strong>Free Delivery Eligible!</strong>
+            <span>Your order qualifies for FREE delivery (Orders above KES 25,000)</span>
+          </div>
+        </div>
+
         <div class="total-row grand-total">
-          <strong>Total Amount</strong>
-          <strong class="total-amount">KES {{ totalAmount | number }}</strong>
+          <strong>Total to Pay</strong>
+          <strong class="total-amount">KES {{ subtotal | number }}</strong>
+        </div>
+        
+        <div class="delivery-disclaimer">
+          <i class="fas fa-info-circle"></i>
+          <span>Pay only the subtotal now. Delivery cost will be calculated based on your location and confirmed on WhatsApp.</span>
         </div>
       </div>
 
@@ -104,7 +119,7 @@
         </div>
         <div class="guarantee-item">
           <i class="fas fa-truck"></i>
-          <span>Free Delivery over KES 2,000</span>
+          <span>Free Delivery over KES 25,000</span>
         </div>
         <div class="guarantee-item">
           <i class="fas fa-undo"></i>
@@ -225,6 +240,17 @@
           </div>
         </div>
 
+        <!-- Delivery Information Notice -->
+        <div class="delivery-info-notice">
+          <i class="fas fa-info-circle"></i>
+          <div class="notice-content">
+            <strong>Delivery Cost Information:</strong>
+            <p>We'll calculate delivery based on your location. 
+               <span class="free-highlight">Free delivery for orders above KES 25,000.</span>
+               The exact cost will be confirmed on WhatsApp after we assess the distance.</p>
+          </div>
+        </div>
+
         <form [formGroup]="deliveryForm">
           <div class="delivery-options">
             <h3><i class="fas fa-shipping-fast"></i> Select Delivery Method</h3>
@@ -241,13 +267,17 @@
                 </div>
                 <div class="option-details">
                   <h4>{{ option.name }}</h4>
-                  <p>{{ option.days }}</p>
+                  <p class="delivery-time">{{ option.days }}</p>
+                  <p class="delivery-note">
+                    <i class="fab fa-whatsapp"></i>
+                    Cost to be confirmed on WhatsApp based on distance
+                  </p>
                 </div>
-                <div class="option-price" *ngIf="option.price > 0">
-                  +KES {{ option.price | number }}
+                <div class="option-badge" *ngIf="option.id === 'pickup'">
+                  <i class="fas fa-check"></i> FREE
                 </div>
-                <div class="option-price free" *ngIf="option.price === 0">
-                  FREE
+                <div class="option-badge whatsapp-badge" *ngIf="option.id !== 'pickup'">
+                  <i class="fab fa-whatsapp"></i> To be confirmed
                 </div>
                 <div class="option-check" *ngIf="selectedDelivery === option.id">
                   <i class="fas fa-check-circle"></i>
@@ -257,74 +287,74 @@
           </div>
 
           <div class="delivery-form">
-          <!-- Updated County Field -->
-<div class="form-group">
-  <label for="county">
-    <i class="fas fa-map-marker-alt"></i> County *
-  </label>
-  
-  <!-- County Selection Mode Toggle -->
-  <div class="county-mode-toggle">
-    <button type="button" 
-            class="mode-toggle-btn"
-            [class.active]="countyInputMode === 'select'"
-            (click)="setCountyInputMode('select')">
-      <i class="fas fa-list"></i> Select from List
-    </button>
-    <button type="button" 
-            class="mode-toggle-btn"
-            [class.active]="countyInputMode === 'manual'"
-            (click)="setCountyInputMode('manual')">
-      <i class="fas fa-pencil-alt"></i> Enter Manually
-    </button>
-  </div>
+            <!-- Updated County Field -->
+            <div class="form-group">
+              <label for="county">
+                <i class="fas fa-map-marker-alt"></i> County *
+              </label>
+              
+              <!-- County Selection Mode Toggle -->
+              <div class="county-mode-toggle">
+                <button type="button" 
+                        class="mode-toggle-btn"
+                        [class.active]="countyInputMode === 'select'"
+                        (click)="setCountyInputMode('select')">
+                  <i class="fas fa-list"></i> Select from List
+                </button>
+                <button type="button" 
+                        class="mode-toggle-btn"
+                        [class.active]="countyInputMode === 'manual'"
+                        (click)="setCountyInputMode('manual')">
+                  <i class="fas fa-pencil-alt"></i> Enter Manually
+                </button>
+              </div>
 
-  <!-- Select Mode -->
-  <div *ngIf="countyInputMode === 'select'" class="county-select-wrapper">
-    <select id="county" formControlName="county" class="form-input" (change)="onCountyChange()">
-      <option value="">Select County</option>
-      <option *ngFor="let county of counties" [value]="county.toLowerCase()">
-        {{ county }}
-      </option>
-    </select>
-    <div class="county-count">
-      <i class="fas fa-info-circle"></i>
-      {{ counties.length }} counties available
-    </div>
-  </div>
+              <!-- Select Mode -->
+              <div *ngIf="countyInputMode === 'select'" class="county-select-wrapper">
+                <select id="county" formControlName="county" class="form-input" (change)="onCountyChange()">
+                  <option value="">Select County</option>
+                  <option *ngFor="let county of counties" [value]="county.toLowerCase()">
+                    {{ county }}
+                  </option>
+                </select>
+                <div class="county-count">
+                  <i class="fas fa-info-circle"></i>
+                  {{ counties.length }} counties available
+                </div>
+              </div>
 
-  <!-- Manual Input Mode -->
-  <div *ngIf="countyInputMode === 'manual'" class="county-input-wrapper">
-    <input type="text" 
-           id="countyManual" 
-           formControlName="countyManual" 
-           placeholder="Enter your county (e.g., Nairobi County)" 
-           class="form-input"
-           [class.is-invalid]="deliveryForm.get('countyManual')?.invalid && deliveryForm.get('countyManual')?.touched">
-    <div class="form-hint">
-      <i class="fas fa-lightbulb"></i>
-      Type your county name exactly as it appears officially
-    </div>
-    <div class="form-error" *ngIf="deliveryForm.get('countyManual')?.touched && deliveryForm.get('countyManual')?.invalid">
-      <i class="fas fa-exclamation-circle"></i>
-      Please enter a valid county name (minimum 3 characters)
-    </div>
-    
-    <!-- County Suggestions -->
-    <div *ngIf="countySuggestions.length > 0 && deliveryForm.get('countyManual')?.value?.length >= 2" 
-         class="county-suggestions">
-      <div class="suggestions-header">
-        <i class="fas fa-search"></i>
-        Did you mean one of these?
-      </div>
-      <div *ngFor="let suggestion of countySuggestions" 
-           class="suggestion-item"
-           (click)="selectCountySuggestion(suggestion)">
-        {{ suggestion }}
-      </div>
-    </div>
-  </div>
-</div>
+              <!-- Manual Input Mode -->
+              <div *ngIf="countyInputMode === 'manual'" class="county-input-wrapper">
+                <input type="text" 
+                       id="countyManual" 
+                       formControlName="countyManual" 
+                       placeholder="Enter your county (e.g., Nairobi County)" 
+                       class="form-input"
+                       [class.is-invalid]="deliveryForm.get('countyManual')?.invalid && deliveryForm.get('countyManual')?.touched">
+                <div class="form-hint">
+                  <i class="fas fa-lightbulb"></i>
+                  Type your county name exactly as it appears officially
+                </div>
+                <div class="form-error" *ngIf="deliveryForm.get('countyManual')?.touched && deliveryForm.get('countyManual')?.invalid">
+                  <i class="fas fa-exclamation-circle"></i>
+                  Please enter a valid county name (minimum 3 characters)
+                </div>
+                
+                <!-- County Suggestions -->
+                <div *ngIf="countySuggestions.length > 0 && deliveryForm.get('countyManual')?.value?.length >= 2" 
+                     class="county-suggestions">
+                  <div class="suggestions-header">
+                    <i class="fas fa-search"></i>
+                    Did you mean one of these?
+                  </div>
+                  <div *ngFor="let suggestion of countySuggestions" 
+                       class="suggestion-item"
+                       (click)="selectCountySuggestion(suggestion)">
+                    {{ suggestion }}
+                  </div>
+                </div>
+              </div>
+            </div>
 
             <div class="form-group">
               <label for="town">
@@ -332,6 +362,10 @@
               </label>
               <input type="text" id="town" formControlName="town" 
                      placeholder="Enter your town or city" class="form-input">
+              <div class="form-error" *ngIf="deliveryControls['town']?.touched && deliveryControls['town']?.invalid">
+                <i class="fas fa-exclamation-circle"></i>
+                Please enter your town or city
+              </div>
             </div>
 
             <div class="form-group">
@@ -342,6 +376,10 @@
                         placeholder="House number, Street, Estate, Apartment (if any)"
                         class="form-input"></textarea>
               <div class="form-hint">Please provide detailed address for easy delivery</div>
+              <div class="form-error" *ngIf="deliveryControls['address']?.touched && deliveryControls['address']?.invalid">
+                <i class="fas fa-exclamation-circle"></i>
+                Please enter your complete delivery address
+              </div>
             </div>
 
             <div class="form-group">
@@ -349,7 +387,7 @@
                 <i class="fas fa-sticky-note"></i> Delivery Notes (Optional)
               </label>
               <textarea id="deliveryNotes" formControlName="deliveryNotes" rows="2"
-                        placeholder="Any special delivery instructions?"
+                        placeholder="Any special delivery instructions? (e.g., landmark, best time to deliver)"
                         class="form-input"></textarea>
             </div>
           </div>
@@ -360,7 +398,7 @@
               Back to Details
             </button>
             <button type="button" class="btn-next" (click)="nextStep()" 
-                    [disabled]="deliveryForm.invalid">
+                    [disabled]="!isDeliveryFormValid()">
               Continue to Payment
               <i class="fas fa-lock"></i>
             </button>
@@ -377,6 +415,16 @@
           <div>
             <h2>Complete Payment</h2>
             <p>Pay via M-Pesa Till Number - Safe & Secure</p>
+          </div>
+        </div>
+
+        <!-- Important Payment Notice -->
+        <div class="payment-notice">
+          <i class="fas fa-exclamation-triangle"></i>
+          <div class="notice-content">
+            <strong>Pay Only the Subtotal Now:</strong>
+            <p>Please pay <span class="highlight-amount">KES {{ subtotal | number }}</span> via M-Pesa. 
+               Delivery cost will be calculated based on your location and confirmed on WhatsApp.</p>
           </div>
         </div>
 
@@ -418,9 +466,9 @@
                 <div class="step-content">
                   <h5>Enter Exact Amount</h5>
                   <div class="amount-display-box">
-                    <span class="amount-label">Pay Exactly:</span>
-                    <strong class="exact-amount">KES {{ totalAmount | number }}</strong>
-                    <p class="amount-note">Enter this exact amount to avoid delays</p>
+                    <span class="amount-label">Pay Exactly (Subtotal Only):</span>
+                    <strong class="exact-amount">KES {{ subtotal | number }}</strong>
+                    <p class="amount-note">Enter this exact amount - delivery cost to be confirmed separately</p>
                   </div>
                 </div>
               </div>
@@ -432,7 +480,7 @@
                   <p>Enter your M-Pesa PIN and wait for confirmation SMS</p>
                   <div class="payment-tip">
                     <i class="fas fa-lightbulb"></i>
-                    <span>Save the M-Pesa confirmation message for WhatsApp verification</span>
+                    <span>Save the M-Pesa confirmation message - you'll need to send it via WhatsApp</span>
                   </div>
                 </div>
               </div>
@@ -449,8 +497,8 @@
                   <strong>{{ orderCode }}</strong>
                 </div>
                 <div class="detail-item">
-                  <span>Total Amount:</span>
-                  <strong class="total-highlight">KES {{ totalAmount | number }}</strong>
+                  <span>Subtotal to Pay:</span>
+                  <strong class="total-highlight">KES {{ subtotal | number }}</strong>
                 </div>
                 <div class="detail-item">
                   <span>Payment Method:</span>
@@ -462,6 +510,17 @@
                 <div class="detail-item">
                   <span>Delivery Method:</span>
                   <span>{{ getSelectedDeliveryName() }}</span>
+                </div>
+                <div class="detail-item highlight-item">
+                  <span>Delivery Cost:</span>
+                  <div class="delivery-confirmation-badge">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>To be confirmed on WhatsApp (based on distance)</span>
+                  </div>
+                </div>
+                <div class="detail-item free-delivery-indicator" *ngIf="subtotal >= 25000">
+                  <i class="fas fa-check-circle"></i>
+                  <span class="free-text">FREE DELIVERY ELIGIBLE!</span>
                 </div>
               </div>
             </div>
@@ -485,7 +544,8 @@
                   <i class="fas fa-exclamation-triangle"></i>
                   <div>
                     <h5>Important: Send Payment Confirmation</h5>
-                    <p>After making payment, send your M-Pesa confirmation screenshot to our WhatsApp:</p>
+                    <p>After making payment, send your M-Pesa confirmation screenshot to our WhatsApp. 
+                       We'll assess the distance and confirm your delivery cost.</p>
                   </div>
                 </div>
               </div>
@@ -499,7 +559,6 @@
                   <div class="contact-details">
                     <div class="contact-number">
                       <i class="fas fa-phone"></i>
-                      <!-- Fixed: Use actual WhatsApp number for display -->
                       <a href="https://wa.me/254701934918" class="whatsapp-link" target="_blank">
                         {{ DISPLAY_PHONE_NUMBER }}
                       </a>
@@ -512,19 +571,19 @@
                 </div>
                 
                 <div class="whatsapp-message-section">
-                  <h5><i class="fas fa-comment-alt"></i> Automated Order:</h5>
+                  <h5><i class="fas fa-comment-alt"></i> Automated Order Message:</h5>
                   <div class="message-preview">
                     <div class="message-content">
-                      <p><strong>Mzuri Organics Order Confirmation</strong></p>
+                      <p><strong>Mzuri Organics Order Request</strong></p>
                       <p>Order #: {{ orderCode }}</p>
-                      <p>Amount Paid: KES {{ totalAmount | number }}</p>
+                      <p>Amount Paid: KES {{ subtotal | number }}</p>
                       <p>Paid via: M-Pesa Till 8589836</p>
                       <p>Items: {{ getItemSummary() }}</p>
-                      <p>Delivery to: {{ deliveryForm.get('town')?.value }}, {{ deliveryForm.get('county')?.value }}</p>
+                      <p>Delivery to: {{ deliveryForm.get('town')?.value }}, {{ getCountyValue() }}</p>
                       <p>Customer: {{ checkoutForm.get('firstName')?.value }} {{ checkoutForm.get('lastName')?.value }}</p>
+                      <p class="delivery-note-message">🚚 Please assess distance and confirm delivery cost</p>
                     </div>
                   </div>
-                  <!-- Fixed: This button will now work correctly -->
                   <button class="btn-open-whatsapp" (click)="openWhatsAppWithMessage()">
                     <i class="fab fa-whatsapp"></i>
                     Open WhatsApp with Pre-filled Message
@@ -539,7 +598,11 @@
                 </div>
                 <div class="note">
                   <i class="fas fa-truck"></i>
-                  <p>Delivery will be scheduled within 24-48 hours after payment confirmation.</p>
+                  <p>We'll assess the distance to your location and confirm the delivery cost via WhatsApp.</p>
+                </div>
+                <div class="note free-delivery-note-wa" *ngIf="subtotal >= 25000">
+                  <i class="fas fa-gift"></i>
+                  <p><strong>Great news!</strong> Your order qualifies for FREE delivery! We'll confirm this on WhatsApp.</p>
                 </div>
               </div>
             </div>
@@ -613,8 +676,8 @@
           <div class="summary-item">
             <i class="fas fa-money-bill-wave"></i>
             <div>
-              <span class="label">Amount to Pay:</span>
-              <strong class="value amount">KES {{ totalAmount | number }}</strong>
+              <span class="label">Amount Paid:</span>
+              <strong class="value amount">KES {{ subtotal | number }}</strong>
             </div>
           </div>
           <div class="summary-item">
@@ -622,6 +685,13 @@
             <div>
               <span class="label">Till Number:</span>
               <code class="value till">8589836</code>
+            </div>
+          </div>
+          <div class="summary-item highlight-item">
+            <i class="fab fa-whatsapp"></i>
+            <div>
+              <span class="label">Delivery Cost:</span>
+              <span class="value delivery-pending">To be confirmed on WhatsApp (based on distance)</span>
             </div>
           </div>
         </div>
@@ -633,22 +703,28 @@
               <div class="step-number">1</div>
               <div class="step-content">
                 <h5>Make Payment</h5>
-                <p>Pay KES {{ totalAmount | number }} to Till 8589836 via M-Pesa</p>
+                <p>Pay KES {{ subtotal | number }} to Till 8589836 via M-Pesa</p>
               </div>
             </div>
             <div class="step-item">
               <div class="step-number">2</div>
               <div class="step-content">
                 <h5>Send Confirmation</h5>
-                <!-- Fixed: Use actual WhatsApp number in instructions -->
                 <p>WhatsApp your M-Pesa confirmation screenshot to {{ DISPLAY_PHONE_NUMBER }}</p>
               </div>
             </div>
             <div class="step-item">
               <div class="step-number">3</div>
               <div class="step-content">
-                <h5>Get Order Confirmation</h5>
-                <p>We'll confirm your payment and schedule delivery</p>
+                <h5>We Assess Distance</h5>
+                <p>Our team will calculate delivery cost based on your location</p>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-number">4</div>
+              <div class="step-content">
+                <h5>Confirm & Deliver</h5>
+                <p>We'll confirm total cost and schedule delivery via WhatsApp</p>
               </div>
             </div>
           </div>
@@ -660,10 +736,12 @@
             <div>
               <h5>Important Reminders:</h5>
               <ul>
-                <li>Send the <strong>exact amount</strong> (KES {{ totalAmount | number }})</li>
-                <li>Include your <strong>order number</strong> in WhatsApp message</li>
+                <li>Send the <strong>exact amount</strong> of <strong>KES {{ subtotal | number }}</strong> (subtotal only)</li>
+                <li>Delivery cost will be <strong>calculated based on your distance</strong> and confirmed on WhatsApp</li>
+                <li *ngIf="subtotal >= 25000">✅ <strong>Free delivery eligible!</strong> We'll confirm this on WhatsApp</li>
+                <li>Include your <strong>order number ({{ orderCode }})</strong> in WhatsApp message</li>
                 <li>Keep your M-Pesa confirmation SMS safe</li>
-                <li>Delivery within 24-48 hours after confirmation</li>
+                <li>Delivery within 24-48 hours after cost confirmation</li>
               </ul>
             </div>
           </div>
@@ -672,7 +750,6 @@
         <div class="support-options">
           <h4><i class="fas fa-life-ring"></i> Need Help?</h4>
           <div class="support-buttons">
-            <!-- Fixed: Use actual WhatsApp link -->
             <a href="https://wa.me/254701934918" class="support-btn whatsapp-btn" target="_blank">
               <i class="fab fa-whatsapp"></i>
               WhatsApp Support

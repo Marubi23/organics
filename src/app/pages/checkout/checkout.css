@@ -517,6 +517,9 @@ canvas {
   flex-shrink: 0;
 }
 
+/* ============================================
+   SUMMARY TOTALS - UPDATED
+   ============================================ */
 .summary-totals {
   border-top: 2px solid rgba(136, 196, 49, 0.15);
   padding-top: 25px;
@@ -532,6 +535,82 @@ canvas {
   font-size: 16px;
   flex-wrap: wrap;
   gap: 10px;
+}
+
+/* New: Delivery Row with WhatsApp Status */
+.summary-totals .delivery-row .delivery-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #25D366;
+  font-weight: 500;
+  font-size: 14px;
+  background: rgba(37, 211, 102, 0.1);
+  padding: 8px 15px;
+  border-radius: 30px;
+}
+
+.summary-totals .delivery-row .delivery-status i {
+  font-size: 16px;
+}
+
+/* New: Free Delivery Note */
+.summary-totals .free-delivery-note {
+  background: linear-gradient(135deg, rgba(136, 196, 49, 0.1), rgba(136, 196, 49, 0.05));
+  border-radius: 12px;
+  padding: 15px;
+  margin: 15px 0;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  flex-wrap: wrap;
+  border: 1px dashed #88c431;
+}
+
+.summary-totals .free-delivery-note i {
+  color: #88c431;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.summary-totals .free-delivery-note .free-delivery-content {
+  flex: 1;
+}
+
+.summary-totals .free-delivery-note .free-delivery-content strong {
+  display: block;
+  color: #88c431;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.summary-totals .free-delivery-note .free-delivery-content span {
+  color: #4a5568;
+  font-size: 14px;
+}
+
+/* New: Delivery Disclaimer */
+.summary-totals .delivery-disclaimer {
+  font-size: 13px;
+  color: #718096;
+  margin-top: 15px;
+  padding: 12px 15px;
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-left: 3px solid #88c431;
+}
+
+.summary-totals .delivery-disclaimer i {
+  color: #88c431;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.summary-totals .delivery-disclaimer span {
+  line-height: 1.5;
 }
 
 .summary-totals .total-row .free-delivery {
@@ -756,6 +835,52 @@ canvas {
 /* ============================================
    STEP 2: DELIVERY INFORMATION
    ============================================ */
+
+/* New: Delivery Info Notice */
+.step-2 .delivery-info-notice {
+  background: linear-gradient(135deg, rgba(37, 211, 102, 0.1), rgba(136, 196, 49, 0.05));
+  border-left: 4px solid #25D366;
+  border-radius: 16px;
+  padding: 20px 25px;
+  margin-bottom: 30px;
+  display: flex;
+  gap: 15px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.step-2 .delivery-info-notice i {
+  color: #25D366;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.step-2 .delivery-info-notice .notice-content {
+  flex: 1;
+}
+
+.step-2 .delivery-info-notice .notice-content strong {
+  display: block;
+  color: #2d3748;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.step-2 .delivery-info-notice .notice-content p {
+  margin: 0;
+  color: #4a5568;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.step-2 .delivery-info-notice .notice-content .free-highlight {
+  color: #88c431;
+  font-weight: 600;
+  background: rgba(136, 196, 49, 0.1);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
 .step-2 .delivery-options {
   margin-bottom: 40px;
 }
@@ -778,6 +903,7 @@ canvas {
   gap: 20px;
 }
 
+/* Updated Delivery Option Styles */
 .step-2 .delivery-options .options-grid .delivery-option {
   background: rgba(255, 255, 255, 0.8);
   border: 2px solid rgba(136, 196, 49, 0.2);
@@ -826,10 +952,49 @@ canvas {
   font-weight: 600;
 }
 
-.step-2 .delivery-options .options-grid .delivery-option .option-details p {
-  margin: 0;
+.step-2 .delivery-options .options-grid .delivery-option .option-details .delivery-time {
+  margin: 0 0 8px 0;
   font-size: 14px;
   color: #718096;
+  font-weight: 500;
+}
+
+/* New: Delivery Note with WhatsApp */
+.step-2 .delivery-options .options-grid .delivery-option .option-details .delivery-note {
+  margin: 0;
+  font-size: 13px;
+  color: #25D366;
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.step-2 .delivery-options .options-grid .delivery-option .option-details .delivery-note i {
+  font-size: 14px;
+  color: #25D366;
+}
+
+/* New: Option Badges */
+.step-2 .delivery-options .options-grid .delivery-option .option-badge {
+  padding: 6px 15px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #88c431;
+  color: white;
+}
+
+.step-2 .delivery-options .options-grid .delivery-option .option-badge.whatsapp-badge {
+  background: #25D366;
+  color: white;
+}
+
+.step-2 .delivery-options .options-grid .delivery-option .option-badge i {
+  font-size: 14px;
 }
 
 .step-2 .delivery-options .options-grid .delivery-option .option-price {
@@ -978,6 +1143,53 @@ canvas {
 /* ============================================
    STEP 3: PAYMENT - M-PESA TILL
    ============================================ */
+
+/* New: Payment Notice */
+.step-3 .payment-notice {
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.1), rgba(255, 193, 7, 0.05));
+  border-left: 4px solid #ffc107;
+  border-radius: 16px;
+  padding: 20px 25px;
+  margin-bottom: 30px;
+  display: flex;
+  gap: 15px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.step-3 .payment-notice i {
+  color: #ffc107;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.step-3 .payment-notice .notice-content {
+  flex: 1;
+}
+
+.step-3 .payment-notice .notice-content strong {
+  display: block;
+  color: #856404;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.step-3 .payment-notice .notice-content p {
+  margin: 0;
+  color: #856404;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.step-3 .payment-notice .notice-content .highlight-amount {
+  font-weight: 700;
+  color: #88c431;
+  background: white;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 18px;
+}
+
 .till-payment-section {
   display: grid;
   grid-template-columns: 2fr 1fr;
@@ -1071,6 +1283,7 @@ canvas {
   padding: 25px;
   border: 2px solid rgba(136, 196, 49, 0.2);
   margin-top: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .payment-instructions-card .instruction-steps .instruction-step .step-content .till-display-box .till-info .till-label {
@@ -1090,40 +1303,35 @@ canvas {
 }
 
 .payment-instructions-card .instruction-steps .instruction-step .step-content .till-display-box .till-info .till-number-container .till-number {
-  font-size: 36px;
+  font-size: 32px;
   font-weight: 800;
   color: #25D366;
   font-family: 'Courier New', monospace;
   letter-spacing: 2px;
   background: rgba(37, 211, 102, 0.1);
-  padding: 15px 25px;
+  padding: 12px 20px;
   border-radius: 12px;
   border: 2px dashed #25D366;
-  overflow-x: auto;
-  white-space: nowrap;
 }
 
 .payment-instructions-card .instruction-steps .instruction-step .step-content .till-display-box .till-info .till-number-container .btn-copy-till {
   background: linear-gradient(135deg, #25D366, #128C7E);
   color: white;
   border: none;
-  padding: 12px 24px;
+  padding: 10px 20px;
   border-radius: 12px;
   cursor: pointer;
   font-weight: 600;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   transition: all 0.3s ease;
+  font-size: 14px;
 }
 
 .payment-instructions-card .instruction-steps .instruction-step .step-content .till-display-box .till-info .till-number-container .btn-copy-till:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3);
-}
-
-.payment-instructions-card .instruction-steps .instruction-step .step-content .till-display-box .till-info .till-number-container .btn-copy-till i {
-  font-size: 16px;
 }
 
 .payment-instructions-card .instruction-steps .instruction-step .step-content .till-display-box .till-info .till-note {
@@ -1152,13 +1360,11 @@ canvas {
 
 .payment-instructions-card .instruction-steps .instruction-step .step-content .amount-display-box .exact-amount {
   display: block;
-  font-size: 42px;
+  font-size: 36px;
   color: #88c431;
   font-weight: 800;
   margin-bottom: 12px;
   font-family: 'Courier New', monospace;
-  overflow-x: auto;
-  white-space: nowrap;
 }
 
 .payment-instructions-card .instruction-steps .instruction-step .step-content .amount-display-box .amount-note {
@@ -1166,6 +1372,9 @@ canvas {
   color: #e53e3e;
   margin: 0;
   font-weight: 500;
+  background: rgba(229, 62, 62, 0.1);
+  padding: 8px;
+  border-radius: 8px;
 }
 
 .payment-instructions-card .instruction-steps .instruction-step .step-content .payment-tip {
@@ -1241,6 +1450,57 @@ canvas {
 .payment-details-summary .summary-card .details-grid .detail-item strong.total-highlight {
   color: #88c431;
   font-size: 28px;
+}
+
+/* New: Delivery Confirmation Badge */
+.payment-details-summary .summary-card .details-grid .detail-item .delivery-confirmation-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(37, 211, 102, 0.1);
+  padding: 8px 15px;
+  border-radius: 30px;
+  color: #25D366;
+  font-weight: 500;
+  font-size: 14px;
+  border: 1px solid rgba(37, 211, 102, 0.3);
+}
+
+.payment-details-summary .summary-card .details-grid .detail-item .delivery-confirmation-badge i {
+  font-size: 16px;
+}
+
+/* New: Highlight Item */
+.payment-details-summary .summary-card .details-grid .highlight-item {
+  background: rgba(37, 211, 102, 0.05);
+  border-radius: 12px;
+  padding: 15px !important;
+  margin-top: 10px;
+  border: 1px solid rgba(37, 211, 102, 0.2);
+}
+
+/* New: Free Delivery Indicator */
+.payment-details-summary .summary-card .details-grid .free-delivery-indicator {
+  background: rgba(136, 196, 49, 0.1);
+  border-radius: 12px;
+  padding: 12px 15px !important;
+  display: flex !important;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid #88c431;
+  margin-top: 15px;
+}
+
+.payment-details-summary .summary-card .details-grid .free-delivery-indicator i {
+  color: #88c431;
+  font-size: 20px;
+}
+
+.payment-details-summary .summary-card .details-grid .free-delivery-indicator .free-text {
+  color: #88c431;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.5px;
 }
 
 .payment-details-summary .summary-card .details-grid .detail-item .method-tag {
@@ -1451,6 +1711,19 @@ canvas {
   font-size: 15px;
 }
 
+/* New: Delivery Note Message in WhatsApp Preview */
+.whatsapp-confirmation-section .whatsapp-card .whatsapp-body .whatsapp-contact-info .whatsapp-message-section .message-preview .message-content .delivery-note-message {
+  color: #e53e3e;
+  font-size: 13px;
+  font-style: italic;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed rgba(229, 62, 62, 0.3);
+  background: rgba(229, 62, 62, 0.05);
+  padding: 8px;
+  border-radius: 6px;
+}
+
 .whatsapp-confirmation-section .whatsapp-card .whatsapp-body .whatsapp-contact-info .whatsapp-message-section .message-preview .message-content p:last-child {
   margin-bottom: 0;
 }
@@ -1517,6 +1790,24 @@ canvas {
 
 .whatsapp-confirmation-section .whatsapp-card .whatsapp-body .whatsapp-notes .note p strong {
   color: #25D366;
+}
+
+/* New: Free Delivery Note in WhatsApp */
+.whatsapp-confirmation-section .whatsapp-card .whatsapp-body .whatsapp-notes .free-delivery-note-wa {
+  background: rgba(136, 196, 49, 0.1) !important;
+  border-left: 4px solid #88c431 !important;
+}
+
+.whatsapp-confirmation-section .whatsapp-card .whatsapp-body .whatsapp-notes .free-delivery-note-wa i {
+  color: #88c431 !important;
+}
+
+.whatsapp-confirmation-section .whatsapp-card .whatsapp-body .whatsapp-notes .free-delivery-note-wa p {
+  color: #2d3748 !important;
+}
+
+.whatsapp-confirmation-section .whatsapp-card .whatsapp-body .whatsapp-notes .free-delivery-note-wa p strong {
+  color: #88c431;
 }
 
 /* ============================================
@@ -1816,6 +2107,30 @@ canvas {
   padding: 10px 20px;
   border-radius: 10px;
   border: 1px dashed #25D366;
+}
+
+/* New: Delivery Pending in Modal */
+.payment-confirmation-modal .modal-content .modal-body .order-summary-modal .summary-item .value.delivery-pending {
+  color: #25D366;
+  font-weight: 600;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.payment-confirmation-modal .modal-content .modal-body .order-summary-modal .summary-item .value.delivery-pending::before {
+  content: '⏳';
+  margin-right: 5px;
+}
+
+.payment-confirmation-modal .modal-content .modal-body .order-summary-modal .summary-item.highlight-item {
+  background: rgba(37, 211, 102, 0.1);
+  border: 1px solid rgba(37, 211, 102, 0.3);
+}
+
+.payment-confirmation-modal .modal-content .modal-body .order-summary-modal .summary-item.highlight-item i {
+  color: #25D366;
 }
 
 .payment-confirmation-modal .modal-content .modal-body .next-steps {
@@ -2396,6 +2711,18 @@ canvas {
     font-size: 15px;
   }
   
+  .delivery-info-notice {
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px;
+  }
+  
+  .payment-notice {
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px;
+  }
+  
   .payment-instructions-card {
     padding: 20px;
   }
@@ -2626,6 +2953,10 @@ canvas {
     font-size: 13px;
   }
   
+  .delivery-option .option-details .delivery-note {
+    font-size: 12px;
+  }
+  
   .till-number-container {
     flex-direction: column;
     align-items: flex-start;
@@ -2727,7 +3058,11 @@ canvas {
   .btn-primary:hover,
   .btn-secondary:hover,
   .control-btn:hover,
-  .slide-action:hover {
+  .slide-action:hover,
+  .mode-toggle-btn:hover,
+  .btn-copy-till:hover,
+  .btn-open-whatsapp:hover,
+  .btn-confirm-payment:hover {
     transform: none !important;
   }
   
@@ -2736,7 +3071,11 @@ canvas {
   .btn-primary:active,
   .btn-secondary:active,
   .control-btn:active,
-  .slide-action:active {
+  .slide-action:active,
+  .mode-toggle-btn:active,
+  .btn-copy-till:active,
+  .btn-open-whatsapp:active,
+  .btn-confirm-payment:active {
     transform: scale(0.98) !important;
     opacity: 0.9;
   }
@@ -2745,7 +3084,8 @@ canvas {
   .btn,
   .delivery-option,
   .secure-badge,
-  .control-btn {
+  .control-btn,
+  .mode-toggle-btn {
     min-height: 44px;
     min-width: 44px;
     cursor: pointer;

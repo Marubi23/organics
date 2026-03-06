@@ -21,24 +21,28 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   subtotal: number = 0;
   orderCode: string = '';
   
+  // Updated delivery options with WhatsApp notes
   deliveryOptions = [
     { 
       id: 'standard', 
       name: 'Standard Delivery', 
       days: '2-3 business days', 
-      price: 0
+      price: 0,
+      note: 'Cost to be confirmed on WhatsApp based on distance'
     },
     { 
       id: 'express', 
       name: 'Express Delivery', 
       days: '24 hours', 
-      price: 0
+      price: 0,
+      note: 'Cost to be confirmed on WhatsApp based on distance'
     },
     { 
       id: 'pickup', 
       name: 'Store Pickup', 
       days: 'Ready in 2 hours', 
-      price: 0 
+      price: 0,
+      note: 'Free pickup at our location'
     }
   ];
   
@@ -48,11 +52,12 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   showConfirmationModal: boolean = false;
   isLoading: boolean = false;
   
-  // WhatsApp configuration - FIXED: No spaces
+  // WhatsApp configuration
   readonly WHATSAPP_NUMBER: string = '254701934918';
   readonly DISPLAY_PHONE_NUMBER: string = '+254 701 934918';
   readonly TILL_NUMBER: string = '8589836';
   readonly BUSINESS_NAME: string = 'Mzuri Organics';
+  readonly FREE_DELIVERY_THRESHOLD: number = 25000; // Updated to 25,000 KES
 
   // County properties
   counties: string[] = [
@@ -158,7 +163,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
   loadCartItems(): void {
     this.cartItems = this.cartService.getCartItems();
-    this.calculateTotal();
+    this.calculateSubtotal();
     
     if (this.cartItems.length === 0) {
       this.router.navigate(['/cart']);
@@ -168,27 +173,56 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     }
   }
 
-  calculateTotal(): void {
+  calculateSubtotal(): void {
     this.subtotal = this.cartItems.reduce((sum, item) => {
       return sum + (item.price * item.quantity);
     }, 0);
-    
-    const delivery = this.getDeliveryPrice();
-    this.totalAmount = this.subtotal + delivery;
+    this.totalAmount = this.subtotal; // Total amount is just subtotal now
   }
 
+  // Updated to return 0 since delivery is handled on WhatsApp
   getDeliveryPrice(): number {
-    if (this.subtotal >= 2000 && this.selectedDelivery === 'standard') {
-      return 0;
-    }
-    
-    const selected = this.deliveryOptions.find(opt => opt.id === this.selectedDelivery);
-    return selected ? selected.price : 0;
+    return 0; // Always return 0 as delivery cost is handled on WhatsApp
   }
 
   getSelectedDeliveryName(): string {
     const selected = this.deliveryOptions.find(opt => opt.id === this.selectedDelivery);
     return selected ? selected.name : 'Standard Delivery';
+  }
+
+  getSelectedDeliveryNote(): string {
+    const selected = this.deliveryOptions.find(opt => opt.id === this.selectedDelivery);
+    return selected ? selected.note : '';
+  }
+
+  // Check if order qualifies for free delivery
+  isFreeDeliveryEligible(): boolean {
+    return this.subtotal >= this.FREE_DELIVERY_THRESHOLD;
+  }
+
+  // Get county value based on input mode
+  getCountyValue(): string {
+    if (this.countyInputMode === 'select') {
+      const selectedCounty = this.counties.find(c => c.toLowerCase() === this.deliveryForm.value.county);
+      return selectedCounty || this.deliveryForm.value.county || '';
+    } else {
+      return this.deliveryForm.value.countyManual || '';
+    }
+  }
+
+  // Validate delivery form based on county input mode - FIXED: Added proper boolean returns
+  isDeliveryFormValid(): boolean {
+    if (this.countyInputMode === 'select') {
+      const countyValid = this.deliveryForm.get('county')?.valid === true;
+      const townValid = this.deliveryForm.get('town')?.valid === true;
+      const addressValid = this.deliveryForm.get('address')?.valid === true;
+      return countyValid && townValid && addressValid;
+    } else {
+      const countyManualValid = this.deliveryForm.get('countyManual')?.valid === true;
+      const townValid = this.deliveryForm.get('town')?.valid === true;
+      const addressValid = this.deliveryForm.get('address')?.valid === true;
+      return countyManualValid && townValid && addressValid;
+    }
   }
 
   nextStep(): void {
@@ -202,20 +236,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       }
       
       if (this.currentStep === 2) {
-        // Check county validation based on mode
-        let countyValid = false;
-        
-        if (this.countyInputMode === 'select') {
-          countyValid = this.deliveryForm.get('county')?.valid || false;
-        } else {
-          countyValid = this.deliveryForm.get('countyManual')?.valid || false;
-        }
-        
-        const otherFieldsValid = 
-          this.deliveryForm.get('town')?.valid && 
-          this.deliveryForm.get('address')?.valid;
-        
-        if (!countyValid || !otherFieldsValid) {
+        if (!this.isDeliveryFormValid()) {
           this.markFormGroupTouched(this.deliveryForm);
           if (this.toastService) {
             this.toastService.showError('Please fill in all required delivery information.');
@@ -228,7 +249,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       
       if (this.currentStep === 3) {
         this.generateOrderCode();
-        this.calculateTotal();
+        this.calculateSubtotal();
       }
     }
   }
@@ -241,7 +262,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
   selectDelivery(methodId: string): void {
     this.selectedDelivery = methodId;
-    this.calculateTotal();
   }
 
   generateOrderCode(): string {
@@ -256,57 +276,71 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   }
 
   getItemSummary(): string {
+    if (this.cartItems.length > 3) {
+      const firstFew = this.cartItems.slice(0, 3).map(item => `${item.quantity}x ${item.name}`).join(', ');
+      return `${firstFew} + ${this.cartItems.length - 3} more items`;
+    }
     return this.cartItems
-      .map(item => `${item.quantity}x ${item.name} (KES ${item.price * item.quantity})`)
+      .map(item => `${item.quantity}x ${item.name}`)
       .join(', ');
   }
 
+  // Updated WhatsApp message generator
   generateWhatsAppMessage(): string {
     const customer = this.checkoutForm.value;
     const delivery = this.deliveryForm.value;
     
-    // Get county based on input mode
-    let county = '';
-    if (this.countyInputMode === 'select') {
-      const selectedCounty = this.counties.find(c => c.toLowerCase() === delivery.county);
-      county = selectedCounty || delivery.county || '';
-    } else {
-      county = delivery.countyManual || '';
-    }
+    const county = this.getCountyValue();
+    
+    const freeDeliveryNote = this.isFreeDeliveryEligible() 
+      ? '✅ ELIGIBLE FOR FREE DELIVERY (order above KES 25,000)' 
+      : '💰 Please assess distance and confirm delivery cost';
     
     const message = `
-*MZURI ORGANICS - ORDER CONFIRMATION*
+*MZURI ORGANICS - NEW ORDER REQUEST*
 
-📋 *Order #:* ${this.orderCode}
-👤 *Customer:* ${customer.firstName} ${customer.lastName}
-📱 *Phone:* ${customer.phoneNumber}
-📧 *Email:* ${customer.email}
+📋 *ORDER #:* ${this.orderCode}
+📅 *Date:* ${new Date().toLocaleDateString()}
 
-📍 *Delivery Address:*
-${delivery.town}, ${county}
-${delivery.address}
-${delivery.deliveryNotes ? `📝 *Notes:* ${delivery.deliveryNotes}` : ''}
+👤 *CUSTOMER DETAILS*
+Name: ${customer.firstName} ${customer.lastName}
+Phone: ${customer.phoneNumber}
+Email: ${customer.email}
 
-🛒 *Items Ordered:*
+📍 *DELIVERY ADDRESS*
+Town/City: ${delivery.town}
+County: ${county}
+Address: ${delivery.address}
+${delivery.deliveryNotes ? `Notes: ${delivery.deliveryNotes}` : ''}
+
+🚚 *DELIVERY METHOD*
+Method: ${this.getSelectedDeliveryName()}
+${freeDeliveryNote}
+
+🛒 *ITEMS ORDERED*
 ${this.cartItems.map(item => `• ${item.quantity}x ${item.name} - KES ${(item.price * item.quantity).toLocaleString()}`).join('\n')}
 
-💰 *Payment Summary:*
-Subtotal: KES ${(this.totalAmount - this.getDeliveryPrice()).toLocaleString()}
-Delivery: ${this.getDeliveryPrice() === 0 ? 'FREE' : `KES ${this.getDeliveryPrice().toLocaleString()}`}
-*Total: KES ${this.totalAmount.toLocaleString()}*
+💰 *PAYMENT SUMMARY*
+Subtotal: KES ${this.subtotal.toLocaleString()}
+----------------------------------------
+*AMOUNT PAID: KES ${this.subtotal.toLocaleString()}*
+(Payment via M-Pesa Till ${this.TILL_NUMBER})
 
-💳 *Payment Method:* M-Pesa Till ${this.TILL_NUMBER}
+⚠️ *IMPORTANT NOTES:*
+1. Please assess distance and confirm delivery cost
+2. Customer will be contacted via WhatsApp for delivery arrangements
+3. M-Pesa confirmation screenshot attached
 
 *I have made the payment and attached my M-Pesa confirmation screenshot.*
 
-Thank you for choosing Mzuri Organics! We appreciate your business
+Thank you for choosing Mzuri Organics! 🌱
     `.trim();
     
     return encodeURIComponent(message);
   }
 
   openWhatsAppWithMessage(): void {
-    if (!this.checkoutForm.valid || !this.deliveryForm.valid) {
+    if (!this.checkoutForm.valid || !this.isDeliveryFormValid()) {
       if (this.toastService) {
         this.toastService.showError('Please complete all checkout steps first.');
       }
@@ -332,7 +366,7 @@ Thank you for choosing Mzuri Organics! We appreciate your business
   }
 
   proceedToPaymentConfirmation(): void {
-    if (this.checkoutForm.invalid || this.deliveryForm.invalid) {
+    if (this.checkoutForm.invalid || !this.isDeliveryFormValid()) {
       this.markFormGroupTouched(this.checkoutForm);
       this.markFormGroupTouched(this.deliveryForm);
       if (this.toastService) {
@@ -355,15 +389,9 @@ Thank you for choosing Mzuri Organics! We appreciate your business
   saveOrderToStorage(): void {
     this.isLoading = true;
     
-    // Get county based on input mode
-    let countyValue = '';
-    if (this.countyInputMode === 'select') {
-      const selectedCounty = this.counties.find(c => c.toLowerCase() === this.deliveryForm.value.county);
-      countyValue = selectedCounty || this.deliveryForm.value.county || '';
-    } else {
-      countyValue = this.deliveryForm.value.countyManual || '';
-    }
+    const countyValue = this.getCountyValue();
     
+    // FIXED: Match the Order interface exactly
     const orderData = {
       customer: {
         firstName: this.checkoutForm.value.firstName,
@@ -377,14 +405,15 @@ Thank you for choosing Mzuri Organics! We appreciate your business
         address: this.deliveryForm.value.address,
         deliveryNotes: this.deliveryForm.value.deliveryNotes || '',
         method: this.getSelectedDeliveryName(),
-        cost: this.getDeliveryPrice(),
-        selectedOption: this.selectedDelivery,
-        inputMode: this.countyInputMode
+        cost: 0, // Changed from null to 0 to match interface
+        selectedOption: this.selectedDelivery // Added missing required property
       },
       items: this.cartItems,
-      total: this.totalAmount,
-      subtotal: this.totalAmount - this.getDeliveryPrice(),
-      deliveryCost: this.getDeliveryPrice()
+      subtotal: this.subtotal,
+      total: this.subtotal, // Added total field
+      deliveryCost: 0, // Changed from null to 0
+      paymentStatus: 'pending',
+      requiresDeliveryConfirmation: true
     };
 
     if (this.orderService) {
@@ -426,10 +455,10 @@ Thank you for choosing Mzuri Organics! We appreciate your business
         customer: orderData.customer,
         delivery: orderData.delivery,
         items: orderData.items,
-        total: orderData.total,
         subtotal: orderData.subtotal,
-        deliveryCost: orderData.deliveryCost,
-        status: 'pending_payment',
+        total: orderData.total,
+        deliveryCost: 0,
+        status: 'pending_payment_confirmation',
         paymentMethod: 'mpesa_till',
         tillNumber: this.TILL_NUMBER,
         whatsappNumber: this.WHATSAPP_NUMBER,
@@ -478,7 +507,7 @@ Thank you for choosing Mzuri Organics! We appreciate your business
       value = value.substring(1);
     }
     
-    if (value.length > 0 && !value.startsWith('7')) {
+    if (value.length > 0 && !value.startsWith('7') && !value.startsWith('1')) {
       value = '7' + value;
     }
     
@@ -516,7 +545,7 @@ Thank you for choosing Mzuri Organics! We appreciate your business
   }
 
   isFreeDelivery(): boolean {
-    return this.subtotal >= 2000 && this.selectedDelivery === 'standard';
+    return this.subtotal >= this.FREE_DELIVERY_THRESHOLD;
   }
 
   getDeliveryTime(): string {
@@ -529,7 +558,7 @@ Thank you for choosing Mzuri Organics! We appreciate your business
     
     if (this.orderService) {
       this.orderService.confirmPayment(this.orderCode, {
-        amount: this.totalAmount,
+        amount: this.subtotal,
         phoneNumber: this.checkoutForm.value.phoneNumber
       }).subscribe({
         next: (success) => {
@@ -566,7 +595,7 @@ Thank you for choosing Mzuri Organics! We appreciate your business
   clearCart(): void {
     this.cartService.clearCart();
     this.cartItems = [];
-    this.calculateTotal();
+    this.calculateSubtotal();
   }
 
   resetCheckout(): void {
@@ -636,25 +665,20 @@ Thank you for choosing Mzuri Organics! We appreciate your business
   }
 
   getOrderSummary(): any {
-    // Get county based on input mode
-    let countyValue = '';
-    if (this.countyInputMode === 'select') {
-      const selectedCounty = this.counties.find(c => c.toLowerCase() === this.deliveryForm.value.county);
-      countyValue = selectedCounty || this.deliveryForm.value.county || '';
-    } else {
-      countyValue = this.deliveryForm.value.countyManual || '';
-    }
-    
     return {
       orderNumber: this.orderCode,
       items: this.cartItems,
       subtotal: this.subtotal,
-      delivery: this.getDeliveryPrice(),
-      total: this.totalAmount,
+      delivery: {
+        method: this.getSelectedDeliveryName(),
+        status: 'to_be_confirmed',
+        freeEligible: this.isFreeDeliveryEligible()
+      },
+      totalPaid: this.subtotal,
       customer: this.checkoutForm.value,
       deliveryInfo: {
         ...this.deliveryForm.value,
-        county: countyValue
+        county: this.getCountyValue()
       }
     };
   }
