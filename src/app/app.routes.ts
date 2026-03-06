@@ -49,5 +49,5 @@ export const routes: Routes = [
     loadChildren: () => import('./pages/account/account.routes').then(m => m.ACCOUNT_ROUTES)
   },
 
-  { path: '**', component: NotFoundComponent }  
+ // { path: '**', component: NotFoundComponent }  
 ];
