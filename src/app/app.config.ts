@@ -1,7 +1,6 @@
 // app.config.ts
 import { ApplicationConfig } from '@angular/core';
 import { provideRouter, withInMemoryScrolling, withViewTransitions } from '@angular/router';
-import { provideClientHydration } from '@angular/platform-browser';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { routes } from './app.routes';
@@ -19,14 +18,11 @@ export const appConfig: ApplicationConfig = {
       })
     ),
     
-    // HTTP client with interceptors and SSR compatibility
+    // HTTP client with interceptors
     provideHttpClient(
       withFetch(),
       withInterceptors([loadingInterceptor])
     ),
-    
-    // Client hydration for SSR
-    provideClientHydration(),
     
     // Animations
     provideAnimations()
