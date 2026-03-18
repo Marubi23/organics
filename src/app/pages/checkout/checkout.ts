@@ -1,4 +1,3 @@
-// src/app/pages/checkout/checkout.component.ts
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
@@ -58,7 +57,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   readonly DISPLAY_PHONE_NUMBER: string = '+254 701 934918';
   readonly TILL_NUMBER: string = '8589836';
   readonly BUSINESS_NAME: string = 'Mzuri Organics';
-  readonly FREE_DELIVERY_THRESHOLD: number = 25000; // Updated to 25,000 KES
+  readonly FREE_DELIVERY_THRESHOLD: number = 25000;
 
   // County properties
   counties: string[] = [
@@ -111,7 +110,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       ]],
       phoneNumber: ['', [
         Validators.required,
-        Validators.pattern(/^(07|7|01)\d{8}$/)
+        Validators.pattern(/^(0?7|0?1)\d{8}$/) // Accepts 07XXXXXXXX, 01XXXXXXXX, 7XXXXXXXX, 1XXXXXXXX
       ]],
       confirmPhone: ['', Validators.required]
     }, { 
@@ -178,12 +177,11 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     this.subtotal = this.cartItems.reduce((sum, item) => {
       return sum + (item.price * item.quantity);
     }, 0);
-    this.totalAmount = this.subtotal; // Total amount is just subtotal now
+    this.totalAmount = this.subtotal;
   }
 
-  // Updated to return 0 since delivery is handled on WhatsApp
   getDeliveryPrice(): number {
-    return 0; // Always return 0 as delivery cost is handled on WhatsApp
+    return 0;
   }
 
   getSelectedDeliveryName(): string {
@@ -196,12 +194,10 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     return selected ? selected.note : '';
   }
 
-  // Check if order qualifies for free delivery
   isFreeDeliveryEligible(): boolean {
     return this.subtotal >= this.FREE_DELIVERY_THRESHOLD;
   }
 
-  // Get county value based on input mode
   getCountyValue(): string {
     if (this.countyInputMode === 'select') {
       const selectedCounty = this.counties.find(c => c.toLowerCase() === this.deliveryForm.value.county);
@@ -211,7 +207,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     }
   }
 
-  // Validate delivery form based on county input mode - FIXED: Added proper boolean returns
   isDeliveryFormValid(): boolean {
     if (this.countyInputMode === 'select') {
       const countyValid = this.deliveryForm.get('county')?.valid === true;
@@ -286,12 +281,30 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       .join(', ');
   }
 
-  // Updated WhatsApp message generator
+  // Format phone number for display (with leading 0)
+  formatPhoneForDisplay(phone: string): string {
+    if (!phone) return '';
+    // If it starts with 7 or 1, add leading 0
+    if (phone.match(/^[71]/)) {
+      return '0' + phone;
+    }
+    return phone;
+  }
+
+  // Format phone number for storage (without leading 0)
+  formatPhoneForStorage(phone: string): string {
+    if (!phone) return '';
+    // Remove leading 0 if present
+    return phone.replace(/^0/, '');
+  }
+
+  // Generate WhatsApp message with properly formatted phone numbers
   generateWhatsAppMessage(): string {
     const customer = this.checkoutForm.value;
     const delivery = this.deliveryForm.value;
     
     const county = this.getCountyValue();
+    const displayPhone = this.formatPhoneForDisplay(customer.phoneNumber);
     
     const freeDeliveryNote = this.isFreeDeliveryEligible() 
       ? '✅ ELIGIBLE FOR FREE DELIVERY (order above KES 25,000)' 
@@ -305,7 +318,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
 👤 *CUSTOMER DETAILS*
 Name: ${customer.firstName} ${customer.lastName}
-Phone: ${customer.phoneNumber}
+Phone: ${displayPhone}
 Email: ${customer.email}
 
 📍 *DELIVERY ADDRESS*
@@ -391,14 +404,14 @@ Thank you for choosing Mzuri Organics! 🌱
     this.isLoading = true;
     
     const countyValue = this.getCountyValue();
+    const storedPhone = this.formatPhoneForStorage(this.checkoutForm.value.phoneNumber);
     
-    // FIXED: Match the Order interface exactly
     const orderData = {
       customer: {
         firstName: this.checkoutForm.value.firstName,
         lastName: this.checkoutForm.value.lastName,
         email: this.checkoutForm.value.email,
-        phoneNumber: this.checkoutForm.value.phoneNumber
+        phoneNumber: storedPhone // Store without leading 0
       },
       delivery: {
         county: countyValue,
@@ -406,13 +419,13 @@ Thank you for choosing Mzuri Organics! 🌱
         address: this.deliveryForm.value.address,
         deliveryNotes: this.deliveryForm.value.deliveryNotes || '',
         method: this.getSelectedDeliveryName(),
-        cost: 0, // Changed from null to 0 to match interface
-        selectedOption: this.selectedDelivery // Added missing required property
+        cost: 0,
+        selectedOption: this.selectedDelivery
       },
       items: this.cartItems,
       subtotal: this.subtotal,
-      total: this.subtotal, // Added total field
-      deliveryCost: 0, // Changed from null to 0
+      total: this.subtotal,
+      deliveryCost: 0,
       paymentStatus: 'pending',
       requiresDeliveryConfirmation: true
     };
@@ -504,22 +517,31 @@ Thank you for choosing Mzuri Organics! 🌱
   formatPhoneInput(event: any): void {
     let value = event.target.value.replace(/\D/g, '');
     
-    if (value.startsWith('0')) {
-      value = value.substring(1);
-    }
-    
-    if (value.length > 0 && !value.startsWith('7') && !value.startsWith('1')) {
-      value = '7' + value;
-    }
-    
-    if (value.length > 9) {
-      value = value.substring(0, 9);
+    // Handle Kenyan phone number formats
+    if (value.length > 0) {
+      // If starts with 0, remove it (we'll store without leading 0)
+      if (value.startsWith('0')) {
+        value = value.substring(1);
+      }
+      
+      // Ensure it starts with either 7 or 1 (Safaricom or Airtel)
+      if (!value.startsWith('7') && !value.startsWith('1')) {
+        // If user starts typing something else, default to 7
+        value = '7' + value;
+      }
+      
+      // Limit to 9 digits (after removing leading 0)
+      if (value.length > 9) {
+        value = value.substring(0, 9);
+      }
     }
     
     this.checkoutForm.patchValue({ phoneNumber: value });
     
+    // Auto-update confirm phone if it matches the old value
     const confirmPhone = this.checkoutForm.get('confirmPhone')?.value;
-    if (confirmPhone === event.target.value) {
+    const oldValueWithZero = '0' + value.substring(0, value.length - 1);
+    if (confirmPhone === oldValueWithZero || confirmPhone === value) {
       this.checkoutForm.patchValue({ confirmPhone: value });
     }
   }
@@ -560,7 +582,7 @@ Thank you for choosing Mzuri Organics! 🌱
     if (this.orderService) {
       this.orderService.confirmPayment(this.orderCode, {
         amount: this.subtotal,
-        phoneNumber: this.checkoutForm.value.phoneNumber
+        phoneNumber: this.formatPhoneForStorage(this.checkoutForm.value.phoneNumber)
       }).subscribe({
         next: (success) => {
           this.isLoading = false;
@@ -612,14 +634,11 @@ Thank you for choosing Mzuri Organics! 🌱
     }
   }
 
-  // County Input Mode Methods
   setCountyInputMode(mode: 'select' | 'manual'): void {
     this.countyInputMode = mode;
     
-    // Clear suggestions when switching modes
     this.countySuggestions = [];
     
-    // Update validation based on mode
     if (mode === 'select') {
       this.deliveryForm.get('county')?.setValidators([Validators.required]);
       this.deliveryForm.get('countyManual')?.clearValidators();
@@ -634,7 +653,6 @@ Thank you for choosing Mzuri Organics! 🌱
       this.deliveryForm.get('county')?.setValue('');
     }
     
-    // Update validation status
     this.deliveryForm.get('county')?.updateValueAndValidity();
     this.deliveryForm.get('countyManual')?.updateValueAndValidity();
   }
@@ -648,7 +666,7 @@ Thank you for choosing Mzuri Organics! 🌱
     const term = searchTerm.toLowerCase();
     this.countySuggestions = this.counties.filter(county => 
       county.toLowerCase().includes(term)
-    ).slice(0, 5); // Limit to 5 suggestions
+    ).slice(0, 5);
   }
 
   selectCountySuggestion(county: string): void {
@@ -676,7 +694,10 @@ Thank you for choosing Mzuri Organics! 🌱
         freeEligible: this.isFreeDeliveryEligible()
       },
       totalPaid: this.subtotal,
-      customer: this.checkoutForm.value,
+      customer: {
+        ...this.checkoutForm.value,
+        phoneNumber: this.formatPhoneForDisplay(this.checkoutForm.value.phoneNumber)
+      },
       deliveryInfo: {
         ...this.deliveryForm.value,
         county: this.getCountyValue()

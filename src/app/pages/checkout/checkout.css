@@ -3714,3 +3714,270 @@ canvas {
     padding: 4px 8px;
   }
 }
+/* Phone input styling */
+.phone-input-wrapper {
+  display: flex;
+  align-items: stretch;
+}
+
+.phone-prefix {
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-right: none;
+  border-radius: 8px 0 0 8px;
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  color: #2c5f2d;
+  background-color: #e8f5e9;
+  border-color: #97c1a0;
+  display: flex;
+  align-items: center;
+}
+
+.phone-input {
+  border-radius: 0 8px 8px 0 !important;
+  flex: 1;
+}
+
+.phone-format-examples {
+  margin: 1rem 0;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #2c5f2d;
+}
+
+.example-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 0.5rem 0;
+}
+
+.example-item:first-child {
+  border-bottom: 1px solid #dee2e6;
+  margin-bottom: 0.5rem;
+  padding-bottom: 1rem;
+}
+
+.example-item i {
+  font-size: 1.2rem;
+  color: #2c5f2d;
+  margin-top: 0.2rem;
+}
+
+.example-details {
+  flex: 1;
+}
+
+.network {
+  font-weight: 600;
+  color: #2c5f2d;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.example-item code {
+  background-color: #e9ecef;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: #495057;
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+.example {
+  color: #6c757d;
+  font-size: 0.9rem;
+  display: inline-block;
+}
+
+.form-hint {
+  font-size: 0.85rem;
+  color: #6c757d;
+  margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.form-hint i {
+  color: #2c5f2d;
+  font-size: 0.9rem;
+}
+
+.form-error {
+  color: #dc3545;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .phone-format-examples {
+    padding: 0.75rem;
+  }
+  
+  .example-item {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .example-item code,
+  .example {
+    display: block;
+    margin: 0.25rem 0;
+  }
+}
+/* ============================================
+   PHONE INPUT STYLING - SIMPLIFIED
+   ============================================ */
+.phone-input-wrapper {
+  display: flex;
+  align-items: stretch;
+}
+
+.phone-prefix {
+  background: rgba(136, 196, 49, 0.1);
+  padding: 16px 20px;
+  border: 2px solid rgba(136, 196, 49, 0.2);
+  border-right: none;
+  border-radius: 14px 0 0 14px;
+  color: #88c431;
+  font-weight: 600;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  background-color: #e8f5e9;
+  border-color: #97c1a0;
+}
+
+.phone-input {
+  border-radius: 0 14px 14px 0 !important;
+  flex: 1;
+  min-width: 200px;
+}
+
+/* Phone Format Examples - Simplified */
+.phone-format-examples {
+  margin: 1rem 0;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #88c431;
+}
+
+.example-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 0.5rem 0;
+}
+
+.example-item:first-child {
+  border-bottom: 1px solid #dee2e6;
+  margin-bottom: 0.5rem;
+  padding-bottom: 1rem;
+}
+
+.example-item i {
+  font-size: 1.2rem;
+  color: #88c431;
+  margin-top: 0.2rem;
+}
+
+.example-details {
+  flex: 1;
+}
+
+.format-label {
+  font-weight: 600;
+  color: #2c5f2d;
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.example-item code {
+  background-color: #e9ecef;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: #495057;
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+.example {
+  color: #6c757d;
+  font-size: 0.9rem;
+  display: inline-block;
+}
+
+/* Form Hints */
+.form-hint {
+  font-size: 0.85rem;
+  color: #6c757d;
+  margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.form-hint i {
+  color: #88c431;
+  font-size: 0.9rem;
+}
+
+.form-error {
+  color: #dc3545;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.form-error i {
+  font-size: 14px;
+  color: #dc3545;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .phone-format-examples {
+    padding: 0.75rem;
+  }
+  
+  .example-item {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .example-item code,
+  .example {
+    display: block;
+    margin: 0.25rem 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .phone-input-wrapper {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .phone-prefix {
+    border-radius: 14px;
+    border-right: 2px solid rgba(136, 196, 49, 0.2);
+    justify-content: center;
+  }
+  
+  .phone-input {
+    border-radius: 14px !important;
+  }
+}

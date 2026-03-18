@@ -142,97 +142,126 @@
     <main class="checkout-steps">
       
       <!-- Step 1: Customer Details -->
-      <div *ngIf="currentStep === 1" class="checkout-step step-1">
-        <div class="step-header">
-          <div class="step-icon">
-            <i class="fas fa-user-circle"></i>
-          </div>
-          <div>
-            <h2>Your Information</h2>
-            <p>Please provide your details for order confirmation</p>
-          </div>
+   <!-- Step 1: Customer Details -->
+<!-- Step 1: Customer Details -->
+<div *ngIf="currentStep === 1" class="checkout-step step-1">
+  <div class="step-header">
+    <div class="step-icon">
+      <i class="fas fa-user-circle"></i>
+    </div>
+    <div>
+      <h2>Your Information</h2>
+      <p>Please provide your details for order confirmation</p>
+    </div>
+  </div>
+
+  <form [formGroup]="checkoutForm">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="firstName">
+          <i class="fas fa-user"></i> First Name *
+        </label>
+        <input type="text" id="firstName" formControlName="firstName" 
+               placeholder="Enter your first name" class="form-input">
+        <div class="form-error" *ngIf="formControls['firstName'].touched && formControls['firstName'].invalid">
+          <i class="fas fa-exclamation-circle"></i>
+          Please enter a valid first name
         </div>
-
-        <form [formGroup]="checkoutForm">
-          <div class="form-row">
-            <div class="form-group">
-              <label for="firstName">
-                <i class="fas fa-user"></i> First Name *
-              </label>
-              <input type="text" id="firstName" formControlName="firstName" 
-                     placeholder="Enter your first name" class="form-input">
-              <div class="form-error" *ngIf="formControls['firstName'].touched && formControls['firstName'].invalid">
-                <i class="fas fa-exclamation-circle"></i>
-                Please enter a valid first name
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="lastName">
-                <i class="fas fa-user"></i> Last Name *
-              </label>
-              <input type="text" id="lastName" formControlName="lastName" 
-                     placeholder="Enter your last name" class="form-input">
-              <div class="form-error" *ngIf="formControls['lastName'].touched && formControls['lastName'].invalid">
-                <i class="fas fa-exclamation-circle"></i>
-                Please enter a valid last name
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="email">
-              <i class="fas fa-envelope"></i> Email Address *
-            </label>
-            <input type="email" id="email" formControlName="email" 
-                   placeholder="you@example.com" class="form-input">
-            <div class="form-hint">Order confirmation will be sent to this email</div>
-            <div class="form-error" *ngIf="formControls['email'].touched && formControls['email'].invalid">
-              <i class="fas fa-exclamation-circle"></i>
-              Please enter a valid email address
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="phoneNumber">
-                <i class="fas fa-mobile-alt"></i> Phone Number *
-              </label>
-              <div class="phone-input-wrapper">
-                <span class="phone-prefix">+254</span>
-                <input type="tel" id="phoneNumber" formControlName="phoneNumber" 
-                       placeholder="712345678" class="form-input phone-input"
-                       (input)="formatPhoneInput($event)">
-              </div>
-              <div class="form-hint">Enter your phone number for WhatsApp order updates</div>
-              <div class="form-error" *ngIf="formControls['phoneNumber'].touched && formControls['phoneNumber'].invalid">
-                <i class="fas fa-exclamation-circle"></i>
-                Please enter a valid phone number
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="confirmPhone">
-                <i class="fas fa-mobile-alt"></i> Confirm Phone Number *
-              </label>
-              <input type="tel" id="confirmPhone" formControlName="confirmPhone" 
-                     placeholder="Confirm your number" class="form-input">
-              <div class="form-error" *ngIf="formControls['confirmPhone'].touched && checkoutForm.hasError('phoneMismatch')">
-                <i class="fas fa-exclamation-circle"></i>
-                Phone numbers do not match
-              </div>
-            </div>
-          </div>
-
-          <div class="step-actions">
-            <button type="button" class="btn-next" (click)="nextStep()" 
-                    [disabled]="checkoutForm.invalid">
-              Continue to Delivery
-              <i class="fas fa-arrow-right"></i>
-            </button>
-          </div>
-        </form>
       </div>
+
+      <div class="form-group">
+        <label for="lastName">
+          <i class="fas fa-user"></i> Last Name *
+        </label>
+        <input type="text" id="lastName" formControlName="lastName" 
+               placeholder="Enter your last name" class="form-input">
+        <div class="form-error" *ngIf="formControls['lastName'].touched && formControls['lastName'].invalid">
+          <i class="fas fa-exclamation-circle"></i>
+          Please enter a valid last name
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="email">
+        <i class="fas fa-envelope"></i> Email Address *
+      </label>
+      <input type="email" id="email" formControlName="email" 
+             placeholder="you@example.com" class="form-input">
+      <div class="form-hint">Order confirmation will be sent to this email</div>
+      <div class="form-error" *ngIf="formControls['email'].touched && formControls['email'].invalid">
+        <i class="fas fa-exclamation-circle"></i>
+        Please enter a valid email address
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="phoneNumber">
+          <i class="fas fa-mobile-alt"></i> Phone Number *
+        </label>
+        <div class="phone-input-wrapper">
+          <span class="phone-prefix">+254</span>
+          <input type="tel" id="phoneNumber" formControlName="phoneNumber" 
+                 placeholder="712345678" class="form-input phone-input"
+                 (input)="formatPhoneInput($event)">
+        </div>
+        <div class="form-hint">
+          <i class="fas fa-info-circle"></i>
+          Enter your phone number (e.g., 0712345678 or 0112345678)
+        </div>
+        <div class="form-error" *ngIf="formControls['phoneNumber'].touched && formControls['phoneNumber'].invalid">
+          <i class="fas fa-exclamation-circle"></i>
+          Please enter a valid Kenyan phone number (07XXXXXXXX or 01XXXXXXXX)
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPhone">
+          <i class="fas fa-mobile-alt"></i> Confirm Phone Number *
+        </label>
+        <input type="tel" id="confirmPhone" formControlName="confirmPhone" 
+               placeholder="0712345678" class="form-input">
+        <div class="form-hint">
+          <i class="fas fa-check-circle"></i>
+          Re-enter your number to confirm
+        </div>
+        <div class="form-error" *ngIf="formControls['confirmPhone'].touched && checkoutForm.hasError('phoneMismatch')">
+          <i class="fas fa-exclamation-circle"></i>
+          Phone numbers do not match
+        </div>
+      </div>
+    </div>
+
+    <!-- Phone Format Examples - Simplified -->
+    <div class="phone-format-examples">
+      <div class="example-item">
+        <i class="fas fa-mobile-alt"></i>
+        <div class="example-details">
+          <span class="format-label">Mobile Number:</span>
+          <code>07XX XXX XXX</code>
+          <span class="example">e.g., 0722 123 456</span>
+        </div>
+      </div>
+      <div class="example-item">
+        <i class="fas fa-mobile-alt"></i>
+        <div class="example-details">
+          <span class="format-label">Mobile Number:</span>
+          <code>01XX XXX XXX</code>
+          <span class="example">e.g., 0110 123 456</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-actions">
+      <button type="button" class="btn-next" (click)="nextStep()" 
+              [disabled]="checkoutForm.invalid">
+        Continue to Delivery
+        <i class="fas fa-arrow-right"></i>
+      </button>
+    </div>
+  </form>
+</div>
 
       <!-- Step 2: Delivery Information -->
       <div *ngIf="currentStep === 2" class="checkout-step step-2">
