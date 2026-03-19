@@ -1,0 +1,177 @@
+.account-menu {
+  position: fixed;
+  top: 70px;
+  right: 20px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+  width: 300px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.2s ease;
+  z-index: 1001;
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+}
+
+.account-menu.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.account-header {
+  padding: 20px;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: #f8f9fa;
+}
+
+.user-avatar-large {
+  width: 48px;
+  height: 48px;
+  background: #108c1a;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.2rem;
+}
+
+.user-info {
+  flex: 1;
+}
+
+.user-info h5 {
+  margin: 0 0 4px 0;
+  color: #333;
+  font-size: 1rem;
+}
+
+.user-email {
+  font-size: 0.75rem;
+  color: #666;
+}
+
+.close-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #e5e7eb;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-btn:hover {
+  background: #d1d5db;
+}
+
+.account-content {
+  padding: 8px 0;
+}
+
+.account-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  text-decoration: none;
+  color: #333;
+  gap: 12px;
+  transition: background 0.2s;
+}
+
+.account-item:hover {
+  background: #f5f5f5;
+}
+
+.account-item i:first-child {
+  color: #108c1a;
+  width: 20px;
+}
+
+.account-item i:last-child {
+  color: #999;
+  margin-left: auto;
+  font-size: 0.8rem;
+}
+
+.account-footer {
+  padding: 16px 20px;
+  border-top: 1px solid #e5e7eb;
+  background: #f8f9fa;
+}
+
+.logout-btn, .shop-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+}
+
+.logout-btn {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+}
+
+.logout-btn:hover {
+  background: #fee2e2;
+}
+
+.shop-btn {
+  background: #108c1a;
+  color: white;
+}
+
+.shop-btn:hover {
+  background: #0e7a16;
+}
+
+.dark-theme .account-menu {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+.dark-theme .account-header {
+  background: #111827;
+  border-bottom-color: #374151;
+}
+
+.dark-theme .user-info h5 {
+  color: #f3f4f6;
+}
+
+.dark-theme .user-email {
+  color: #9ca3af;
+}
+
+.dark-theme .account-item {
+  color: #f3f4f6;
+}
+
+.dark-theme .account-item:hover {
+  background: #374151;
+}
+
+.dark-theme .account-footer {
+  background: #111827;
+  border-top-color: #374151;
+}
+
+@media (max-width: 480px) {
+  .account-menu {
+    width: 260px;
+    right: 10px;
+    top: 60px;
+  }
+}

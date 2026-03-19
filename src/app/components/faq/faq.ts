@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener, ElementRef, ViewChild } from '@angular
 import { trigger, transition, style, animate, state } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { CartComponent } from '../../pages/cart/cart';
 
 interface FAQQuestion {
   id: string;
@@ -53,7 +54,7 @@ interface NewQuestion {
 @Component({
   selector: 'app-faq',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,CartComponent],
   templateUrl: './faq.html',
   styleUrls: ['./faq.css'],
   animations: [

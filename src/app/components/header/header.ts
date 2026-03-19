@@ -8,6 +8,11 @@ import { CartService } from '../../services/cart';
 import { AuthService, User } from '../../services/auth.service';
 import { HamburgerMenuComponent } from '../hamburger-menu/hamburger-menu';
 
+// Import the separate components
+import { AccessibilityMenuComponent } from '../settings-menu/accessibility-menu';
+import { AccountMenuComponent } from '../account-menu/account-menu';
+import { SearchOverlayComponent } from '../search-overlay/search-overlay';
+
 // Define interfaces at the top
 interface NavItem {
   text: string;
@@ -50,7 +55,16 @@ interface AccountMenuItem {
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, HamburgerMenuComponent],
+  imports: [
+    CommonModule, 
+    RouterModule, 
+    FormsModule, 
+    HamburgerMenuComponent,
+    // Add the separate components
+    AccessibilityMenuComponent,
+    AccountMenuComponent,
+    SearchOverlayComponent
+  ],
   templateUrl: './header.html',
   styleUrls: ['./header.css']
 })
@@ -148,20 +162,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   ];
 
-// Account Menu - Minimal
-// Account Menu - Updated with proper icons
-accountMenuItems: AccountMenuItem[] = [
-  { 
-    text: 'Blog', 
-    icon: 'fas fa-newspaper',  // Changed from fa-envelope to fa-newspaper
-    route: '/blog' 
-  },
-  { 
-    text: 'FAQs', 
-    icon: 'fas fa-question-circle', 
-    route: '/faq'  // Changed from /faqs to /faq (singular)
-  }
-];
+  // Account Menu Items
+  accountMenuItems: AccountMenuItem[] = [
+    { 
+      text: 'Blog', 
+      icon: 'fas fa-newspaper',
+      route: '/blog' 
+    },
+    { 
+      text: 'FAQs', 
+      icon: 'fas fa-question-circle', 
+      route: '/faq'
+    }
+  ];
+  
   // Search
   searchTerm = '';
   searchResults: SearchResult[] = [];
@@ -208,7 +222,7 @@ accountMenuItems: AccountMenuItem[] = [
     this.subscribeToServices();
     this.setupRouterListener();
     this.loadTheme();
-    this.loadAccessibilitySettings(); // Add this line
+    this.loadAccessibilitySettings();
     
     // Subscribe to cart open state
     this.subscriptions.push(
@@ -605,10 +619,6 @@ accountMenuItems: AccountMenuItem[] = [
   openSearch() {
     this.isSearchOpen = true;
     this.renderer.addClass(document.body, 'search-open');
-    setTimeout(() => {
-      const input = document.querySelector('.search-input') as HTMLInputElement;
-      if (input) input.focus();
-    }, 100);
   }
 
   closeSearch() {

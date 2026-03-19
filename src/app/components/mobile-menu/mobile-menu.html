@@ -1,0 +1,162 @@
+<!-- Overlay -->
+<div class="menu-overlay" [class.open]="isOpen" (click)="closeMenu()"></div>
+
+<!-- Menu Panel -->
+<div class="mobile-menu" [class.open]="isOpen">
+  
+  <!-- Header -->
+  <div class="menu-header">
+    <button class="back-btn" *ngIf="activeView !== 'main' || activeSubMenu" (click)="goBack()">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+    <span class="header-title">
+      <ng-container *ngIf="activeView === 'main' && !activeSubMenu">Menu</ng-container>
+      <ng-container *ngIf="activeSubMenu">{{ activeSubMenu.text }}</ng-container>
+      <ng-container *ngIf="activeView === 'account'">Account</ng-container>
+      <ng-container *ngIf="activeView === 'accessibility'">Accessibility</ng-container>
+    </span>
+    <button class="close-btn" (click)="closeMenu()">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+
+  <!-- Main Menu -->
+  <div class="menu-body" *ngIf="activeView === 'main' && !activeSubMenu">
+    <div class="menu-items">
+      <button *ngFor="let item of navItems" 
+              class="menu-item"
+              (click)="item.children ? openSubMenu(item) : navigateTo(item.route)">
+        <i [class]="item.icon" class="item-icon"></i>
+        <span class="item-text">{{ item.text }}</span>
+        <i *ngIf="item.children" class="fas fa-chevron-right item-arrow"></i>
+      </button>
+    </div>
+
+    <div class="menu-footer">
+      <button class="footer-btn" (click)="showAccount()">
+        <i class="fas fa-user"></i>
+        <span>Account</span>
+      </button>
+      <button class="footer-btn" (click)="showAccessibility()">
+        <i class="fas fa-universal-access"></i>
+        <span>Access</span>
+      </button>
+      <button class="footer-btn" (click)="onSearchClick()">
+        <i class="fas fa-search"></i>
+        <span>Search</span>
+      </button>
+      <button class="footer-btn" (click)="onCartClick()">
+        <i class="fas fa-shopping-cart"></i>
+        <span>Cart</span>
+        <span class="badge" *ngIf="cartCount > 0">{{ cartCount }}</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Sub Menu -->
+  <div class="menu-body" *ngIf="activeSubMenu">
+    <div class="submenu-items">
+      <button *ngFor="let child of activeSubMenu.children" 
+              class="submenu-item"
+              (click)="navigateToChild(child)">
+        <div class="submenu-content">
+          <span class="submenu-title">{{ child.text }}</span>
+          <span class="submenu-desc">{{ child.description }}</span>
+        </div>
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Account View -->
+  <div class="menu-body" *ngIf="activeView === 'account'">
+    <div class="user-section" *ngIf="currentUser; else guestSection">
+      <div class="user-avatar">{{ getUserInitials() }}</div>
+      <div class="user-details">
+        <div class="user-name">{{ currentUser.fullName }}</div>
+        <div class="user-email">{{ currentUser.email }}</div>
+      </div>
+    </div>
+
+    <ng-template #guestSection>
+      <div class="guest-section">
+        <i class="fas fa-store"></i>
+        <p>Sign in for personalized experience</p>
+        <button class="signin-btn" routerLink="/login" (click)="closeMenu()">
+          Sign In
+        </button>
+      </div>
+    </ng-template>
+
+    <div class="links-section">
+      <a *ngFor="let link of accountLinks" 
+         class="account-link"
+         [routerLink]="link.route"
+         (click)="closeMenu()">
+        <i [class]="link.icon"></i>
+        <span>{{ link.text }}</span>
+        <i class="fas fa-chevron-right"></i>
+      </a>
+    </div>
+
+    <button *ngIf="currentUser" class="logout-btn" (click)="logout()">
+      <i class="fas fa-sign-out-alt"></i>
+      Sign Out
+    </button>
+  </div>
+
+  <!-- Accessibility View -->
+  <div class="menu-body" *ngIf="activeView === 'accessibility'">
+    <div class="settings-group">
+      <div class="setting-item">
+        <div class="setting-label">
+          <i class="fas fa-text-height"></i>
+          <span>Font Size</span>
+        </div>
+        <div class="font-controls">
+          <button class="size-btn" (click)="decreaseFontSize()" [disabled]="fontSize === 'small'">A-</button>
+          <span class="size-value">{{ getFontSizeLabel() }}</span>
+          <button class="size-btn" (click)="increaseFontSize()" [disabled]="fontSize === 'large'">A+</button>
+        </div>
+      </div>
+
+      <div class="setting-item">
+        <div class="setting-label">
+          <i class="fas fa-adjust"></i>
+          <span>High Contrast</span>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" [checked]="highContrast" (change)="toggleHighContrast()">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div class="setting-item">
+        <div class="setting-label">
+          <i class="fas fa-running"></i>
+          <span>Reduced Motion</span>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" [checked]="reducedMotion" (change)="toggleReducedMotion()">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div class="setting-item">
+        <div class="setting-label">
+          <i class="fas fa-font"></i>
+          <span>Readable Font</span>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" [checked]="readableFont" (change)="toggleReadableFont()">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <button class="reset-btn" (click)="resetAccessibility()">
+        <i class="fas fa-undo-alt"></i>
+        Reset to Default
+      </button>
+    </div>
+  </div>
+</div>

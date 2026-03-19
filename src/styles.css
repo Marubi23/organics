@@ -464,3 +464,49 @@ body.cart-open .add-success-message {
     transition-duration: 0.01ms !important;
   }
 }
+/* Accessibility Classes */
+.font-small { font-size: 14px !important; }
+.font-medium { font-size: 16px !important; }
+.font-large { font-size: 18px !important; }
+
+.high-contrast {
+  filter: contrast(150%);
+}
+
+.high-contrast * {
+  border-color: #FFD700 !important;
+}
+
+.reduced-motion * {
+  animation: none !important;
+  transition: none !important;
+}
+
+.dyslexia-friendly * {
+  font-family: 'OpenDyslexic', Arial, sans-serif !important;
+  line-height: 1.6 !important;
+}
+
+.underline-links a:not(.no-underline) {
+  text-decoration: underline !important;
+  text-decoration-color: #FFD700 !important;
+  text-decoration-thickness: 2px !important;
+}
+
+.screen-reader *:focus {
+  outline: 3px solid #FFD700 !important;
+  outline-offset: 3px !important;
+}
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/otf/OpenDyslexic-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/otf/OpenDyslexic-Bold.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+}

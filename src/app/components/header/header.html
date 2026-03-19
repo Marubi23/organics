@@ -1,4 +1,4 @@
-<nav class="main-nav" #headerElement>
+<nav class="main-nav" #headerElement [class.header-hidden]="isHeaderHidden">
   <div class="container">
     <div class="nav-content">
       <!-- Logo -->
@@ -123,229 +123,28 @@
     </div>
   </div>
 
-  <!-- Accessibility Settings Menu -->
-  <div class="settings-menu" [class.open]="isSettingsMenuOpen">
-    <div class="settings-header">
-      <h4><i class="fas fa-universal-access"></i> Accessibility</h4>
-      <button class="close-btn" (click)="toggleSettingsMenu()">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-    
-    <div class="settings-content">
-      <!-- Font Size Control -->
-      <div class="setting-group">
-        <div class="setting-info">
-          <i class="fas fa-text-height"></i>
-          <span class="setting-label">Font Size</span>
-        </div>
-        <div class="font-size-controls">
-          <button class="size-btn" (click)="decreaseFontSize()" [disabled]="fontSize === 'small'">
-            <i class="fas fa-minus"></i>
-          </button>
-          <span class="font-size-indicator">{{ getFontSizeLabel() }}</span>
-          <button class="size-btn" (click)="increaseFontSize()" [disabled]="fontSize === 'large'">
-            <i class="fas fa-plus"></i>
-          </button>
-        </div>
-      </div>
+  <!-- Accessibility Settings Menu Component -->
+  <app-accessibility-menu 
+    *ngIf="isSettingsMenuOpen"
+    (close)="toggleSettingsMenu()">
+  </app-accessibility-menu>
 
-      <!-- Contrast Mode -->
-      <div class="setting-group">
-        <div class="setting-info">
-          <i class="fas fa-adjust"></i>
-          <span class="setting-label">High Contrast</span>
-        </div>
-        <label class="switch">
-          <input type="checkbox" 
-                 [(ngModel)]="highContrast"
-                 (change)="toggleHighContrast()">
-          <span class="slider"></span>
-        </label>
-      </div>
+  <!-- Account Menu Component -->
+  <app-account-menu 
+    *ngIf="isAccountMenuOpen"
+    [currentUser]="currentUser"
+    (close)="toggleAccountMenu()"
+    (logout)="logout()">
+  </app-account-menu>
 
-      <!-- Reduced Motion -->
-      <div class="setting-group">
-        <div class="setting-info">
-          <i class="fas fa-running"></i>
-          <span class="setting-label">Reduced Motion</span>
-          <span class="setting-desc">Minimize animations</span>
-        </div>
-        <label class="switch">
-          <input type="checkbox" 
-                 [(ngModel)]="reducedMotion"
-                 (change)="toggleReducedMotion()">
-          <span class="slider"></span>
-        </label>
-      </div>
-
-      <!-- Line Spacing -->
-      <div class="setting-group">
-        <div class="setting-info">
-          <i class="fas fa-arrows-alt-v"></i>
-          <span class="setting-label">Line Spacing</span>
-        </div>
-        <select class="spacing-select" [(ngModel)]="lineSpacing" (change)="updateLineSpacing()">
-          <option value="normal">Normal</option>
-          <option value="relaxed">Relaxed</option>
-          <option value="loose">Loose</option>
-        </select>
-      </div>
-
-      <!-- Letter Spacing -->
-      <div class="setting-group">
-        <div class="setting-info">
-          <i class="fas fa-arrows-alt-h"></i>
-          <span class="setting-label">Letter Spacing</span>
-        </div>
-        <select class="spacing-select" [(ngModel)]="letterSpacing" (change)="updateLetterSpacing()">
-          <option value="normal">Normal</option>
-          <option value="wide">Wide</option>
-          <option value="wider">Wider</option>
-        </select>
-      </div>
-
-      <!-- Readable Font -->
-      <div class="setting-group">
-        <div class="setting-info">
-          <i class="fas fa-font"></i>
-          <span class="setting-label">Readable Font</span>
-          <span class="setting-desc">Dyslexia-friendly</span>
-        </div>
-        <label class="switch">
-          <input type="checkbox" 
-                 [(ngModel)]="readableFont"
-                 (change)="toggleReadableFont()">
-          <span class="slider"></span>
-        </label>
-      </div>
-
-      <!-- Focus Indicators -->
-      <div class="setting-group">
-        <div class="setting-info">
-          <i class="fas fa-border-all"></i>
-          <span class="setting-label">Focus Indicators</span>
-          <span class="setting-desc">Highlight focused elements</span>
-        </div>
-        <label class="switch">
-          <input type="checkbox" 
-                 [(ngModel)]="focusIndicators"
-                 (change)="toggleFocusIndicators()">
-          <span class="slider"></span>
-        </label>
-      </div>
-
-      <!-- Reset Button -->
-      <div class="setting-group reset-group">
-        <button class="reset-btn" (click)="resetAccessibilitySettings()">
-          <i class="fas fa-undo-alt"></i> Reset to Defaults
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Account Menu -->
-  <div class="account-menu" [class.open]="isAccountMenuOpen">
-    <div class="account-header">
-      <div *ngIf="currentUser; else guestHeader">
-        <div class="user-avatar-large">
-          {{ getUserInitials() }}
-        </div>
-        <div class="user-info">
-          <h5>{{ currentUser.fullName }}</h5>
-          <span class="user-email">{{ currentUser.email }}</span>
-        </div>
-      </div>
-      <ng-template #guestHeader>
-        <div class="user-avatar-large">
-          <i class="fas fa-store"></i>
-        </div>
-        <div class="user-info">
-          <h5>Welcome!</h5>
-          <span class="user-email">Start exploring our products</span>
-        </div>
-      </ng-template>
-      <button class="close-btn" (click)="toggleAccountMenu()">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-    
-    <div class="account-content">
-      <a *ngFor="let item of accountMenuItems" 
-         [routerLink]="item.route"
-         class="account-item">
-        <i [class]="item.icon"></i>
-        <span>{{ item.text }}</span>
-        <i class="fas fa-chevron-right"></i>
-      </a>
-    </div>
-    
-    <div class="account-footer">
-      <button *ngIf="currentUser; else shopBtn" 
-              class="logout-btn" 
-              (click)="logout()">
-        <i class="fas fa-sign-out-alt"></i> Sign Out
-      </button>
-      <ng-template #shopBtn>
-        <button class="shop-btn" routerLink="/products">
-          <i class="fas fa-shopping-bag"></i> Start Shopping
-        </button>
-      </ng-template>
-    </div>
-  </div>
-
-  <!-- Search Overlay -->
-  <div class="search-overlay" [class.active]="isSearchOpen">
-    <div class="search-container">
-      <div class="search-header">
-        <div class="search-icon">
-          <i class="fas fa-search"></i>
-        </div>
-        <input type="text" 
-               #searchInput
-               [(ngModel)]="searchTerm"
-               (input)="onSearchInput($event)"
-               placeholder="Search products, categories..."
-               class="search-input"
-               autocomplete="off">
-        <button class="close-search" (click)="closeSearch()">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      
-      <!-- Quick Actions -->
-      <div class="search-actions">
-        <button class="search-tag" 
-                *ngFor="let action of quickActions"
-                (click)="searchByTag(action)">
-          <i [class]="action.icon"></i>
-          <span>{{ action.text }}</span>
-        </button>
-      </div>
-      
-      <!-- Results -->
-      <div class="search-results" *ngIf="searchTerm">
-        <div class="results-header">
-          <span>Results for "{{ searchTerm }}"</span>
-          <span class="results-count">{{ searchResults.length }} found</span>
-        </div>
-        <div class="results-list">
-          <div class="result-item" 
-               *ngFor="let product of searchResults"
-               (click)="goToProduct(product)">
-            <img [src]="product.image" [alt]="product.name">
-            <div class="result-info">
-              <h6>{{ product.name }}</h6>
-              <p>{{ product.description }}</p>
-              <span class="price">KSh {{ product.price }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <!-- Search Overlay Component -->
+  <app-search-overlay 
+    *ngIf="isSearchOpen"
+    (close)="closeSearch()">
+  </app-search-overlay>
 </nav>
 
+<!-- Mobile Menu Component -->
 <app-hamburger-menu 
   [isOpen]="isMobileMenuOpen"
   (closeMenu)="toggleMobileMenu()">

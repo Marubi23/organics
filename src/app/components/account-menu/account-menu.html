@@ -1,0 +1,47 @@
+<div class="account-menu" [class.open]="isOpen">
+  <div class="account-header">
+    <div *ngIf="currentUser; else guestHeader">
+      <div class="user-avatar-large">{{ getUserInitials() }}</div>
+      <div class="user-info">
+        <h5>{{ currentUser.fullName }}</h5>
+        <span class="user-email">{{ currentUser.email }}</span>
+      </div>
+    </div>
+    <ng-template #guestHeader>
+      <div class="user-avatar-large">
+        <i class="fas fa-store"></i>
+      </div>
+      <div class="user-info">
+        <h5>Welcome!</h5>
+        <span class="user-email">Start exploring</span>
+      </div>
+    </ng-template>
+    <button class="close-btn" (click)="close.emit()">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  
+  <div class="account-content">
+    <a *ngFor="let item of accountLinks" 
+       [routerLink]="item.route"
+       class="account-item"
+       (click)="close.emit()">
+      <i [class]="item.icon"></i>
+      <span>{{ item.text }}</span>
+      <i class="fas fa-chevron-right"></i>
+    </a>
+  </div>
+  
+  <div class="account-footer">
+    <button *ngIf="currentUser; else shopBtn" 
+            class="logout-btn" 
+            (click)="logout.emit()">
+      <i class="fas fa-sign-out-alt"></i> Sign Out
+    </button>
+    <ng-template #shopBtn>
+      <button class="shop-btn" routerLink="/products" (click)="close.emit()">
+        <i class="fas fa-shopping-bag"></i> Start Shopping
+      </button>
+    </ng-template>
+  </div>
+</div>

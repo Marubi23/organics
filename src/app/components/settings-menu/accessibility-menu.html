@@ -1,0 +1,170 @@
+<div class="accessibility-overlay" (click)="close.emit()">
+  <div class="accessibility-container" (click)="$event.stopPropagation()">
+    <!-- Header -->
+    <div class="accessibility-header">
+      <div class="header-icon">
+        <i class="fas fa-universal-access"></i>
+      </div>
+      <div class="header-text">
+        <h3>Accessibility Options</h3>
+        <p>Customize your viewing experience</p>
+      </div>
+      <button class="close-btn" (click)="close.emit()" aria-label="Close accessibility menu">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <!-- Body -->
+    <div class="accessibility-body">
+      <!-- Font Size Control -->
+      <div class="option-section">
+        <div class="option-header">
+          <i class="fas fa-text-height"></i>
+          <span>Font Size</span>
+        </div>
+        <div class="font-size-controls">
+          <button class="size-btn" (click)="decreaseFontSize()" [disabled]="fontSize === 'small'" 
+                  [class.active]="fontSize === 'small'" aria-label="Decrease font size">
+            <i class="fas fa-minus"></i>
+          </button>
+          
+          <div class="font-size-display">
+            <span class="size-icon" [class.active]="fontSize === 'small'">A</span>
+            <span class="size-icon" [class.active]="fontSize === 'medium'">A</span>
+            <span class="size-icon" [class.active]="fontSize === 'large'">A</span>
+          </div>
+          
+          <button class="size-btn" (click)="increaseFontSize()" [disabled]="fontSize === 'large'"
+                  [class.active]="fontSize === 'large'" aria-label="Increase font size">
+            <i class="fas fa-plus"></i>
+          </button>
+        </div>
+        <span class="option-hint">Adjust text size for better readability</span>
+      </div>
+
+      <!-- High Contrast -->
+      <div class="option-section">
+        <div class="option-header">
+          <i class="fas fa-adjust"></i>
+          <span>High Contrast</span>
+        </div>
+        <div class="toggle-container">
+          <label class="toggle-switch">
+            <input type="checkbox" [checked]="highContrast" (change)="toggleHighContrast()">
+            <span class="toggle-slider"></span>
+          </label>
+          <span class="toggle-label">{{ highContrast ? 'On' : 'Off' }}</span>
+        </div>
+        <span class="option-hint">Increase contrast for better visibility</span>
+      </div>
+
+      <!-- Reduced Motion -->
+      <div class="option-section">
+        <div class="option-header">
+          <i class="fas fa-running"></i>
+          <span>Reduced Motion</span>
+        </div>
+        <div class="toggle-container">
+          <label class="toggle-switch">
+            <input type="checkbox" [checked]="reducedMotion" (change)="toggleReducedMotion()">
+            <span class="toggle-slider"></span>
+          </label>
+          <span class="toggle-label">{{ reducedMotion ? 'On' : 'Off' }}</span>
+        </div>
+        <span class="option-hint">Minimize animations and motion effects</span>
+      </div>
+
+      <!-- Screen Reader -->
+      <div class="option-section">
+        <div class="option-header">
+          <i class="fas fa-assistive-listening-systems"></i>
+          <span>Screen Reader</span>
+        </div>
+        <div class="toggle-container">
+          <label class="toggle-switch">
+            <input type="checkbox" [checked]="screenReader" (change)="toggleScreenReader()">
+            <span class="toggle-slider"></span>
+          </label>
+          <span class="toggle-label">{{ screenReader ? 'On' : 'Off' }}</span>
+        </div>
+        <span class="option-hint">Optimize for screen readers</span>
+      </div>
+
+      <!-- Dyslexia Friendly -->
+      <div class="option-section">
+        <div class="option-header">
+          <i class="fas fa-book-open"></i>
+          <span>Dyslexia Friendly</span>
+        </div>
+        <div class="toggle-container">
+          <label class="toggle-switch">
+            <input type="checkbox" [checked]="dyslexiaFriendly" (change)="toggleDyslexiaFriendly()">
+            <span class="toggle-slider"></span>
+          </label>
+          <span class="toggle-label">{{ dyslexiaFriendly ? 'On' : 'Off' }}</span>
+        </div>
+        <span class="option-hint">Use OpenDyslexic font for easier reading</span>
+      </div>
+
+      <!-- Underline Links -->
+      <div class="option-section">
+        <div class="option-header">
+          <i class="fas fa-link"></i>
+          <span>Underline Links</span>
+        </div>
+        <div class="toggle-container">
+          <label class="toggle-switch">
+            <input type="checkbox" [checked]="underlineLinks" (change)="toggleUnderlineLinks()">
+            <span class="toggle-slider"></span>
+          </label>
+          <span class="toggle-label">{{ underlineLinks ? 'On' : 'Off' }}</span>
+        </div>
+        <span class="option-hint">Always underline links for clarity</span>
+      </div>
+
+      <!-- Large Cursor -->
+      <div class="option-section">
+        <div class="option-header">
+          <i class="fas fa-mouse-pointer"></i>
+          <span>Large Cursor</span>
+        </div>
+        <div class="toggle-container">
+          <label class="toggle-switch">
+            <input type="checkbox" [checked]="largeCursor" (change)="toggleLargeCursor()">
+            <span class="toggle-slider"></span>
+          </label>
+          <span class="toggle-label">{{ largeCursor ? 'On' : 'Off' }}</span>
+        </div>
+        <span class="option-hint">Increase cursor size for better visibility</span>
+      </div>
+
+      <!-- Reading Guide -->
+      <div class="option-section">
+        <div class="option-header">
+          <i class="fas fa-ruler"></i>
+          <span>Reading Guide</span>
+        </div>
+        <div class="toggle-container">
+          <label class="toggle-switch">
+            <input type="checkbox" [checked]="readingGuide" (change)="toggleReadingGuide()">
+            <span class="toggle-slider"></span>
+          </label>
+          <span class="toggle-label">{{ readingGuide ? 'On' : 'Off' }}</span>
+        </div>
+        <span class="option-hint">Show a reading ruler when hovering text</span>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="accessibility-footer">
+      <button class="reset-btn" (click)="resetAll()">
+        <i class="fas fa-undo-alt"></i>
+        <span>Reset All Settings</span>
+      </button>
+      <div class="footer-note">
+        <i class="fas fa-info-circle"></i>
+        <span>Settings are saved automatically</span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,46 @@
+<div class="search-overlay" (click)="close.emit()">
+  <div class="search-container" (click)="$event.stopPropagation()">
+    <div class="search-header">
+      <i class="fas fa-search search-icon"></i>
+      <input type="text" 
+             #searchInput
+             [(ngModel)]="searchTerm"
+             (input)="onSearch()"
+             placeholder="Search products, categories..."
+             class="search-input"
+             autofocus>
+      <button class="close-search" (click)="close.emit()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    
+    <div class="search-actions">
+      <button class="search-tag" *ngFor="let tag of quickTags" (click)="searchTag(tag)">
+        <i [class]="tag.icon"></i>
+        <span>{{ tag.text }}</span>
+      </button>
+    </div>
+    
+    <div class="search-results" *ngIf="searchTerm">
+      <div class="results-header">
+        <span>Results for "{{ searchTerm }}"</span>
+        <span class="results-count">{{ filteredProducts.length }} found</span>
+      </div>
+      <div class="results-list">
+        <div class="result-item" 
+             *ngFor="let product of filteredProducts"
+             (click)="goToProduct(product)">
+          <img [src]="product.image" [alt]="product.name">
+          <div class="result-info">
+            <h6>{{ product.name }}</h6>
+            <p>{{ product.description }}</p>
+            <span class="price">KSh {{ product.price }}</span>
+          </div>
+        </div>
+        <div class="no-results" *ngIf="filteredProducts.length === 0">
+          No products found
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
