@@ -1,9 +1,21 @@
-<!-- hero.html -->
 <!-- Wrap hero slider in a container for the flowing gradient -->
 <div class="hero-slider-container">
-  <section class="hero-slider">
+  
+  <!-- Loading Skeleton - Shows while images load -->
+  <div class="hero-loading-skeleton" *ngIf="isLoading">
+    <div class="skeleton-content">
+      <div class="skeleton-title"></div>
+      <div class="skeleton-description"></div>
+      <div class="skeleton-buttons">
+        <div class="skeleton-btn"></div>
+        <div class="skeleton-btn"></div>
+      </div>
+    </div>
+  </div>
+
+  <section class="hero-slider" [class.hero-loaded]="!isLoading">
     <!-- Progress Bar at the top -->
-    <div class="slide-progress-bar" *ngIf="!isUserInteracting">
+    <div class="slide-progress-bar" *ngIf="!isUserInteracting && !isLoading">
       <div class="progress-track" [style.width]="progressBarWidth + '%'"></div>
     </div>
     
@@ -18,18 +30,28 @@
           
           <div class="slide-background">
             <div class="image-container">
+              <!-- Low quality placeholder while loading -->
+              <div class="image-placeholder" 
+                   [style.backgroundImage]="'url(' + slide.placeholder + ')'"
+                   [style.display]="!slide.loaded ? 'block' : 'none'">
+              </div>
+              
+              <!-- High quality image - not lazy on first slide -->
               <img 
                 [src]="slide.image" 
                 [alt]="slide.title" 
                 class="background-image"
-                loading="lazy">
+                [class.loaded]="slide.loaded"
+                [attr.loading]="i === 0 ? 'eager' : 'lazy'"
+                (load)="onImageLoad(i)">
+              
               <div class="image-overlay"></div>
             </div>
           </div>
           
           <!-- Content that appears immediately with photo -->
           <div class="container">
-            <div class="slide-content" [class.content-visible]="i === currentSlide">
+            <div class="slide-content" [class.content-visible]="i === currentSlide && slides[i].loaded">
               <div class="text-content">
                 <h1 class="slide-title">{{ slide.title }}</h1>
                 <p class="slide-description">{{ slide.description }}</p>
@@ -42,7 +64,6 @@
                   
                   <!-- Secondary Button based on slide index -->
                   <ng-container [ngSwitch]="i">
-                    <!-- Slide 0: Biofertilizers -->
                     <ng-container *ngSwitchCase="0">
                       <button class="btn btn-secondary" 
                               (click)="navigateToBiofertilizers(); onUserInteraction()">
@@ -50,7 +71,6 @@
                       </button>
                     </ng-container>
                     
-                    <!-- Slide 1: Our Process -->
                     <ng-container *ngSwitchCase="1">
                       <a [routerLink]="slide.buttonLink" 
                          class="btn btn-secondary" 
@@ -59,7 +79,6 @@
                       </a>
                     </ng-container>
                     
-                    <!-- Slide 2: Video -->
                     <ng-container *ngSwitchCase="2">
                       <button class="btn btn-secondary video-play-btn" 
                               (click)="playMiniVideo(); onUserInteraction()">
@@ -67,7 +86,6 @@
                       </button>
                     </ng-container>
                     
-                    <!-- Slide 3: Animal Feeds -->
                     <ng-container *ngSwitchCase="3">
                       <a [routerLink]="slide.buttonLink" 
                          class="btn btn-secondary" 
@@ -76,7 +94,6 @@
                       </a>
                     </ng-container>
                     
-                    <!-- Slide 4: Regen-Kilimo -->
                     <ng-container *ngSwitchCase="4">
                       <a [routerLink]="slide.buttonLink" 
                          class="btn btn-secondary" 
@@ -85,7 +102,6 @@
                       </a>
                     </ng-container>
                     
-                    <!-- Slide 5: PREFarm -->
                     <ng-container *ngSwitchCase="5">
                       <a [routerLink]="slide.buttonLink" 
                          class="btn btn-secondary" 
@@ -102,15 +118,15 @@
       </div>
 
       <!-- Navigation -->
-      <button class="slider-nav prev" (click)="prevSlide(); onUserInteraction()">
+      <button class="slider-nav prev" (click)="prevSlide(); onUserInteraction()" [class.hidden]="isLoading">
         <i class="fas fa-chevron-left"></i>
       </button>
-      <button class="slider-nav next" (click)="nextSlide(); onUserInteraction()">
+      <button class="slider-nav next" (click)="nextSlide(); onUserInteraction()" [class.hidden]="isLoading">
         <i class="fas fa-chevron-right"></i>
       </button>
 
       <!-- Indicators -->
-      <div class="slide-indicators">
+      <div class="slide-indicators" [class.hidden]="isLoading">
         <button 
           *ngFor="let slide of slides; let i = index" 
           class="indicator" 
@@ -129,7 +145,7 @@
           <i class="fas fa-times"></i>
         </button>
       </div>
-      <video #miniVideo class="mini-video" controls>
+      <video #miniVideo class="mini-video" controls preload="metadata">
         <source src="videos/miniplay.mp4" type="video/mp4">
         Your browser does not support the video tag.
       </video>

@@ -1,15 +1,16 @@
-// hero.component.ts
 import { Component, AfterViewInit, OnDestroy, ChangeDetectorRef, inject, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 
 interface Slide {
   image: string;
+  placeholder: string;
   title: string;
   description: string;
   buttonText: string;
   buttonLink: string;
   isVideoSlide?: boolean;
+  loaded?: boolean;
 }
 
 @Component({
@@ -34,64 +35,82 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   showMiniVideo = false;
   isVideoPlaying = false;
   isVideoMuted = true;
+  isLoading = true;
+  imagesLoaded = 0;
   
   private slideInterval: any;
   private progressInterval: any;
 
-  // Slide duration in milliseconds
   private readonly SLIDE_DURATION = 5000;
   private readonly TRANSITION_DURATION = 600;
 
   slides: Slide[] = [
     {
       image: 'images/mzuri5.jpg',
+      placeholder: 'images/placeholders/mzuri5-small.jpg',
       title: 'Regenerating Kenyan Soil Health',
       description: 'Building smallholder farmers\' resilience to climate change through regenerative agricultural practices across Kenya.',
       buttonText: 'Our Biofertilizers',
-      buttonLink: '/products'
+      buttonLink: '/products',
+      loaded: false
     },
     {
       image: 'images/mzuri8.jpg',
+      placeholder: 'images/placeholders/mzuri8-small.jpg',
       title: 'Organic Waste to Nutrient-Rich Fertilizers',
       description: 'Transforming farm and market waste into premium organic fertilizers using Black Soldier Fly Larvae technology.',
       buttonText: 'Our Process',
-      buttonLink: '/what-we-do'
+      buttonLink: '/what-we-do',
+      loaded: false
     },
     {
       image: 'images/mzuri7.jpg',
+      placeholder: 'images/placeholders/mzuri7-small.jpg',
       title: 'Circular Economy in Action',
       description: 'See how we convert organic waste into valuable resources while creating sustainable livelihoods for Kenyan farmers.',
       buttonText: 'Watch Our Story',
       buttonLink: '/about',
-      isVideoSlide: true
+      isVideoSlide: true,
+      loaded: false
     },
     {
       image: 'images/mzuri6.jpg',
+      placeholder: 'images/placeholders/mzuri6-small.jpg',
       title: 'High-Protein Animal Feed Solutions',
       description: 'Insect-based protein feeds containing up to 50% protein - perfect for poultry, fish, and livestock farming.',
       buttonText: 'Animal Feeds',
-      buttonLink: '/products/feeds'
+      buttonLink: '/products/feeds',
+      loaded: false
     },
     {
       image: 'images/mzuripic2.jpg',
+      placeholder: 'images/placeholders/mzuripic2-small.jpg',
       title: 'Empowering Smallholder Farmers',
       description: 'Training programs in regenerative agriculture, vermicomposting, and market access for sustainable livelihoods.',
       buttonText: 'Join Regen-Kilimo',
-      buttonLink: '/regen-kilimo'
+      buttonLink: '/regen-kilimo',
+      loaded: false
     },
     {
       image: 'images/mzuri4.jpg',
+      placeholder: 'images/placeholders/mzuri4-small.jpg',
       title: 'Precision Farming Technology',
       description: 'Data-driven precision dosing to optimize fertilizer use and maximize yields for Kenyan farmers.',
       buttonText: 'PREFarm Initiative',
-      buttonLink: '/prefarm'
+      buttonLink: '/prefarm',
+      loaded: false
     }
   ];
 
+  ngOnInit() {
+    this.preloadFirstSlide();
+  }
+
   ngAfterViewInit() {
-    // Start auto-slide after a short delay
     setTimeout(() => {
-      this.startAutoSlide();
+      if (!this.isLoading) {
+        this.startAutoSlide();
+      }
     }, 1000);
   }
 
@@ -101,7 +120,38 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     this.closeMiniVideo();
   }
 
+  preloadFirstSlide() {
+    const img = new Image();
+    img.src = this.slides[0].image;
+    img.onload = () => {
+      this.slides[0].loaded = true;
+      this.imagesLoaded++;
+      this.checkAllImagesLoaded();
+    };
+  }
+
+  onImageLoad(index: number) {
+    this.slides[index].loaded = true;
+    this.imagesLoaded++;
+    this.checkAllImagesLoaded();
+  }
+
+  checkAllImagesLoaded() {
+    if (this.imagesLoaded >= 2) {
+      this.isLoading = false;
+      this.cdr.detectChanges();
+      
+      if (!this.isUserInteracting) {
+        setTimeout(() => {
+          this.startAutoSlide();
+        }, 500);
+      }
+    }
+  }
+
   startAutoSlide() {
+    if (this.isLoading) return;
+    
     this.startProgressBar();
     
     this.slideInterval = setTimeout(() => {
@@ -162,13 +212,18 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   }
 
   nextSlide() {
-    if (this.isAnimating) return;
+    if (this.isAnimating || this.isLoading) return;
     
     this.isAnimating = true;
     this.stopAutoSlide();
     
     const nextIndex = (this.currentSlide + 1) % this.slides.length;
     this.nextSlideIndex = nextIndex;
+    
+    if (!this.slides[nextIndex].loaded) {
+      const img = new Image();
+      img.src = this.slides[nextIndex].image;
+    }
     
     setTimeout(() => {
       this.currentSlide = nextIndex;
@@ -177,7 +232,7 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
       setTimeout(() => {
         this.isAnimating = false;
         
-        if (!this.isUserInteracting) {
+        if (!this.isUserInteracting && !this.isLoading) {
           this.startAutoSlide();
         }
       }, this.TRANSITION_DURATION);
@@ -186,13 +241,18 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   }
 
   prevSlide() {
-    if (this.isAnimating) return;
+    if (this.isAnimating || this.isLoading) return;
     
     this.isAnimating = true;
     this.stopAutoSlide();
     
     const prevIndex = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
     this.nextSlideIndex = prevIndex;
+    
+    if (!this.slides[prevIndex].loaded) {
+      const img = new Image();
+      img.src = this.slides[prevIndex].image;
+    }
     
     setTimeout(() => {
       this.currentSlide = prevIndex;
@@ -201,7 +261,7 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
       setTimeout(() => {
         this.isAnimating = false;
         
-        if (!this.isUserInteracting) {
+        if (!this.isUserInteracting && !this.isLoading) {
           this.startAutoSlide();
         }
       }, this.TRANSITION_DURATION);
@@ -210,12 +270,17 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   }
 
   goToSlide(index: number) {
-    if (index === this.currentSlide || this.isAnimating) return;
+    if (index === this.currentSlide || this.isAnimating || this.isLoading) return;
     
     this.isAnimating = true;
     this.stopAutoSlide();
     
     this.nextSlideIndex = index;
+    
+    if (!this.slides[index].loaded) {
+      const img = new Image();
+      img.src = this.slides[index].image;
+    }
     
     setTimeout(() => {
       this.currentSlide = index;
@@ -224,7 +289,7 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
       setTimeout(() => {
         this.isAnimating = false;
         
-        if (!this.isUserInteracting) {
+        if (!this.isUserInteracting && !this.isLoading) {
           this.startAutoSlide();
         }
       }, this.TRANSITION_DURATION);
@@ -233,6 +298,8 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   }
 
   resetAutoSlide() {
+    if (this.isLoading) return;
+    
     this.isUserInteracting = true;
     this.stopAutoSlide();
     
@@ -260,7 +327,7 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
             this.isVideoPlaying = true;
             this.cdr.detectChanges();
           })
-          .catch(error => {
+          .catch((error: any) => {
             console.error('Video playback failed:', error);
           });
       }
@@ -306,7 +373,7 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     if (this.miniVideoRef) {
       const video = this.miniVideoRef.nativeElement;
       if (!document.fullscreenElement) {
-        video.requestFullscreen().catch(err => {
+        video.requestFullscreen().catch((err: any) => {
           console.error(`Error attempting to enable fullscreen: ${err.message}`);
         });
       } else {
