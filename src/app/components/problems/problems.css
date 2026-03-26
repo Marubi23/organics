@@ -686,11 +686,11 @@
 }
 
 .cta-text p {
-  font-size: 1.7rem;
+  font-size: 1.9rem;
   opacity: 0.95;
   margin-bottom: 40px;
   line-height: 1.6;
-  color: wheat;
+  color: white;
   font-family: 'Roboto', sans-serif;
 }
 
@@ -724,7 +724,7 @@
   font-family: 'Poppins', sans-serif;
 }
 
-.cta-stat-label {
+.cta-stats .stat-label {
   font-size: 0.9rem;
   color: white;
   font-weight: 500;
