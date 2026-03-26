@@ -55,20 +55,24 @@
 }
 
 /* Impact Hero */
+/* ============================================
+   IMPACT PAGE HERO - Matching Problems Page
+   ============================================ */
 .impact-hero {
-  text-align: center;
-  background: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.4)), 
+  background: linear-gradient(rgba(7, 34, 9, 0.6), rgba(10, 31, 18, 0.7)),
               url('/images/mzuri5.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
   background-position: center;
-  padding: 100px 20px;
-  min-height: 70vh;
+  background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  color: var(--white);
+  padding: 140px 20px;
+  text-align: center;
+  position: relative;
+  min-height: 90vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  overflow: hidden;
 }
 
 .impact-hero::before {
@@ -77,59 +81,36 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #88c431, #d49a42, #88c431);
-  animation: shimmer 3s infinite;
-  background-size: 200% 100%;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(136, 196, 49, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(212, 154, 66, 0.1) 0%, transparent 50%);
+  pointer-events: none;
 }
 
-.hero-content {
+.impact-hero .hero-content {
   position: relative;
   z-index: 2;
-  max-width: 900px;
+  max-width: 800px;
   margin: 0 auto;
-  padding: 50px 40px;
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 20px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
-  border: 2px solid rgba(136, 196, 49, 0.2);
-  backdrop-filter: blur(10px);
-  animation: fadeIn 0.8s ease-out forwards;
 }
 
-.hero-content h1 {
-  font-size: 3.2rem;
+.impact-hero h1 {
+  font-size: 3rem;
   font-weight: 700;
-  color: #88c431;
   margin-bottom: 20px;
-  line-height: 1.2;
   font-family: 'Poppins', sans-serif;
-  position: relative;
-  display: inline-block;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.hero-content h1::after {
-  content: '';
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80px;
-  height: 4px;
-  background: linear-gradient(90deg, #88c431, #d49a42);
-  border-radius: 2px;
-}
-
-.hero-subtitle {
+.impact-hero .hero-subtitle {
   font-size: 1.3rem;
   line-height: 1.6;
+  opacity: 0.95;
   max-width: 700px;
-  margin: 20px auto 0;
-  color: #333;
+  margin: 0 auto;
   font-family: 'Roboto', sans-serif;
-  font-weight: 400;
 }
-
 .container {
   max-width: 1200px;
   margin: 0 auto;

@@ -23,7 +23,10 @@
 /* ===== HERO SECTION ===== */
 .contact-hero {
   padding: 120px 0 80px;
-  background: linear-gradient(135deg, #f0f7e6 0%, #fcf5e9 100%);
+  background-image: url('/images/mzuri7.jpg');
+  background-position: center 10%;
+  background-repeat: no-repeat;
+  background-size: cover;
   position: relative;
   overflow: hidden;
 }
@@ -92,7 +95,7 @@
   font-weight: 700;
   line-height: 1.2;
   margin-bottom: 20px;
-  color: #1a2e1f;
+  color: #d49a42;
 }
 
 .title-highlight {
@@ -114,8 +117,8 @@
 }
 
 .hero-description {
-  font-size: 1.2rem;
-  color: #5a6b5a;
+  font-size: 1.6rem;
+  color: white;
   max-width: 600px;
   margin: 0 auto;
   line-height: 1.6;
