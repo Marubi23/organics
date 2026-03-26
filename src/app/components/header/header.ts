@@ -98,34 +98,34 @@ export class HeaderComponent implements OnInit, OnDestroy {
   navItems: NavItem[] = [
     { 
       text: 'Home', 
-      icon: 'fas fa-home', 
+      icon: 'fas fa-store home-icon', 
       route: '/home' 
     },
     {
       text: 'About Us',
-      icon: 'fas fa-info-circle',
+      icon: 'fas fa-globe about-icon',
       children: [
         { 
           text: 'Overview', 
-          icon: 'fas fa-eye', 
+          icon: 'fas fa-globe about-icon', 
           route: '/about', 
           description: 'Our mission and vision' 
         },
         { 
           text: 'What We Do', 
-          icon: 'fas fa-hands-helping', 
+          icon: 'fas fa-tools what-we-do-icon', 
           route: '/what-we-do', 
           description: 'Our innovative solutions' 
         },
         { 
           text: 'Challenges', 
-          icon: 'fas fa-exclamation-triangle', 
+          icon: 'fas fa-balance-scale challenges-icon', 
           route: '/challenges', 
           description: 'Agricultural challenges we address' 
         },
         { 
           text: 'Impacts', 
-          icon: 'fas fa-chart-line', 
+          icon: 'fas fa-tree impacts-icon', 
           route: '/impacts', 
           description: 'Our significant environmental impact' 
         }
@@ -747,4 +747,47 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.cartService.closeCart();
     }
   }
+  // Add these properties with your other properties
+isAccountDropdownOpen = false;
+private accountDropdownTimeout: any;
+
+// Add these methods with your other methods
+
+// ============ ACCOUNT DROPDOWN METHODS ============
+showAccountDropdown() {
+  if (this.accountDropdownTimeout) {
+    clearTimeout(this.accountDropdownTimeout);
+    this.accountDropdownTimeout = null;
+  }
+  this.isAccountDropdownOpen = true;
+  this.showHeader();
+}
+
+hideAccountDropdown() {
+  this.accountDropdownTimeout = setTimeout(() => {
+    this.isAccountDropdownOpen = false;
+  }, 200);
+}
+
+keepAccountDropdownOpen() {
+  if (this.accountDropdownTimeout) {
+    clearTimeout(this.accountDropdownTimeout);
+    this.accountDropdownTimeout = null;
+  }
+  this.isAccountDropdownOpen = true;
+}
+
+toggleAccountDropdown() {
+  // For mobile touch devices
+  if (window.innerWidth <= 1024) {
+    this.isAccountDropdownOpen = !this.isAccountDropdownOpen;
+    if (this.isAccountDropdownOpen) this.showHeader();
+  }
+}
+
+navigateToPage(route: string) {
+  this.router.navigate([route]);
+  this.isAccountDropdownOpen = false;
+  this.closeSearch();
+}
 }

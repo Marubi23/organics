@@ -18,7 +18,6 @@
             [routerLink]="navItem.route" 
             class="nav-link"
             [class.active]="isActive(navItem.route)">
-            <i [class]="navItem.icon"></i>
             <span class="nav-text">{{ navItem.text }}</span>
           </a>
           
@@ -96,19 +95,91 @@
             <span class="icon-tooltip">Cart</span>
           </button>
           
-          <!-- Account -->
-          <button class="nav-icon account-icon" 
-                  (click)="toggleAccountMenu()"
-                  [class.active]="isAccountMenuOpen"
-                  title="My Account">
-            <div class="avatar-circle" *ngIf="currentUser; else guestIcon">
-              {{ getUserInitials() }}
+          <!-- Account with Dropdown -->
+          <div class="dropdown account-dropdown">
+            <button class="nav-icon account-icon" 
+                    (mouseenter)="showAccountDropdown()"
+                    (mouseleave)="hideAccountDropdown()"
+                    (click)="toggleAccountDropdown()"
+                    [class.active]="isAccountDropdownOpen"
+                    title="My Account">
+              <div class="avatar-circle" *ngIf="currentUser; else guestIcon">
+                {{ getUserInitials() }}
+              </div>
+              <ng-template #guestIcon>
+                <i class="fas fa-user"></i>
+              </ng-template>
+              <span class="icon-tooltip">Account</span>
+            </button>
+            
+            <!-- Account Dropdown Menu -->
+            <div class="dropdown-menu account-dropdown-menu" 
+                 [class.visible]="isAccountDropdownOpen"
+                 (mouseenter)="keepAccountDropdownOpen()"
+                 (mouseleave)="hideAccountDropdown()">
+              
+              <!-- User Info Section (if logged in) -->
+              <div class="dropdown-user-info" *ngIf="currentUser">
+                <div class="user-avatar-large">
+                  {{ getUserInitials() }}
+                </div>
+                <div class="user-details">
+                  <div class="user-name">{{ currentUser.fullName }}</div>
+                  <div class="user-email">{{ currentUser.email }}</div>
+                </div>
+              </div>
+              
+              <!-- Guest Info Section -->
+              <div class="dropdown-guest-info" *ngIf="!currentUser">
+                <div class="guest-icon">
+                  <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="guest-text">
+                  <div class="guest-title">Account Menu</div>
+                  <div class="guest-subtitle">Sign in to access your account</div>
+                </div>
+              </div>
+              
+              <div class="dropdown-divider"></div>
+              
+              <!-- Blog Link -->
+              <div class="dropdown-item" (click)="navigateToPage('/blog')">
+                <i class="fas fa-file-alt blog-icon"></i>
+                <div class="dropdown-content">
+                  <span class="item-text">Blog</span>
+                  <span class="item-description">Latest news and insights from Mzuri Organics</span>
+                </div>
+              </div>
+              
+              <!-- FAQ Link -->
+              <div class="dropdown-item" (click)="navigateToPage('/faq')">
+                <i class="fas fa-headset faq-icon"></i>
+                <div class="dropdown-content">
+                  <span class="item-text">FAQs</span>
+                  <span class="item-description">Frequently asked questions about our products</span>
+                </div>
+              </div>
+              
+              <div class="dropdown-divider"></div>
+              
+              <!-- Login/Logout Section -->
+              <div class="dropdown-item" *ngIf="!currentUser" (click)="navigateToPage('/auth')">
+                <i class="fas fa-quote-left testimonial-icon"></i>
+                <div class="dropdown-content">
+                  <span class="item-text">Testionials</span>
+                  <span class="item-description">See what people say about us</span>
+                </div>
+              </div>
+              
+              <div class="dropdown-item" *ngIf="currentUser" (click)="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+                <div class="dropdown-content">
+                  <span class="item-text">Sign Out</span>
+                  <span class="item-description">Logout from your account</span>
+                </div>
+              </div>
             </div>
-            <ng-template #guestIcon>
-              <i class="fas fa-user"></i>
-            </ng-template>
-            <span class="icon-tooltip">Account</span>
-          </button>
+          </div>
           
           <!-- Settings/Accessibility -->
           <button class="nav-icon settings-icon" 
@@ -129,7 +200,7 @@
     (close)="toggleSettingsMenu()">
   </app-accessibility-menu>
 
-  <!-- Account Menu Component -->
+  <!-- Account Menu Component (keep for backward compatibility) -->
   <app-account-menu 
     *ngIf="isAccountMenuOpen"
     [currentUser]="currentUser"
