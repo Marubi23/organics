@@ -47,8 +47,8 @@ body {
 
 /* Hero Section - Fixed */
 .page-hero {
-  background: linear-gradient(rgba(7, 34, 9, 0.92), rgba(10, 31, 18, 0.95)),
-              url('/images/problemsolution.JPG');
+background: linear-gradient(rgba(7, 34, 9, 0.6), rgba(10, 31, 18, 0.7)),
+              url('/images/mzuri6.jpg');
   background-position: center;
   background-size: cover;
   background-attachment: fixed;
