@@ -29,7 +29,7 @@
   min-height: 650px;
   max-height: 800px;
   overflow: hidden;
-  background: transparent;
+  background: var(--cream);
 }
 
 /* PROGRESS BAR - Top of the slider */
@@ -122,9 +122,15 @@
   object-fit: cover;
   object-position: center center;
   transform: scale(1);
-  transition: transform 12s ease-out;
+  transition: transform 12s ease-out, opacity 0.5s ease;
   filter: brightness(1.1) contrast(1.05) saturate(1.1);
   mix-blend-mode: normal;
+  opacity: 0;
+  background-color: var(--cream);
+}
+
+.background-image.loaded {
+  opacity: 1;
 }
 
 .slide.active .background-image {
@@ -274,7 +280,7 @@
   );
 }
 
-/* Content Styling - Appears immediately with photo */
+/* Content Styling - Appears immediately */
 .slide-content {
   position: relative;
   z-index: 3;
@@ -284,7 +290,7 @@
   padding: 0 3rem;
   transform: translateY(20px);
   opacity: 0;
-  transition: opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s;
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 .slide-content.content-visible {
@@ -307,7 +313,7 @@
   letter-spacing: -0.5px;
   opacity: 0;
   transform: translateY(10px);
-  transition: opacity 0.5s ease 0.3s, transform 0.5s ease 0.3s;
+  transition: opacity 0.4s ease 0.1s, transform 0.4s ease 0.1s;
 }
 
 .content-visible .slide-title {
@@ -324,7 +330,7 @@
   max-width: 550px;
   opacity: 0;
   transform: translateY(10px);
-  transition: opacity 0.5s ease 0.4s, transform 0.5s ease 0.4s;
+  transition: opacity 0.4s ease 0.2s, transform 0.4s ease 0.2s;
 }
 
 .content-visible .slide-description {
@@ -338,7 +344,7 @@
   flex-wrap: wrap;
   opacity: 0;
   transform: translateY(10px);
-  transition: opacity 0.5s ease 0.5s, transform 0.5s ease 0.5s;
+  transition: opacity 0.4s ease 0.3s, transform 0.4s ease 0.3s;
 }
 
 .content-visible .slide-buttons {
@@ -359,6 +365,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.5rem;
 }
 
 .btn-primary {
@@ -475,10 +482,6 @@
   width: 0%;
   background: var(--white);
   border-radius: 2px;
-  animation: progress 5s linear infinite;
-}
-
-.indicator.active .indicator-progress {
   animation: progress 5s linear;
 }
 
@@ -499,7 +502,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: skeletonPulse 1.5s ease-in-out infinite;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  pointer-events: none;
+}
+
+.hero-loaded .hero-loading-skeleton {
+  opacity: 0;
+  visibility: hidden;
 }
 
 @keyframes skeletonPulse {
@@ -511,6 +520,7 @@
   max-width: 650px;
   width: 90%;
   padding: 2rem;
+  animation: skeletonPulse 1.5s ease-in-out infinite;
 }
 
 .skeleton-title {
@@ -550,29 +560,6 @@
 @keyframes skeletonShimmer {
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
-}
-
-/* Image Placeholder */
-.image-placeholder {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  filter: blur(20px);
-  transform: scale(1.1);
-  z-index: 1;
-}
-
-.background-image {
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-
-.background-image.loaded {
-  opacity: 1;
 }
 
 /* Hide elements during loading */
@@ -674,7 +661,7 @@
 }
 
 .video-play-btn {
-  background:#ff0033;
+  background: #ff0033;
   color: white;
   font-weight: 600;
   border: none;
@@ -682,6 +669,18 @@
 
 .video-play-btn:hover {
   background: #053feb;
+}
+
+/* Seamless transition element */
+.hero-gradient-transition {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  pointer-events: none;
+  z-index: 3;
+  background: linear-gradient(to bottom, transparent, var(--cream));
 }
 
 /* ================================
@@ -961,18 +960,6 @@
   will-change: transform, opacity;
 }
 
-/* Seamless transition element */
-.hero-gradient-transition {
-  position: absolute;
-  bottom: -1px;
-  left: 0;
-  width: 100%;
-  height: 100px;
-  pointer-events: none;
-  z-index: 3;
-  background: linear-gradient(to bottom, transparent, var(--cream));
-}
-
 /* Animation for slide transitions */
 .slide-exit .slide-background {
   opacity: 0;
@@ -1002,7 +989,7 @@
 .slide-enter.active .slide-content {
   opacity: 1;
   transform: translateY(0);
-  transition: opacity 0.6s ease 0.3s, transform 0.6s ease 0.3s;
+  transition: opacity 0.4s ease 0.2s, transform 0.4s ease 0.2s;
 }
 
 /* ============ DARK THEME SUPPORT ============ */

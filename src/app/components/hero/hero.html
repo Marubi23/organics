@@ -1,7 +1,7 @@
 <!-- Wrap hero slider in a container for the flowing gradient -->
 <div class="hero-slider-container">
   
-  <!-- Loading Skeleton - Shows while images load -->
+  <!-- Minimal Loading Skeleton - Shows while images load -->
   <div class="hero-loading-skeleton" *ngIf="isLoading">
     <div class="skeleton-content">
       <div class="skeleton-title"></div>
@@ -30,28 +30,23 @@
           
           <div class="slide-background">
             <div class="image-container">
-              <!-- Low quality placeholder while loading -->
-              <div class="image-placeholder" 
-                   [style.backgroundImage]="'url(' + slide.placeholder + ')'"
-                   [style.display]="!slide.loaded ? 'block' : 'none'">
-              </div>
-              
-              <!-- High quality image - not lazy on first slide -->
+              <!-- High quality image with eager loading for first slide -->
               <img 
                 [src]="slide.image" 
                 [alt]="slide.title" 
                 class="background-image"
                 [class.loaded]="slide.loaded"
                 [attr.loading]="i === 0 ? 'eager' : 'lazy'"
-                (load)="onImageLoad(i)">
+                (load)="onImageLoad(i)"
+                (error)="onImageError(i)">
               
               <div class="image-overlay"></div>
             </div>
           </div>
           
-          <!-- Content that appears immediately with photo -->
+          <!-- Content that appears immediately -->
           <div class="container">
-            <div class="slide-content" [class.content-visible]="i === currentSlide && slides[i].loaded">
+            <div class="slide-content" [class.content-visible]="i === currentSlide">
               <div class="text-content">
                 <h1 class="slide-title">{{ slide.title }}</h1>
                 <p class="slide-description">{{ slide.description }}</p>
@@ -117,7 +112,7 @@
         </div>
       </div>
 
-      <!-- Navigation -->
+      <!-- Navigation Arrows -->
       <button class="slider-nav prev" (click)="prevSlide(); onUserInteraction()" [class.hidden]="isLoading">
         <i class="fas fa-chevron-left"></i>
       </button>
@@ -125,7 +120,7 @@
         <i class="fas fa-chevron-right"></i>
       </button>
 
-      <!-- Indicators -->
+      <!-- Slide Indicators -->
       <div class="slide-indicators" [class.hidden]="isLoading">
         <button 
           *ngFor="let slide of slides; let i = index" 
@@ -140,7 +135,7 @@
     <!-- Mini Video Player (Hidden by default) -->
     <div class="mini-video-player" [class.visible]="showMiniVideo">
       <div class="video-header">
-        <span>Our Story</span>
+        <span>🌱 Our Story</span>
         <button class="video-close" (click)="closeMiniVideo()">
           <i class="fas fa-times"></i>
         </button>

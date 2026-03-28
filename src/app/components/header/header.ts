@@ -1,4 +1,3 @@
-// src/app/components/header/header.component.ts
 import { Component, HostListener, OnInit, OnDestroy, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
@@ -60,7 +59,6 @@ interface AccountMenuItem {
     RouterModule, 
     FormsModule, 
     HamburgerMenuComponent,
-    // Add the separate components
     AccessibilityMenuComponent,
     AccountMenuComponent,
     SearchOverlayComponent
@@ -80,9 +78,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   // Menu States
   isQuickMenuOpen = false;
   isSettingsMenuOpen = false;
-  isAccountMenuOpen = false;
+  isAccountMenuOpen = false; // For account dropdown
+  isAccountMenuComponentOpen = false; // For the separate account menu component
   isSearchOpen = false;
   activeDropdown: number | null = null;
+  
+  // Overlay state for blur effect
+  showOverlay = false;
   
   // Mobile Menu State
   showMobileMenu = false;
@@ -209,6 +211,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private subscriptions: any[] = [];
   private dropdownTimeout: any;
+  private accountDropdownTimeout: any;
 
   constructor(
     public cartService: CartService,
@@ -239,6 +242,39 @@ export class HeaderComponent implements OnInit, OnDestroy {
         }
       })
     );
+  }
+
+  // ============ OVERLAY CONTROL METHODS ============
+  
+  /**
+   * Show overlay with blur effect
+   */
+  showBlurOverlay() {
+    this.showOverlay = true;
+    this.renderer.addClass(document.body, 'menu-open');
+  }
+  
+  /**
+   * Hide overlay and remove blur effect
+   */
+  hideBlurOverlay() {
+    // Only hide if no menus are open
+    if (!this.isSettingsMenuOpen && !this.isAccountMenuOpen && !this.isAccountMenuComponentOpen && !this.isSearchOpen && !this.isQuickMenuOpen) {
+      this.showOverlay = false;
+      this.renderer.removeClass(document.body, 'menu-open');
+    }
+  }
+  
+  /**
+   * Check if any menu is open to manage overlay
+   */
+  private updateOverlayState() {
+    const anyMenuOpen = this.isSettingsMenuOpen || this.isAccountMenuOpen || this.isAccountMenuComponentOpen || this.isSearchOpen || this.isQuickMenuOpen;
+    if (anyMenuOpen) {
+      this.showBlurOverlay();
+    } else {
+      this.hideBlurOverlay();
+    }
   }
 
   // ============ ACCESSIBILITY METHODS ============
@@ -274,28 +310,28 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   applyFontSize() {
-    // Remove existing font size classes
     document.body.classList.remove('font-small', 'font-medium', 'font-large');
-    // Add new font size class
     document.body.classList.add(`font-${this.fontSize}`);
   }
 
   // High Contrast
   toggleHighContrast() {
+    this.highContrast = !this.highContrast;
     if (this.highContrast) {
-      document.body.classList.add('high-contrast');
+      this.renderer.addClass(document.body, 'high-contrast');
     } else {
-      document.body.classList.remove('high-contrast');
+      this.renderer.removeClass(document.body, 'high-contrast');
     }
     this.saveAccessibilitySettings();
   }
 
   // Reduced Motion
   toggleReducedMotion() {
+    this.reducedMotion = !this.reducedMotion;
     if (this.reducedMotion) {
-      document.body.classList.add('reduced-motion');
+      this.renderer.addClass(document.body, 'reduced-motion');
     } else {
-      document.body.classList.remove('reduced-motion');
+      this.renderer.removeClass(document.body, 'reduced-motion');
     }
     this.saveAccessibilitySettings();
   }
@@ -316,20 +352,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   // Readable Font
   toggleReadableFont() {
+    this.readableFont = !this.readableFont;
     if (this.readableFont) {
-      document.body.classList.add('readable-font');
+      this.renderer.addClass(document.body, 'readable-font');
     } else {
-      document.body.classList.remove('readable-font');
+      this.renderer.removeClass(document.body, 'readable-font');
     }
     this.saveAccessibilitySettings();
   }
 
   // Focus Indicators
   toggleFocusIndicators() {
+    this.focusIndicators = !this.focusIndicators;
     if (this.focusIndicators) {
-      document.body.classList.add('focus-indicators');
+      this.renderer.addClass(document.body, 'focus-indicators');
     } else {
-      document.body.classList.remove('focus-indicators');
+      this.renderer.removeClass(document.body, 'focus-indicators');
     }
     this.saveAccessibilitySettings();
   }
@@ -361,7 +399,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.readableFont = settings.readableFont || false;
         this.focusIndicators = settings.focusIndicators || false;
         
-        // Apply all settings
         this.applyFontSize();
         if (this.highContrast) document.body.classList.add('high-contrast');
         if (this.reducedMotion) document.body.classList.add('reduced-motion');
@@ -377,7 +414,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   resetAccessibilitySettings() {
-    // Reset to defaults
     this.fontSize = 'medium';
     this.highContrast = false;
     this.reducedMotion = false;
@@ -386,7 +422,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.readableFont = false;
     this.focusIndicators = false;
     
-    // Remove all accessibility classes
     document.body.classList.remove(
       'font-small', 'font-medium', 'font-large',
       'high-contrast', 'reduced-motion', 'readable-font',
@@ -395,11 +430,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
       'letter-spacing-wider'
     );
     
-    // Apply defaults
     this.applyFontSize();
     document.body.classList.add('line-spacing-normal', 'letter-spacing-normal');
-    
-    // Save settings
     this.saveAccessibilitySettings();
   }
 
@@ -418,7 +450,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.showMobileMenu = isOpen;
   }
 
-  // Handle screen resize
   @HostListener('window:resize')
   onResize() {
     if (window.innerWidth > 1024 && this.isMobileMenuOpen) {
@@ -431,6 +462,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(sub => sub.unsubscribe());
     if (this.hideTimeout) clearTimeout(this.hideTimeout);
     if (this.dropdownTimeout) clearTimeout(this.dropdownTimeout);
+    if (this.accountDropdownTimeout) clearTimeout(this.accountDropdownTimeout);
+    this.renderer.removeClass(document.body, 'menu-open');
   }
 
   // ============ CART FUNCTIONALITY ============
@@ -501,32 +534,120 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private isMenuOpen(): boolean {
     return this.isQuickMenuOpen || this.isSettingsMenuOpen || 
-           this.isAccountMenuOpen || this.isSearchOpen || 
-           this.activeDropdown !== null || this.cartService.getCartState();
+           this.isAccountMenuOpen || this.isAccountMenuComponentOpen || 
+           this.isSearchOpen || this.activeDropdown !== null || 
+           this.cartService.getCartState();
   }
 
   // ============ MENU CONTROLS ============
   toggleQuickMenu() {
     this.isQuickMenuOpen = !this.isQuickMenuOpen;
-    if (this.isQuickMenuOpen) this.showHeader();
+    if (this.isQuickMenuOpen) {
+      this.showHeader();
+      this.showBlurOverlay();
+    } else {
+      this.hideBlurOverlay();
+    }
+    this.updateOverlayState();
   }
 
   toggleSettingsMenu() {
     this.isSettingsMenuOpen = !this.isSettingsMenuOpen;
-    if (this.isSettingsMenuOpen) this.showHeader();
+    if (this.isSettingsMenuOpen) {
+      this.showHeader();
+      this.showBlurOverlay();
+      if (this.isAccountMenuOpen) {
+        this.isAccountMenuOpen = false;
+      }
+      if (this.isAccountMenuComponentOpen) {
+        this.isAccountMenuComponentOpen = false;
+      }
+    } else {
+      this.hideBlurOverlay();
+    }
+    this.updateOverlayState();
   }
 
-  toggleAccountMenu() {
-    this.isAccountMenuOpen = !this.isAccountMenuOpen;
-    if (this.isAccountMenuOpen) this.showHeader();
+  toggleAccountMenuComponent() {
+    this.isAccountMenuComponentOpen = !this.isAccountMenuComponentOpen;
+    if (this.isAccountMenuComponentOpen) {
+      this.showHeader();
+      this.showBlurOverlay();
+      if (this.isSettingsMenuOpen) {
+        this.isSettingsMenuOpen = false;
+      }
+      if (this.isAccountMenuOpen) {
+        this.isAccountMenuOpen = false;
+      }
+    } else {
+      this.hideBlurOverlay();
+    }
+    this.updateOverlayState();
   }
 
+  openSearch() {
+    this.isSearchOpen = true;
+    this.showBlurOverlay();
+    this.renderer.addClass(document.body, 'search-open');
+    this.updateOverlayState();
+  }
+
+  closeSearch() {
+    this.isSearchOpen = false;
+    this.searchTerm = '';
+    this.searchResults = [];
+    this.renderer.removeClass(document.body, 'search-open');
+    this.hideBlurOverlay();
+    this.updateOverlayState();
+  }
+
+  // ============ ACCOUNT DROPDOWN METHODS ============
+  showAccountDropdown() {
+    if (this.accountDropdownTimeout) {
+      clearTimeout(this.accountDropdownTimeout);
+      this.accountDropdownTimeout = null;
+    }
+    this.isAccountMenuOpen = true;
+    this.showHeader();
+    this.showBlurOverlay();
+    this.updateOverlayState();
+  }
+
+  hideAccountDropdown() {
+    this.accountDropdownTimeout = setTimeout(() => {
+      this.isAccountMenuOpen = false;
+      this.hideBlurOverlay();
+      this.updateOverlayState();
+    }, 200);
+  }
+
+  keepAccountDropdownOpen() {
+    if (this.accountDropdownTimeout) {
+      clearTimeout(this.accountDropdownTimeout);
+      this.accountDropdownTimeout = null;
+    }
+    this.isAccountMenuOpen = true;
+  }
+
+  toggleAccountDropdown() {
+    if (window.innerWidth <= 1024) {
+      this.isAccountMenuOpen = !this.isAccountMenuOpen;
+      if (this.isAccountMenuOpen) {
+        this.showHeader();
+        this.showBlurOverlay();
+      } else {
+        this.hideBlurOverlay();
+      }
+      this.updateOverlayState();
+    }
+  }
+
+  // ============ DROPDOWN METHODS ============
   showDropdown(index: number) {
     if (this.dropdownTimeout) {
       clearTimeout(this.dropdownTimeout);
       this.dropdownTimeout = null;
     }
-    
     this.activeDropdown = index;
     this.showHeader();
   }
@@ -544,7 +665,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       clearTimeout(this.dropdownTimeout);
       this.dropdownTimeout = null;
     }
-    
     this.activeDropdown = index;
   }
 
@@ -616,18 +736,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   // ============ SEARCH ============
-  openSearch() {
-    this.isSearchOpen = true;
-    this.renderer.addClass(document.body, 'search-open');
-  }
-
-  closeSearch() {
-    this.isSearchOpen = false;
-    this.searchTerm = '';
-    this.searchResults = [];
-    this.renderer.removeClass(document.body, 'search-open');
-  }
-
   onSearchInput(event: any) {
     this.searchTerm = event.target.value;
     this.performSearch();
@@ -670,6 +778,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.activeDropdown = null;
   }
 
+  navigateToPage(route: string) {
+    this.router.navigate([route]);
+    this.isAccountMenuOpen = false;
+    this.closeSearch();
+  }
+
   // ============ ACCOUNT ============
   getUserInitials(): string {
     if (!this.currentUser?.fullName) return 'U';
@@ -683,19 +797,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   logout() {
     this.authService.logout();
-    this.toggleAccountMenu();
+    this.isAccountMenuOpen = false;
+    this.isAccountMenuComponentOpen = false;
+    this.hideBlurOverlay();
+    this.updateOverlayState();
   }
 
   // ============ SERVICE SUBSCRIPTIONS ============
   private subscribeToServices() {
-    // Subscribe to cart items count
     this.subscriptions.push(
       this.cartService.cartItems$.subscribe((items: any[]) => {
         this.cartCount = items.reduce((total: number, item: any) => total + item.quantity, 0);
       })
     );
     
-    // Subscribe to user auth state
     this.subscriptions.push(
       this.authService.currentUser$.subscribe((user: User | null) => {
         this.currentUser = user;
@@ -721,10 +836,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
     
     if (!target.closest('.settings-menu') && !target.closest('.settings-icon')) {
       this.isSettingsMenuOpen = false;
+      this.hideBlurOverlay();
     }
     
     if (!target.closest('.account-menu') && !target.closest('.account-icon')) {
       this.isAccountMenuOpen = false;
+      this.isAccountMenuComponentOpen = false;
+      this.hideBlurOverlay();
     }
     
     if (!target.closest('.dropdown') && !target.closest('.dropdown-toggle')) {
@@ -733,61 +851,25 @@ export class HeaderComponent implements OnInit, OnDestroy {
     
     if (!target.closest('.quick-menu') && !target.closest('.quick-menu-icon')) {
       this.isQuickMenuOpen = false;
+      this.hideBlurOverlay();
     }
+    
+    this.updateOverlayState();
   }
 
   @HostListener('document:keydown.escape')
   handleEscape() {
     this.isSettingsMenuOpen = false;
     this.isAccountMenuOpen = false;
+    this.isAccountMenuComponentOpen = false;
     this.isSearchOpen = false;
+    this.isQuickMenuOpen = false;
     this.activeDropdown = null;
+    this.hideBlurOverlay();
+    this.updateOverlayState();
     
     if (this.cartService.getCartState()) {
       this.cartService.closeCart();
     }
   }
-  // Add these properties with your other properties
-isAccountDropdownOpen = false;
-private accountDropdownTimeout: any;
-
-// Add these methods with your other methods
-
-// ============ ACCOUNT DROPDOWN METHODS ============
-showAccountDropdown() {
-  if (this.accountDropdownTimeout) {
-    clearTimeout(this.accountDropdownTimeout);
-    this.accountDropdownTimeout = null;
-  }
-  this.isAccountDropdownOpen = true;
-  this.showHeader();
-}
-
-hideAccountDropdown() {
-  this.accountDropdownTimeout = setTimeout(() => {
-    this.isAccountDropdownOpen = false;
-  }, 200);
-}
-
-keepAccountDropdownOpen() {
-  if (this.accountDropdownTimeout) {
-    clearTimeout(this.accountDropdownTimeout);
-    this.accountDropdownTimeout = null;
-  }
-  this.isAccountDropdownOpen = true;
-}
-
-toggleAccountDropdown() {
-  // For mobile touch devices
-  if (window.innerWidth <= 1024) {
-    this.isAccountDropdownOpen = !this.isAccountDropdownOpen;
-    if (this.isAccountDropdownOpen) this.showHeader();
-  }
-}
-
-navigateToPage(route: string) {
-  this.router.navigate([route]);
-  this.isAccountDropdownOpen = false;
-  this.closeSearch();
-}
 }

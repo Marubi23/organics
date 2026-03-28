@@ -55,6 +55,7 @@ body.cart-open .quick-view-modal-overlay {
   --z-toast: 99999;
   --z-cart-overlay: 999999;
   --z-cart-sidebar: 1000000;
+  --z-overlay: 999;              /* New overlay z-index */
 }
 
 /* Top Bar */
@@ -304,6 +305,51 @@ body.cart-open .quick-view-modal-overlay {
 }
 
 /* ============================================
+   GLOBAL OVERLAY FOR BLUR EFFECT
+   ============================================ */
+.global-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: var(--z-overlay);
+  animation: overlayFadeIn 0.3s ease;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+@keyframes overlayFadeIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+}
+
+/* Body class when menu is open */
+body.menu-open {
+  overflow: hidden;
+}
+
+/* Ensure menus appear above overlay */
+app-accessibility-menu,
+app-account-menu,
+app-search-overlay,
+.hamburger-menu,
+.mobile-menu {
+  z-index: calc(var(--z-overlay) + 1) !important;
+}
+
+/* ============================================
    GLOBAL Z-INDEX HIERARCHY FOR CART
    ============================================ */
 
@@ -393,7 +439,8 @@ body.cart-open .search-overlay,
 body.cart-open .quick-view-modal-overlay,
 body.cart-open .floating-cart,
 body.cart-open .toast-container,
-body.cart-open .add-success-message {
+body.cart-open .add-success-message,
+body.cart-open .global-overlay {
   z-index: auto !important;
 }
 
@@ -413,6 +460,11 @@ body.cart-open .add-success-message {
   .nav-links {
     display: none; /* Add hamburger menu for mobile */
   }
+  
+  .global-overlay {
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+  }
 }
 
 @media (max-width: 480px) {
@@ -430,6 +482,11 @@ body.cart-open .add-success-message {
   
   .features-grid {
     grid-template-columns: 1fr;
+  }
+  
+  .global-overlay {
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
   }
 }
 
@@ -464,6 +521,7 @@ body.cart-open .add-success-message {
     transition-duration: 0.01ms !important;
   }
 }
+
 /* Accessibility Classes */
 .font-small { font-size: 14px !important; }
 .font-medium { font-size: 16px !important; }
@@ -497,6 +555,35 @@ body.cart-open .add-success-message {
   outline: 3px solid #FFD700 !important;
   outline-offset: 3px !important;
 }
+
+/* ============================================
+   DARK THEME SUPPORT FOR OVERLAY
+   ============================================ */
+.dark-theme .global-overlay {
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+/* ============================================
+   HIGH CONTRAST SUPPORT FOR OVERLAY
+   ============================================ */
+.high-contrast .global-overlay {
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: none;
+}
+
+/* ============================================
+   REDUCED MOTION SUPPORT FOR OVERLAY
+   ============================================ */
+.reduced-motion .global-overlay {
+  animation: none;
+}
+
+.reduced-motion body.menu-open {
+  transition: none;
+}
+
 @font-face {
   font-family: 'OpenDyslexic';
   src: url('https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/otf/OpenDyslexic-Regular.otf') format('opentype');

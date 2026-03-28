@@ -1375,3 +1375,82 @@
 .reduced-motion .account-dropdown-menu.visible {
   animation: none;
 }
+/* ============ GLOBAL OVERLAY FOR BLUR EFFECT ============ */
+
+.global-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 999;
+  animation: overlayFadeIn 0.3s ease;
+  pointer-events: auto;
+}
+
+@keyframes overlayFadeIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+}
+
+/* Body class when menu is open */
+body.menu-open {
+  overflow: hidden;
+}
+
+/* Ensure menus appear above overlay */
+app-accessibility-menu,
+app-account-menu,
+app-search-overlay,
+.hamburger-menu,
+.mobile-menu {
+  z-index: 1000 !important;
+}
+
+/* ============ DARK THEME SUPPORT ============ */
+.dark-theme .global-overlay {
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+/* ============ HIGH CONTRAST SUPPORT ============ */
+.high-contrast .global-overlay {
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: none;
+}
+
+/* ============ REDUCED MOTION SUPPORT ============ */
+.reduced-motion .global-overlay {
+  animation: none;
+}
+
+.reduced-motion body.menu-open {
+  transition: none;
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 768px) {
+  .global-overlay {
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+  }
+}
+
+@media (max-width: 480px) {
+  .global-overlay {
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+  }
+}

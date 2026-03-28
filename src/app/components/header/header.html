@@ -1,3 +1,6 @@
+<!-- Global Overlay for Blur Effect -->
+<div class="global-overlay" *ngIf="showOverlay" (click)="handleEscape()"></div>
+
 <nav class="main-nav" #headerElement [class.header-hidden]="isHeaderHidden">
   <div class="container">
     <div class="nav-content">
@@ -101,7 +104,7 @@
                     (mouseenter)="showAccountDropdown()"
                     (mouseleave)="hideAccountDropdown()"
                     (click)="toggleAccountDropdown()"
-                    [class.active]="isAccountDropdownOpen"
+                    [class.active]="isAccountMenuOpen"
                     title="My Account">
               <div class="avatar-circle" *ngIf="currentUser; else guestIcon">
                 {{ getUserInitials() }}
@@ -114,7 +117,7 @@
             
             <!-- Account Dropdown Menu -->
             <div class="dropdown-menu account-dropdown-menu" 
-                 [class.visible]="isAccountDropdownOpen"
+                 [class.visible]="isAccountMenuOpen"
                  (mouseenter)="keepAccountDropdownOpen()"
                  (mouseleave)="hideAccountDropdown()">
               
@@ -162,15 +165,19 @@
               
               <div class="dropdown-divider"></div>
               
-              <!-- Login/Logout Section -->
-              <div class="dropdown-item" *ngIf="!currentUser" (click)="navigateToPage('/auth')">
+              <!-- Testimonials Link -->
+              <div class="dropdown-item" *ngIf="!currentUser" (click)="navigateToPage('/testimonials')">
                 <i class="fas fa-quote-left testimonial-icon"></i>
                 <div class="dropdown-content">
-                  <span class="item-text">Testionials</span>
+                  <span class="item-text">Testimonials</span>
                   <span class="item-description">See what people say about us</span>
                 </div>
               </div>
               
+              <!-- Sign In Link for Guests -->
+          
+              
+              <!-- Logout for Logged In Users -->
               <div class="dropdown-item" *ngIf="currentUser" (click)="logout()">
                 <i class="fas fa-sign-out-alt"></i>
                 <div class="dropdown-content">
@@ -202,9 +209,9 @@
 
   <!-- Account Menu Component (keep for backward compatibility) -->
   <app-account-menu 
-    *ngIf="isAccountMenuOpen"
+    *ngIf="isAccountMenuComponentOpen"
     [currentUser]="currentUser"
-    (close)="toggleAccountMenu()"
+    (close)="toggleAccountMenuComponent()"
     (logout)="logout()">
   </app-account-menu>
 

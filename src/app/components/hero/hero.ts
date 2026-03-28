@@ -1,10 +1,9 @@
-import { Component, AfterViewInit, OnDestroy, ChangeDetectorRef, inject, ViewChild, ElementRef } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, ChangeDetectorRef, inject, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 
 interface Slide {
   image: string;
-  placeholder: string;
   title: string;
   description: string;
   buttonText: string;
@@ -20,7 +19,7 @@ interface Slide {
   templateUrl: './hero.html',
   styleUrls: ['./hero.css']
 })
-export class HeroComponent implements AfterViewInit, OnDestroy {
+export class HeroComponent implements OnInit, AfterViewInit, OnDestroy {
   private cdr = inject(ChangeDetectorRef);
   private router = inject(Router);
   
@@ -37,17 +36,18 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   isVideoMuted = true;
   isLoading = true;
   imagesLoaded = 0;
+  private forceShowTimeout: any;
   
   private slideInterval: any;
   private progressInterval: any;
 
   private readonly SLIDE_DURATION = 5000;
   private readonly TRANSITION_DURATION = 600;
+  private readonly MAX_LOADING_TIME = 800; // Max 800ms before showing content
 
   slides: Slide[] = [
     {
       image: 'images/mzuri5.jpg',
-      placeholder: 'images/placeholders/mzuri5-small.jpg',
       title: 'Regenerating Kenyan Soil Health',
       description: 'Building smallholder farmers\' resilience to climate change through regenerative agricultural practices across Kenya.',
       buttonText: 'Our Biofertilizers',
@@ -56,7 +56,6 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     },
     {
       image: 'images/mzuri8.jpg',
-      placeholder: 'images/placeholders/mzuri8-small.jpg',
       title: 'Organic Waste to Nutrient-Rich Fertilizers',
       description: 'Transforming farm and market waste into premium organic fertilizers using Black Soldier Fly Larvae technology.',
       buttonText: 'Our Process',
@@ -65,7 +64,6 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     },
     {
       image: 'images/mzuri7.jpg',
-      placeholder: 'images/placeholders/mzuri7-small.jpg',
       title: 'Circular Economy in Action',
       description: 'See how we convert organic waste into valuable resources while creating sustainable livelihoods for Kenyan farmers.',
       buttonText: 'Watch Our Story',
@@ -75,7 +73,6 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     },
     {
       image: 'images/mzuri6.jpg',
-      placeholder: 'images/placeholders/mzuri6-small.jpg',
       title: 'High-Protein Animal Feed Solutions',
       description: 'Insect-based protein feeds containing up to 50% protein - perfect for poultry, fish, and livestock farming.',
       buttonText: 'Animal Feeds',
@@ -84,7 +81,6 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     },
     {
       image: 'images/mzuripic2.jpg',
-      placeholder: 'images/placeholders/mzuripic2-small.jpg',
       title: 'Empowering Smallholder Farmers',
       description: 'Training programs in regenerative agriculture, vermicomposting, and market access for sustainable livelihoods.',
       buttonText: 'Join Regen-Kilimo',
@@ -93,7 +89,6 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     },
     {
       image: 'images/mzuri4.jpg',
-      placeholder: 'images/placeholders/mzuri4-small.jpg',
       title: 'Precision Farming Technology',
       description: 'Data-driven precision dosing to optimize fertilizer use and maximize yields for Kenyan farmers.',
       buttonText: 'PREFarm Initiative',
@@ -103,13 +98,23 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   ];
 
   ngOnInit() {
-    this.preloadFirstSlide();
+    // Start preloading all images immediately
+    this.preloadAllImages();
+    
+    // Force show content after MAX_LOADING_TIME to prevent indefinite loading
+    this.forceShowTimeout = setTimeout(() => {
+      if (this.isLoading) {
+        console.log('Force showing content after timeout');
+        this.forceShowContent();
+      }
+    }, this.MAX_LOADING_TIME);
   }
 
   ngAfterViewInit() {
+    // Additional safety: if still loading after 1 second, force show
     setTimeout(() => {
-      if (!this.isLoading) {
-        this.startAutoSlide();
+      if (this.isLoading) {
+        this.forceShowContent();
       }
     }, 1000);
   }
@@ -118,40 +123,90 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     this.stopAutoSlide();
     this.stopProgressBar();
     this.closeMiniVideo();
+    if (this.forceShowTimeout) {
+      clearTimeout(this.forceShowTimeout);
+    }
   }
 
-  preloadFirstSlide() {
-    const img = new Image();
-    img.src = this.slides[0].image;
-    img.onload = () => {
-      this.slides[0].loaded = true;
-      this.imagesLoaded++;
-      this.checkAllImagesLoaded();
-    };
+  preloadAllImages() {
+    // Load all images in parallel for faster loading
+    this.slides.forEach((slide, index) => {
+      const img = new Image();
+      img.src = slide.image;
+      img.onload = () => {
+        slide.loaded = true;
+        this.imagesLoaded++;
+        this.checkAllImagesLoaded();
+      };
+      img.onerror = () => {
+        // Even if image fails to load, mark as loaded to show content
+        console.warn(`Failed to load image: ${slide.image}`);
+        slide.loaded = true;
+        this.imagesLoaded++;
+        this.checkAllImagesLoaded();
+      };
+    });
   }
 
   onImageLoad(index: number) {
     this.slides[index].loaded = true;
     this.imagesLoaded++;
     this.checkAllImagesLoaded();
+    this.cdr.detectChanges();
+  }
+
+  onImageError(index: number) {
+    console.warn(`Image failed to load: ${this.slides[index].image}`);
+    this.slides[index].loaded = true;
+    this.imagesLoaded++;
+    this.checkAllImagesLoaded();
+    this.cdr.detectChanges();
   }
 
   checkAllImagesLoaded() {
-    if (this.imagesLoaded >= 2) {
-      this.isLoading = false;
-      this.cdr.detectChanges();
-      
-      if (!this.isUserInteracting) {
-        setTimeout(() => {
-          this.startAutoSlide();
-        }, 500);
-      }
+    // Show content after at least 2 images load OR after 50% of images load
+    const minImagesToShow = Math.min(2, this.slides.length);
+    if (this.imagesLoaded >= minImagesToShow || this.imagesLoaded === this.slides.length) {
+      this.hideLoadingSkeleton();
+    }
+  }
+
+  forceShowContent() {
+    if (!this.isLoading) return;
+    
+    this.isLoading = false;
+    // Ensure first slide is marked as loaded
+    if (!this.slides[0].loaded) {
+      this.slides[0].loaded = true;
+    }
+    this.cdr.detectChanges();
+    
+    // Start auto-slide immediately
+    if (!this.isUserInteracting) {
+      setTimeout(() => {
+        this.startAutoSlide();
+      }, 100);
+    }
+  }
+
+  hideLoadingSkeleton() {
+    if (!this.isLoading) return;
+    
+    this.isLoading = false;
+    this.cdr.detectChanges();
+    
+    // Start auto-slide after a short delay
+    if (!this.isUserInteracting) {
+      setTimeout(() => {
+        this.startAutoSlide();
+      }, 300);
     }
   }
 
   startAutoSlide() {
     if (this.isLoading) return;
     
+    this.stopAutoSlide(); // Clear any existing intervals
     this.startProgressBar();
     
     this.slideInterval = setTimeout(() => {
@@ -162,17 +217,21 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   stopAutoSlide() {
     if (this.slideInterval) {
       clearTimeout(this.slideInterval);
+      this.slideInterval = null;
     }
     this.stopProgressBar();
   }
 
   startProgressBar() {
     this.progressBarWidth = 0;
+    this.stopProgressBar(); // Clear any existing progress interval
     
     this.progressInterval = setInterval(() => {
-      if (this.progressBarWidth < 100) {
+      if (this.progressBarWidth < 100 && !this.isUserInteracting && !this.isLoading) {
         this.progressBarWidth += 0.5;
         this.cdr.detectChanges();
+      } else if (this.progressBarWidth >= 100) {
+        this.stopProgressBar();
       }
     }, this.SLIDE_DURATION / 200);
   }
@@ -180,8 +239,9 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   stopProgressBar() {
     if (this.progressInterval) {
       clearInterval(this.progressInterval);
-      this.progressBarWidth = 0;
+      this.progressInterval = null;
     }
+    this.progressBarWidth = 0;
   }
 
   navigateToBiofertilizers(): void {
@@ -220,6 +280,7 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     const nextIndex = (this.currentSlide + 1) % this.slides.length;
     this.nextSlideIndex = nextIndex;
     
+    // Preload next image if not loaded
     if (!this.slides[nextIndex].loaded) {
       const img = new Image();
       img.src = this.slides[nextIndex].image;
@@ -237,7 +298,7 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
         }
       }, this.TRANSITION_DURATION);
       
-    }, this.TRANSITION_DURATION);
+    }, 50);
   }
 
   prevSlide() {
@@ -249,6 +310,7 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     const prevIndex = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
     this.nextSlideIndex = prevIndex;
     
+    // Preload previous image if not loaded
     if (!this.slides[prevIndex].loaded) {
       const img = new Image();
       img.src = this.slides[prevIndex].image;
@@ -266,7 +328,7 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
         }
       }, this.TRANSITION_DURATION);
       
-    }, this.TRANSITION_DURATION);
+    }, 50);
   }
 
   goToSlide(index: number) {
@@ -277,6 +339,7 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     
     this.nextSlideIndex = index;
     
+    // Preload target image if not loaded
     if (!this.slides[index].loaded) {
       const img = new Image();
       img.src = this.slides[index].image;
@@ -294,7 +357,7 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
         }
       }, this.TRANSITION_DURATION);
       
-    }, this.TRANSITION_DURATION);
+    }, 50);
   }
 
   resetAutoSlide() {
@@ -302,10 +365,13 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     
     this.isUserInteracting = true;
     this.stopAutoSlide();
+    this.stopProgressBar();
     
     setTimeout(() => {
       this.isUserInteracting = false;
-      this.startAutoSlide();
+      if (!this.isLoading) {
+        this.startAutoSlide();
+      }
     }, 8000);
   }
 
