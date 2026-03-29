@@ -1,10 +1,10 @@
-// src/app/components/products/products.component.ts
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CartService, CartItem } from '../../services/cart';
 import { CartComponent } from '../../pages/cart/cart';
+import { ToastService } from '../../services/toast';
 
 interface Product {
   id: number;
@@ -22,12 +22,22 @@ interface Product {
   discount?: number;
   isOrganic: boolean;
   isNew: boolean;
-  images?: string[]; // For gallery
+  images?: string[];
 }
 
 interface QuickViewProduct extends Product {
   quantity: number;
   mainImageIndex: number;
+}
+
+interface Review {
+  id: number;
+  userId?: number;
+  userName: string;
+  rating: number;
+  comment: string;
+  date: Date;
+  verified: boolean;
 }
 
 @Component({
@@ -38,7 +48,6 @@ interface QuickViewProduct extends Product {
   styleUrls: ['./products.css']
 })
 export class ProductsComponent implements OnInit {
-  // Products Data with updated descriptions
   products: Product[] = [
     {
       id: 1,
@@ -48,7 +57,6 @@ export class ProductsComponent implements OnInit {
       originalPrice: 1800,
       image: 'images/vermifrassprod.jpeg',
       images: [
-        'images/vermifrassprod.jpeg',
         'images/vermifrassprod.jpeg',
         'images/vermifrassprod.jpeg',
         'images/vermifrassprod.jpeg'
@@ -69,11 +77,7 @@ export class ProductsComponent implements OnInit {
       description: 'Liquid organic nitrogen booster that drives fast vegetative growth, improves leaf size & greenness, and enhances microbial activity. Ideal for vegetables, cereals & young crops.',
       price: 700,
       image: 'images/product6.jpg',
-      images: [
-        'images/product6.jpg',
-        'images/product6.jpg',
-        'images/product6.jpg'
-      ],
+      images: ['images/product6.jpg'],
       category: 'Biofertilizers',
       rating: 4.7,
       units: '1 Litre Bottle',
@@ -89,11 +93,7 @@ export class ProductsComponent implements OnInit {
       description: 'Liquid organic nitrogen booster that drives fast vegetative growth, improves leaf size & greenness, and enhances microbial activity. Ideal for vegetables, cereals & young crops.',
       price: 400,
       image: 'images/product6.jpg',
-      images: [
-        'images/product6.jpg',
-        'images/product6.jpg',
-        'images/product6.jpg'
-      ],
+      images: ['images/product6.jpg'],
       category: 'Biofertilizers',
       rating: 4.7,
       units: 'Half Litre Bottle',
@@ -109,16 +109,12 @@ export class ProductsComponent implements OnInit {
       description: 'Balanced liquid nutrition formula that supports flowering & fruit set, improves nutrient uptake & crop quality, and boosts stress tolerance. Ideal for fruiting crops, maize & perennials.',
       price: 700,
       image: 'images/product2.jpg',
-      images: [
-        'images/product2.jpg',
-        'images/product2.jpg',
-        'images/product2.jpg'
-      ],
+      images: ['images/product2.jpg'],
       category: 'Biofertilizers',
-      rating: 4.7,
+      rating: 4.8,
       units: '1 Litre Bottle',
       inStock: true,
-      stock: 32,
+      stock: 28,
       features: ['Supports flowering & fruit set', 'Improves nutrient uptake', 'Boosts stress tolerance'],
       isOrganic: true,
       isNew: false
@@ -129,16 +125,12 @@ export class ProductsComponent implements OnInit {
       description: 'Balanced liquid nutrition formula that supports flowering & fruit set, improves nutrient uptake & crop quality, and boosts stress tolerance. Ideal for fruiting crops, maize & perennials.',
       price: 400,
       image: 'images/product2.jpg',
-      images: [
-        'images/product2.jpg',
-        'images/product2.jpg',
-        'images/product2.jpg'
-      ],
+      images: ['images/product2.jpg'],
       category: 'Biofertilizers',
-      rating: 4.7,
+      rating: 4.8,
       units: 'Half litre',
       inStock: true,
-      stock: 32,
+      stock: 28,
       features: ['Supports flowering & fruit set', 'Improves nutrient uptake', 'Boosts stress tolerance'],
       isOrganic: true,
       isNew: false
@@ -149,16 +141,12 @@ export class ProductsComponent implements OnInit {
       description: 'Organo-mineral starter fertilizer that enhances early root development, improves phosphorus efficiency, and reduces nutrient losses. Ideal for planting stage crops.',
       price: 2200,
       image: 'images/dap10.jpeg',
-      images: [
-        'images/dap10.jpeg',
-        'images/dap10.jpeg',
-        'images/dap10.jpeg'
-      ],
+      images: ['images/dap10.jpeg'],
       category: 'Biofertilizers',
-      rating: 4.7,
+      rating: 4.6,
       units: '25 KG bag',
       inStock: true,
-      stock: 32,
+      stock: 25,
       features: ['Enhances early root development', 'Improves phosphorus efficiency', 'Reduces nutrient losses'],
       isOrganic: true,
       isNew: false
@@ -169,16 +157,12 @@ export class ProductsComponent implements OnInit {
       description: 'Nitrogen & calcium blend that supports steady vegetative growth, strengthens plant cell walls, and improves nitrogen use efficiency. Ideal for cereals, vegetables & fodder.',
       price: 1900,
       image: 'images/can10.jpeg',
-      images: [
-        'images/can10.jpeg',
-        'images/can10.jpeg',
-        'images/can10.jpeg'
-      ],
+      images: ['images/can10.jpeg'],
       category: 'Biofertilizers',
-      rating: 4.7,
+      rating: 4.6,
       units: '25 KG bag',
       inStock: true,
-      stock: 32,
+      stock: 30,
       features: ['Supports steady vegetative growth', 'Strengthens plant cell walls', 'Improves nitrogen efficiency'],
       isOrganic: true,
       isNew: false
@@ -189,16 +173,12 @@ export class ProductsComponent implements OnInit {
       description: 'Balanced NPK organo-mineral fertilizer that feeds crops & regenerates soil, improves nutrient availability, and supports all growth stages. Ideal for general crop production.',
       price: 2000,
       image: 'images/npk10.jpeg',
-      images: [
-        'images/npk10.jpeg',
-        'images/npk10.jpeg',
-        'images/npk10.jpeg'
-      ],
+      images: ['images/npk10.jpeg'],
       category: 'Biofertilizers',
       rating: 4.7,
       units: '25 KG bag',
       inStock: true,
-      stock: 32,
+      stock: 35,
       features: ['Feeds crops & regenerates soil', 'Improves nutrient availability', 'Supports all growth stages'],
       isOrganic: true,
       isNew: false
@@ -209,16 +189,12 @@ export class ProductsComponent implements OnInit {
       description: 'Controlled-release nitrogen fertilizer that reduces nitrogen losses, protects soil biology, and sustains crop growth. Ideal for maize, sugarcane & vegetables.',
       price: 2200,
       image: 'images/urea10.jpeg',
-      images: [
-        'images/urea10.jpeg',
-        'images/urea10.jpeg',
-        'images/urea10.jpeg'
-      ],
+      images: ['images/urea10.jpeg'],
       category: 'Biofertilizers',
-      rating: 4.7,
+      rating: 4.6,
       units: '25 KG bag',
       inStock: true,
-      stock: 32,
+      stock: 20,
       features: ['Controlled-release nitrogen', 'Reduces nitrogen losses', 'Protects soil biology'],
       isOrganic: true,
       isNew: false
@@ -229,7 +205,6 @@ export class ProductsComponent implements OnInit {
   showQuickView = false;
   selectedProduct: QuickViewProduct | null = null;
   isZoomed = false;
-  isWishlisted = false;
 
   // Cart State
   cartItems: CartItem[] = [];
@@ -243,29 +218,40 @@ export class ProductsComponent implements OnInit {
   selectedCategory = 'all';
   categories = [
     { value: 'all', label: 'All Products', icon: 'fas fa-store' },
-    { value: 'Biofertilizers', label: 'Biofertilizers', icon: 'fas fa-seedling' },
-    { value: 'Poultry Feeds', label: 'Poultry Feeds', icon: 'fas fa-egg' },
-    { value: 'Pig Feeds', label: 'Pig Feeds', icon: 'fas fa-piggy-bank' },
-    { value: 'Pet Foods', label: 'Pet Foods', icon: 'fas fa-paw' }
+    { value: 'Biofertilizers', label: 'Biofertilizers', icon: 'fas fa-seedling' }
   ];
 
   // Display
   filteredProducts: Product[] = [];
   viewMode: 'grid' | 'list' = 'grid';
 
-  // For template
+  // Wishlist
+  wishlistItems: number[] = [];
+
+  // Recently Viewed
+  recentlyViewed: Product[] = [];
+
+  // Reviews
+  reviews: Map<number, Review[]> = new Map();
+  showReviewModal = false;
+  selectedRating = 0;
+  reviewComment = '';
+  currentProductForReview: Product | null = null;
+
   Math = Math;
-  Array = Array;
 
   constructor(
     public cartService: CartService,
-    private router: Router
+    private router: Router,
+    private toastService: ToastService
   ) {}
 
   ngOnInit() {
     this.filteredProducts = [...this.products];
+    this.loadWishlist();
+    this.loadRecentlyViewed();
+    this.loadReviews();
     
-    // Subscribe to cart items from service
     this.cartService.cartItems$.subscribe(items => {
       this.cartItems = items;
       this.cartCount = this.cartService.getTotalItems();
@@ -273,11 +259,154 @@ export class ProductsComponent implements OnInit {
     });
   }
 
+  // ========== WISHLIST METHODS ==========
+  loadWishlist() {
+    const saved = localStorage.getItem('mzuri_wishlist');
+    if (saved) {
+      this.wishlistItems = JSON.parse(saved);
+    }
+  }
+
+  isWishlisted(productId: number): boolean {
+    return this.wishlistItems.includes(productId);
+  }
+
+  toggleWishlist(product: Product) {
+    if (this.isWishlisted(product.id)) {
+      this.wishlistItems = this.wishlistItems.filter(id => id !== product.id);
+      this.toastService?.showInfo(`${product.name} removed from wishlist`);
+    } else {
+      this.wishlistItems.push(product.id);
+      this.toastService?.showSuccess(`${product.name} added to wishlist`);
+    }
+    localStorage.setItem('mzuri_wishlist', JSON.stringify(this.wishlistItems));
+  }
+
+  // ========== RECENTLY VIEWED ==========
+  loadRecentlyViewed() {
+    const saved = localStorage.getItem('recently_viewed');
+    if (saved) {
+      const ids = JSON.parse(saved);
+      this.recentlyViewed = this.products.filter(p => ids.includes(p.id));
+    }
+  }
+
+  addToRecentlyViewed(product: Product) {
+    let viewedIds = this.recentlyViewed.map(p => p.id);
+    viewedIds = viewedIds.filter(id => id !== product.id);
+    viewedIds.unshift(product.id);
+    viewedIds = viewedIds.slice(0, 10);
+    this.recentlyViewed = this.products.filter(p => viewedIds.includes(p.id));
+    localStorage.setItem('recently_viewed', JSON.stringify(viewedIds));
+  }
+
+  // ========== REVIEW METHODS ==========
+  loadReviews() {
+    const saved = localStorage.getItem('product_reviews');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      Object.keys(parsed).forEach(key => {
+        this.reviews.set(parseInt(key), parsed[key]);
+      });
+    }
+  }
+
+  saveReviews() {
+    const obj: any = {};
+    this.reviews.forEach((value, key) => {
+      obj[key] = value;
+    });
+    localStorage.setItem('product_reviews', JSON.stringify(obj));
+  }
+
+  openReviewModal(product: Product) {
+    this.currentProductForReview = product;
+    this.selectedRating = 0;
+    this.reviewComment = '';
+    this.showReviewModal = true;
+  }
+
+  closeReviewModal() {
+    this.showReviewModal = false;
+    this.currentProductForReview = null;
+  }
+
+  submitReview() {
+    if (!this.currentProductForReview) return;
+    if (this.selectedRating === 0) {
+      this.toastService?.showWarning('Please select a rating');
+      return;
+    }
+    if (!this.reviewComment.trim() || this.reviewComment.length < 20) {
+      this.toastService?.showWarning('Please write a more detailed review (minimum 20 characters)');
+      return;
+    }
+
+    const review: Review = {
+      id: Date.now(),
+      userName: 'Customer',
+      rating: this.selectedRating,
+      comment: this.reviewComment,
+      date: new Date(),
+      verified: true
+    };
+
+    const productReviews = this.reviews.get(this.currentProductForReview.id) || [];
+    productReviews.unshift(review);
+    this.reviews.set(this.currentProductForReview.id, productReviews);
+    this.saveReviews();
+
+    // Update product rating
+    const avgRating = this.calculateAverageRating(this.currentProductForReview.id);
+    this.currentProductForReview.rating = avgRating;
+    const productIndex = this.products.findIndex(p => p.id === this.currentProductForReview!.id);
+    if (productIndex !== -1) {
+      this.products[productIndex].rating = avgRating;
+    }
+
+    this.toastService?.showSuccess('Thank you for your review!');
+    this.closeReviewModal();
+  }
+
+  calculateAverageRating(productId: number): number {
+    const productReviews = this.reviews.get(productId) || [];
+    if (productReviews.length === 0) return 0;
+    const sum = productReviews.reduce((acc, rev) => acc + rev.rating, 0);
+    return Math.round((sum / productReviews.length) * 10) / 10;
+  }
+
+  getProductReviews(productId: number): Review[] {
+    return this.reviews.get(productId) || [];
+  }
+
+  // ========== PRODUCT SHARING ==========
+  shareProduct(product: Product) {
+    const shareData = {
+      title: product.name,
+      text: product.description,
+      url: `${window.location.origin}/products`
+    };
+    
+    if (navigator.share) {
+      navigator.share(shareData);
+    } else {
+      navigator.clipboard.writeText(`${product.name} - ${shareData.url}`);
+      this.toastService?.showSuccess('Product link copied to clipboard!');
+    }
+  }
+
+  // ========== BULK DISCOUNT ==========
+  calculateBulkDiscount(quantity: number): number {
+    if (quantity >= 50) return 0.15;
+    if (quantity >= 25) return 0.10;
+    if (quantity >= 10) return 0.05;
+    return 0;
+  }
+
   // ========== QUICK VIEW METHODS ==========
   openQuickView(product: Product) {
-    // Prevent body scroll
     document.body.style.overflow = 'hidden';
-    
+    this.addToRecentlyViewed(product);
     this.selectedProduct = {
       ...product,
       quantity: 1,
@@ -311,8 +440,7 @@ export class ProductsComponent implements OnInit {
   nextImage() {
     if (this.selectedProduct?.images) {
       const totalImages = this.selectedProduct.images.length;
-      this.selectedProduct.mainImageIndex = 
-        (this.selectedProduct.mainImageIndex + 1) % totalImages;
+      this.selectedProduct.mainImageIndex = (this.selectedProduct.mainImageIndex + 1) % totalImages;
       this.isZoomed = false;
     }
   }
@@ -320,8 +448,7 @@ export class ProductsComponent implements OnInit {
   prevImage() {
     if (this.selectedProduct?.images) {
       const totalImages = this.selectedProduct.images.length;
-      this.selectedProduct.mainImageIndex = 
-        (this.selectedProduct.mainImageIndex - 1 + totalImages) % totalImages;
+      this.selectedProduct.mainImageIndex = (this.selectedProduct.mainImageIndex - 1 + totalImages) % totalImages;
       this.isZoomed = false;
     }
   }
@@ -335,14 +462,16 @@ export class ProductsComponent implements OnInit {
     }
   }
 
-  toggleWishlist() {
-    this.isWishlisted = !this.isWishlisted;
-  }
-
   addFromQuickView() {
     if (this.selectedProduct) {
+      const discount = this.calculateBulkDiscount(this.selectedProduct.quantity);
+      
       for (let i = 0; i < this.selectedProduct.quantity; i++) {
         this.addToCart(this.selectedProduct);
+      }
+      
+      if (discount > 0) {
+        this.toastService?.showSuccess(`Bulk discount applied! You saved ${Math.round(discount * 100)}%`);
       }
       this.closeQuickView();
     }
@@ -367,33 +496,9 @@ export class ProductsComponent implements OnInit {
     this.animateAddToCart(product.id);
   }
 
-  removeFromCart(productId: number) {
-    this.cartService.removeFromCart(productId);
-  }
-
-  updateCartQuantity(productId: number, quantity: number) {
-    if (quantity < 1) {
-      this.removeFromCart(productId);
-    } else {
-      this.cartService.updateQuantity(productId, quantity);
-    }
-  }
-
-  clearCart() {
-    this.cartService.clearCart();
-  }
-
-  // ========== CHECKOUT ==========
-  proceedToCheckout(): void {
-    this.cartService.closeCart();
-    this.router.navigate(['/checkout']);
-  }
-
-  // ========== UI ANIMATIONS ==========
   showAddSuccess(productName: string) {
     this.addedProductName = productName;
     this.showAddedMessage = true;
-    
     setTimeout(() => {
       this.showAddedMessage = false;
     }, 3000);
@@ -407,6 +512,11 @@ export class ProductsComponent implements OnInit {
         button.classList.remove('animate-pulse');
       }, 600);
     }
+  }
+
+  proceedToCheckout(): void {
+    this.cartService.closeCart();
+    this.router.navigate(['/checkout']);
   }
 
   // ========== FILTER METHODS ==========
@@ -438,31 +548,6 @@ export class ProductsComponent implements OnInit {
     this.filteredProducts = filtered;
   }
 
-  // ========== KEYBOARD HANDLERS ==========
-  @HostListener('document:keydown.escape')
-  onEscapePress() {
-    if (this.showQuickView) {
-      this.closeQuickView();
-    }
-    if (this.cartService.getCartState()) {
-      this.cartService.closeCart();
-    }
-  }
-
-  @HostListener('document:keydown.arrowleft')
-  onLeftArrowPress() {
-    if (this.showQuickView) {
-      this.prevImage();
-    }
-  }
-
-  @HostListener('document:keydown.arrowright')
-  onRightArrowPress() {
-    if (this.showQuickView) {
-      this.nextImage();
-    }
-  }
-
   // ========== UTILITIES ==========
   getStockText(product: Product): string {
     if (!product.inStock) return 'Out of Stock';
@@ -492,7 +577,6 @@ export class ProductsComponent implements OnInit {
     return { text: 'In Stock', class: 'in-stock' };
   }
 
-  // Safe template access helpers
   getSelectedProductImages(): string[] {
     return this.selectedProduct?.images || [];
   }
@@ -505,10 +589,6 @@ export class ProductsComponent implements OnInit {
     return (this.selectedProduct?.images?.length || 0) > 1;
   }
 
-  getSelectedProductStock(): number {
-    return this.selectedProduct?.stock || 0;
-  }
-
   getSelectedProductQuantity(): number {
     return this.selectedProduct?.quantity || 1;
   }
@@ -519,5 +599,41 @@ export class ProductsComponent implements OnInit {
 
   isQuantityIncreaseDisabled(): boolean {
     return !this.selectedProduct || this.selectedProduct.quantity >= (this.selectedProduct.stock || 99);
+  }
+
+  getSelectedProductStock(): number {
+    return this.selectedProduct?.stock || 0;
+  }
+
+  getIsWishlisted(): boolean {
+    return this.selectedProduct ? this.isWishlisted(this.selectedProduct.id) : false;
+  }
+
+  // ========== KEYBOARD HANDLERS ==========
+  @HostListener('document:keydown.escape')
+  onEscapePress() {
+    if (this.showQuickView) {
+      this.closeQuickView();
+    }
+    if (this.showReviewModal) {
+      this.closeReviewModal();
+    }
+    if (this.cartService.getCartState()) {
+      this.cartService.closeCart();
+    }
+  }
+
+  @HostListener('document:keydown.arrowleft')
+  onLeftArrowPress() {
+    if (this.showQuickView) {
+      this.prevImage();
+    }
+  }
+
+  @HostListener('document:keydown.arrowright')
+  onRightArrowPress() {
+    if (this.showQuickView) {
+      this.nextImage();
+    }
   }
 }

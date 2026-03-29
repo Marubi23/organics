@@ -121,6 +121,9 @@
 
             <!-- Quick Actions -->
             <div class="quick-actions">
+              <button class="quick-review-btn" title="Write a Review" (click)="openReviewModal(product)">
+                <i class="fas fa-star"></i>
+              </button>
               <button class="quick-view-btn" title="Quick View" (click)="openQuickView(product)">
                 <i class="fas fa-eye"></i>
               </button>
@@ -188,7 +191,7 @@
                     [attr.data-product-id]="product.id">
               <i class="fas" [class]="product.inStock ? 'fa-cart-plus' : 'fa-ban'"></i>
               <span>{{product.inStock ? 'Add to Cart' : 'Out of Stock'}}</span>
-              <span class="price-badge">KSh {{product.price | number}}</span>
+            
             </button>
           </div>
         </div>
@@ -242,6 +245,9 @@
                   {{getStockText(product)}}
                 </div>
                 <div class="action-buttons">
+                  <button class="list-review-btn" title="Write a Review" (click)="openReviewModal(product)">
+                    <i class="fas fa-star"></i>
+                  </button>
                   <button class="list-view-btn" (click)="openQuickView(product)" title="Quick View">
                     <i class="fas fa-eye"></i>
                   </button>
@@ -275,6 +281,77 @@
     <i class="fas fa-shopping-cart"></i>
     <span class="cart-count" *ngIf="cartCount > 0">{{cartCount}}</span>
     <span class="cart-total" *ngIf="cartCount > 0">KSh {{cartTotal | number}}</span>
+  </div>
+
+  <!-- Review Modal -->
+  <div class="review-modal-overlay" [class.active]="showReviewModal" (click)="closeReviewModal()">
+    <div class="review-modal" (click)="$event.stopPropagation()">
+      <button class="review-modal-close" (click)="closeReviewModal()">
+        <i class="fas fa-times"></i>
+      </button>
+      
+      <div class="review-modal-content">
+        <div class="review-header">
+          <div class="review-icon">
+            <i class="fas fa-star-of-life"></i>
+          </div>
+          <div>
+            <h3>Write a Review</h3>
+            <p *ngIf="currentProductForReview">for {{ currentProductForReview.name }}</p>
+          </div>
+        </div>
+        
+        <div class="rating-input-section">
+          <label>Your Rating</label>
+          <div class="stars-input">
+            <i class="fas fa-star" *ngFor="let star of [1,2,3,4,5]; let i = index"
+               [class.filled]="i < selectedRating"
+               (click)="selectedRating = i + 1"></i>
+          </div>
+          <div class="rating-hint" *ngIf="selectedRating === 0">
+            <i class="fas fa-info-circle"></i>
+            <span>Click on a star to rate this product</span>
+          </div>
+        </div>
+        
+        <div class="review-comment-section">
+          <label>Your Review</label>
+          <textarea [(ngModel)]="reviewComment" 
+                    placeholder="Share your experience with this product... What did you like? How did it help your farming?"
+                    rows="5"
+                    class="review-textarea"></textarea>
+          <div class="comment-hint" *ngIf="reviewComment.length > 0 && reviewComment.length < 20">
+            <i class="fas fa-lightbulb"></i>
+            <span>Tell us more about your experience (minimum 20 characters)</span>
+          </div>
+        </div>
+        
+        <div class="review-tips">
+          <div class="tips-header">
+            <i class="fas fa-lightbulb"></i>
+            <span>Review Tips:</span>
+          </div>
+          <ul class="tips-list">
+            <li><i class="fas fa-check-circle"></i> Be specific about what you liked or disliked</li>
+            <li><i class="fas fa-check-circle"></i> Mention how the product performed for your crops/animals</li>
+            <li><i class="fas fa-check-circle"></i> Include information about your farming experience</li>
+            <li><i class="fas fa-check-circle"></i> Your honest feedback helps other farmers make informed decisions</li>
+          </ul>
+        </div>
+        
+        <div class="review-actions">
+          <button class="btn-cancel-review" (click)="closeReviewModal()">
+            <i class="fas fa-times"></i> Cancel
+          </button>
+          <button class="btn-submit-review" 
+                  (click)="submitReview()"
+                  [disabled]="selectedRating === 0 || reviewComment.length < 20"
+                  [class.disabled]="selectedRating === 0 || reviewComment.length < 20">
+            <i class="fas fa-paper-plane"></i> Submit Review
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -385,9 +462,9 @@
           </button>
           
           <button class="modal-wishlist" 
-                  [class.active]="isWishlisted"
-                  (click)="toggleWishlist()">
-            <i class="fas" [class.fa-heart]="isWishlisted" [class.fa-heart-o]="!isWishlisted"></i>
+                  [class.active]="getIsWishlisted()"
+                  (click)="toggleWishlist(selectedProduct)">
+            <i class="fas" [class.fa-heart]="getIsWishlisted()" [class.fa-heart-o]="!getIsWishlisted()"></i>
           </button>
         </div>
         
