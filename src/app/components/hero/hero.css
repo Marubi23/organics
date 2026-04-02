@@ -348,7 +348,6 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #f0f5f0 0%, #e5ede5 100%);
   z-index: 30;
   display: flex;
   align-items: center;
@@ -519,7 +518,7 @@
   height: 50px;
   pointer-events: none;
   z-index: 3;
-  background: linear-gradient(to bottom, transparent, var(--cream));
+
 }
 
 /* ================================
