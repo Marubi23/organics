@@ -1,5 +1,5 @@
 // categories.component.ts
-import { Component, AfterViewInit, OnDestroy, signal, Inject, PLATFORM_ID, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, signal, Inject, PLATFORM_ID, OnInit, CUSTOM_ELEMENTS_SCHEMA, NgZone, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
@@ -31,7 +31,7 @@ export interface Slide {
   selector: 'app-categories',
   standalone: true,
   imports: [CommonModule, RouterModule],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA], // ADD THIS LINE to recognize lottie-player
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './categories.html',
   styleUrls: ['./categories.css']
 })
@@ -55,7 +55,7 @@ export class CategoriesComponent implements OnInit, AfterViewInit, OnDestroy {
     { number: '6', title: 'Life on Land', description: 'Restoring degraded soils, improving biodiversity, and strengthening ecosystem health with microbe-rich inputs' }
   ];
 
-  // Slideshow data - UPDATED with correct descriptions from products component
+  // Slideshow data
   slides: Slide[] = [
     {
       image: 'images/product2.jpg',
@@ -91,20 +91,27 @@ export class CategoriesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: any,
-    private router: Router
+    private router: Router,
+    private ngZone: NgZone,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      this.startSlideshow();
+      // Use setTimeout to avoid ExpressionChangedAfterItHasBeenCheckedError
+      setTimeout(() => {
+        this.startSlideshow();
+      }, 0);
     }
   }
 
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {
+      // Delay observer setup to avoid change detection issues
       setTimeout(() => {
         this.setupIntersectionObserver();
-      }, 300);
+        this.cdr.detectChanges();
+      }, 100);
     } else {
       this.setFinalValues();
     }
@@ -119,33 +126,50 @@ export class CategoriesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // ========== SLIDESHOW METHODS ==========
   startSlideshow(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      this.slideInterval = setInterval(() => {
-        this.nextSlide();
-      }, 5000);
+    if (isPlatformBrowser(this.platformId) && !this.slideInterval) {
+      // Run slideshow outside Angular's zone to prevent change detection issues
+      this.ngZone.runOutsideAngular(() => {
+        this.slideInterval = setInterval(() => {
+          this.ngZone.run(() => {
+            this.nextSlide();
+          });
+        }, 5000);
+      });
     }
   }
 
   stopSlideshow(): void {
     if (this.slideInterval) {
       clearInterval(this.slideInterval);
+      this.slideInterval = null;
     }
   }
 
   nextSlide(): void {
-    this.currentSlide = (this.currentSlide + 1) % this.slides.length;
-    this.triggerSlideAnimation();
+    const newIndex = (this.currentSlide + 1) % this.slides.length;
+    if (newIndex !== this.currentSlide) {
+      this.currentSlide = newIndex;
+      this.triggerSlideAnimation();
+      this.cdr.detectChanges();
+    }
   }
 
   prevSlide(): void {
-    this.currentSlide = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
-    this.triggerSlideAnimation();
+    const newIndex = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
+    if (newIndex !== this.currentSlide) {
+      this.currentSlide = newIndex;
+      this.triggerSlideAnimation();
+      this.cdr.detectChanges();
+    }
   }
 
   goToSlide(index: number): void {
-    this.currentSlide = index;
-    this.triggerSlideAnimation();
-    this.resetSlideshowTimer();
+    if (index !== this.currentSlide && index >= 0 && index < this.slides.length) {
+      this.currentSlide = index;
+      this.triggerSlideAnimation();
+      this.resetSlideshowTimer();
+      this.cdr.detectChanges();
+    }
   }
 
   private resetSlideshowTimer(): void {
@@ -166,6 +190,7 @@ export class CategoriesComponent implements OnInit, AfterViewInit, OnDestroy {
   quickView(index: number): void {
     this.currentSlide = index;
     console.log('Quick view for:', this.slides[index].name);
+    this.cdr.detectChanges();
   }
 
   // ========== NAVIGATION METHODS ==========
@@ -268,6 +293,7 @@ export class CategoriesComponent implements OnInit, AfterViewInit, OnDestroy {
           const finalStats = [...this.impactStats()];
           finalStats[index].current = stat.value;
           this.impactStats.set(finalStats);
+          this.cdr.detectChanges();
         }
       };
       
@@ -304,6 +330,7 @@ export class CategoriesComponent implements OnInit, AfterViewInit, OnDestroy {
       const activeCard = document.querySelector('.active-product-card');
       if (activeCard) {
         activeCard.classList.remove('slide-animation');
+        // Force reflow
         void (activeCard as HTMLElement).offsetWidth;
         activeCard.classList.add('slide-animation');
       }
