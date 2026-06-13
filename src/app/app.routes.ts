@@ -19,7 +19,7 @@ import { ReturnsComponent } from './pages/returns/returns';
 import { LoginComponent } from './pages/login/login';
 import { OrderSuccessComponent } from './pages/order-success/order-success';
 import { NotFoundComponent } from './components/not-found/not-found';
-// REMOVE: import { LoginComponent } from './pages/login/login'; // Remove this
+import { BlogJobPostComponent } from './components/blog/blog-job-post/blog-post';
 
 export const routes: Routes = [
   { path: 'order-success', component: OrderSuccessComponent },
@@ -42,7 +42,11 @@ export const routes: Routes = [
   { path: 'blog', component: BlogComponent },
   { path: 'faq', component: FaqComponent },
   { path: 'checkout', component: CheckoutComponent },
-
+  
+  // Job Post Routes - Standalone component
+  { path: 'careers/graduate-research-assistant', component: BlogJobPostComponent },
+  { path: 'blog/job/graduate-research-assistant', component: BlogJobPostComponent },
+  { path: 'ff-bio-job', redirectTo: '/careers/graduate-research-assistant', pathMatch: 'full' },
 
   { 
     path: 'account', 

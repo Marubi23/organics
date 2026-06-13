@@ -1,0 +1,439 @@
+<!-- src/app/components/blog/blog-job-post/blog-post.html -->
+
+<!-- Hero Section with Countdown -->
+<section class="job-hero">
+  <div class="hero-overlay"></div>
+  <div class="hero-particles"></div>
+  <div class="container hero-container">
+    <div class="hero-badge">
+      <svg class="badge-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+        <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="currentColor"/>
+      </svg>
+      <span>EU Funded Project • FS4Africa Open Call 1</span>
+    </div>
+    <div class="hero-icon">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M20 7h-4.18C15.4 5.84 14.3 5 13 5c-1.3 0-2.4.84-2.82 2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm-7-2c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1z" fill="currentColor"/>
+      </svg>
+    </div>
+    <h1>Graduate Research Assistant</h1>
+    <p class="hero-subtitle">FungaFrass Bio (FF-Bio) Project</p>
+    <div class="hero-description">Scaling Fungus-Rich Biofertilizers for Safer & Resilient Informal Vegetable Value Chains</div>
+    
+    <!-- Countdown Timer -->
+    <div class="countdown-timer">
+      <div class="countdown-item">
+        <span class="countdown-number">{{ days }}</span>
+        <span class="countdown-label">Days</span>
+      </div>
+      <div class="countdown-separator">:</div>
+      <div class="countdown-item">
+        <span class="countdown-number">{{ hours }}</span>
+        <span class="countdown-label">Hours</span>
+      </div>
+      <div class="countdown-separator">:</div>
+      <div class="countdown-item">
+        <span class="countdown-number">{{ minutes }}</span>
+        <span class="countdown-label">Mins</span>
+      </div>
+      <div class="countdown-separator">:</div>
+      <div class="countdown-item">
+        <span class="countdown-number">{{ seconds }}</span>
+        <span class="countdown-label">Secs</span>
+      </div>
+    </div>
+    
+    <div class="hero-actions">
+      <button class="btn-primary" (click)="scrollToSection('how-to-apply')">
+        Apply Now
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <button class="btn-secondary" (click)="scrollToSection('downloads')">
+        Download Brochure
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M12 3v12m0 0l-3-3m3 3l3-3M5 21h14" stroke="currentColor" stroke-width="2"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Stats Bar -->
+<section class="stats-bar">
+  <div class="container stats-container">
+    <div class="stat-item">
+      <div class="stat-number">5</div>
+      <div class="stat-label">Target Counties</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="stat-number">8</div>
+      <div class="stat-label">Months Duration</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="stat-number">50K</div>
+      <div class="stat-label">KES Monthly Stipend</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="stat-number">10</div>
+      <div class="stat-label">Days/Month</div>
+    </div>
+  </div>
+</section>
+
+<!-- Main Content - Wide Layout -->
+<section class="job-main">
+  <div class="container-fluid">
+    <div class="job-layout">
+      
+      <!-- Left Column - Main Content -->
+      <div class="job-content-wide">
+        
+        <!-- Quick Navigation -->
+        <div class="quick-nav">
+          <button (click)="scrollToSection('overview')">Overview</button>
+          <button (click)="scrollToSection('responsibilities')">Responsibilities</button>
+          <button (click)="scrollToSection('requirements')">Requirements</button>
+          <button (click)="scrollToSection('how-to-apply')">How to Apply</button>
+        </div>
+
+        <!-- Overview Section -->
+        <div id="overview" class="content-card">
+          <div class="card-header">
+            <div class="card-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" stroke-width="2"/>
+                <line x1="8" y1="8" x2="16" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <line x1="8" y1="12" x2="16" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <line x1="8" y1="16" x2="12" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h2>Program Overview</h2>
+          </div>
+          <div class="card-body">
+            <p><strong>Mzuri Organics (Gare Holdings Limited)</strong> is implementing the <strong>FungaFrass Bio (FF-Bio) sub-project</strong> under FS4Africa Open Call 1, funded by the European Union. FF-Bio is a multi-county demonstration and field evaluation initiative focused on scaling fungus-rich biofertilizer systems for safer, more resilient informal vegetable value chains in Western Kenya.</p>
+            <p>The project will establish participatory demonstration gardens across the five target counties and will generate field evidence on bio-based soil health approaches, pesticide-use reduction, crop performance, soil health, farmer economics, adoption, residue compliance and food safety outcomes.</p>
+            
+            <div class="info-grid">
+              <div class="info-item">
+                <strong>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="currentColor"/>
+                  </svg>
+                  Target Counties:
+                </strong>
+                <span>Kakamega, Bungoma, Siaya, Uasin Gishu, Vihiga</span>
+              </div>
+              <div class="info-item">
+                <strong>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                  Funding Source:
+                </strong>
+                <span>European Union • FS4Africa</span>
+              </div>
+              <div class="info-item">
+                <strong>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 8v4l3 3M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" stroke="currentColor" stroke-width="2"/>
+                  </svg>
+                  Application Deadline:
+                </strong>
+                <span class="deadline">25 June 2026, 5:00 PM EAT</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Purpose Section -->
+        <div class="content-card">
+          <div class="card-header">
+            <div class="card-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="currentColor"/>
+              </svg>
+            </div>
+            <h2>Purpose of the Opportunity</h2>
+          </div>
+          <div class="card-body">
+            <p>Mzuri Organics seeks to engage one <strong>Graduate Research Assistant</strong> on a part-time, project-based basis to support field research, monitoring, data management, sample tracking, farmer engagement, evidence generation, and research dissemination under the FF-Bio project.</p>
+            <div class="highlight-box">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="currentColor"/>
+              </svg>
+              <div>
+                <strong>A key final ambition</strong> of the project is to develop a science-backed manuscript for submission to a peer-reviewed scientific journal. The Graduate Research Assistant will support literature review, evidence synthesis, preparation of tables and figures, and manuscript drafting under the guidance of the project's technical team.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Key Responsibilities -->
+        <div id="responsibilities" class="content-card">
+          <div class="card-header">
+            <div class="card-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h2>Key Responsibilities</h2>
+          </div>
+          <div class="card-body">
+            <div class="responsibility-grid">
+              <div class="resp-card">
+                <div class="resp-icon">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <h4>Field Research & Site Support</h4>
+                <ul>
+                  <li>Support implementation and monitoring of FF-Bio field research activities</li>
+                  <li>Assist with field visits, farmer engagement, training sessions, and field days</li>
+                  <li>Support verification of plot layout, treatment allocation, and crop management records</li>
+                </ul>
+              </div>
+              <div class="resp-card">
+                <div class="resp-icon">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                    <path d="M4 4v16h16V4H4zm2 2h12v12H6V6zm2 2v8h8V8H8z" fill="currentColor"/>
+                  </svg>
+                </div>
+                <h4>Data Collection & Quality</h4>
+                <ul>
+                  <li>Assist with baseline, midline, and endline data collection</li>
+                  <li>Carry out routine data checks and support data cleaning</li>
+                  <li>Maintain organised digital and physical evidence folders</li>
+                </ul>
+              </div>
+              <div class="resp-card">
+                <div class="resp-icon">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <h4>Sampling Support</h4>
+                <ul>
+                  <li>Support soil and crop sample planning and labelling</li>
+                  <li>Ensure sampling records capture required metadata</li>
+                  <li>Monitor agronomic indicators and produce quality</li>
+                </ul>
+              </div>
+              <div class="resp-card">
+                <div class="resp-icon">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                    <path d="M4 4h16v16H4V4zm2 2v12h12V6H6zm2 2h8v8H8V8z" fill="currentColor"/>
+                  </svg>
+                </div>
+                <h4>Scientific Publication</h4>
+                <ul>
+                  <li>Conduct targeted literature reviews</li>
+                  <li>Assist in organising and interpreting field datasets</li>
+                  <li>Contribute to manuscript preparation for peer-reviewed journals</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Requirements -->
+        <div id="requirements" class="content-card">
+          <div class="card-header">
+            <div class="card-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2a10 10 0 1010 10A10 10 0 0012 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" fill="currentColor"/>
+              </svg>
+            </div>
+            <h2>Required Qualifications</h2>
+          </div>
+          <div class="card-body">
+            <div class="two-columns">
+              <div class="column">
+                <h4>Essential:</h4>
+                <ul class="check-list">
+                  <li>Ongoing or completed Master's degree in Soil Science, Agronomy, Horticulture, Environmental Science, Plant Pathology, Agricultural Extension, Food Safety, Microbiology, or related field</li>
+                  <li>Strong interest in regenerative agriculture, soil health, biofertilizers, IPM, and smallholder farming systems</li>
+                  <li>Good understanding of research methods, data collection, literature review, and scientific reporting</li>
+                  <li>Ability to work in field conditions across rural project sites</li>
+                </ul>
+              </div>
+              <div class="column">
+                <h4>Added Advantage:</h4>
+                <ul class="star-list">
+                  <li>Prior experience in academic writing or scientific publication</li>
+                  <li>Evidence of contribution to published papers or conference presentations</li>
+                  <li>Experience in soil sampling, crop monitoring, or pesticide-use surveys</li>
+                  <li>Understanding of soil biology or food safety testing</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- How to Apply -->
+        <div id="how-to-apply" class="content-card apply-card">
+          <div class="card-header">
+            <div class="card-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" stroke-width="2"/>
+                <polyline points="22,6 12,13 2,6" stroke="currentColor" stroke-width="2"/>
+              </svg>
+            </div>
+            <h2>How to Apply</h2>
+          </div>
+          <div class="card-body">
+            <div class="apply-grid">
+              <div class="apply-info">
+                <h4>Send your application to:</h4>
+                <div class="email-card" (click)="copyEmail()">
+                  <code>hr@mzuriorganics.co.ke</code>
+                  <span class="copy-badge">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                      <path d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 21h10a2 2 0 002-2v-1M8 5l-2 2m2-2h10a2 2 0 012 2v1" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    Copy
+                  </span>
+                </div>
+                <p class="cc-line">CC: allan@mzuriorganics.co.ke</p>
+                <p><strong>Subject Line:</strong> <code>Application - FF-Bio Graduate Research Assistant - [Your Name]</code></p>
+              </div>
+              <div class="required-docs">
+                <h4>Required Documents:</h4>
+                <div class="docs-list">
+                  <span>Cover Letter</span>
+                  <span>Updated CV (max 3 pages)</span>
+                  <span>Research Interest Statement (max 2 pages)</span>
+                  <span>Academic Transcripts</span>
+                  <span>Writing Sample</span>
+                  <span>Two Referee Contacts</span>
+                  <span>Availability Statement</span>
+                </div>
+              </div>
+            </div>
+            <div class="deadline-box">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <path d="M12 8v4l3 3M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" stroke="currentColor" stroke-width="2"/>
+              </svg>
+              <div>
+                <strong>Application Deadline: 25 June 2026, 5:00 PM EAT</strong>
+                <p>Late, incomplete, or incorrectly titled applications may not be considered. Only shortlisted candidates will be contacted.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Download Section - UPDATED with working buttons -->
+        <div id="downloads" class="downloads-card">
+          <h3>Download Official Documents</h3>
+          <div class="downloads-grid">
+            <button class="download-btn" (click)="downloadFile(advertPdfPath, 'FF-Bio-Graduate-Research-Assistant-Advert.pdf')">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M12 3v12m0 0l-3-3m3 3l3-3M5 21h14" stroke="currentColor" stroke-width="2"/>
+              </svg>
+              <div>
+                <strong>Full Job Advertisement</strong>
+                <span>PDF, 4 pages</span>
+              </div>
+            </button>
+            <button class="download-btn" (click)="downloadFile(torPdfPath, 'FF-Bio-Graduate-Research-Assistant-ToR.pdf')">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M12 3v12m0 0l-3-3m3 3l3-3M5 21h14" stroke="currentColor" stroke-width="2"/>
+              </svg>
+              <div>
+                <strong>Terms of Reference (ToR)</strong>
+                <span>PDF, 6 pages</span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column - Sidebar (Sticky) -->
+      <div class="job-sidebar-sticky">
+        <div class="sidebar-widget">
+          <h3>Quick Summary</h3>
+          <div class="summary-list">
+            <div class="summary-row">
+              <span>Position:</span>
+              <strong>Graduate Research Assistant</strong>
+            </div>
+            <div class="summary-row">
+              <span>Project:</span>
+              <strong>FungaFrass Bio (FF-Bio)</strong>
+            </div>
+            <div class="summary-row">
+              <span>Location:</span>
+              <strong>Western Kenya (5 counties)</strong>
+            </div>
+            <div class="summary-row">
+              <span>Duration:</span>
+              <strong>8 months (10 days/month)</strong>
+            </div>
+            <div class="summary-row">
+              <span>Stipend:</span>
+              <strong>KES 50,000/month</strong>
+            </div>
+            <div class="summary-row highlight">
+              <span>Deadline:</span>
+              <strong class="text-gold">25 June 2026</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-widget">
+          <h3>Share Opportunity</h3>
+          <div class="share-buttons">
+            <button class="share-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" fill="currentColor"/>
+              </svg>
+            </button>
+            <button class="share-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z" fill="currentColor"/>
+              </svg>
+            </button>
+            <button class="share-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z" fill="currentColor"/>
+                <circle cx="4" cy="4" r="2" fill="currentColor"/>
+              </svg>
+            </button>
+            <button class="share-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" fill="currentColor"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="sidebar-widget">
+          <h3>Contact</h3>
+          <div class="contact-info">
+            <a href="mailto:hr@mzuriorganics.co.ke" class="contact-link">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" stroke-width="2"/>
+                <polyline points="22,6 12,13 2,6" stroke="currentColor" stroke-width="2"/>
+              </svg>
+              hr@mzuriorganics.co.ke
+            </a>
+          </div>
+        </div>
+
+        <div class="sidebar-widget">
+          <h3>Project Partners</h3>
+          <div class="partners">
+            <span>European Union</span>
+            <span>FS4Africa</span>
+            <span>Mzuri Organics</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

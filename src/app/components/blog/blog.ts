@@ -2,6 +2,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CartComponent } from '../../pages/cart/cart';
+import { BlogJobPostComponent } from './blog-job-post/blog-post';
 
 interface BlogPost {
   id: string;
@@ -11,22 +12,40 @@ interface BlogPost {
   author: string;
   authorRole: string;
   publishDate: Date;
-  category: 'farming-tips' | 'success-stories' | 'industry-news' | 'sustainable-agriculture';
+  category: 'farming-tips' | 'success-stories' | 'industry-news' | 'sustainable-agriculture' | 'careers';
   imageUrl: string;
   readTime: number;
   tags: string[];
   featured: boolean;
+  isJobPost?: boolean;
 }
 
 @Component({
   selector: 'app-blog',
   standalone: true,
-  imports: [CommonModule, CartComponent],
+  imports: [CommonModule, CartComponent, BlogJobPostComponent],
   templateUrl: './blog.html',
   styleUrls: ['./blog.css']
 })
 export class BlogComponent {
+  showJobModal = false;
+
   blogPosts: BlogPost[] = [
+    {
+      id: 'job-1',
+      title: '📢 WE ARE HIRING! Graduate Research Assistant - FF-Bio Project',
+      excerpt: 'Mzuri Organics is seeking a Graduate Research Assistant for the FungaFrass Bio (FF-Bio) project. Join us in scaling fungus-rich biofertilizers for safer vegetable value chains in Western Kenya. Deadline: 25 June 2026.',
+      content: '',
+      author: 'HR Team',
+      authorRole: 'Mzuri Organics',
+      publishDate: new Date('2024-06-13'),
+      category: 'careers',
+      imageUrl: '/images/hire.JPG',
+      readTime: 12,
+      tags: ['hiring', 'careers', 'research', 'graduate-assistant', 'ff-bio', 'job-opportunity'],
+      featured: true,
+      isJobPost: true
+    },
     {
       id: '1',
       title: 'Transforming Kenyan Agriculture: How Biofertilizers Increased Yields by 40%',
@@ -39,7 +58,8 @@ export class BlogComponent {
       imageUrl: '/images/blog.jpeg',
       readTime: 6,
       tags: ['biofertilizers', 'yield-increase', 'organic-farming', 'kenya'],
-      featured: true
+      featured: true,
+      isJobPost: false
     },
     {
       id: '2',
@@ -53,7 +73,8 @@ export class BlogComponent {
       imageUrl: '/images/blog2.jpeg',
       readTime: 8,
       tags: ['sustainable', 'farming-tips', 'soil-health', 'east-africa'],
-      featured: true
+      featured: true,
+      isJobPost: false
     },
     {
       id: '3',
@@ -67,7 +88,8 @@ export class BlogComponent {
       imageUrl: '/images/blog3.jpeg',
       readTime: 7,
       tags: ['insect-protein', 'livestock', 'sustainable-feeds', 'innovation'],
-      featured: false
+      featured: false,
+      isJobPost: false
     },
     {
       id: '4',
@@ -81,7 +103,8 @@ export class BlogComponent {
       imageUrl: '/images/blog4.jpeg',
       readTime: 9,
       tags: ['bioconversion', 'waste-management', 'organic-fertilizers', 'technology'],
-      featured: false
+      featured: false,
+      isJobPost: false
     },
     {
       id: '5',
@@ -95,7 +118,8 @@ export class BlogComponent {
       imageUrl: '/images/blog5.jpeg',
       readTime: 5,
       tags: ['regenerative-agriculture', 'soil-health', 'kenya', 'case-study'],
-      featured: false
+      featured: false,
+      isJobPost: false
     },
     {
       id: '6',
@@ -109,12 +133,14 @@ export class BlogComponent {
       imageUrl: '/images/blog6.jpeg',
       readTime: 10,
       tags: ['organic-certification', 'guidelines', 'kenya', 'best-practices'],
-      featured: false
+      featured: false,
+      isJobPost: false
     }
   ];
 
   categories = [
     { value: 'all', label: 'All Articles', icon: 'all' },
+    { value: 'careers', label: 'Careers', icon: 'careers' },
     { value: 'success-stories', label: 'Success Stories', icon: 'success' },
     { value: 'farming-tips', label: 'Farming Tips', icon: 'tips' },
     { value: 'industry-news', label: 'Industry News', icon: 'news' },
@@ -125,17 +151,37 @@ export class BlogComponent {
 
   get filteredPosts() {
     if (this.selectedCategory === 'all') {
-      return this.blogPosts;
+      // Sort by date, newest first (job post will appear at top)
+      return [...this.blogPosts].sort((a, b) => b.publishDate.getTime() - a.publishDate.getTime());
     }
-    return this.blogPosts.filter(post => post.category === this.selectedCategory);
+    return this.blogPosts
+      .filter(post => post.category === this.selectedCategory)
+      .sort((a, b) => b.publishDate.getTime() - a.publishDate.getTime());
   }
 
   get featuredPosts() {
-    return this.blogPosts.filter(post => post.featured);
+    // Sort featured posts by date, newest first
+    return this.blogPosts
+      .filter(post => post.featured)
+      .sort((a, b) => b.publishDate.getTime() - a.publishDate.getTime());
   }
 
   filterByCategory(category: string) {
     this.selectedCategory = category;
+  }
+
+  openPost(post: BlogPost) {
+    if (post.isJobPost) {
+      this.showJobModal = true;
+    } else {
+      // Handle regular blog post navigation
+      console.log('Opening post:', post.title);
+      // You can add router navigation or open a modal for regular posts here
+    }
+  }
+
+  closeModal() {
+    this.showJobModal = false;
   }
 
   getCategoryLabel(categoryValue: string): string {
@@ -146,6 +192,7 @@ export class BlogComponent {
   getCategoryIcon(categoryValue: string): string {
     const icons: { [key: string]: string } = {
       'all': `M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM8 17c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm0-4c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm0-4c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm6 8h-4c-.55 0-1-.45-1-1s.45-1 1-1h4c.55 0 1 .45 1 1s-.45 1-1 1zm3-8h-2c-.55 0-1-.45-1-1s.45-1 1-1h2c.55 0 1 .45 1 1s-.45 1-1 1zm0 4h-2c-.55 0-1-.45-1-1s.45-1 1-1h2c.55 0 1 .45 1 1s-.45 1-1 1z`,
+      'careers': `M20 7h-4.18C15.4 5.84 14.3 5 13 5c-1.3 0-2.4.84-2.82 2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm-7-2c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1z`,
       'success': `M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z`,
       'tips': `M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z`,
       'news': `M3 3v18h18V3H3zm16 16H5V5h14v14zM7 7h10v2H7zm0 4h10v2H7zm0 4h7v2H7z`,

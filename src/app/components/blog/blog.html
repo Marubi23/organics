@@ -66,7 +66,7 @@
                 </span>
               </div>
             </div>
-            <button class="btn-read-featured">
+            <button class="btn-read-featured" (click)="openPost(post)">
               Read Insight
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                 <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -142,7 +142,7 @@
             <span *ngIf="post.tags.length > 3" class="tag-more">+{{ post.tags.length - 3 }}</span>
           </div>
 
-          <button class="btn-read-more">
+          <button class="btn-read-more" (click)="openPost(post)">
             Read Article
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
               <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -174,3 +174,13 @@
   </div>
 </section>
 <app-cart></app-cart>
+
+<!-- Job Post Modal -->
+<div class="job-modal" *ngIf="showJobModal" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="modal-close" (click)="closeModal()">×</button>
+    <div class="modal-body">
+      <app-blog-job-post></app-blog-job-post>
+    </div>
+  </div>
+</div>

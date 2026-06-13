@@ -37,9 +37,9 @@
                 "output": "/"
               },
               {
-           "glob": "_headers",
-           "input": "public",
-            "output": "/"
+                "glob": "_headers",
+                "input": "public",
+                "output": "/"
               }
             ],
             "styles": [
