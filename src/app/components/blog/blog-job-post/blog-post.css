@@ -55,7 +55,7 @@
    ============================================ */
 .job-hero {
   position: relative;
-  background: linear-gradient(135deg, #0d2b12 0%, #1a3d1f 50%, #2d5a2a 100%);
+  background: #0d2b12;
   padding: 5rem 0 4rem;
   overflow: hidden;
   width: 100%;
@@ -67,7 +67,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle at 30% 50%, rgba(200, 132, 26, 0.15), transparent 70%);
+  background: #0d2b12;
   pointer-events: none;
 }
 
@@ -107,7 +107,7 @@
 .hero-icon svg {
   width: 70px;
   height: 70px;
-  color: #c8841a;
+  color:#88c431;
   margin-bottom: 1rem;
 }
 
@@ -120,14 +120,14 @@
 
 .part-time-badge {
   font-size: 1.8rem;
-  color: #c8841a;
+  color: #88c431;
   font-weight: 600;
   display: inline-block;
 }
 
 .hero-subtitle {
   font-size: 1.5rem;
-  color: #c8841a;
+  color:#88c431;
   font-weight: 600;
   margin-bottom: 1rem;
 }
@@ -161,7 +161,7 @@
 .countdown-number {
   font-size: 2rem;
   font-weight: 800;
-  color: #c8841a;
+  color: #88c431;
   background: rgba(0, 0, 0, 0.6);
   padding: 0.3rem 0.8rem;
   border-radius: 12px;
@@ -180,7 +180,7 @@
 
 .countdown-separator {
   font-size: 2rem;
-  color: #c8841a;
+  color: #88c431;
   font-weight: bold;
   line-height: 1;
 }
@@ -207,7 +207,7 @@
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #c8841a, #e0961f);
+  background: #88c431;
   color: #0d2b12;
 }
 
