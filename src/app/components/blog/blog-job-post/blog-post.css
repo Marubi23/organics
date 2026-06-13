@@ -1,4 +1,4 @@
-/* src/app/components/blog/blog-job-post/blog-job-post.component.css */
+/* src/app/components/blog/blog-job-post/blog-post.css */
 
 /* ============================================
    GLOBAL RESET & VARIABLES
@@ -106,6 +106,13 @@
   font-weight: 800;
   color: white;
   margin-bottom: 0.5rem;
+}
+
+.part-time-badge {
+  font-size: 1.8rem;
+  color: #c8841a;
+  font-weight: 600;
+  display: inline-block;
 }
 
 .hero-subtitle {
@@ -602,6 +609,7 @@
   text-decoration: none;
   transition: all 0.3s ease;
   border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
 }
 
 .download-btn svg {
@@ -763,6 +771,11 @@
   .job-hero h1 {
     font-size: 2rem;
   }
+  .part-time-badge {
+    font-size: 1.2rem;
+    display: block;
+    margin-top: 0.5rem;
+  }
   .hero-subtitle {
     font-size: 1.1rem;
   }
@@ -801,6 +814,9 @@
   }
   .job-hero h1 {
     font-size: 1.5rem;
+  }
+  .part-time-badge {
+    font-size: 1rem;
   }
   .countdown-timer {
     gap: 0.5rem;

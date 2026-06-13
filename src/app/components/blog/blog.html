@@ -174,13 +174,3 @@
   </div>
 </section>
 <app-cart></app-cart>
-
-<!-- Job Post Modal -->
-<div class="job-modal" *ngIf="showJobModal" (click)="closeModal()">
-  <div class="modal-content" (click)="$event.stopPropagation()">
-    <button class="modal-close" (click)="closeModal()">×</button>
-    <div class="modal-body">
-      <app-blog-job-post></app-blog-job-post>
-    </div>
-  </div>
-</div>

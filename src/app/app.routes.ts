@@ -42,6 +42,7 @@ export const routes: Routes = [
   { path: 'blog', component: BlogComponent },
   { path: 'faq', component: FaqComponent },
   { path: 'checkout', component: CheckoutComponent },
+   { path: 'careers/graduate-research-assistant', component: BlogJobPostComponent },
   
   // Job Post Routes - Standalone component
   { path: 'careers/graduate-research-assistant', component: BlogJobPostComponent },

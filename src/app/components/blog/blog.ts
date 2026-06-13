@@ -1,8 +1,8 @@
 // src/app/components/blog/blog.component.ts
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { CartComponent } from '../../pages/cart/cart';
-import { BlogJobPostComponent } from './blog-job-post/blog-post';
 
 interface BlogPost {
   id: string;
@@ -18,17 +18,18 @@ interface BlogPost {
   tags: string[];
   featured: boolean;
   isJobPost?: boolean;
+  route?: string;
 }
 
 @Component({
   selector: 'app-blog',
   standalone: true,
-  imports: [CommonModule, CartComponent, BlogJobPostComponent],
+  imports: [CommonModule, CartComponent],
   templateUrl: './blog.html',
   styleUrls: ['./blog.css']
 })
 export class BlogComponent {
-  showJobModal = false;
+  constructor(private router: Router) {}
 
   blogPosts: BlogPost[] = [
     {
@@ -44,7 +45,8 @@ export class BlogComponent {
       readTime: 12,
       tags: ['hiring', 'careers', 'research', 'graduate-assistant', 'ff-bio', 'job-opportunity'],
       featured: true,
-      isJobPost: true
+      isJobPost: true,
+      route: '/careers/graduate-research-assistant'
     },
     {
       id: '1',
@@ -59,7 +61,8 @@ export class BlogComponent {
       readTime: 6,
       tags: ['biofertilizers', 'yield-increase', 'organic-farming', 'kenya'],
       featured: true,
-      isJobPost: false
+      isJobPost: false,
+      route: '/blog/transforming-kenyan-agriculture'
     },
     {
       id: '2',
@@ -74,7 +77,8 @@ export class BlogComponent {
       readTime: 8,
       tags: ['sustainable', 'farming-tips', 'soil-health', 'east-africa'],
       featured: true,
-      isJobPost: false
+      isJobPost: false,
+      route: '/blog/sustainable-farming-practices'
     },
     {
       id: '3',
@@ -89,7 +93,8 @@ export class BlogComponent {
       readTime: 7,
       tags: ['insect-protein', 'livestock', 'sustainable-feeds', 'innovation'],
       featured: false,
-      isJobPost: false
+      isJobPost: false,
+      route: '/blog/insect-based-protein-feeds'
     },
     {
       id: '4',
@@ -104,7 +109,8 @@ export class BlogComponent {
       readTime: 9,
       tags: ['bioconversion', 'waste-management', 'organic-fertilizers', 'technology'],
       featured: false,
-      isJobPost: false
+      isJobPost: false,
+      route: '/blog/bioconversion-technology'
     },
     {
       id: '5',
@@ -119,7 +125,8 @@ export class BlogComponent {
       readTime: 5,
       tags: ['regenerative-agriculture', 'soil-health', 'kenya', 'case-study'],
       featured: false,
-      isJobPost: false
+      isJobPost: false,
+      route: '/blog/soil-health-restoration'
     },
     {
       id: '6',
@@ -134,7 +141,8 @@ export class BlogComponent {
       readTime: 10,
       tags: ['organic-certification', 'guidelines', 'kenya', 'best-practices'],
       featured: false,
-      isJobPost: false
+      isJobPost: false,
+      route: '/blog/organic-certification-guide'
     }
   ];
 
@@ -151,7 +159,6 @@ export class BlogComponent {
 
   get filteredPosts() {
     if (this.selectedCategory === 'all') {
-      // Sort by date, newest first (job post will appear at top)
       return [...this.blogPosts].sort((a, b) => b.publishDate.getTime() - a.publishDate.getTime());
     }
     return this.blogPosts
@@ -160,7 +167,6 @@ export class BlogComponent {
   }
 
   get featuredPosts() {
-    // Sort featured posts by date, newest first
     return this.blogPosts
       .filter(post => post.featured)
       .sort((a, b) => b.publishDate.getTime() - a.publishDate.getTime());
@@ -171,17 +177,11 @@ export class BlogComponent {
   }
 
   openPost(post: BlogPost) {
-    if (post.isJobPost) {
-      this.showJobModal = true;
+    if (post.route) {
+      this.router.navigate([post.route]);
     } else {
-      // Handle regular blog post navigation
-      console.log('Opening post:', post.title);
-      // You can add router navigation or open a modal for regular posts here
+      console.log('No route defined for post:', post.title);
     }
-  }
-
-  closeModal() {
-    this.showJobModal = false;
   }
 
   getCategoryLabel(categoryValue: string): string {
