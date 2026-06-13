@@ -1,6 +1,6 @@
 /* Footer - Clean & Professional */
 .footer {
-  background: hsl(127, 68%, 10%);
+   background:rgb(4, 32, 9);
   color: white;
   padding: 60px 0 0;
   font-family: 'Roboto', sans-serif;
@@ -180,7 +180,7 @@
 
 .newsletter-btn {
   padding: 12px 20px;
-  background:#d49a42 ;
+  background:#c8841a;
   border: none;
   border-radius: 8px;
   color: white;
@@ -194,7 +194,7 @@
 }
 
 .newsletter-btn:hover {
-  background: #aa7c38;
+  background: #c8851ab0;
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(255, 152, 0, 0.2);
 }
