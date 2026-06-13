@@ -24,15 +24,17 @@
 }
 
 /* ============================================
-   CONTAINER - WIDE SCREEN
+   CONTAINER - CENTERED & WIDE SCREEN
    ============================================ */
 .container-fluid {
+  width: 100%;
   max-width: 1600px;
   margin: 0 auto;
   padding: 0 2rem;
 }
 
 .container {
+  width: 100%;
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 2rem;
@@ -43,16 +45,20 @@
     max-width: 1800px;
     padding: 0 3rem;
   }
+  .container {
+    max-width: 1600px;
+  }
 }
 
 /* ============================================
-   HERO SECTION
+   HERO SECTION - CENTERED
    ============================================ */
 .job-hero {
   position: relative;
   background: linear-gradient(135deg, #0d2b12 0%, #1a3d1f 50%, #2d5a2a 100%);
   padding: 5rem 0 4rem;
   overflow: hidden;
+  width: 100%;
 }
 
 .hero-overlay {
@@ -78,6 +84,10 @@
   position: relative;
   z-index: 2;
   text-align: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
 }
 
 .hero-badge {
@@ -127,21 +137,21 @@
   color: rgba(255, 255, 255, 0.9);
   max-width: 700px;
   margin: 0 auto 2rem;
+  line-height: 1.6;
 }
 
-/* Countdown Timer */
+/* Countdown Timer - CENTERED */
 .countdown-timer {
   display: flex;
   justify-content: center;
   gap: 1.5rem;
-  margin: 2rem 0;
+  margin: 2rem auto;
   padding: 1.2rem 2rem;
   background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(20px);
   border-radius: 80px;
   max-width: 500px;
-  margin-left: auto;
-  margin-right: auto;
+  width: fit-content;
 }
 
 .countdown-item {
@@ -175,7 +185,7 @@
   line-height: 1;
 }
 
-/* Hero Actions */
+/* Hero Actions - CENTERED */
 .hero-actions {
   display: flex;
   gap: 1rem;
@@ -218,7 +228,7 @@
 }
 
 /* ============================================
-   STATS BAR
+   STATS BAR - CENTERED
    ============================================ */
 .stats-bar {
   background: white;
@@ -226,18 +236,23 @@
   padding: 2rem 0;
   position: relative;
   z-index: 3;
+  width: 100%;
 }
 
 .stats-container {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
 }
 
 .stat-item {
   text-align: center;
+  min-width: 120px;
 }
 
 .stat-number {
@@ -259,17 +274,21 @@
 }
 
 /* ============================================
-   MAIN CONTENT
+   MAIN CONTENT - CENTERED
    ============================================ */
 .job-main {
   padding: 3rem 0 5rem;
   background: linear-gradient(135deg, #fafaf7 0%, #f1f8e9 100%);
+  width: 100%;
 }
 
 .job-layout {
   display: grid;
   grid-template-columns: minmax(0, 2.5fr) 1fr;
   gap: 2.5rem;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 2rem;
 }
 
 /* Quick Navigation */
@@ -308,6 +327,7 @@
   overflow: hidden;
   box-shadow: var(--shadow-sm);
   transition: transform 0.3s ease;
+  width: 100%;
 }
 
 .content-card:hover {
@@ -359,6 +379,8 @@
 .info-item {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
   padding: 0.75rem 0;
   border-bottom: 1px solid #e8efe8;
 }
@@ -507,6 +529,13 @@
   margin-bottom: 1.5rem;
 }
 
+.apply-info h4, .required-docs h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0d2b12;
+  margin-bottom: 0.75rem;
+}
+
 .email-card {
   display: flex;
   align-items: center;
@@ -516,12 +545,15 @@
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
+  flex-wrap: wrap;
+  gap: 0.75rem;
 }
 
 .email-card code {
   font-size: 1rem;
   font-weight: 600;
   color: #c8841a;
+  word-break: break-all;
 }
 
 .copy-badge {
@@ -667,6 +699,7 @@
   justify-content: space-between;
   padding: 0.75rem 0;
   border-bottom: 1px solid #e8efe8;
+  gap: 1rem;
 }
 
 .summary-row:last-child {
@@ -697,6 +730,7 @@
   gap: 1rem;
   justify-content: center;
   margin-top: 1rem;
+  flex-wrap: wrap;
 }
 
 .share-icon {
@@ -734,10 +768,12 @@
   text-decoration: none;
   color: #0d2b12;
   font-size: 0.85rem;
+  word-break: break-all;
 }
 
 .contact-link svg {
   color: #c8841a;
+  flex-shrink: 0;
 }
 
 .partners {
@@ -757,79 +793,350 @@
   color: #0d2b12;
 }
 
-/* Responsive */
-@media (max-width: 1200px) {
+/* ============================================
+   RESPONSIVE - MOBILE FIRST CENTERED
+   ============================================ */
+
+/* Tablet */
+@media (max-width: 1024px) {
   .job-layout {
     grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 0 1.5rem;
   }
+  
   .job-sidebar-sticky {
     position: static;
   }
+  
+  .responsibility-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
+/* Mobile Landscape */
 @media (max-width: 768px) {
-  .job-hero h1 {
-    font-size: 2rem;
+  .container-fluid, .container {
+    padding: 0 1rem;
   }
+  
+  .hero-container {
+    padding: 0 1rem;
+  }
+  
+  .job-hero h1 {
+    font-size: 1.8rem;
+  }
+  
   .part-time-badge {
     font-size: 1.2rem;
     display: block;
     margin-top: 0.5rem;
   }
+  
   .hero-subtitle {
     font-size: 1.1rem;
   }
-  .responsibility-grid {
-    grid-template-columns: 1fr;
+  
+  .hero-description {
+    font-size: 0.95rem;
+    padding: 0 0.5rem;
   }
-  .two-columns {
-    grid-template-columns: 1fr;
-  }
-  .apply-grid {
-    grid-template-columns: 1fr;
-  }
-  .hero-actions {
-    flex-direction: column;
-    align-items: center;
-  }
-  .stats-container {
-    flex-direction: column;
-  }
-  .stat-divider {
-    display: none;
-  }
+  
   .countdown-timer {
     gap: 0.8rem;
     padding: 1rem;
+    max-width: 90%;
   }
+  
   .countdown-number {
     font-size: 1.2rem;
     min-width: 45px;
+    padding: 0.2rem 0.5rem;
+  }
+  
+  .countdown-separator {
+    font-size: 1.2rem;
+  }
+  
+  .countdown-label {
+    font-size: 0.6rem;
+  }
+  
+  .hero-actions {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .btn-primary, .btn-secondary {
+    width: 100%;
+    max-width: 250px;
+    justify-content: center;
+  }
+  
+  .stats-container {
+    gap: 1rem;
+    padding: 0 1rem;
+  }
+  
+  .stat-item {
+    min-width: 100px;
+  }
+  
+  .stat-number {
+    font-size: 1.8rem;
+  }
+  
+  .stat-label {
+    font-size: 0.75rem;
+  }
+  
+  .stat-divider {
+    height: 30px;
+  }
+  
+  .job-layout {
+    padding: 0 1rem;
+  }
+  
+  .responsibility-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .two-columns {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .apply-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .card-header {
+    padding: 1rem 1.25rem;
+  }
+  
+  .card-header h2 {
+    font-size: 1.3rem;
+  }
+  
+  .card-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .card-body {
+    padding: 1.25rem;
+  }
+  
+  .info-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .info-item strong {
+    margin-bottom: 0.25rem;
+  }
+  
+  .email-card {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .docs-list {
+    justify-content: center;
+  }
+  
+  .downloads-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .download-btn {
+    width: 100%;
+    max-width: 280px;
+    justify-content: center;
+  }
+  
+  .summary-row {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .summary-row strong {
+    text-align: left;
   }
 }
 
+/* Mobile Portrait */
 @media (max-width: 480px) {
   .job-hero {
-    padding: 3rem 0 2rem;
+    padding: 2rem 0 2rem;
   }
+  
   .job-hero h1 {
     font-size: 1.5rem;
   }
+  
   .part-time-badge {
+    font-size: 0.9rem;
+  }
+  
+  .hero-subtitle {
     font-size: 1rem;
   }
+  
+  .hero-description {
+    font-size: 0.85rem;
+  }
+  
+  .hero-badge {
+    font-size: 0.7rem;
+    padding: 0.3rem 0.8rem;
+  }
+  
+  .hero-badge svg {
+    width: 12px;
+    height: 12px;
+  }
+  
+  .hero-icon svg {
+    width: 50px;
+    height: 50px;
+  }
+  
   .countdown-timer {
     gap: 0.5rem;
     padding: 0.8rem;
   }
+  
   .countdown-number {
     font-size: 1rem;
     min-width: 35px;
+    padding: 0.2rem 0.3rem;
   }
+  
   .countdown-separator {
     font-size: 1rem;
   }
-  .container-fluid, .container {
-    padding: 0 1rem;
+  
+  .countdown-label {
+    font-size: 0.5rem;
+  }
+  
+  .stats-container {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .stat-divider {
+    display: none;
+  }
+  
+  .stat-item {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .job-main {
+    padding: 2rem 0 3rem;
+  }
+  
+  .quick-nav {
+    justify-content: center;
+  }
+  
+  .quick-nav button {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.75rem;
+  }
+  
+  .card-header {
+    padding: 0.875rem 1rem;
+  }
+  
+  .card-header h2 {
+    font-size: 1.1rem;
+  }
+  
+  .card-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .card-body {
+    padding: 1rem;
+  }
+  
+  .card-body p {
+    font-size: 0.9rem;
+  }
+  
+  .resp-card {
+    padding: 1rem;
+  }
+  
+  .resp-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .resp-card h4 {
+    font-size: 1rem;
+  }
+  
+  .resp-card li {
+    font-size: 0.85rem;
+  }
+  
+  .check-list li, .star-list li {
+    font-size: 0.85rem;
+  }
+  
+  .sidebar-widget {
+    padding: 1rem;
+  }
+  
+  .sidebar-widget h3 {
+    font-size: 1rem;
+  }
+  
+  .summary-row span, .summary-row strong {
+    font-size: 0.75rem;
+  }
+  
+  .downloads-card {
+    padding: 1.25rem;
+  }
+  
+  .downloads-card h3 {
+    font-size: 1rem;
+  }
+  
+  .download-btn {
+    padding: 0.75rem 1rem;
+  }
+  
+  .download-btn strong {
+    font-size: 0.8rem;
+  }
+  
+  .download-btn span {
+    font-size: 0.65rem;
+  }
+  
+  .deadline-box {
+    padding: 0.875rem;
+  }
+  
+  .deadline-box strong {
+    font-size: 0.85rem;
+  }
+  
+  .deadline-box p {
+    font-size: 0.75rem;
   }
 }
