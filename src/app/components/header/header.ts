@@ -63,14 +63,11 @@ interface QuickAction {
 export class HeaderComponent implements OnInit, OnDestroy {
   @ViewChild('headerElement') headerElement!: ElementRef;
 
-  // Scroll state - always true for visible background
-  isScrolled = true;
+  // Static navbar - no scroll effects
+  isScrolled = false; // Keep as false, no scrolled class
 
-  // Header State
-  isHeaderHidden = false;
-  private lastScrollTop = 0;
-  private hideTimeout: any;
-  private mouseNearTop = false;
+  // Header State - DISABLED auto-hide
+  isHeaderHidden = false; // Keep false, never hide
 
   // Menu States
   isQuickMenuOpen = false;
@@ -82,12 +79,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   showOverlay = false;
   showMobileMenu = false;
   isMobileMenuOpen = false;
-
-  // Header Settings
-  autoHideEnabled = true;
-  quickActionsEnabled = true;
-  hideDelay = 300;
-  scrollThreshold = 100;
 
   // Navigation
   navItems: NavItem[] = [
@@ -159,73 +150,44 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.setupRouterListener();
     this.loadTheme();
     this.loadAccessibilitySettings();
-    this.isScrolled = true;
 
     this.subscriptions.push(
       this.cartService.isCartOpen$.subscribe(state => { this.isCartOpen = state; })
     );
     this.subscriptions.push(
       this.cartService.isCartOpen$.subscribe(() => {
-        if (this.cartService.getCartState()) this.showHeader();
+        // No auto-hide behavior
       })
     );
   }
 
   ngOnDestroy() {
     this.subscriptions.forEach(s => s.unsubscribe());
-    if (this.hideTimeout) clearTimeout(this.hideTimeout);
     if (this.dropdownTimeout) clearTimeout(this.dropdownTimeout);
     if (this.accountDropdownTimeout) clearTimeout(this.accountDropdownTimeout);
     this.renderer.removeClass(document.body, 'menu-open');
   }
 
+  // Scroll handler - DISABLED (no action)
   @HostListener('window:scroll')
   onWindowScroll() {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    
-    // Keep background visible at all times
-    this.isScrolled = true;
-
-    if (!this.autoHideEnabled) return;
-
-    const atTop = scrollTop < 30;
-    if (atTop) { this.showHeader(); this.lastScrollTop = scrollTop; return; }
-
-    if (scrollTop < this.lastScrollTop) {
-      this.showHeader();
-    } else if (scrollTop > this.lastScrollTop && scrollTop > this.scrollThreshold) {
-      if (this.mouseNearTop || this.isMenuOpen()) return;
-      if (this.hideTimeout) clearTimeout(this.hideTimeout);
-      this.hideTimeout = setTimeout(() => this.hideHeader(), this.hideDelay);
-    }
-
-    this.lastScrollTop = scrollTop;
+    // DO NOTHING - navbar stays static
+    return;
   }
 
   @HostListener('mousemove', ['$event'])
   onMouseMove(event: MouseEvent) {
-    this.mouseNearTop = event.clientY < 50;
-    if (this.mouseNearTop && this.isHeaderHidden) this.showHeader();
+    // DO NOTHING
+    return;
   }
 
   @HostListener('mouseleave')
-  onMouseLeave() { this.mouseNearTop = false; }
-
-  private showHeader() {
-    if (this.isHeaderHidden) {
-      this.isHeaderHidden = false;
-      if (this.headerElement?.nativeElement)
-        this.renderer.removeClass(this.headerElement.nativeElement, 'header-hidden');
-    }
+  onMouseLeave() {
+    // DO NOTHING
+    return;
   }
 
-  private hideHeader() {
-    if (!this.isHeaderHidden && !this.isMenuOpen()) {
-      this.isHeaderHidden = true;
-      if (this.headerElement?.nativeElement)
-        this.renderer.addClass(this.headerElement.nativeElement, 'header-hidden');
-    }
-  }
+  // No show/hide header methods needed - always visible
 
   private isMenuOpen(): boolean {
     return this.isQuickMenuOpen || this.isSettingsMenuOpen ||
@@ -253,11 +215,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     anyOpen ? this.showBlurOverlay() : this.hideBlurOverlay();
   }
 
-  toggleCart() { this.cartService.toggleCart(); this.showHeader(); }
+  toggleCart() { this.cartService.toggleCart(); }
 
   toggleQuickMenu() {
     this.isQuickMenuOpen = !this.isQuickMenuOpen;
-    if (this.isQuickMenuOpen) { this.showHeader(); this.showBlurOverlay(); }
+    if (this.isQuickMenuOpen) { this.showBlurOverlay(); }
     else this.hideBlurOverlay();
     this.updateOverlayState();
   }
@@ -265,7 +227,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   toggleSettingsMenu() {
     this.isSettingsMenuOpen = !this.isSettingsMenuOpen;
     if (this.isSettingsMenuOpen) {
-      this.showHeader(); this.showBlurOverlay();
+      this.showBlurOverlay();
       this.isAccountMenuOpen = false;
       this.isAccountMenuComponentOpen = false;
     } else this.hideBlurOverlay();
@@ -275,7 +237,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   toggleAccountMenuComponent() {
     this.isAccountMenuComponentOpen = !this.isAccountMenuComponentOpen;
     if (this.isAccountMenuComponentOpen) {
-      this.showHeader(); this.showBlurOverlay();
+      this.showBlurOverlay();
       this.isSettingsMenuOpen = false;
       this.isAccountMenuOpen = false;
     } else this.hideBlurOverlay();
@@ -301,7 +263,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   showAccountDropdown() {
     if (this.accountDropdownTimeout) { clearTimeout(this.accountDropdownTimeout); this.accountDropdownTimeout = null; }
     this.isAccountMenuOpen = true;
-    this.showHeader(); this.showBlurOverlay();
+    this.showBlurOverlay();
     this.updateOverlayState();
   }
 
@@ -320,7 +282,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   toggleAccountDropdown() {
     if (window.innerWidth <= 900) {
       this.isAccountMenuOpen = !this.isAccountMenuOpen;
-      if (this.isAccountMenuOpen) { this.showHeader(); this.showBlurOverlay(); }
+      if (this.isAccountMenuOpen) { this.showBlurOverlay(); }
       else this.hideBlurOverlay();
       this.updateOverlayState();
     }
@@ -329,7 +291,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   showDropdown(index: number) {
     if (this.dropdownTimeout) { clearTimeout(this.dropdownTimeout); this.dropdownTimeout = null; }
     this.activeDropdown = index;
-    this.showHeader();
   }
 
   hideDropdown(index: number) {
@@ -365,27 +326,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
       const saved = localStorage.getItem('mzuri_header_settings');
       if (saved) {
         const s = JSON.parse(saved);
-        this.autoHideEnabled = s.autoHideEnabled ?? true;
-        this.quickActionsEnabled = s.quickActionsEnabled ?? true;
-        this.hideDelay = s.hideDelay ?? 300;
-        this.scrollThreshold = s.scrollThreshold ?? 100;
+        // Settings kept but auto-hide disabled
       }
     } catch {}
   }
-
-  saveSettings() {
-    try {
-      localStorage.setItem('mzuri_header_settings', JSON.stringify({
-        autoHideEnabled: this.autoHideEnabled,
-        quickActionsEnabled: this.quickActionsEnabled,
-        hideDelay: this.hideDelay,
-        scrollThreshold: this.scrollThreshold
-      }));
-    } catch {}
-  }
-
-  toggleAutoHide() { this.autoHideEnabled = !this.autoHideEnabled; this.saveSettings(); if (!this.autoHideEnabled) this.showHeader(); }
-  resetSettings() { this.autoHideEnabled = true; this.quickActionsEnabled = true; this.hideDelay = 300; this.scrollThreshold = 100; this.saveSettings(); this.showHeader(); }
 
   toggleTheme() {
     this.isDarkTheme = !this.isDarkTheme;

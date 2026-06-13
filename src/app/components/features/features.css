@@ -1,9 +1,8 @@
 /* Features Section - Clean & Professional */
 .features-section {
   padding: 80px 20px;
-  background: linear-gradient(135deg, 
-    hsla(125, 89%, 31%, 0.03) 0%, 
-    rgba(255, 255, 255, 0.95) 100%);
+  background:#0d2b12;
+  
   position: relative;
 }
 
@@ -86,7 +85,7 @@
 }
 
 .stat-label {
-  color: #333;
+  color:#88c431;
   font-size: 1.1rem;
   font-weight: 500;
   font-family: 'Roboto', sans-serif;

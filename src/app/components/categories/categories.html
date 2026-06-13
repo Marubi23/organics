@@ -1,494 +1,241 @@
-<!-- categories.component.html -->
-<section class="impact-cta-section">
-  <div class="container">
-    <!-- Mission Section with Lottie Icons -->
-    <div class="mission-wrapper">
-      <div class="mission-content">
-        <h1 class="mission-title">
-          Regenerating Kenyan Agriculture<br>
-          <span class="highlight">Empowering Local Farmers</span>
-        </h1>
+<!-- categories.component.html - Mzuri Organics Homepage -->
+<section class="homepage">
+  
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    
+    <div class="container hero-container">
+      <div class="hero-grid">
+        <!-- Left Column - Text Content -->
+        <div class="hero-left">
+          <div class="hero-badge">
+            <span class="badge-line"></span>
+            <span>Circular Bioeconomy · Kenya</span>
+          </div>
+          
+          <h1 class="hero-title">
+            Regenerating<br>
+            Kenyan<br>
+            <span class="hero-accent">Agriculture.</span>
+          </h1>
+          
+          <p class="hero-description">
+            We transform waste into premium biofertilizers, restoring soil fertility 
+            and empowering smallholder farmers across East Africa.
+          </p>
+          
+          <div class="hero-buttons">
+            <a routerLink="/products" class="btn-primary">
+              Shop Products
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2"/>
+              </svg>
+            </a>
+            <a routerLink="/contact" class="btn-outline">Contact Us</a>
+          </div>
+        </div>
         
-        <p class="mission-statement">
-          We transform biomass into biofertilizers using regenerative agriculture and soil diagnostics. 
-          Our circular models empower farmers with affordable, science-backed solutions that restore 
-          soil health, boost yields, and build climate-resilient communities.
-        </p>
-        
-        <!-- Icon grid below the paragraph -->
-        <div class="icon-grid">
-          <div class="icon-item">
-            <lottie-player
-              src="/assets/animations/lottieflow-truck-2-000000-easey-green.json"
-              background="transparent"
-              speed="1"
-              style="width: 80px; height: 80px;"
-              loop
-              autoplay>
-            </lottie-player>
-            <span>Shop Products</span>
+        <!-- Right Column - Lottie Icons Grid -->
+        <div class="hero-right">
+          <div class="lottie-grid">
+            <div class="lottie-item">
+              <lottie-player
+                src="/assets/animations/lottieflow-ecommerce-14-1-c8841a-easey.json"
+                background="transparent"
+                speed="1"
+                style="width: 70px; height: 70px;"
+                loop
+                autoplay>
+              </lottie-player>
+              <span>Shop Products</span>
+            </div>
+            <div class="lottie-item">
+              <lottie-player
+                src="/assets/animations/lottieflow-ecommerce-14-20-c8841a-easey.json"
+                background="transparent"
+                speed="1"
+                style="width: 70px; height: 70px;"
+                loop
+                autoplay>
+              </lottie-player>
+              <span>Save Money</span>
+            </div>
+            <div class="lottie-item">
+              <lottie-player
+                src="/assets/animations/lottieflow-ecommerce-14-19-c8841a-easey.json"
+                background="transparent"
+                speed="1"
+                style="width: 70px; height: 70px;"
+                loop
+                autoplay>
+              </lottie-player>
+              <span>Home Delivery</span>
+            </div>
+            <div class="lottie-item">
+              <lottie-player
+                src="/assets/animations/lottieflow-ecommerce-14-18-c8841a-easey.json"
+                background="transparent"
+                speed="1"
+                style="width: 70px; height: 70px;"
+                loop
+                autoplay>
+              </lottie-player>
+              <span>Free Consult</span>
+            </div>
           </div>
-          
-          <div class="icon-item">
-            <lottie-player
-              src="/assets/animations/lottieflow-ecommerce-14-20-000000-easey.json"
-              background="transparent"
-              speed="1"
-              style="width: 80px; height: 80px;"
-              loop
-              autoplay>
-            </lottie-player>
-            <span>Save</span>
-          </div>
-             <div class="icon-item">
-            <lottie-player
-              src="/assets/animations/lottieflow-ecommerce-14-19-000000-easey.json"
-              background="transparent"
-              speed="1"
-              style="width: 80px; height: 80px;"
-              loop
-              autoplay>
-            </lottie-player>
-            <span>Home Delivery</span>
-          </div>
-          
-          <div class="icon-item">
-            <lottie-player
-              src="/assets/animations/lottieflow-ecommerce-14-18-000000-easey.json"
-              background="transparent"
-              speed="1"
-              style="width: 80px; height: 80px;"
-              loop
-              autoplay>
-            </lottie-player>
-            <span>Call/Consult</span>
-          </div>
-          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Section -->
+  <div class="stats-section">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-card">
        
+          <div class="stat-number">55+</div>
+          <div class="stat-label">Tons Waste Monthly</div>
+        </div>
+        <div class="stat-card">
+      
+          <div class="stat-number">1000L+</div>
+          <div class="stat-label">Liquid Biofertilizer</div>
+        </div>
+        <div class="stat-card">
+       
+          <div class="stat-number">5T+</div>
+          <div class="stat-label">Solid Fertilizer</div>
+        </div>
+        <div class="stat-card">
+       
+          <div class="stat-number">40%</div>
+          <div class="stat-label">Cost Savings</div>
+        </div>
+        <div class="stat-card">
+       
+          <div class="stat-number">60%↑</div>
+          <div class="stat-label">Yield Increase</div>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Impact Stats - Animated -->
-    <div class="impact-stats" id="impact-stats">
-      <div class="stat-grid">
-        <div class="impact-stat">
-          <div class="stat-icon">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-              <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2"/>
-              <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2"/>
-              <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2"/>
-            </svg>
-          </div>
-          <div class="stat-number">{{ formatStatValue(getImpactStat(0)) }}</div>
-          <div class="stat-label">{{ getImpactStat(0).label }}</div>
-        </div>
-        <div class="impact-stat">
-          <div class="stat-icon">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-              <path d="M17 7H7C4.79086 7 3 8.79086 3 11V11C3 13.2091 4.79086 15 7 15H17C19.2091 15 21 13.2091 21 11V11C21 8.79086 19.2091 7 17 7Z" stroke="currentColor" stroke-width="2"/>
-              <path d="M7 15V18C7 19.6569 8.34315 21 10 21H14C15.6569 21 17 19.6569 17 18V15" stroke="currentColor" stroke-width="2"/>
-              <path d="M12 3V7" stroke="currentColor" stroke-width="2"/>
-            </svg>
-          </div>
-          <div class="stat-number">{{ formatStatValue(getImpactStat(1)) }}</div>
-          <div class="stat-label">{{ getImpactStat(1).label }}</div>
-        </div>
-        <div class="impact-stat">
-          <div class="stat-icon">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-              <path d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2Z" stroke="currentColor" stroke-width="2"/>
-              <path d="M14 2V8H20" stroke="currentColor" stroke-width="2"/>
-              <path d="M16 13H8" stroke="currentColor" stroke-width="2"/>
-              <path d="M16 17H8" stroke="currentColor" stroke-width="2"/>
-              <path d="M10 9H8" stroke="currentColor" stroke-width="2"/>
-            </svg>
-          </div>
-          <div class="stat-number">{{ formatStatValue(getImpactStat(2)) }}</div>
-          <div class="stat-label">{{ getImpactStat(2).label }}</div>
-        </div>
-        <div class="impact-stat">
-          <div class="stat-icon">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-              <path d="M12 2V22" stroke="currentColor" stroke-width="2"/>
-              <path d="M17 5H9.5C8.57174 5 7.6815 5.36875 7.02513 6.02513C6.36875 6.6815 6 7.57174 6 8.5C6 9.42826 6.36875 10.3185 7.02513 10.9749C7.6815 11.6313 8.57174 12 9.5 12H14.5C15.4283 12 16.3185 12.3687 16.9749 13.0251C17.6313 13.6815 18 14.5717 18 15.5C18 16.4283 17.6313 17.3185 16.9749 17.9749C16.3185 18.6313 15.4283 19 14.5 19H6" stroke="currentColor" stroke-width="2"/>
-            </svg>
-          </div>
-          <div class="stat-number">{{ formatStatValue(getImpactStat(3)) }}</div>
-          <div class="stat-label">{{ getImpactStat(3).label }}</div>
-        </div>
-        <div class="impact-stat">
-          <div class="stat-icon">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-              <path d="M12 2V22" stroke="currentColor" stroke-width="2"/>
-              <path d="M17 5H9.5C8.57174 5 7.6815 5.36875 7.02513 6.02513C6.36875 6.6815 6 7.57174 6 8.5C6 9.42826 6.36875 10.3185 7.02513 10.9749C7.6815 11.6313 8.57174 12 9.5 12H14.5C15.4283 12 16.3185 12.3687 16.9749 13.0251C17.6313 13.6815 18 14.5717 18 15.5C18 16.4283 17.6313 17.3185 16.9749 17.9749C16.3185 18.6313 15.4283 19 14.5 19H6" stroke="currentColor" stroke-width="2"/>
-            </svg>
-          </div>
-          <div class="stat-number">{{ formatStatValue(getImpactStat(4)) }}</div>
-          <div class="stat-label">{{ getImpactStat(4).label }}</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Core Solutions -->
-    <div class="solutions-showcase">
+  <!-- Solutions Section -->
+  <div class="solutions-section">
+    <div class="container">
       <div class="section-header">
-        <h2>Mzuri Organics Core Solutions</h2>
+        <span class="section-badge">Our Solutions</span>
+        <h2>Mzuri Organics <span class="gold-accent">Core Solutions</span></h2>
+        <p>Innovative approaches to sustainable agriculture</p>
       </div>
       
       <div class="solutions-grid">
-        <div class="solution-card bioconversion">
-          <div class="solution-header">
-            <div class="solution-icon">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-                <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2"/>
-                <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2"/>
-                <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2"/>
-              </svg>
-            </div>
-            <h3>Bioconversion Initiative</h3>
+        <!-- Solution 1 -->
+        <div class="solution-card">
+          <div class="solution-icon">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2L2 7l10 5 10-5-10-5Z" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
           </div>
-          <p>Converting organic waste from Kenyan farms and markets into premium biofertilizers using Black Soldier Fly Larvae and vermicomposting technology</p>
-          <ul class="benefits">
-            <li>
-              <span class="check-icon">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                  <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </span>
-              Sustainable organic waste management
-            </li>
-            <li>
-              <span class="check-icon">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                  <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </span>
-              Soil regeneration for Kenyan farms
-            </li>
-            <li>
-              <span class="check-icon">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                  <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </span>
-              High-protein animal feed production
-            </li>
+          <h3>Bioconversion Initiative</h3>
+          <p>Converting organic waste into premium biofertilizers using Black Soldier Fly Larvae and vermicomposting technology.</p>
+          <ul>
+            <li>Sustainable waste management</li>
+            <li>Soil regeneration for farms</li>
+            <li>High-protein animal feed</li>
           </ul>
-        </div>
-
-        <div class="solution-card precision">
-          <div class="solution-header">
-            <div class="solution-icon">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2"/>
-                <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2"/>
-                <path d="M12 12L9 9" stroke="currentColor" stroke-width="2"/>
-              </svg>
-            </div>
-            <h3>PREFarm Initiative</h3>
-          </div>
-          <p>Data-driven precision dosing technology optimizing fertilizer use for maximum efficiency and yield in East African conditions</p>
-          <ul class="benefits">
-            <li>
-              <span class="check-icon">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                  <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </span>
-              Optimized farm input usage
-            </li>
-            <li>
-              <span class="check-icon">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                  <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </span>
-              Increased crop productivity
-            </li>
-            <li>
-              <span class="check-icon">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                  <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </span>
-              Environmental protection
-            </li>
-          </ul>
-        </div>
-
-        <div class="solution-card regen-kilimo">
-          <div class="solution-header">
-            <div class="solution-icon">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-                <path d="M12 2L3 7L12 12L21 7L12 2Z" stroke="currentColor" stroke-width="2"/>
-                <path d="M3 17L12 22L21 17" stroke="currentColor" stroke-width="2"/>
-                <path d="M3 12L12 17L21 12" stroke="currentColor" stroke-width="2"/>
-                <path d="M12 2V12" stroke="currentColor" stroke-width="2"/>
-                <path d="M12 12V22" stroke="currentColor" stroke-width="2"/>
-              </svg>
-            </div>
-            <h3>Regen-Kilimo Program</h3>
-          </div>
-          <p>Comprehensive training in regenerative agriculture and market access programs for sustainable livelihoods of Kenyan smallholder farmers</p>
-          <ul class="benefits">
-            <li>
-              <span class="check-icon">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                  <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </span>
-              Farmer training & capacity building
-            </li>
-            <li>
-              <span class="check-icon">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                  <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </span>
-              Market access & off-taking
-            </li>
-            <li>
-              <span class="check-icon">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                  <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </span>
-              Community development initiatives
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <!-- SDG Alignment - Perfect 1+6 Grid Layout -->
-    <div class="sdg-section">
-      <div class="sdg-container">
-        <!-- Vertical Card (Left - SDG Introduction) -->
-        <div class="sdg-vertical-card">
-          <div class="vertical-card-content">
-            <h2>Contributing to Kenya's Sustainable Development</h2>
-            <p>Mzuri Organics actively supports 7 UN Sustainable Development Goals through our regenerative agricultural practices in East Africa</p>
-          </div>
         </div>
         
-        <!-- Grid of 6 SDG Cards (Right - 3 columns × 2 rows) -->
-        <div class="sdg-grid">
-          <!-- SDG 1: No Poverty -->
-          <div class="sdg-card sdg-1">
-            <div class="sdg-number">1</div>
-            <h3 class="sdg-title">No Poverty</h3>
-            <p class="sdg-desc">Creating new income streams for farmers, youth, and women through buy-back models and waste-to-value enterprises</p>
+        <!-- Solution 2 -->
+        <div class="solution-card">
+          <div class="solution-icon">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none">
+              <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
           </div>
-          
-          <!-- SDG 2: Zero Hunger -->
-          <div class="sdg-card sdg-2">
-            <div class="sdg-number">2</div>
-            <h3 class="sdg-title">Zero Hunger</h3>
-            <p class="sdg-desc">Boosting food security by regenerating soils, increasing yields, and improving crop nutrition through biological and organo-mineral fertilizers</p>
+          <h3>PREFarm Initiative</h3>
+          <p>Data-driven precision dosing technology optimizing fertilizer use for maximum efficiency and yield in East African conditions.</p>
+          <ul>
+            <li>Optimized input usage</li>
+            <li>Increased productivity</li>
+            <li>Environmental protection</li>
+          </ul>
+        </div>
+        
+        <!-- Solution 3 -->
+        <div class="solution-card">
+          <div class="solution-icon">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
           </div>
-          
-          <!-- SDG 5: Gender Equality -->
-          <div class="sdg-card sdg-5">
-            <div class="sdg-number">3</div>
-            <h3 class="sdg-title">Gender Equality</h3>
-            <p class="sdg-desc">Empowering women in agriculture through training, leadership roles, and economic opportunities</p>
-          </div>
-          
-          <!-- SDG 12: Responsible Consumption -->
-          <div class="sdg-card sdg-12">
-            <div class="sdg-number">4</div>
-            <h3 class="sdg-title">Responsible Consumption & Production</h3>
-            <p class="sdg-desc">Transforming organic waste into high-value fertilizers and creating circular, zero-waste farming systems</p>
-          </div>
-          
-          <!-- SDG 13: Climate Action -->
-          <div class="sdg-card sdg-13">
-            <div class="sdg-number">5</div>
-            <h3 class="sdg-title">Climate Action</h3>
-            <p class="sdg-desc">Reducing emissions, enhancing soil carbon, and building climate-resilient farms through regenerative agriculture</p>
-          </div>
-          
-          <!-- SDG 15: Life on Land -->
-          <div class="sdg-card sdg-15">
-            <div class="sdg-number">6</div>
-            <h3 class="sdg-title">Life on Land</h3>
-            <p class="sdg-desc">Restoring degraded soils, improving biodiversity, and strengthening ecosystem health with microbe-rich inputs</p>
+          <h3>Regen-Kilimo Program</h3>
+          <p>Comprehensive training in regenerative agriculture and market access programs for sustainable livelihoods of Kenyan smallholder farmers.</p>
+          <ul>
+            <li>Farmer training & capacity</li>
+            <li>Market access & off-taking</li>
+            <li>Community development</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hiring Opportunity Banner -->
+  <div class="hiring-section">
+    <div class="container">
+      <div class="hiring-card" (click)="goToCareers()">
+        <div class="hiring-icon">
+          <lottie-player
+            src="/assets/animations/lottieflow-attention-06-c8841a-easey.json"
+            background="transparent"
+            speed="1"
+            style="width: 80px; height: 80px;"
+            loop
+            autoplay>
+          </lottie-player>
+        </div>
+        <div class="hiring-content">
+          <div class="hiring-text">
+            <span class="hiring-badge"> We're Hiring!</span>
+            <h3>Graduate Research Assistant <span class="gold-accent">(Part-Time)</span></h3>
+            <p>Join the FF-Bio Project: Scaling Fungus-Rich Biofertilizers for Safer Vegetable Value Chains in Western Kenya</p>
+            <div class="hiring-details">
+              <span> 5 Counties</span>
+              <span> Deadline: 25 June 2026</span>
+              <span> KES 50,000/month</span>
+            </div>
+            <div class="hiring-link">
+              Learn More & Apply →
+            </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Enhanced Product Slideshow with Stacked Glass Effect -->
-    <section class="featured-products-section">
-      <div class="container">
-        <div class="section-header">
-          <div class="header-left">
-            <div class="brand-icon">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-                <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="#0a7e0a" stroke-width="2"/>
-                <path d="M2 17L12 22L22 17" stroke="#0a7e0a" stroke-width="2"/>
-                <path d="M2 12L12 17L22 12" stroke="#0a7e0a" stroke-width="2"/>
-              </svg>
-            </div>
-            <div class="header-text">
-              <h2 class="section-title">Premium Biofertilizers</h2>
-              <p class="section-subtitle">Science-backed solutions for healthier soils & higher yields</p>
-            </div>
-          </div>
-          <a routerLink="/products" class="view-all-btn">
-            <div style="display: inline-flex; align-items: center; gap: 8px; color: hsl(31, 100%, 47%);">
-              <span>Shop All Products</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                <path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M12 5L19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-          </a>
-        </div>
-
-        <!-- Glass Stack Slideshow -->
-        <div class="glass-slideshow">
-          <!-- Previous Product Preview (left side, faint) -->
-          <div class="slide-preview prev-preview" [class.active]="currentSlide !== 0">
-            <div class="preview-card" [style.transform]="'translateX(-30%) scale(0.8)'">
-              <div class="product-image">
-                <img [src]="getPrevSlide().image" [alt]="getPrevSlide().name">
-              </div>
-              <div class="preview-overlay">
-                <span class="preview-label">Previous</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Current Active Product -->
-          <div class="active-product-card">
-            <div class="card-content">
-              <div class="product-badge">
-                <span class="badge-text">{{ slides[currentSlide].category }}</span>
-                <span class="badge-icon">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </span>
-              </div>
-              
-              <h3 class="product-title">{{ slides[currentSlide].name }}</h3>
-              
-              <p class="product-description">{{ slides[currentSlide].description }}</p>
-              
-              <div class="product-price">
-                <span class="price-main">KSh {{ slides[currentSlide].price | number }}</span>
-                <span class="price-unit">{{ slides[currentSlide].unit }}</span>
-              </div>
-              
-              <div class="product-features">
-                <div class="feature">
-                  <div class="feature-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                      <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2"/>
-                      <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2"/>
-                      <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2"/>
-                    </svg>
-                  </div>
-                  <span class="feature-text">100% Organic</span>
-                </div>
-                <div class="feature">
-                  <div class="feature-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                      <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2"/>
-                      <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2"/>
-                    </svg>
-                  </div>
-                  <span class="feature-text">Soil Regeneration</span>
-                </div>
-              </div>
-              
-              <div class="card-actions">
-                <button class="btn-primary" (click)="navigateToProductsWithScroll()">
-                  <span>Shop Now</span>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                    <path d="M9 20L16 13L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </button>
-                <button class="btn-secondary" (click)="quickView(currentSlide)">
-                  <span>Quick View</span>
-                </button>
-              </div>
-            </div>
-            
-            <div class="card-image">
-              <div class="image-wrapper">
-                <img [src]="slides[currentSlide].image" [alt]="slides[currentSlide].name">
-              </div>
-              <div class="image-bg-effect"></div>
-            </div>
-          </div>
-
-          <!-- Next Product Preview (right side, faint) -->
-          <div class="slide-preview next-preview" [class.active]="currentSlide !== slides.length - 1">
-            <div class="preview-card" [style.transform]="'translateX(30%) scale(0.8)'">
-              <div class="product-image">
-                <img [src]="getNextSlide().image" [alt]="getNextSlide().name">
-              </div>
-              <div class="preview-overlay">
-                <span class="preview-label">Next</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Slide Indicators -->
-        <div class="slide-indicators">
-          <button 
-            *ngFor="let slide of slides; let i = index"
-            class="indicator" 
-            [class.active]="currentSlide === i"
-            (click)="goToSlide(i)">
-            <span class="indicator-dot"></span>
-            <span class="indicator-label">{{ slide.name }}</span>
-          </button>
-        </div>
-
-        <!-- Quick Stats -->
-        <div class="quick-stats">
-          <div class="stat-item">
-            <div class="stat-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-            <div class="stat-content">
-              <div class="stat-value">100%</div>
-              <div class="stat-label">Organic</div>
-            </div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2"/>
-                <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2"/>
-              </svg>
-            </div>
-            <div class="stat-content">
-              <div class="stat-value">60%↑</div>
-              <div class="stat-label">Yield Increase</div>
-            </div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21" stroke="currentColor" stroke-width="2"/>
-                <path d="M9 11C11.2091 11 13 9.20914 13 7C13 4.79086 11.2091 3 9 3C6.79086 3 5 4.79086 5 7C5 9.20914 6.79086 11 9 11Z" stroke="currentColor" stroke-width="2"/>
-              </svg>
-            </div>
-            <div class="stat-content">
-              <div class="stat-value">8K+</div>
-              <div class="stat-label">Farmers Served</div>
-            </div>
-          </div>
+  <!-- SDG Section -->
+  <div class="sdg-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">Global Alignment</span>
+        <h2>Sustainable Development <span class="gold-accent">Goals</span></h2>
+        <p>Contributing to Kenya's sustainable future</p>
+      </div>
+      
+      <div class="sdg-grid">
+        <div class="sdg-card" *ngFor="let sdg of sdgs; let i = index">
+          <div class="sdg-number">{{ i + 1 }}</div>
+          <h4>{{ sdg.title }}</h4>
+          <p>{{ sdg.description }}</p>
         </div>
       </div>
-    </section>
+    </div>
   </div>
+
 </section>
