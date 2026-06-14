@@ -622,3 +622,110 @@
     height: 180px;
   }
 }
+/* Add to your about.component.css */
+
+/* Centered Lottie Icon */
+.hero-lottie-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.hero-lottie-center lottie-player {
+  filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.2));
+}
+
+/* Control Cards - Positioned at bottom left and bottom right */
+.hero-controls {
+  position: absolute;
+  bottom: 40px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 2rem;
+  pointer-events: none;
+}
+
+.media-card {
+  pointer-events: auto;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 180px;
+}
+
+.media-card:hover {
+  transform: translateY(-3px);
+  background: rgba(0, 0, 0, 0.8);
+  border-color: var(--gold);
+}
+
+.media-icon {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.media-content h3 {
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+  font-weight: 600;
+  color: white;
+}
+
+.media-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.media-badge.sound-on,
+.media-badge.playing {
+  background: var(--gold);
+  color: var(--forest);
+}
+
+.media-badge i {
+  font-size: 10px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero-controls {
+    position: relative;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    margin-top: 2rem;
+    padding: 0;
+  }
+  
+  .media-card {
+    width: 100%;
+    max-width: 280px;
+    justify-content: center;
+  }
+  
+  .hero-lottie-center lottie-player {
+    width: 80px !important;
+    height: 80px !important;
+  }
+}

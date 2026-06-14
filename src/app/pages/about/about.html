@@ -1,6 +1,6 @@
 <!-- about.component.html - Complete About Page -->
 
-<!-- Video Hero Section (Same as original) -->
+<!-- Video Hero Section -->
 <section class="about-hero">
   <div class="video-hero-container">
     <div class="video-wrapper">
@@ -13,52 +13,63 @@
 
     <div class="hero-content">
       <div class="container">
+        <!-- Centered Lottie Icon -->
+        <div class="hero-lottie-center">
+          <lottie-player
+            src="/assets/animations/lottieflow-chat-17-12-c8841a-easey.json"
+            background="transparent"
+            speed="1"
+            style="width: 120px; height: 120px; margin: 0 auto;"
+            loop
+            autoplay>
+          </lottie-player>
+        </div>
+
         <div class="hero-brand">
           <span class="brand-pre-title">Welcome to</span>
           <h1 class="brand-title">Mzuri Organics</h1>
         </div>
 
-        <div class="hero-toggle-section">
-          <div class="media-options">
-            <div class="media-card watch-card" (click)="toggleVideoSound()">
-              <div class="media-icon">
-                <lottie-player
-                  src="assets/animations/lottieflow-multimedia-8-14-000000-easey.json"
-                  background="transparent"
-                  speed="1"
-                  style="width: 64px; height: 64px;"
-                  loop
-                  autoplay>
-                </lottie-player>
-              </div>
-              <div class="media-content">
-                <h3>Watch with Sound</h3>
-                <p>Experience our story with full audio</p>
-                <div class="media-badge" [class.sound-on]="!isVideoMuted" [class.sound-off]="isVideoMuted">
-                  <i class="fas" [class.fa-volume-up]="!isVideoMuted" [class.fa-volume-mute]="isVideoMuted"></i>
-                  <span>{{ isVideoMuted ? 'Click to unmute' : 'Sound enabled' }}</span>
-                </div>
+        <!-- Control Cards at Bottom Left and Bottom Right -->
+        <div class="hero-controls">
+          <!-- Left Control - Watch with Sound -->
+          <div class="media-card watch-card" (click)="toggleVideoSound()">
+            <div class="media-icon">
+              <lottie-player
+                src="assets/animations/lottieflow-multimedia-8-14-000000-easey.json"
+                background="transparent"
+                speed="1"
+                style="width: 50px; height: 50px;"
+                loop
+                autoplay>
+              </lottie-player>
+            </div>
+            <div class="media-content">
+              <h3>Watch with Sound</h3>
+              <div class="media-badge" [class.sound-on]="!isVideoMuted" [class.sound-off]="isVideoMuted">
+                <i class="fas" [class.fa-volume-up]="!isVideoMuted" [class.fa-volume-mute]="isVideoMuted"></i>
+                <span>{{ isVideoMuted ? 'Click to unmute' : 'Sound enabled' }}</span>
               </div>
             </div>
+          </div>
 
-            <div class="media-card play-card" (click)="toggleVideoPlay()">
-              <div class="media-icon">
-                <lottie-player
-                  src="/assets/animations/lottieflow-multimedia-8-10-000000-easey.json"
-                  background="transparent"
-                  speed="1"
-                  style="width: 64px; height: 64px;"
-                  loop
-                  autoplay>
-                </lottie-player>
-              </div>
-              <div class="media-content">
-                <h3>Video Controls</h3>
-                <p>{{ isVideoPlaying ? 'Pause video' : 'Play video' }}</p>
-                <div class="media-badge" [class.playing]="isVideoPlaying" [class.paused]="!isVideoPlaying">
-                  <i class="fas" [class.fa-pause]="isVideoPlaying" [class.fa-play]="!isVideoPlaying"></i>
-                  <span>{{ isVideoPlaying ? 'Playing' : 'Paused' }}</span>
-                </div>
+          <!-- Right Control - Video Controls -->
+          <div class="media-card play-card" (click)="toggleVideoPlay()">
+            <div class="media-icon">
+              <lottie-player
+                src="/assets/animations/lottieflow-multimedia-8-10-000000-easey.json"
+                background="transparent"
+                speed="1"
+                style="width: 50px; height: 50px;"
+                loop
+                autoplay>
+              </lottie-player>
+            </div>
+            <div class="media-content">
+              <h3>Video Controls</h3>
+              <div class="media-badge" [class.playing]="isVideoPlaying" [class.paused]="!isVideoPlaying">
+                <i class="fas" [class.fa-pause]="isVideoPlaying" [class.fa-play]="!isVideoPlaying"></i>
+                <span>{{ isVideoPlaying ? 'Playing' : 'Paused' }}</span>
               </div>
             </div>
           </div>
