@@ -1,18 +1,17 @@
 // features.component.ts
-import { Component, OnInit, AfterViewInit, ChangeDetectorRef, inject } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ChangeDetectorRef, inject, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-features',
   standalone: true,
   imports: [CommonModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './features.html',
   styleUrls: ['./features.css']
 })
 export class FeaturesComponent implements AfterViewInit {
   private cdr = inject(ChangeDetectorRef);
-
-
 
   stats = [
     { value: 100, label: 'Happy Customers', target: 8000 },
@@ -22,7 +21,6 @@ export class FeaturesComponent implements AfterViewInit {
   ];
 
   ngAfterViewInit() {
-    // Use setTimeout to ensure this runs after the current change detection cycle
     setTimeout(() => {
       this.animateStats();
     });
@@ -48,8 +46,6 @@ export class FeaturesComponent implements AfterViewInit {
       const timer = setInterval(() => {
         currentStep++;
         stat.value = Math.round(startValue + (increment * currentStep));
-        
-        // Manually trigger change detection
         this.cdr.detectChanges();
         
         if (currentStep >= steps) {

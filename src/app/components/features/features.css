@@ -1,8 +1,7 @@
 /* Features Section - Clean & Professional */
 .features-section {
   padding: 80px 20px;
-  background:#0d2b12;
-  
+  background: #0d2b12;
   position: relative;
 }
 
@@ -14,14 +13,14 @@
 /* Section Header */
 .features-header {
   text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: 40px;
   padding: 0 20px;
 }
 
 .section-title {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #88c431;
+  color: #ffffff;
   margin-bottom: 15px;
   font-family: 'Poppins', sans-serif;
   position: relative;
@@ -36,18 +35,44 @@
   transform: translateX(-50%);
   width: 100px;
   height: 3px;
-  background: hsl(31, 100%, 47%);
+  background: #c8841a;
   border-radius: 2px;
 }
 
+.section-subtitle {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: 'Roboto', sans-serif;
+  margin-top: 20px;
+}
 
+/* Lottie WhatsApp Icon */
+.lottie-whatsapp {
+  text-align: center;
+  margin-bottom: 60px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
 
+.lottie-whatsapp:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.05);
+}
 
-/* Feature Cards */
-
-
-
-
+.lottie-caption {
+  font-size: 0.85rem;
+  color: #c8841a;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  margin-top: 12px;
+  letter-spacing: 0.5px;
+}
 
 /* Stats Counter */
 .features-stats {
@@ -55,8 +80,8 @@
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 40px;
   padding: 60px 0 0;
-  border-top: 2px solid rgba(0, 0, 0, 0.06);
-  margin-top: 60px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 20px;
 }
 
 .stat-item {
@@ -67,7 +92,7 @@
 .stat-number {
   font-size: 2.8rem;
   font-weight: 700;
-  color: #88c431;
+  color: #c8841a;
   margin-bottom: 10px;
   font-family: 'Poppins', sans-serif;
   line-height: 1;
@@ -81,12 +106,20 @@
   right: -20px;
   top: 0;
   font-size: 2rem;
-  color: #d49a42;
+  color: #c8841a;
+}
+.lottie-caption{
+  font-size: 0.85rem;
+  color: #c8841a;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  margin-top: 12px;
+  letter-spacing: 0.5px;
 }
 
 .stat-label {
-  color:#88c431;
-  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
   font-weight: 500;
   font-family: 'Roboto', sans-serif;
 }
@@ -113,11 +146,15 @@
 .stat-item:nth-child(3) { animation-delay: 0.7s; }
 .stat-item:nth-child(4) { animation-delay: 0.8s; }
 
-
-
+/* Responsive */
 @media (max-width: 768px) {
   .stat-number {
     font-size: 2.5rem;
+  }
+  
+  .lottie-whatsapp lottie-player {
+    width: 80px !important;
+    height: 80px !important;
   }
 }
 
@@ -126,15 +163,21 @@
     font-size: 1.8rem;
   }
   
-  .feature-card {
-    padding: 25px 20px;
-  }
-  
   .stat-number {
     font-size: 2.2rem;
   }
   
   .stat-label {
-    font-size: 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .features-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  
+  .lottie-whatsapp lottie-player {
+    width: 60px !important;
+    height: 60px !important;
   }
 }

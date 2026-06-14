@@ -380,7 +380,7 @@
   padding: 2rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  border: 1px solid ;
+  border: 1px solid #c8841a;
   display: flex;
   align-items: center;
   gap: 2rem;
