@@ -1,390 +1,249 @@
-<section class="page-hero">
-  <div class="container">
+<!-- about.component.html - Complete About Page -->
+
+<!-- Video Hero Section (Same as original) -->
+<section class="about-hero">
+  <div class="video-hero-container">
+    <div class="video-wrapper">
+      <video #heroVideo class="hero-video" playsinline autoplay muted loop>
+        <source src="videos/miniplay.mp4" type="video/mp4">
+        Your browser does not support HTML5 video.
+      </video>
+      <div class="video-overlay"></div>
+    </div>
+
     <div class="hero-content">
-      <h1>About Mzuri Organics</h1>
-      <p class="hero-subtitle">Transforming Kenyan agriculture through regenerative practices, empowering smallholder farmers, and building sustainable food systems across Kenya</p>
-    </div>
-  </div>
-</section>
-
-<section class="about-section">
-  <div class="nav-trigger" (mouseenter)="showNav()" (click)="toggleNav()">
-    <div class="trigger-icon">
-      <i class="fas" [class.fa-bars]="!isNavVisible" [class.fa-times]="isNavVisible"></i>
-    </div>
-    <span class="trigger-text">Menu</span>
-  </div>
-
-  <!-- Smart Side Navigation -->
-  <div class="smart-side-nav" 
-       [class.visible]="isNavVisible"
-       (mouseenter)="showNav()"
-       (mouseleave)="hideNav()">
-    
-    <div class="nav-header">
-      <div class="nav-logo">
-        <i class="fas fa-recycle"></i>
-      </div>
-      <h4>Quick Navigation</h4>
-    </div>
-    
-    <div class="nav-links">
-      <a (click)="scrollToSection('home')" class="nav-link" [class.active]="activeSection === 'home'">
-        <div class="link-icon">
-          <i class="fas fa-home"></i>
-        </div>
-        <div class="link-text">Home</div>
-      </a>
-      
-      <a (click)="scrollToSection('mission-vision')" class="nav-link" [class.active]="activeSection === 'mission-vision'">
-        <div class="link-icon">
-          <i class="fas fa-bullseye"></i>
-        </div>
-        <div class="link-text">Mission & Vision</div>
-      </a>
-      
-      <a (click)="scrollToSection('challenges')" class="nav-link" [class.active]="activeSection === 'challenges'">
-        <div class="link-icon">
-          <i class="fas fa-exclamation-triangle"></i>
-        </div>
-        <div class="link-text">Challenges</div>
-      </a>
-      
-      <a (click)="scrollToSection('solutions')" class="nav-link" [class.active]="activeSection === 'solutions'">
-        <div class="link-icon">
-          <i class="fas fa-lightbulb"></i>
-        </div>
-        <div class="link-text">Solutions</div>
-      </a>
-      
-      <a (click)="scrollToSection('products')" class="nav-link" [class.active]="activeSection === 'products'">
-        <div class="link-icon">
-          <i class="fas fa-seedling"></i>
-        </div>
-        <div class="link-text">Products</div>
-      </a>
-      
-      <a (click)="scrollToSection('impact')" class="nav-link" [class.active]="activeSection === 'impact'">
-        <div class="link-icon">
-          <i class="fas fa-chart-line"></i>
-        </div>
-        <div class="link-text">Impact</div>
-      </a>
-      
-      <a (click)="scrollToSection('sdg')" class="nav-link" [class.active]="activeSection === 'sdg'">
-        <div class="link-icon">
-          <i class="fas fa-globe-africa"></i>
-        </div>
-        <div class="link-text">SDG</div>
-      </a>
-      
-      <a (click)="scrollToSection('contact')" class="nav-link" [class.active]="activeSection === 'contact'">
-        <div class="link-icon">
-          <i class="fas fa-envelope"></i>
-        </div>
-        <div class="link-text">Contact</div>
-      </a>
-    </div>
-    
-    <div class="nav-footer">
-      <div class="current-section">
-        <small>Currently viewing:</small>
-        <strong>{{ getSectionTitle(activeSection) }}</strong>
-      </div>
-    </div>
-  </div>
-
-  <div class="container">
-    <!-- Video-First Interactive Hero -->
-    <div class="about-hero" id="home">
-      <!-- Video Background Container -->
-      <div class="video-hero-container">
-        <!-- Video Background (autoplays muted by default) -->
-        <div class="video-wrapper">
-          <video #heroVideo class="hero-video" playsinline autoplay muted loop>
-            <source src="videos/miniplay.mp4" type="video/mp4">
-            Your browser does not support HTML5 video.
-          </video>
-          <div class="video-overlay"></div>
+      <div class="container">
+        <div class="hero-brand">
+          <span class="brand-pre-title">Welcome to</span>
+          <h1 class="brand-title">Mzuri Organics</h1>
         </div>
 
-        <!-- Interactive Content Overlay -->
-        <div class="hero-content">
-          <div class="container">
-            <!-- Brand Identity -->
-            <div class="hero-brand">
-            
-              <span class="brand-pre-title">Welcome to</span>
-              <h1 class="brand-title">GreenCycle Innovations</h1>
-            </div>
-
-            <!-- Interactive Toggle Section -->
-            <div class="hero-toggle-section">
-              <!-- Media Options -->
-              <div class="media-options">
-                <!-- Option 1: Watch with Sound -->
-                <div class="media-card watch-card" (click)="toggleVideoSound()">
-                  <div class="media-icon">
-                    <lottie-player
-                      src="assets/animations/lottieflow-multimedia-8-14-000000-easey.json"
-                      background="transparent"
-                      speed="1"
-                      style="width: 64px; height: 64px;"
-                      loop
-                      autoplay>
-                    </lottie-player>
-                  </div>
-                  <div class="media-content">
-                    <h3>Watch with Sound</h3>
-                    <p>Experience our story with full audio</p>
-                    <div class="media-badge" [class.sound-on]="!isVideoMuted" [class.sound-off]="isVideoMuted">
-                      <i class="fas" [class.fa-volume-up]="!isVideoMuted" [class.fa-volume-mute]="isVideoMuted"></i>
-                      <span>{{ isVideoMuted ? 'Click to unmute' : 'Sound enabled' }}</span>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Option 2: Play/Pause Video -->
-                <div class="media-card play-card" (click)="toggleVideoPlay()">
-                  <div class="media-icon">
-                    <lottie-player
-                      src="/assets/animations/lottieflow-multimedia-8-10-000000-easey.json"
-                      background="transparent"
-                      speed="1"
-                      style="width: 64px; height: 64px;"
-                      loop
-                      autoplay>
-                    </lottie-player>
-                  </div>
-                  <div class="media-content">
-                    <h3>Video Controls</h3>
-                    <p>{{ isVideoPlaying ? 'Pause video' : 'Play video' }}</p>
-                    <div class="media-badge" [class.playing]="isVideoPlaying" [class.paused]="!isVideoPlaying">
-                      <i class="fas" [class.fa-pause]="isVideoPlaying" [class.fa-play]="!isVideoPlaying"></i>
-                      <span>{{ isVideoPlaying ? 'Playing' : 'Paused' }}</span>
-                    </div>
-                  </div>
-                </div>
+        <div class="hero-toggle-section">
+          <div class="media-options">
+            <div class="media-card watch-card" (click)="toggleVideoSound()">
+              <div class="media-icon">
+                <lottie-player
+                  src="assets/animations/lottieflow-multimedia-8-14-000000-easey.json"
+                  background="transparent"
+                  speed="1"
+                  style="width: 64px; height: 64px;"
+                  loop
+                  autoplay>
+                </lottie-player>
               </div>
-
-              <!-- Video Controls (kept for compatibility) -->
-              <div class="video-controls" style="display: none;">
-                <button class="control-btn" (click)="toggleVideoPlay()">
-                  <i class="fas" [class.fa-play]="!isVideoPlaying" [class.fa-pause]="isVideoPlaying"></i>
-                </button>
-                <button class="control-btn" (click)="toggleVideoSound()">
+              <div class="media-content">
+                <h3>Watch with Sound</h3>
+                <p>Experience our story with full audio</p>
+                <div class="media-badge" [class.sound-on]="!isVideoMuted" [class.sound-off]="isVideoMuted">
                   <i class="fas" [class.fa-volume-up]="!isVideoMuted" [class.fa-volume-mute]="isVideoMuted"></i>
-                </button>
+                  <span>{{ isVideoMuted ? 'Click to unmute' : 'Sound enabled' }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="media-card play-card" (click)="toggleVideoPlay()">
+              <div class="media-icon">
+                <lottie-player
+                  src="/assets/animations/lottieflow-multimedia-8-10-000000-easey.json"
+                  background="transparent"
+                  speed="1"
+                  style="width: 64px; height: 64px;"
+                  loop
+                  autoplay>
+                </lottie-player>
+              </div>
+              <div class="media-content">
+                <h3>Video Controls</h3>
+                <p>{{ isVideoPlaying ? 'Pause video' : 'Play video' }}</p>
+                <div class="media-badge" [class.playing]="isVideoPlaying" [class.paused]="!isVideoPlaying">
+                  <i class="fas" [class.fa-pause]="isVideoPlaying" [class.fa-play]="!isVideoPlaying"></i>
+                  <span>{{ isVideoPlaying ? 'Playing' : 'Paused' }}</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-
-    <!-- Mission & Vision -->
-    <div class="mission-vision-section" id="mission-vision">
-      <div class="mission-vision-grid">
-        <div class="mission-card">
-          <div class="card-icon">
-            <div class="icon-wrapper">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2"/>
-                <path d="M12 16V12" stroke="currentColor" stroke-width="2"/>
-                <path d="M12 8H12.01" stroke="currentColor" stroke-width="2"/>
-              </svg>
-            </div>
-          </div>
-          <h2>{{ mission.title }}</h2>
-          <p>{{ mission.description }}</p>
-        </div>
-
-        <div class="vision-card">
-          <div class="card-icon">
-            <div class="icon-wrapper">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-                <path d="M1 12S5 4 12 4S23 12 23 12S19 20 12 20S1 12 1 12Z" stroke="currentColor" stroke-width="2"/>
-                <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-width="2"/>
-              </svg>
-            </div>
-          </div>
-          <h2>{{ vision.title }}</h2>
-          <p>{{ vision.description }}</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Problems Section - Updated to show 7 core challenges -->
-    <div class="problems-section" id="challenges">
-      <div class="section-header">
-        <h2>The 7 Core Challenges We Address</h2>
-        <p>Transforming agricultural obstacles into opportunities for sustainable growth</p>
-      </div>
-      
-      <div class="problems-grid" @staggerAnimation>
-        <div class="problem-card" *ngFor="let problem of problems; let i = index">
-          <div class="problem-icon" [innerHTML]="getIcon(problem.icon)"></div>
-          <div class="problem-number">0{{ i + 1 }}</div>
-          <h3>{{ problem.title }}</h3>
-          <p>{{ problem.description }}</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Solutions Section - Updated to show 8 innovative solutions -->
-    <div class="solutions-section" id="solutions">
-      <div class="header-solutions">
-        <h2>Our 8 Innovative Solutions</h2>
-        <p>Comprehensive approaches to sustainable agriculture and circular economy</p>
-      </div>
-      
-      <div class="solutions-grid" @staggerAnimation>
-        <div class="solution-card" *ngFor="let solution of solutions">
-          <div class="solution-header">
-            <div class="solution-icon" [innerHTML]="getIcon(solution.icon)"></div>
-            <div class="solution-title">
-              <h3>{{ solution.title }}</h3>
-              <p class="solution-subtitle">{{ solution.subtitle }}</p>
-            </div>
-          </div>
-          <p class="solution-description">{{ solution.description }}</p>
-          <ul class="solution-features">
-            <li *ngFor="let feature of solution.features">
-              <span class="feature-check">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                  <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </span>
-              {{ feature }}
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <!-- Products Section -->
-    <div class="products-section" id="products">
-      <div class="section-header">
-        <h2>Our Premium Products & Services</h2>
-        <p>High-quality regenerative inputs for sustainable farming</p>
-      </div>
-      
-      <div class="products-grid" @staggerAnimation>
-        <div class="product-card" *ngFor="let product of products">
-          <div class="product-icon" [innerHTML]="getIcon(product.icon)"></div>
-          <h3>{{ product.title }}</h3>
-          <p>{{ product.description }}</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Impact & Outcomes -->
-    <div class="impact-section" id="impact">
-      <div class="impact-grid">
-        <div class="impact-content">
-          <h2>Our Impact</h2>
-          <div class="impact-items">
-            <div class="impact-item" *ngFor="let impact of impacts">
-              <div class="impact-icon" [innerHTML]="getIcon(impact.icon)"></div>
-              <div class="impact-text">
-                <h4>{{ impact.title }}</h4>
-                <p>{{ impact.description }}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="outcomes-content">
-          <h2>Measurable Outcomes</h2>
-          <div class="outcomes-list">
-            <div class="outcome-item" *ngFor="let outcome of outcomes">
-              <div class="outcome-icon" [innerHTML]="getIcon(outcome.icon)"></div>
-              <span>{{ outcome.description }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- SDG Alignment -->
-    <div class="sdg-section" id="sdg">
-      <div class="section-header">
-        <h2>Global Sustainability Alignment</h2>
-        <p>Contributing to United Nations Sustainable Development Goals</p>
-      </div>
-      
-      <div class="sdg-grid" @staggerAnimation>
-        <div class="sdg-card" *ngFor="let sdg of sdgs">
-          <div class="sdg-header">
-            <div class="sdg-icon" [innerHTML]="getIcon(sdg.icon)"></div>
-            <div class="sdg-number">SDG {{ sdg.number }}</div>
-          </div>
-          <h3>{{ sdg.title }}</h3>
-          <p>{{ sdg.description }}</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Contact CTA -->
-<!-- Contact CTA - Join Us -->
-<div class="contact-cta" id="contact" @fadeIn>
-  <div class="cta-content">
-    <!-- Lottie Join Icon - Center Stage -->
-    <div class="join-icon-container">
-      <lottie-player
-        src="/assets/animations/lottieflow-chat-17-4-000000-easey.json"
-        background="transparent"
-        speed="1"
-        style="width: 120px; height: 120px;"
-        loop
-        autoplay>
-      </lottie-player>
-    </div>
-    
-    <h2>Join Our Mission</h2>
-    <p class="mission-tagline">Partner with us to build a sustainable future for agriculture</p>
-    
-    <!-- Contact Cards -->
-    <div class="contact-cards">
-      <div class="contact-card">
-        <div class="card-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M22 16.92V19.92C22 20.52 21.53 21 20.93 21H3.07C2.47 21 2 20.52 2 19.92V16.92C2 16.32 2.47 15.85 3.07 15.85H20.93C21.53 15.85 22 16.32 22 16.92Z" stroke="currentColor" stroke-width="2"/>
-            <path d="M4 15.85L12 9.85L20 15.85" stroke="currentColor" stroke-width="2"/>
-          </svg>
-        </div>
-        <div class="card-content">
-          <span class="card-label">Email Us</span>
-          <span class="card-value">{{ contactInfo.email }}</span>
-        </div>
-      </div>
-      
-      <div class="contact-card">
-        <div class="card-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M2 6C2 4.89543 2.89543 4 4 4H8C9.10457 4 10 4.89543 10 6V18C10 19.1046 9.10457 20 8 20H4C2.89543 20 2 19.1046 2 18V6Z" stroke="currentColor" stroke-width="2"/>
-            <path d="M14 6C14 4.89543 14.8954 4 16 4H20C21.1046 4 22 4.89543 22 6V18C22 19.1046 21.1046 20 20 20H16C14.8954 20 14 19.1046 14 18V6Z" stroke="currentColor" stroke-width="2"/>
-            <path d="M10 8H14" stroke="currentColor" stroke-width="2"/>
-            <path d="M10 12H14" stroke="currentColor" stroke-width="2"/>
-            <path d="M10 16H14" stroke="currentColor" stroke-width="2"/>
-          </svg>
-        </div>
-        <div class="card-content">
-          <span class="card-label">Call Us</span>
-          <span class="card-value">{{ contactInfo.phone }}</span>
-        </div>
-      </div>
-    </div>
-    
-    <button class="btn-primary" routerLink="/contact">
-      <span>Get In Touch</span>
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-        <path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M12 5L19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </button>
-  </div>
-</div>
   </div>
 </section>
+
+<!-- Mission & Vision Section -->
+<section class="mission-vision">
+  <div class="container">
+    <div class="mv-grid">
+      <div class="mv-card mission-card">
+        <div class="mv-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M12 16V12" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M12 8H12.01" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <h3>Our Mission</h3>
+        <p>To build smallholder farmers' resilience to climate change through regenerative agricultural practices.</p>
+      </div>
+      <div class="mv-card vision-card">
+        <div class="mv-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+            <path d="M1 12S5 4 12 4S23 12 23 12S19 20 12 20S1 12 1 12Z" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <h3>Our Vision</h3>
+        <p>To empower smallholder farmers through sustainable regenerative agriculture for a resilient food system.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Impact Stats -->
+<section class="impact-stats">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number">55+</div>
+        <div class="stat-label">Tons Waste Monthly</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">1000L+</div>
+        <div class="stat-label">Liquid Fertilizer</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">5T+</div>
+        <div class="stat-label">Solid Fertilizer</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">40%</div>
+        <div class="stat-label">Cost Savings</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">60%↑</div>
+        <div class="stat-label">Yield Increase</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Solutions Gallery - Hover Cards -->
+<section class="solutions-gallery">
+  <div class="container">
+    <div class="section-header">
+      <h2>Our Core <span class="gold-accent">Solutions</span></h2>
+      <p>Innovative approaches to sustainable agriculture</p>
+    </div>
+    <div class="solutions-grid">
+      <div class="solution-card">
+        <div class="card-image">
+          <img src="/assets/images/mzuri5.jpg" alt="Bioconversion">
+        </div>
+        <div class="card-overlay">
+          <h3>Bioconversion Initiative</h3>
+          <p>Converting organic waste into premium biofertilizers using BSF larvae technology.</p>
+        </div>
+      </div>
+      <div class="solution-card">
+        <div class="card-image">
+          <img src="/public/images/mzuri6.jpg" alt="PREFarm">
+        </div>
+        <div class="card-overlay">
+          <h3>PREFarm Initiative</h3>
+          <p>Data-driven precision dosing for maximum efficiency and yield.</p>
+        </div>
+      </div>
+      <div class="solution-card">
+        <div class="card-image">
+          <img src="/assets/images/mzuri7.jpg" alt="Regen-Kilimo">
+        </div>
+        <div class="card-overlay">
+          <h3>Regen-Kilimo Program</h3>
+          <p>Training and market access for sustainable farmer livelihoods.</p>
+        </div>
+      </div>
+      <div class="solution-card">
+        <div class="card-image">
+          <img src="/assets/images/mzuri6.jpg" alt="Circular Economy">
+        </div>
+        <div class="card-overlay">
+          <h3>Circular Economy</h3>
+          <p>Community-led waste-to-value with guaranteed buy-back systems.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Products Section -->
+<section class="products-section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Premium <span class="gold-accent">Products</span></h2>
+      <p>Science-backed solutions for healthier soils</p>
+    </div>
+    <div class="products-grid">
+      <div class="product-card">
+        <div class="product-image">
+          <img src="/assets/images/product3.jpg" alt="VermiFrass">
+        </div>
+        <div class="product-info">
+          <h3>VermiFrass Active</h3>
+          <p>100% organic biofertilizer with living microbes</p>
+          <span class="price">KSh 1,500 / 25kg</span>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-image">
+          <img src="/assets/images/product2.jpg" alt="BioVeg Plus">
+        </div>
+        <div class="product-info">
+          <h3>BioVeg Plus</h3>
+          <p>Liquid organic nitrogen booster for vegetables</p>
+          <span class="price">KSh 400 / half-litre</span>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-image">
+          <img src="/assets/images/product6.jpg" alt="BioFruity Plus">
+        </div>
+        <div class="product-info">
+          <h3>BioFruity Plus</h3>
+          <p>Balanced nutrition for flowering & fruit set</p>
+          <span class="price">KSh 400 / half-litre</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SDG Section -->
+<section class="sdg-section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Sustainable Development <span class="gold-accent">Goals</span></h2>
+      <p>Contributing to Kenya's sustainable future</p>
+    </div>
+    <div class="sdg-grid">
+      <div class="sdg-card" *ngFor="let sdg of sdgs; let i = index">
+        <div class="sdg-number">{{ sdg.number }}</div>
+        <h4>{{ sdg.title }}</h4>
+        <p>{{ sdg.description }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-content">
+      <h2>Join Our Mission</h2>
+      <p>Partner with us to build a sustainable future for agriculture in Kenya</p>
+      <div class="cta-buttons">
+        <a routerLink="/contact" class="btn-primary">Get In Touch</a>
+        <a routerLink="/products" class="btn-outline">Shop Products</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <app-cart></app-cart>
