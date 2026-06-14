@@ -1,15 +1,31 @@
 <!-- what-we-do.component.html -->
-<section class="page-hero">
+<section class="page-hero" @fadeIn>
   <div class="container">
     <div class="hero-content">
+      <!-- Lottie Animation Icon -->
+      <div class="hero-lottie">
+        <lottie-player
+          src="/assets/animations/lottieflow-chat-17-7-c8841a-easey.json"
+          background="transparent"
+          speed="1"
+          style="width: 120px; height: 120px; margin: 0 auto 20px;"
+          loop
+          autoplay>
+        </lottie-player>
+      </div>
       <h1>Our Innovative Solutions at Mzuri Organics</h1>
-      <p class="hero-subtitle">Transforming Kenyan agriculture through circular bioeconomy, precision farming, and regenerative models</p>
     </div>
   </div>
 </section>
 
-<section class="solutions-overview">
+<!-- Solutions Overview -->
+<section class="solutions-overview" @staggerAnimation>
   <div class="container">
+    <div class="section-header">
+      <h2>Our Core Solutions</h2>
+      <p>Comprehensive approaches to sustainable agriculture and circular economy</p>
+    </div>
+    
     <div class="overview-grid">
       <!-- Solution 1 -->
       <div class="overview-card">
@@ -24,26 +40,11 @@
         <h3>Circular Biofertilizer Production</h3>
         <p>Transforming organic waste into high-value regenerative fertilizers using BSF bioconversion, vermicomposting, and microbial-rich composting.</p>
         <div class="features-list">
-          <div class="feature-item">
-            <span class="feature-check">✓</span>
-            <span>Vermi-Frass (microbe-rich biofertilizer)</span>
-          </div>
-          <div class="feature-item">
-            <span class="feature-check">✓</span>
-            <span>BioVeg and BioFruity blends</span>
-          </div>
-          <div class="feature-item">
-            <span class="feature-check">✓</span>
-            <span>NPK ActivePlus (organo-mineral precision blend)</span>
-          </div>
-          <div class="feature-item">
-            <span class="feature-check">✓</span>
-            <span>Liquid frass concentrates (3.5% N)</span>
-          </div>
-          <div class="feature-item">
-            <span class="feature-check">✓</span>
-            <span>Insect protein-based animal feed</span>
-          </div>
+          <div class="feature-item"><span class="feature-check">✓</span><span>Vermi-Frass (microbe-rich biofertilizer)</span></div>
+          <div class="feature-item"><span class="feature-check">✓</span><span>BioVeg and BioFruity blends</span></div>
+          <div class="feature-item"><span class="feature-check">✓</span><span>NPK ActivePlus (organo-mineral blend)</span></div>
+          <div class="feature-item"><span class="feature-check">✓</span><span>Liquid frass concentrates (3.5% N)</span></div>
+          <div class="feature-item"><span class="feature-check">✓</span><span>Insect protein-based animal feed</span></div>
         </div>
       </div>
 
@@ -56,38 +57,20 @@
             <circle cx="12" cy="12" r="2"></circle>
             <line x1="12" y1="2" x2="12" y2="6"></line>
             <line x1="12" y1="18" x2="12" y2="22"></line>
-            <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
-            <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
-            <line x1="2" y1="12" x2="6" y2="12"></line>
-            <line x1="18" y1="12" x2="22" y2="12"></line>
-            <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
-            <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
           </svg>
         </div>
         <h3>PREFarm Precision Soil Management</h3>
         <p>One of the most innovative models in Kenya integrating organics + mineral fertilizers scientifically.</p>
         <div class="features-list">
-          <div class="feature-item">
-            <span class="feature-check">✓</span>
-            <span>Instant and wet-lab soil testing</span>
-          </div>
-          <div class="feature-item">
-            <span class="feature-check">✓</span>
-            <span>Localized blending centers</span>
-          </div>
-          <div class="feature-item">
-            <span class="feature-check">✓</span>
-            <span>Precision dosing recommendations and formulations</span>
-          </div>
-          <div class="feature-item">
-            <span class="feature-check">✓</span>
-            <span>Pre-farm soil regeneration before planting</span>
-          </div>
+          <div class="feature-item"><span class="feature-check">✓</span><span>Instant and wet-lab soil testing</span></div>
+          <div class="feature-item"><span class="feature-check">✓</span><span>Localized blending centers</span></div>
+          <div class="feature-item"><span class="feature-check">✓</span><span>Precision dosing recommendations</span></div>
+          <div class="feature-item"><span class="feature-check">✓</span><span>Pre-farm soil regeneration</span></div>
         </div>
       </div>
 
       <!-- Solution 3 -->
-      <div class="overview-card" id="prefarm-initiative">
+      <div class="overview-card">
         <div class="overview-icon">
           <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
@@ -96,303 +79,21 @@
             <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
           </svg>
         </div>
-        <h3>Regen-Kilimo Circular Economy Model</h3>
+        <h3>Regen-Kilimo Circular Economy</h3>
         <p>A unique community empowerment system that directly tackles farmer poverty, waste pollution, and soil degradation.</p>
         <div class="features-list">
-          <div class="feature-item">
-            <span class="feature-check">✓</span>
-            <span>Youth, women, and farmers produce vermicompost and BSF substrates</span>
-          </div>
-          <div class="feature-item">
-            <span class="feature-check">✓</span>
-            <span>Buy-back at guaranteed prices for new income streams</span>
-          </div>
-          <div class="feature-item">
-            <span class="feature-check">✓</span>
-            <span>Process into premium fertilizers sold back to community</span>
-          </div>
-          <div class="feature-item">
-            <span class="feature-check">✓</span>
-            <span>Farmers restore soils, use less chemicals, get better yields</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Solution 4 -->
-      <div class="overview-card">
-        <div class="overview-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20 9v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9"></path>
-            <path d="M9 22V12h6v10"></path>
-            <path d="M22 7 12 2 2 7"></path>
-            <path d="m2 7 10 5 10-5"></path>
-            <path d="M12 22V7"></path>
-          </svg>
-        </div>
-        <h3>Easy Drip Urban Circularity System</h3>
-        <p>A compact domestic circular system that turns small urban spaces into self-sustaining food production systems.</p>
-        <div class="features-list">
-          <div class="feature-item">
-            <span class="feature-check">✓</span>
-            <span>Kitchen waste → BSF trays → frass fertilizer</span>
-          </div>
-          <div class="feature-item">
-            <span class="feature-check">✓</span>
-            <span>Tower gardens with drip irrigation</span>
-          </div>
-          <div class="feature-item">
-            <span class="feature-check">✓</span>
-            <span>Seedlings for leafy greens & strawberries</span>
-          </div>
-          <div class="feature-item">
-            <span class="feature-check">✓</span>
-            <span>Option to grow BSFL as chicken feed</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Solution 5 -->
-      <div class="overview-card">
-        <div class="overview-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2" y="6" width="20" height="8" rx="1"></rect>
-            <path d="M17 14v7"></path>
-            <path d="M21 14v7"></path>
-            <path d="M12 14v7"></path>
-            <path d="M7 14v7"></path>
-          </svg>
-        </div>
-        <h3>Integrated Post-Harvest Systems (IPHMS)</h3>
-        <p>Closes the loop at market level with integrated systems for fresh food markets.</p>
-        <div class="features-list">
-          <div class="feature-item">
-            <span class="feature-check">✓</span>
-            <span>Solar-powered cold rooms</span>
-          </div>
-          <div class="feature-item">
-            <span class="feature-check">✓</span>
-            <span>BSF & red wiggler composting units</span>
-          </div>
-          <div class="feature-item">
-            <span class="feature-check">✓</span>
-            <span>Onsite waste-to-fertilizer conversion</span>
-          </div>
-          <div class="feature-item">
-            <span class="feature-check">✓</span>
-            <span>Surplus produce recovery (weekly 3+ tons of avocado)</span>
-          </div>
-          <div class="feature-item">
-            <span class="feature-check">✓</span>
-            <span>Value addition (avocado oil press)</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Solution 6 -->
-      <div class="overview-card">
-        <div class="overview-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-          </svg>
-        </div>
-        <h3>Green Tags (Seeded Conference Tags)</h3>
-        <p>Circularity, branding, environmental education, and climate action in one product.</p>
-        <div class="features-list">
-          <div class="feature-item">
-            <span class="feature-check">✓</span>
-            <span>Sugarcane bagasse paper</span>
-          </div>
-          <div class="feature-item">
-            <span class="feature-check">✓</span>
-            <span>BSF frass impregnation</span>
-          </div>
-          <div class="feature-item">
-            <span class="feature-check">✓</span>
-            <span>Embedded pre-treated indigenous tree seeds</span>
-          </div>
-          <div class="feature-item">
-            <span class="feature-check">✓</span>
-            <span>Delegates plant their tag and grow a tree</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Solution 7 -->
-      <div class="overview-card">
-        <div class="overview-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 2v20"></path>
-            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-          </svg>
-        </div>
-        <h3>Youth BSF & Vermicomposting Enterprises</h3>
-        <p>A scalable model creating micro-enterprises within Kenya's bioeconomy, supported by GIZ, GFA, KEBS, KIRDI.</p>
-        <div class="features-list">
-          <div class="feature-item">
-            <span class="feature-check">✓</span>
-            <span>Trains youth groups in BSF, vermicomposting, value addition</span>
-          </div>
-          <div class="feature-item">
-            <span class="feature-check">✓</span>
-            <span>Sets up decentralized production hubs</span>
-          </div>
-          <div class="feature-item">
-            <span class="feature-check">✓</span>
-            <span>Creates micro-enterprises</span>
-          </div>
-          <div class="feature-item">
-            <span class="feature-check">✓</span>
-            <span>Provides buy-back markets and mentoring</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Solution 8 -->
-      <div class="overview-card">
-        <div class="overview-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-            <path d="m9 12 2 2 4-4"></path>
-          </svg>
-        </div>
-        <h3>Ongoing Research on Nitrogen fixation in Maize Catalyzed by VermiFrass Plus</h3>
-        <p>Groundbreaking discovery enabling biological nitrogen fixation after two seasons of Funga-Frass use.</p>
-        <div class="features-list">
-          <div class="feature-item">
-            <span class="feature-check">✓</span>
-            <span>Aerial roots up to the 15th node</span>
-          </div>
-          <div class="feature-item">
-            <span class="feature-check">✓</span>
-            <span>Exuding mucilage hosting nitrobacter</span>
-          </div>
-          <div class="feature-item">
-            <span class="feature-check">✓</span>
-            <span>Resulting in biological nitrogen fixation</span>
-          </div>
+          <div class="feature-item"><span class="feature-check">✓</span><span>Youth, women produce vermicompost</span></div>
+          <div class="feature-item"><span class="feature-check">✓</span><span>Buy-back at guaranteed prices</span></div>
+          <div class="feature-item"><span class="feature-check">✓</span><span>Premium fertilizers back to community</span></div>
+          <div class="feature-item"><span class="feature-check">✓</span><span>Farmers restore soils, use less chemicals</span></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="special-initiatives">
-  <div class="container">
-    <div class="section-header">
-      <h2>Special Circular Initiatives</h2>
-      <p>Integrated approaches to complete circular economy implementation</p>
-    </div>
-    
-    <div class="initiatives-grid">
-      <div class="initiative-card" id="regen-kilimo">
-        <div class="initiative-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-            <circle cx="9" cy="7" r="4"></circle>
-            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-          </svg>
-        </div>
-        <h3>i-Regen Institutional Model</h3>
-        <p>Our institutionalized regenerative farming model that works through cooperatives and SACCOs to mobilize farmers into vermicomposting and circular waste-to-value practices.</p>
-        <div class="initiative-features">
-          <div class="feature">
-            <span class="feature-check">✓</span>
-            <span>Works through cooperatives and SACCOs</span>
-          </div>
-          <div class="feature">
-            <span class="feature-check">✓</span>
-            <span>Buy-back all vermicompost</span>
-          </div>
-          <div class="feature">
-            <span class="feature-check">✓</span>
-            <span>Process into premium biofertilizers</span>
-          </div>
-          <div class="feature">
-            <span class="feature-check">✓</span>
-            <span>Supply affordable blends back to communities</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="initiative-card">
-        <div class="initiative-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
-            <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
-            <line x1="6" y1="1" x2="6" y2="4"></line>
-            <line x1="10" y1="1" x2="10" y2="4"></line>
-            <line x1="14" y1="1" x2="14" y2="4"></line>
-          </svg>
-        </div>
-        <h3>Avocado Oil Pressing & Circular Waste Utilization</h3>
-        <p>Complete circular utilization of avocado produce with 100% upcycling of all by-products.</p>
-        <div class="process-flow">
-          <div class="process-step">
-            <span class="step-number">1</span>
-            <span class="step-text">Fresh Avocados from Farmers</span>
-          </div>
-          <div class="process-arrow">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M5 12h14"></path>
-              <path d="m12 5 7 7-7 7"></path>
-            </svg>
-          </div>
-          <div class="process-step">
-            <span class="step-number">2</span>
-            <span class="step-text">Cold Press Extraction</span>
-          </div>
-          <div class="process-arrow">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M5 12h14"></path>
-              <path d="m12 5 7 7-7 7"></path>
-            </svg>
-          </div>
-          <div class="process-step">
-            <span class="step-number">3</span>
-            <span class="step-text">Premium Avocado Oil</span>
-          </div>
-        </div>
-        <div class="upcycling-section">
-          <h4>100% Upcycling of By-products:</h4>
-          <div class="upcycling-list">
-            <div class="upcycling-item">
-              <span class="upcycling-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M22 12a10 10 0 0 1-10 10"></path>
-                  <path d="M22 12a10 10 0 0 0-10-10"></path>
-                  <path d="M2 12a10 10 0 0 1 10-10"></path>
-                  <path d="M2 12a10 10 0 0 0 10 10"></path>
-                </svg>
-              </span>
-              <span>Pulp, skins & biomass → BSF feed</span>
-            </div>
-            <div class="upcycling-item">
-              <span class="upcycling-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 2v20"></path>
-                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-                </svg>
-              </span>
-              <span>BSF frass → Nutrient-rich compost</span>
-            </div>
-            <div class="upcycling-item">
-              <span class="upcycling-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="12" y1="1" x2="12" y2="23"></line>
-                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-                </svg>
-              </span>
-              <span>Additional income for farmers</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="circular-model" id="circular-model">
+<!-- Circular Model -->
+<section class="circular-model" @staggerAnimation>
   <div class="container">
     <div class="section-header">
       <h2>The Mzuri Organics Circular Model</h2>
@@ -400,60 +101,25 @@
     </div>
     
     <div class="circular-flow">
-      <div class="flow-step">
-        <div class="step-icon">1</div>
-        <h4>Organic Waste Collection</h4>
-        <p>55+ tons monthly from farms & markets</p>
-      </div>
-      <div class="flow-arrow">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M5 12h14"></path>
-          <path d="m12 5 7 7-7 7"></path>
-        </svg>
-      </div>
-      <div class="flow-step">
-        <div class="step-icon">2</div>
-        <h4>BSF Bioconversion</h4>
-        <p>Black Soldier Fly larvae processing</p>
-      </div>
-      <div class="flow-arrow">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M5 12h14"></path>
-          <path d="m12 5 7 7-7 7"></path>
-        </svg>
-      </div>
-      <div class="flow-step">
-        <div class="step-icon">3</div>
-        <h4>Vermicomposting</h4>
-        <p>Red wiggler worm processing</p>
-      </div>
-      <div class="flow-arrow">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M5 12h14"></path>
-          <path d="m12 5 7 7-7 7"></path>
-        </svg>
-      </div>
-      <div class="flow-step">
-        <div class="step-icon">4</div>
-        <h4>Premium Products</h4>
-        <p>Biofertilizers & animal feed</p>
-      </div>
-      <div class="flow-arrow">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M5 12h14"></path>
-          <path d="m12 5 7 7-7 7"></path>
-        </svg>
-      </div>
-      <div class="flow-step">
-        <div class="step-icon">5</div>
-        <h4>Farmer Application</h4>
-        <p>Improved yields & soil health</p>
-      </div>
+      <ng-container *ngFor="let step of circularSteps; let i = index">
+        <div class="flow-step">
+          <div class="step-icon">{{ step.number }}</div>
+          <h4>{{ step.title }}</h4>
+          <p>{{ step.description }}</p>
+        </div>
+        <div class="flow-arrow" *ngIf="i < circularSteps.length - 1">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14"></path>
+            <path d="m12 5 7 7-7 7"></path>
+          </svg>
+        </div>
+      </ng-container>
     </div>
   </div>
 </section>
 
-<section class="impact-metrics">
+<!-- Impact Metrics -->
+<section class="impact-metrics" @staggerAnimation>
   <div class="container">
     <div class="section-header">
       <h2>Our Measurable Impact</h2>
@@ -461,123 +127,34 @@
     </div>
     
     <div class="metrics-grid">
-      <div class="metric-card">
-        <div class="metric-value">55+ tons</div>
-        <div class="metric-label">Organic waste processed monthly</div>
-        <div class="metric-trend positive">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <div class="metric-card" *ngFor="let metric of metrics">
+        <div class="metric-value">{{ metric.value }}</div>
+        <div class="metric-label">{{ metric.label }}</div>
+        <div class="metric-trend" [class.positive]="metric.trendPositive">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
           </svg>
-          40% growth
-        </div>
-      </div>
-      
-      <div class="metric-card">
-        <div class="metric-value">5+ tons</div>
-        <div class="metric-label">Solid fertilizer produced monthly</div>
-        <div class="metric-trend positive">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
-          </svg>
-          35% increase
-        </div>
-      </div>
-      
-      <div class="metric-card">
-        <div class="metric-value">1000L</div>
-        <div class="metric-label">Liquid fertilizer produced monthly</div>
-        <div class="metric-trend positive">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
-          </svg>
-          Steady supply
-        </div>
-      </div>
-      
-      <div class="metric-card">
-        <div class="metric-value">40%</div>
-        <div class="metric-label">Savings on farm input costs</div>
-        <div class="metric-trend positive">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
-          </svg>
-          Direct impact
+          {{ metric.trend }}
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="partnerships">
+<!-- Partnerships -->
+<section class="partnerships" @staggerAnimation>
   <div class="container">
     <div class="section-header">
       <h2>Strategic Partnerships</h2>
-      <p>Collaborating with leading institutions for greater impact</p>
+    
     </div>
     
     <div class="partners-grid">
-      <div class="partner-logo">
-        <img src="/images/kcic-logo.JPG" alt="Kcic-Logo">
+      <div class="partner-logo" [class]="partner.customClass || ''" *ngFor="let partner of partnerships">
+        <img [src]="partner.logo" [alt]="partner.name">
       </div>
-      <div class="partner-logo">
-        <img src="/images/jasiri-logo.JPG" alt="Jasiri4africa-logo">
-      </div>
-
-      <div class="partner-logo">
-        <img src="/images/saharafoundation-logo.JPG" alt="Sahara Foundation">
-      </div>
-      <div class="partner-logo">
-        <img src="/images/widu-logo.JPG" alt="WIDU Logo">
-      </div>
-      <div class="partner-logo">
-        <img src="/images/mastercard-logo.JPG" alt="Mastercard Logo">
-      </div>
-      <div class="partner-logo">
-        <img src="/images/heifer-logo.JPG" alt="Heifer International Logo">
-      </div>
-           <div class="partner-logo">
-        <img src="/images/agri-jobs.jpg" alt="AgriJobs Logo">
-      </div>
-      <div class="partner-logo">
-        <img src="/images/giz-new-logo.jpg" alt="GIZ Logo">
-      </div>
-        <div class="partner-logo">
-        <img src="/images/gfa-logo.JPG" alt="GFA Logo">
-      </div>
-      <div class="partner-logo">
-        <img src="/images/KYEOP-logo.jpg" alt="KYEOP Logo">
-      </div>
-      <div class="partner-logo">
-        <img src="/images/icipe-logo.JPG" alt="ICIPE Logo">
-      </div> 
-      <div class="partner-logo">
-        <img src="/images/agrifrontier-logo.JPG" alt="AgriFrontier Logo">
-      </div>
-      <div class="partner-logo">
-        <img src="/images/afriscope-research.jpg" alt="Afriscope Logo">
-      </div>
-        <div class="partner-logo">
-        <img src="/images/ligare-logo.jpeg" alt="Ligare Logo">
-      </div>
-      <div class="partner-logo">
-        <img src="/images/insect-farms.jpg" alt="InsectFarm Logo">
-      </div>
-      <div class="partner-logo">
-        <img src="/images/eldoret-logo.jpeg" alt="Eldoret Logo">
-      </div>
-    <div class="partner-logo ainabkoi-logo">
-  <img src="/images/ainabkoifarmers-logo.JPG" alt="Ainabkoi Farmers Logo">
-</div>
-<div class="partner-logo practical-dairy-logo">
-  <img src="/images/practicaldairy-logo.JPG" alt="Practical Dairy Logo">
-</div>
-<div class="partner-logo">
-  <img src="/images/Funded by European Union.jpeg" alt="Funded by Europe Logo">
-</div>
-<div class="partner-logo food-safety-logo">
-  <img src="/images/food-safety.jpeg" alt="Food Safety Logo">
-</div>
     </div>
   </div>
 </section>
+
 <app-cart></app-cart>
