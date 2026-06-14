@@ -5,11 +5,11 @@ import { RouterModule, Router } from '@angular/router';
 import { CartService } from '../../services/cart';
 import { AuthService, User } from '../../services/auth.service';
 
-interface HamburgerMenuItem {
+interface MenuItem {
   text: string;
   icon: string;
-  route: string;
-  children?: HamburgerMenuItem[];
+  route?: string;
+  children?: MenuItem[];
   isOpen?: boolean;
 }
 
@@ -26,27 +26,24 @@ export class HamburgerMenuComponent implements OnInit, OnDestroy {
   
   currentUser: User | null = null;
   cartCount = 0;
-  cartTotal = 0;
+  currentYear = new Date().getFullYear();
   private subscriptions: any[] = [];
 
-  // Mobile menu items matching your routes
-  menuItems: HamburgerMenuItem[] = [
+  // Menu items with dropdowns
+  menuItems: MenuItem[] = [
     { text: 'Home', icon: 'fas fa-home', route: '/home' },
-    { text: 'Shop', icon: 'fas fa-shopping-bag', route: '/shop' },
     { 
       text: 'Products', 
-      icon: 'fas fa-box-open', 
-      route: '/products',
+      icon: 'fas fa-seedling', 
       children: [
-        { text: 'Biofertilizers', icon: 'fas fa-vial', route: '/products' },
+        { text: 'Biofertilizers', icon: 'fas fa-leaf', route: '/products' },
         { text: 'Animal Feeds', icon: 'fas fa-paw', route: '/products' },
-        { text: 'All Products', icon: 'fas fa-boxes', route: '/products' }
+        { text: 'Shop All', icon: 'fas fa-shopping-bag', route: '/products' }
       ]
     },
     { 
-      text: 'About', 
-      icon: 'fas fa-info-circle', 
-      route: '/about',
+      text: 'About Us', 
+      icon: 'fas fa-info-circle',
       children: [
         { text: 'Overview', icon: 'fas fa-eye', route: '/about' },
         { text: 'What We Do', icon: 'fas fa-hands-helping', route: '/what-we-do' },
@@ -54,39 +51,33 @@ export class HamburgerMenuComponent implements OnInit, OnDestroy {
         { text: 'Impacts', icon: 'fas fa-chart-line', route: '/impacts' }
       ]
     },
-    { text: 'Testimonials', icon: 'fas fa-comment', route: '/testimonials' },
-    { text: 'Blog', icon: 'fas fa-blog', route: '/blog' },
+    { text: 'Blog', icon: 'fas fa-newspaper', route: '/blog' },
+    { text: 'Testimonials', icon: 'fas fa-star', route: '/testimonials' },
     { text: 'FAQ', icon: 'fas fa-question-circle', route: '/faq' },
-    { text: 'Contact', icon: 'fas fa-envelope', route: '/contact' },
-    { text: 'Sign Up', icon: 'fas fa-user-plus', route: '/signup' },
-    { text: 'Login', icon: 'fas fa-sign-in-alt', route: '/login' }
+    { text: 'Contact', icon: 'fas fa-envelope', route: '/contact' }
   ];
 
-  // Account menu items
-  accountMenuItems = [
-    { text: 'My Profile', icon: 'fas fa-user-circle', route: '/login' },
-    { text: 'Orders', icon: 'fas fa-shopping-bag', route: '/login' },
-    { text: 'Wishlist', icon: 'fas fa-heart', route: '/login' },
-    { text: 'Settings', icon: 'fas fa-cog', route: '/settings' },
-    { text: 'Help Center', icon: 'fas fa-question-circle', route: '/contact' }
+  // Account items for logged in users
+  accountItems = [
+    { text: 'My Profile', icon: 'fas fa-user', route: '/account' },
+    { text: 'My Orders', icon: 'fas fa-shopping-bag', route: '/orders' },
+    { text: 'Wishlist', icon: 'fas fa-heart', route: '/wishlist' },
+    { text: 'Settings', icon: 'fas fa-cog', route: '/settings' }
   ];
 
   constructor(
     private router: Router,
-    public cartService: CartService, // Changed to public for template access
+    public cartService: CartService,
     private authService: AuthService
   ) {}
 
   ngOnInit() {
-    // Subscribe to cart items count
     this.subscriptions.push(
       this.cartService.cartItems$.subscribe((items: any[]) => {
         this.cartCount = items.reduce((total: number, item: any) => total + item.quantity, 0);
-        this.cartTotal = this.cartService.getTotalPrice();
       })
     );
     
-    // Subscribe to user auth state
     this.subscriptions.push(
       this.authService.currentUser$.subscribe((user: User | null) => {
         this.currentUser = user;
@@ -107,35 +98,17 @@ export class HamburgerMenuComponent implements OnInit, OnDestroy {
     this.onClose();
   }
 
-  toggleSubmenu(item: HamburgerMenuItem) {
+  toggleSubmenu(item: MenuItem) {
     if (item.children) {
       item.isOpen = !item.isOpen;
-    } else {
-      this.navigate(item.route);
     }
   }
 
-  // ============ CART FUNCTIONALITY ============
   toggleCart() {
-    // Same implementation as header component
     this.cartService.toggleCart();
-    this.onClose(); // Close the hamburger menu
+    this.onClose();
   }
 
-  get isCartOpen(): boolean {
-    return this.cartService.getCartState();
-  }
-
-  // ============ CART DATA METHODS ============
-  getCartItems() {
-    return this.cartService.getCartItems();
-  }
-
-  getCartTotal() {
-    return this.cartService.getTotalPrice();
-  }
-
-  // ============ ACCOUNT FUNCTIONALITY ============
   getUserInitials(): string {
     if (!this.currentUser?.fullName) return 'U';
     return this.currentUser.fullName
@@ -151,8 +124,8 @@ export class HamburgerMenuComponent implements OnInit, OnDestroy {
     this.onClose();
   }
 
-  // ============ NAVIGATION HELPERS ============
-  isActive(route: string): boolean {
-    return this.router.url === route;
+  isActive(route: string | undefined): boolean {
+    if (!route) return false;
+    return this.router.url === route || this.router.url.startsWith(route + '/');
   }
 }
