@@ -2,6 +2,17 @@
 <section class="page-hero" @fadeIn>
   <div class="container">
     <div class="hero-content">
+      <!-- Lottie Animation Icon -->
+      <div class="hero-lottie">
+        <lottie-player
+          src="/assets/animations/lottieflow-search-07-c8841a-easey.json"
+          background="transparent"
+          speed="1"
+          style="width: 120px; height: 120px; margin: 0 auto 20px;"
+          loop
+          autoplay>
+        </lottie-player>
+      </div>
       <h1>Core Challenges in Kenyan Agriculture</h1>
       <p class="hero-subtitle">Understanding the systemic problems we're solving through circular economy and regenerative practices</p>
     </div>
@@ -407,8 +418,6 @@
   </div>
 </section>
 
-
-
 <section class="call-to-action" @fadeIn>
   <div class="container">
     <div class="cta-content">
@@ -417,8 +426,8 @@
         <p>Join us in transforming these challenges into opportunities for sustainable growth and regeneration.</p>
       </div>
       <div class="cta-stats">
-        <div class="stat" *ngFor="let stat of ctaStats">
-          <div class="stat-number">{{stat.value}}</div>
+        <div class="cta-stat" *ngFor="let stat of ctaStats">
+          <div class="cta-stat-number">{{stat.value}}</div>
           <div class="stat-label">{{stat.label}}</div>
         </div>
       </div>

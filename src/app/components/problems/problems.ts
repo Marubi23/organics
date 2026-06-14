@@ -1,5 +1,5 @@
 // problems.component.ts
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CartComponent } from '../../pages/cart/cart';
 import { RouterModule } from '@angular/router';
@@ -17,6 +17,7 @@ import {
   selector: 'app-problems',
   standalone: true,
   imports: [CommonModule, RouterModule,CartComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA], 
   templateUrl: './problems.html',
   styleUrls: ['./problems.css'],
   animations: [

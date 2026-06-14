@@ -32,6 +32,14 @@
     radial-gradient(circle at 80% 70%, rgba(212, 154, 66, 0.1) 0%, transparent 50%);
   pointer-events: none;
 }
+/* Add to your existing CSS */
+.hero-lottie {
+  margin-bottom: 1.5rem;
+}
+
+.hero-lottie lottie-player {
+  filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.2));
+}
 
 .hero-content {
   position: relative;
