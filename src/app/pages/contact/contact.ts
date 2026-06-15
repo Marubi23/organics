@@ -72,7 +72,7 @@ export class ContactComponent implements OnInit, AfterViewInit {
       if (heroBadge) {
         lottie.default.loadAnimation({
           container: heroBadge,
-          path: 'assets/lottie/lottieflow-loading-08-c8841a-easey.json',
+          path: '/assets/animations/locationlottie.json',
           renderer: 'svg',
           loop: true,
           autoplay: true
