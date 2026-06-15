@@ -46,7 +46,7 @@
   width: 100%;
   z-index: 1000;
   background: #0d2b12;
-  height: 152px;
+  height: 145px;
   transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
               box-shadow 0.3s ease;
   padding: 0 2rem;
