@@ -208,14 +208,13 @@ export class ContactComponent implements OnInit, AfterViewInit {
     marker.bindPopup(`
       <div style="text-align: center; min-width: 250px;">
         <div style="background: #88c431; color: #0d2b12; padding: 12px; border-radius: 12px 12px 0 0;">
-          <h4 style="margin:0; font-weight:700;">🌱 Mzuri Organics</h4>
-        </div>
-        <p style="margin:12px 0 5px;"><strong>📍 Musembe Market</strong></p>
+          <h4 style="margin:0; font-weight:700;"> Mzuri Organics</h4>
+        </div> Musembe Market</strong></p>
         <p style="margin:0 0 5px; color:#666;">Eldoret – Malaba Road</p>
         <p style="margin:0 0 12px; color:#666;">Kakamega, Kenya</p>
         <div style="display: flex; justify-content: center; gap: 15px; padding: 8px 0;">
-          <a href="tel:+254701934918" style="color: #88c431; text-decoration: none; font-weight:600;">📞 Call</a>
-          <a href="https://wa.me/254701934918" target="_blank" style="color: #25D366; text-decoration: none; font-weight:600;">💬 WhatsApp</a>
+          <a href="tel:+254701934918" style="color: #88c431; text-decoration: none; font-weight:600;">Call</a>
+          <a href="https://wa.me/254701934918" target="_blank" style="color: #25D366; text-decoration: none; font-weight:600;"> WhatsApp</a>
         </div>
       </div>
     `).openPopup();
