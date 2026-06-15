@@ -102,7 +102,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
         { text: 'Shop All', icon: 'fas fa-shopping-bag', route: '/products', description: 'Complete catalog' }
       ]
     },
-    { text: 'Contact', icon: 'fas fa-envelope', route: '/contact' }
+    { text: 'Contact', icon: 'fas fa-envelope', route: '/contact' },
+    { text: 'Testimonials', icon: 'fas fa-star', route: '/testimonials' }
   ];
 
   searchTerm = '';
@@ -307,17 +308,50 @@ export class HeaderComponent implements OnInit, OnDestroy {
   toggleMobileMenu() {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
     this.showMobileMenu = this.isMobileMenuOpen;
+    
+    // Toggle the 'show' class on nav-links for mobile menu
+    const navLinks = document.querySelector('.nav-links');
+    if (navLinks) {
+      if (this.isMobileMenuOpen) {
+        navLinks.classList.add('show');
+        this.renderer.addClass(document.body, 'menu-open');
+      } else {
+        navLinks.classList.remove('show');
+        this.renderer.removeClass(document.body, 'menu-open');
+      }
+    }
+    
+    // Also handle any dropdowns that might be open
+    if (!this.isMobileMenuOpen) {
+      this.activeDropdown = null;
+    }
   }
 
   onMenuToggle(isOpen: boolean) {
     this.isMobileMenuOpen = isOpen;
     this.showMobileMenu = isOpen;
+    
+    const navLinks = document.querySelector('.nav-links');
+    if (navLinks) {
+      if (isOpen) {
+        navLinks.classList.add('show');
+      } else {
+        navLinks.classList.remove('show');
+      }
+    }
   }
 
   @HostListener('window:resize')
   onResize() {
     if (window.innerWidth > 900 && this.isMobileMenuOpen) {
-      this.isMobileMenuOpen = false; this.showMobileMenu = false;
+      this.isMobileMenuOpen = false;
+      this.showMobileMenu = false;
+      
+      const navLinks = document.querySelector('.nav-links');
+      if (navLinks) {
+        navLinks.classList.remove('show');
+      }
+      this.renderer.removeClass(document.body, 'menu-open');
     }
   }
 
@@ -427,12 +461,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
       ? this.router.navigate([child.route], { fragment: child.fragment })
       : this.router.navigate([child.route]);
     this.activeDropdown = null;
+    
+    // Close mobile menu after navigation
+    if (this.isMobileMenuOpen) {
+      this.toggleMobileMenu();
+    }
   }
 
   navigateToPage(route: string) {
     this.router.navigate([route]);
     this.isAccountMenuOpen = false;
     this.closeSearch();
+    
+    // Close mobile menu after navigation
+    if (this.isMobileMenuOpen) {
+      this.toggleMobileMenu();
+    }
   }
 
   getUserInitials(): string {
@@ -485,5 +529,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.isQuickMenuOpen = false; this.activeDropdown = null;
     this.hideBlurOverlay(); this.updateOverlayState();
     if (this.cartService.getCartState()) this.cartService.closeCart();
+    
+    // Close mobile menu on escape
+    if (this.isMobileMenuOpen) {
+      this.toggleMobileMenu();
+    }
   }
 }

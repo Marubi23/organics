@@ -46,7 +46,7 @@
   width: 100%;
   z-index: 1000;
   background: #0d2b12;
-  height: 72px;
+  height: 145px;
   transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
               box-shadow 0.3s ease;
   padding: 0 2rem;
@@ -73,12 +73,14 @@
   padding: 0;
 }
 
-/* ── Logo ── */
+/* ── Logo - Fixed and Blended Perfectly ── */
 .nav-logo {
   display: flex;
   align-items: center;
   text-decoration: none;
   flex-shrink: 0;
+  margin-left: -2rem;
+  padding-left: 2rem;
 }
 
 .logo-container {
@@ -98,17 +100,23 @@
   background: transparent;
   filter: brightness(1.05) contrast(1.02) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
   transition: all 0.25s ease;
+  /* Removes any white edges from remove.bg */
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
 }
+
+/* Hover effect - subtle glow */
+
 
 .nav-logo:hover .logo-container {
   background: transparent;
 }
 
+/* Fallback if image fails to load */
 .logo-img[onerror] {
-  height: 45px;
-  width: auto;
+  height: 145px;
+  padding-top: 3px;
+  width: 240px;
   background: #0d2b12;
   border-radius: 4px;
 }
@@ -460,8 +468,10 @@
 .nav-actions {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.35rem;
   flex-shrink: 0;
+  margin-right: -2rem;
+  padding-right: 2rem;
 }
 
 .nav-icon-btn {
@@ -549,220 +559,86 @@
   transform: translateY(-1px);
 }
 
-/* Hamburger Menu Button */
+/* Hamburger */
 .hamburger {
   display: none;
   flex-direction: column;
   justify-content: space-between;
   width: 28px;
-  height: 20px;
+  height: 18px;
   background: none;
   border: none;
   cursor: pointer;
   padding: 0;
-  margin-left: 0.5rem;
+  margin-left: 0.25rem;
 }
 
 .hamburger span {
   display: block;
   height: 2px;
   background: #f7f3ec;
-  border-radius: 2px;
-  transition: all 0.3s ease;
-  width: 100%;
+  border-radius: 1px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform-origin: center;
 }
 
-.hamburger.open span:nth-child(1) {
-  transform: translateY(9px) rotate(45deg);
-}
+.hamburger.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
-.hamburger.open span:nth-child(2) {
-  opacity: 0;
-}
-
-.hamburger.open span:nth-child(3) {
-  transform: translateY(-9px) rotate(-45deg);
-}
-
-/* ===== RESPONSIVE BREAKPOINTS ===== */
-
-/* Tablet and Desktop (above 900px) */
-@media (min-width: 901px) {
-  .hamburger {
-    display: none;
-  }
-  
-  .nav-links {
-    display: flex !important;
-  }
-}
-
-/* Mobile and Tablet (max 900px) */
-@media (max-width: 900px) {
-  .main-nav {
-    padding: 0 1rem;
-  }
-  
-  .nav-links {
-    display: none;
-    position: fixed;
-    top: 72px;
-    left: 0;
-    right: 0;
-    background: #0d2b12;
-    flex-direction: column;
-    padding: 1rem;
-    gap: 0.5rem;
-    border-top: 1px solid rgba(136, 196, 49, 0.2);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    max-height: calc(100vh - 72px);
-    overflow-y: auto;
-  }
-  
-  .nav-links.show {
-    display: flex !important;
-  }
-  
-  .nav-item {
-    width: 100%;
-  }
-  
+/* ── Responsive ── */
+@media (max-width: 1100px) {
   .nav-link {
-    width: 100%;
-    justify-content: center;
-    padding: 0.75rem;
-    font-size: 0.9rem;
+    padding: 0.5rem 0.7rem;
+    font-size: 0.78rem;
   }
-  
-  .nav-link::after {
-    display: none;
-  }
-  
-  .dropdown-panel {
-    position: static;
-    transform: none;
-    width: 100%;
-    margin-top: 0.5rem;
-    box-shadow: none;
-    border: 1px solid rgba(136, 196, 49, 0.2);
-    background: rgba(255, 255, 255, 0.05);
-  }
-  
-  .dropdown-panel::before {
-    display: none;
-  }
-  
-  .dropdown-panel.visible {
-    transform: none;
-  }
-  
-  .dropdown-item {
-    color: #f7f3ec;
-  }
-  
-  .dropdown-item-label {
-    color: #f7f3ec;
-  }
-  
-  .dropdown-item-desc {
-    color: rgba(247, 243, 236, 0.7);
-  }
-  
-  .dropdown-item:hover {
-    background: rgba(136, 196, 49, 0.1);
-  }
-  
   .nav-cta {
     display: none;
   }
-  
-  .nav-actions {
-    gap: 0.35rem;
+}
+
+@media (max-width: 900px) {
+  .nav-links {
+    display: none;
   }
-  
-  .nav-icon-btn {
-    width: 36px;
-    height: 36px;
-  }
-  
   .hamburger {
     display: flex;
   }
-  
+  .main-nav {
+    padding: 0 1rem;
+  }
   .nav-logo {
     margin-left: 0;
     padding-left: 0;
   }
-  
   .nav-actions {
     margin-right: 0;
     padding-right: 0;
   }
 }
 
-/* Small Mobile Devices (max 480px) */
 @media (max-width: 480px) {
   .main-nav {
     height: 60px;
-    padding: 0 0.75rem;
+    padding: 0 1rem;
   }
-  
   .logo-img {
-    height: 40px;
+    height: 42px;
   }
-  
+  .logo-primary {
+    font-size: 1.1rem;
+  }
   .nav-icon-btn {
-    width: 32px;
-    height: 32px;
+    width: 34px;
+    height: 34px;
   }
-  
+  .nav-logo {
+    margin-left: 0;
+    padding-left: 0;
+  }
   .nav-actions {
-    gap: 0.25rem;
-  }
-  
-  .nav-links {
-    top: 60px;
-    max-height: calc(100vh - 60px);
-  }
-  
-  .nav-link {
-    padding: 0.6rem;
-    font-size: 0.85rem;
-  }
-  
-  .hamburger {
-    width: 24px;
-    height: 18px;
-  }
-  
-  .cart-badge {
-    top: -4px;
-    right: -4px;
-    min-width: 16px;
-    height: 16px;
-    font-size: 0.5rem;
-  }
-  
-  .avatar {
-    width: 20px;
-    height: 20px;
-    font-size: 0.55rem;
-  }
-}
-
-/* Extra Small Devices (max 375px) */
-@media (max-width: 375px) {
-  .nav-icon-btn {
-    width: 28px;
-    height: 28px;
-  }
-  
-  .logo-img {
-    height: 35px;
-  }
-  
-  .nav-actions {
-    gap: 0.2rem;
+    margin-right: 0;
+    padding-right: 0;
   }
 }
 
@@ -797,7 +673,184 @@
   outline-offset: 3px !important;
 }
 
-/* ── Body state when mobile menu is open ── */
+/* ── Body state ── */
 body.menu-open {
   overflow: hidden;
+}
+/* ===== MOBILE FIX - HAMBURGER VISIBILITY ===== */
+/* This ensures hamburger is visible on all mobile screens without changing existing styles */
+
+/* Force hamburger to be visible on all screen widths below 901px */
+@media (max-width: 900px) {
+  .hamburger {
+    display: flex !important;
+    z-index: 1001;
+    position: relative;
+  }
+  
+  /* Hide nav links by default on mobile */
+  .nav-links {
+    display: none !important;
+  }
+  
+  /* When mobile menu is open, show nav links */
+  .nav-links.show {
+    display: flex !important;
+    position: fixed;
+    top: 145px;
+    left: 0;
+    right: 0;
+    background: #0d2b12;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 0.5rem;
+    border-top: 1px solid rgba(136, 196, 49, 0.2);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+  }
+  
+  /* Make nav actions smaller on mobile to fit */
+  .nav-actions {
+    gap: 0.2rem !important;
+  }
+  
+  /* Make icon buttons smaller on mobile */
+  .nav-icon-btn {
+    width: 32px !important;
+    height: 32px !important;
+  }
+  
+  /* Make logo smaller on mobile */
+  .logo-img {
+    height: 40px !important;
+    max-width: 120px !important;
+  }
+  
+  /* Hide shop CTA on mobile */
+  .nav-cta {
+    display: none !important;
+  }
+  
+  /* Adjust main nav height for mobile */
+  .main-nav {
+    height: 100px !important;
+    padding: 0 0.75rem !important;
+  }
+  
+  /* Fix nav inner spacing */
+  .nav-inner {
+    gap: 0.5rem !important;
+  }
+}
+
+/* Extra small devices (393x851 and similar) */
+@media (max-width: 480px) {
+  .main-nav {
+    height: 80px !important;
+  }
+  
+  .logo-img {
+    height: 35px !important;
+    max-width: 100px !important;
+  }
+  
+  .nav-icon-btn {
+    width: 28px !important;
+    height: 28px !important;
+  }
+  
+  .nav-actions {
+    gap: 0.15rem !important;
+  }
+  
+  .hamburger {
+    width: 24px !important;
+    height: 16px !important;
+    margin-left: 0.15rem !important;
+  }
+  
+  .cart-badge {
+    top: -3px !important;
+    right: -3px !important;
+    min-width: 14px !important;
+    height: 14px !important;
+    font-size: 0.5rem !important;
+  }
+}
+
+/* For very narrow screens (under 360px) */
+@media (max-width: 360px) {
+  .main-nav {
+    height: 75px !important;
+  }
+  
+  .logo-img {
+    height: 30px !important;
+    max-width: 85px !important;
+  }
+  
+  .nav-icon-btn {
+    width: 26px !important;
+    height: 26px !important;
+  }
+  
+  .hamburger {
+    width: 22px !important;
+    height: 14px !important;
+  }
+}
+
+/* Ensure hamburger is clickable */
+.hamburger {
+  cursor: pointer !important;
+  z-index: 1001 !important;
+}
+
+.hamburger span {
+  display: block !important;
+  width: 100% !important;
+  height: 2px !important;
+  background: #f7f3ec !important;
+  border-radius: 2px !important;
+  transition: all 0.3s ease !important;
+}
+
+/* Animation for open state */
+.hamburger.open span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg) !important;
+}
+
+.hamburger.open span:nth-child(2) {
+  opacity: 0 !important;
+  transform: scaleX(0) !important;
+}
+
+.hamburger.open span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg) !important;
+}
+
+/* For 393x851 specific fix */
+@media (max-width: 400px) and (min-height: 800px) {
+  .main-nav {
+    height: 70px !important;
+  }
+  
+  .logo-img {
+    height: 32px !important;
+    max-width: 95px !important;
+  }
+  
+  .nav-icon-btn {
+    width: 30px !important;
+    height: 30px !important;
+  }
+  
+  .nav-actions {
+    gap: 0.2rem !important;
+  }
+  
+  .hamburger {
+    width: 26px !important;
+    height: 18px !important;
+  }
 }
