@@ -311,6 +311,28 @@ export class TestimonialsComponent {
     this.activeRegion = region;
     this.applyFilters();
   }
+  // Add to your TestimonialsComponent class
+ngAfterViewInit() {
+  this.loadLottieAnimation();
+}
+
+private async loadLottieAnimation() {
+  try {
+    const lottie = await import('lottie-web');
+    const container = document.getElementById('testimonialsLottie');
+    if (container) {
+      lottie.default.loadAnimation({
+        container: container,
+        path: 'assets/animations/peoplelottie.json',
+        renderer: 'svg',
+        loop: true,
+        autoplay: true
+      });
+    }
+  } catch (error) {
+    console.log('Lottie loading error:', error);
+  }
+}
 
   applyFilters() {
     let filtered = this.testimonials;
