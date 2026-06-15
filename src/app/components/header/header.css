@@ -46,7 +46,7 @@
   width: 100%;
   z-index: 1000;
   background: #0d2b12;
-  height: 72px;
+  height: 152px;
   transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
               box-shadow 0.3s ease;
   padding: 0 2rem;
@@ -118,7 +118,7 @@
 /* Fallback if image fails to load */
 .logo-img[onerror] {
   height: 145px;
-  padding-top: 40px;
+  padding-top: 3px;
   width: 240px;
   background: #0d2b12;
   border-radius: 4px;
