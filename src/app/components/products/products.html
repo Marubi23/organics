@@ -13,12 +13,14 @@
   </div>
 </div>
 
-<!-- Main Products Layout -->
+<!-- Main Products Layout - FULL WIDTH -->
 <div class="products-container">
-  <!-- Hero Banner -->
+  <!-- Hero Banner - Full Width -->
   <section class="products-hero">
-    <div class="hero-overlay">
-      <div class="container">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content-wrapper">
+      <div class="hero-text">
         <h1>Mzuri Organics <span>Shop</span></h1>
         <p>Premium organic fertilizers & animal feeds</p>
         <div class="hero-stats">
@@ -39,60 +41,69 @@
     </div>
   </section>
 
-  <!-- Shopping Controls -->
+  <!-- Shopping Controls - Sticky Full Width -->
   <section class="shopping-controls">
-    <div class="container">
-      <div class="controls-grid">
-        <!-- Categories -->
-        <div class="categories-filter">
-          <div class="category-list">
-            <button class="category-btn" 
-                    *ngFor="let cat of categories"
-                    [class.active]="selectedCategory === cat.value"
-                    (click)="filterByCategory(cat.value)">
-              <i [class]="cat.icon"></i>
-              <span>{{cat.label}}</span>
-            </button>
-          </div>
+    <div class="controls-wrapper">
+      <!-- Categories Scrollable -->
+      <div class="categories-filter">
+        <div class="category-list">
+          <button class="category-btn" 
+                  *ngFor="let cat of categories"
+                  [class.active]="selectedCategory === cat.value"
+                  (click)="filterByCategory(cat.value)">
+            <i [class]="cat.icon"></i>
+            <span>{{cat.label}}</span>
+          </button>
         </div>
+      </div>
 
-        <!-- Search & Sort -->
-        <div class="search-sort">
-          <div class="search-box">
-            <i class="fas fa-search"></i>
-            <input type="text" 
-                   [(ngModel)]="searchQuery" 
-                   (input)="onSearch()"
-                   placeholder="Search products...">
-          </div>
-          
-          <div class="view-toggle">
-            <button class="view-btn" [class.active]="viewMode === 'grid'" 
-                    (click)="viewMode = 'grid'">
-              <i class="fas fa-th"></i>
-            </button>
-            <button class="view-btn" [class.active]="viewMode === 'list'" 
-                    (click)="viewMode = 'list'">
-              <i class="fas fa-list"></i>
-            </button>
-          </div>
+      <!-- Search & Sort -->
+      <div class="search-sort">
+        <div class="search-box">
+          <i class="fas fa-search"></i>
+          <input type="text" 
+                 [(ngModel)]="searchQuery" 
+                 (input)="onSearch()"
+                 placeholder="Search products...">
+        </div>
+        
+        <div class="view-toggle">
+          <button class="view-btn" [class.active]="viewMode === 'grid'" 
+                  (click)="viewMode = 'grid'">
+            <i class="fas fa-th"></i>
+          </button>
+          <button class="view-btn" [class.active]="viewMode === 'list'" 
+                  (click)="viewMode = 'list'">
+            <i class="fas fa-list"></i>
+          </button>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Products Display -->
+  <!-- Products Display - Full Width Grid -->
   <section class="products-display">
-    <div class="container">
-      <!-- Products Count -->
+    <div class="products-wrapper">
+      <!-- Products Header -->
       <div class="products-header">
-        <h2>
-          {{selectedCategory === 'all' ? 'All Products' : selectedCategory}}
+        <div class="header-left">
+          <h2>
+            {{selectedCategory === 'all' ? 'All Products' : selectedCategory}}
+          </h2>
           <span class="count-badge">{{filteredProducts.length}} products</span>
-        </h2>
+        </div>
+        <div class="header-right">
+          <select class="sort-select" (change)="sortProducts($event)">
+            <option value="default">Sort by: Featured</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="rating">Top Rated</option>
+            <option value="newest">Newest First</option>
+          </select>
+        </div>
       </div>
 
-      <!-- Grid View -->
+      <!-- Grid View - Masonry Style -->
       <div class="products-grid" *ngIf="viewMode === 'grid'">
         <div class="product-card" *ngFor="let product of filteredProducts">
           <!-- Product Image -->
@@ -114,11 +125,6 @@
               </span>
             </div>
 
-            <!-- Stock Badge -->
-            <div class="stock-badge" [class]="'stock-' + getStockClass(product)">
-              {{getStockText(product)}}
-            </div>
-
             <!-- Quick Actions -->
             <div class="quick-actions">
               <button class="quick-review-btn" title="Write a Review" (click)="openReviewModal(product)">
@@ -134,46 +140,35 @@
                 <i class="fas fa-cart-plus"></i>
               </button>
             </div>
+
+            <!-- Stock Badge -->
+            <div class="stock-badge" [class]="'stock-' + getStockClass(product)">
+              {{getStockText(product)}}
+            </div>
           </div>
 
           <!-- Product Info -->
           <div class="product-info">
-            <!-- Category & Rating -->
             <div class="product-meta">
               <span class="category">{{product.category}}</span>
               <div class="rating">
-                <i class="fas fa-star" *ngFor="let star of [1,2,3,4,5]"
-                   [class.filled]="star <= Math.floor(product.rating)"
-                   [class.half]="star === Math.ceil(product.rating) && product.rating % 1 !== 0">
-                </i>
+                <div class="stars">
+                  <i class="fas fa-star" *ngFor="let star of [1,2,3,4,5]"
+                     [class.filled]="star <= Math.floor(product.rating)">
+                  </i>
+                </div>
                 <span class="rating-value">{{product.rating}}</span>
               </div>
             </div>
 
-            <!-- Name & Description -->
             <h3 class="product-name">{{product.name}}</h3>
-            <p class="product-desc">{{product.description}}</p>
+            <p class="product-desc">{{product.description | slice:0:80}}...</p>
 
-            <!-- Features -->
-            <div class="product-features" *ngIf="product.features && product.features.length > 0">
-              <div class="feature" *ngFor="let feature of product.features.slice(0, 2)">
-                <i class="fas fa-check"></i>
-                <span>{{feature}}</span>
-              </div>
-              <div class="feature-more" *ngIf="product.features.length > 2">
-                +{{product.features.length - 2}} more
-              </div>
-            </div>
-
-            <!-- Price & Units -->
             <div class="product-footer">
               <div class="price-section">
                 <div class="current-price">KSh {{product.price | number}}</div>
                 <div class="original-price" *ngIf="product.originalPrice">
                   KSh {{product.originalPrice | number}}
-                </div>
-                <div class="save-amount" *ngIf="product.discount">
-                  Save {{product.discount}}%
                 </div>
               </div>
               
@@ -183,15 +178,12 @@
               </div>
             </div>
 
-            <!-- Add to Cart Button -->
             <button class="add-to-cart-btn" 
                     (click)="addToCart(product)"
                     [disabled]="!product.inStock"
-                    [class.disabled]="!product.inStock"
-                    [attr.data-product-id]="product.id">
-              <i class="fas" [class]="product.inStock ? 'fa-cart-plus' : 'fa-ban'"></i>
+                    [class.disabled]="!product.inStock">
+              <i class="fas" [class]="product.inStock ? 'fa-shopping-cart' : 'fa-ban'"></i>
               <span>{{product.inStock ? 'Add to Cart' : 'Out of Stock'}}</span>
-            
             </button>
           </div>
         </div>
@@ -219,12 +211,6 @@
             
             <h3>{{product.name}}</h3>
             <p class="list-desc">{{product.description}}</p>
-            
-            <div class="list-features" *ngIf="product.features && product.features.length > 0">
-              <span *ngFor="let feature of product.features.slice(0, 3)">
-                <i class="fas fa-check"></i> {{feature}}
-              </span>
-            </div>
             
             <div class="list-footer">
               <div class="price-info">
@@ -254,7 +240,7 @@
                   <button class="list-cart-btn" 
                           (click)="addToCart(product)"
                           [disabled]="!product.inStock">
-                    <i class="fas" [class]="product.inStock ? 'fa-cart-plus' : 'fa-ban'"></i>
+                    <i class="fas" [class]="product.inStock ? 'fa-shopping-cart' : 'fa-ban'"></i>
                     {{product.inStock ? 'Add to Cart' : 'Out of Stock'}}
                   </button>
                 </div>
@@ -276,7 +262,7 @@
     </div>
   </section>
 
-  <!-- Floating Cart Icon -->
+  <!-- Floating Cart -->
   <div class="floating-cart" [class.active]="cartCount > 0" (click)="cartService.toggleCart()">
     <i class="fas fa-shopping-cart"></i>
     <span class="cart-count" *ngIf="cartCount > 0">{{cartCount}}</span>
@@ -308,46 +294,24 @@
                [class.filled]="i < selectedRating"
                (click)="selectedRating = i + 1"></i>
           </div>
-          <div class="rating-hint" *ngIf="selectedRating === 0">
-            <i class="fas fa-info-circle"></i>
-            <span>Click on a star to rate this product</span>
-          </div>
         </div>
         
         <div class="review-comment-section">
           <label>Your Review</label>
           <textarea [(ngModel)]="reviewComment" 
-                    placeholder="Share your experience with this product... What did you like? How did it help your farming?"
+                    placeholder="Share your experience with this product..."
                     rows="5"
                     class="review-textarea"></textarea>
-          <div class="comment-hint" *ngIf="reviewComment.length > 0 && reviewComment.length < 20">
-            <i class="fas fa-lightbulb"></i>
-            <span>Tell us more about your experience (minimum 20 characters)</span>
-          </div>
-        </div>
-        
-        <div class="review-tips">
-          <div class="tips-header">
-            <i class="fas fa-lightbulb"></i>
-            <span>Review Tips:</span>
-          </div>
-          <ul class="tips-list">
-            <li><i class="fas fa-check-circle"></i> Be specific about what you liked or disliked</li>
-            <li><i class="fas fa-check-circle"></i> Mention how the product performed for your crops/animals</li>
-            <li><i class="fas fa-check-circle"></i> Include information about your farming experience</li>
-            <li><i class="fas fa-check-circle"></i> Your honest feedback helps other farmers make informed decisions</li>
-          </ul>
         </div>
         
         <div class="review-actions">
           <button class="btn-cancel-review" (click)="closeReviewModal()">
-            <i class="fas fa-times"></i> Cancel
+            Cancel
           </button>
           <button class="btn-submit-review" 
                   (click)="submitReview()"
-                  [disabled]="selectedRating === 0 || reviewComment.length < 20"
-                  [class.disabled]="selectedRating === 0 || reviewComment.length < 20">
-            <i class="fas fa-paper-plane"></i> Submit Review
+                  [disabled]="selectedRating === 0 || reviewComment.length < 20">
+            Submit Review
           </button>
         </div>
       </div>
@@ -363,7 +327,6 @@
     </button>
     
     <div class="modal-content">
-      <!-- Left: Image Gallery -->
       <div class="modal-gallery">
         <div class="main-image" [class.zoomed]="isZoomed" (click)="toggleZoom()">
           <img [src]="getSelectedProductMainImage()" [alt]="selectedProduct.name">
@@ -374,26 +337,11 @@
                *ngFor="let img of getSelectedProductImages(); let i = index"
                [class.active]="i === selectedProduct.mainImageIndex"
                (click)="selectImage(i)">
-            <img [src]="img" [alt]="selectedProduct.name + ' ' + (i+1)">
+            <img [src]="img" [alt]="selectedProduct.name">
           </div>
-        </div>
-        
-        <!-- Navigation Arrows -->
-        <button class="gallery-nav prev" (click)="prevImage()" *ngIf="hasMultipleImages()">
-          <i class="fas fa-chevron-left"></i>
-        </button>
-        <button class="gallery-nav next" (click)="nextImage()" *ngIf="hasMultipleImages()">
-          <i class="fas fa-chevron-right"></i>
-        </button>
-        
-        <!-- Zoom Hint -->
-        <div class="zoom-hint">
-          <i class="fas fa-search-plus"></i>
-          <span>Click image to zoom</span>
         </div>
       </div>
       
-      <!-- Right: Product Info -->
       <div class="modal-info">
         <div class="modal-header">
           <span class="modal-category">{{selectedProduct.category}}</span>
@@ -405,16 +353,13 @@
                  [class.filled]="star <= Math.floor(selectedProduct.rating)">
               </i>
             </div>
-            <span class="review-count">{{selectedProduct.rating}} ({{getSelectedProductStock()}} reviews)</span>
+            <span class="review-count">{{selectedProduct.rating}} rating</span>
           </div>
           
           <div class="modal-price">
             <span class="modal-current-price">KSh {{selectedProduct.price | number}}</span>
             <span class="modal-original-price" *ngIf="selectedProduct.originalPrice">
               KSh {{selectedProduct.originalPrice | number}}
-            </span>
-            <span class="modal-discount" *ngIf="selectedProduct.discount">
-              Save {{selectedProduct.discount}}%
             </span>
           </div>
         </div>
@@ -431,12 +376,6 @@
               {{feature}}
             </li>
           </ul>
-        </div>
-        
-        <div class="modal-stock">
-          <div class="stock-indicator" [class]="getStockIndicator(selectedProduct)"></div>
-          <span class="stock-text">{{getStockStatus(selectedProduct).text}}</span>
-          <span class="stock-count" *ngIf="selectedProduct.inStock">{{selectedProduct.stock}} available</span>
         </div>
         
         <div class="modal-quantity">
@@ -458,7 +397,7 @@
                   (click)="addFromQuickView()"
                   [disabled]="!selectedProduct.inStock">
             <i class="fas fa-shopping-cart"></i>
-            Add to Cart (KSh {{selectedProduct.price * getSelectedProductQuantity() | number}})
+            Add to Cart
           </button>
           
           <button class="modal-wishlist" 
@@ -467,15 +406,10 @@
             <i class="fas" [class.fa-heart]="getIsWishlisted()" [class.fa-heart-o]="!getIsWishlisted()"></i>
           </button>
         </div>
-        
-        <div class="modal-meta">
-          <p><i class="fas fa-tag"></i> SKU: MZ-{{selectedProduct.id}}-{{selectedProduct.category.substring(0,3).toUpperCase()}}</p>
-          <p><i class="fas fa-box"></i> {{selectedProduct.units}}</p>
-        </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Cart Sidebar Component -->
+<!-- Cart Sidebar -->
 <app-cart></app-cart>

@@ -281,6 +281,28 @@ export class ProductsComponent implements OnInit {
     }
     localStorage.setItem('mzuri_wishlist', JSON.stringify(this.wishlistItems));
   }
+  // Add this method to your ProductsComponent
+sortProducts(event: any) {
+  const sortBy = event.target.value;
+  
+  switch(sortBy) {
+    case 'price-asc':
+      this.filteredProducts.sort((a, b) => a.price - b.price);
+      break;
+    case 'price-desc':
+      this.filteredProducts.sort((a, b) => b.price - a.price);
+      break;
+    case 'rating':
+      this.filteredProducts.sort((a, b) => b.rating - a.rating);
+      break;
+    case 'newest':
+      this.filteredProducts.sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0));
+      break;
+    default:
+      this.applyFilters();
+      return;
+  }
+}
 
   // ========== RECENTLY VIEWED ==========
   loadRecentlyViewed() {
