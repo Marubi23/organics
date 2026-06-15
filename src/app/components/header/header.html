@@ -4,11 +4,11 @@
 <nav class="main-nav" #headerElement [class.scrolled]="isScrolled" [class.header-hidden]="isHeaderHidden">
   <div class="nav-inner">
 
-    <!-- Logo -->
+    <!-- Logo - Fixed with proper blending -->
     <a class="nav-logo" routerLink="/home" title="Mzuri Organics Home">
-      <img src="/images/mzuri-logo.JPG" alt="Mzuri Organics" class="logo-img" onerror="this.src='/images/logo-placeholder.png'" />
-    
-    
+      <div class="logo-container">
+        <img src="/images/new-mzuri-logo.png" alt="Mzuri Organics" class="logo-img" onerror="this.src='/images/logo-placeholder.png'" />
+      </div>
     </a>
 
     <!-- Desktop Nav Links -->
