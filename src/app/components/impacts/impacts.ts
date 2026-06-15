@@ -1,5 +1,5 @@
 // impact.component.ts
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CartComponent } from '../../pages/cart/cart';
@@ -9,6 +9,7 @@ import { trigger, transition, style, animate, query, stagger } from '@angular/an
   selector: 'app-impact',
   standalone: true,
   imports: [CommonModule, RouterModule, CartComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA], 
   templateUrl: './impacts.html',
   styleUrls: ['./impacts.css'],
   animations: [
@@ -36,7 +37,7 @@ import { trigger, transition, style, animate, query, stagger } from '@angular/an
     ])
   ]
 })
-export class ImpactComponent implements AfterViewInit {
+export class ImpactComponent implements AfterViewInit, OnDestroy {
   // Scroll targets for the dropdown
   scrollTargets = [
     { id: 'overview', label: 'Impact Overview' },
@@ -51,6 +52,7 @@ export class ImpactComponent implements AfterViewInit {
 
   // Default selected target
   selectedScrollTarget = this.scrollTargets[0];
+  private scrollToImpactHandler: any;
 
   keyMetrics = [
     { value: '500+', label: 'Kenyan Farmers Trained', change: '+25%', trend: 'positive' },
@@ -117,7 +119,7 @@ export class ImpactComponent implements AfterViewInit {
     {
       farmer: 'Vivian Nekesa',
       location: 'Kakamega County',
-      quote: 'Mzuri Organics transformed my  farm from struggling to thriving. My maize yields increased by 60% using their organic fertilizers made in Kenya.',
+      quote: 'Mzuri Organics transformed my farm from struggling to thriving. My maize yields increased by 60% using their organic fertilizers made in Kenya.',
       results: [
         { value: '60%', label: 'Yield Increase' },
         { value: '50%', label: 'Cost Savings' },
@@ -127,7 +129,7 @@ export class ImpactComponent implements AfterViewInit {
     {
       farmer: 'Sabina Kwamboka',
       location: 'Kisii County',
-      quote: 'The  training in vermicomposting changed everything. I now produce my own fertilizer and even sell surplus to neighbors across the border.',
+      quote: 'The training in vermicomposting changed everything. I now produce my own fertilizer and even sell surplus to neighbors across the border.',
       results: [
         { value: '100%', label: 'Organic Inputs' },
         { value: '3', label: 'Kenyan Jobs Created' },
@@ -137,14 +139,13 @@ export class ImpactComponent implements AfterViewInit {
     {
       farmer: 'Janet Khasiani',
       location: 'Vihiga County',
-      quote: 'As a  woman farmer, the support from Mzuri Organics helped me become a leader in my community. I now train other  farmers.',
+      quote: 'As a woman farmer, the support from Mzuri Organics helped me become a leader in my community. I now train other farmers.',
       results: [
         { value: '30', label: 'Farmers Trained' },
         { value: '90%', label: 'Income Increase' },
         { value: 'Community', label: 'Leader in Kenya' }
       ]
     },
-
   ];
 
   environmentalImpacts = [
@@ -169,7 +170,7 @@ export class ImpactComponent implements AfterViewInit {
     {
       icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
       title: 'Carbon Sequestration in Kenya',
-      description: 'Carbon reduced due through BSF and Redworm organic waste bioconversion and valorization',
+      description: 'Carbon reduced through BSF and Redworm organic waste bioconversion and valorization',
       value: '360 Tons CO₂/Year'
     }
   ];
@@ -207,6 +208,8 @@ export class ImpactComponent implements AfterViewInit {
     }
   ];
 
+  constructor() {}
+
   // Scroll function
   scrollToSection(sectionId: string): void {
     const element = document.getElementById(sectionId);
@@ -228,26 +231,28 @@ export class ImpactComponent implements AfterViewInit {
     }
   }
 
-ngAfterViewInit(): void {
-  const hash = window.location.hash.substring(1);
-  if (hash && this.scrollTargets.some(t => t.id === hash)) {
-    setTimeout(() => {
-      this.scrollToSection(hash);
-    }, 300);
+  ngAfterViewInit(): void {
+    const hash = window.location.hash.substring(1);
+    if (hash && this.scrollTargets.some(t => t.id === hash)) {
+      setTimeout(() => {
+        this.scrollToSection(hash);
+      }, 300);
+    }
+    
+    // Listen for scroll events from navigation header
+    this.scrollToImpactHandler = (event: CustomEvent) => {
+      const sectionId = event.detail.sectionId;
+      this.scrollToSection(sectionId);
+    };
+    
+    window.addEventListener('scrollToImpactSection', this.scrollToImpactHandler);
   }
-  
-  // Listen for scroll events from navigation header
-  window.addEventListener('scrollToImpactSection', (event: any) => {
-    const sectionId = event.detail.sectionId;
-    this.scrollToSection(sectionId);
-  });
-}
 
-// Add ngOnDestroy to clean up event listener
-ngOnDestroy(): void {
-  window.removeEventListener('scrollToImpactSection', () => {});
-}
-  
+  ngOnDestroy(): void {
+    if (this.scrollToImpactHandler) {
+      window.removeEventListener('scrollToImpactSection', this.scrollToImpactHandler);
+    }
+  }
 
   getKenyanImpactContext(): string {
     return "All impact data verified across Kenyan farming communities and East African regions";
@@ -272,4 +277,4 @@ ngOnDestroy(): void {
       "Kenya Climate Smart Agriculture Project"
     ];
   }
-}
+} 

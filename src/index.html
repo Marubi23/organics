@@ -54,7 +54,7 @@
       margin: 0;
       padding: 0;
       font-family: 'Roboto', sans-serif;
-      background: #f5f5dc;
+      background: #0d2b12;
       overflow-x: hidden;
     }
     
@@ -65,10 +65,10 @@
       left: 0;
       width: 0%;
       height: 4px;
-      background: linear-gradient(90deg, hsl(125, 89%, 31%), hsl(31, 100%, 47%));
+      background: linear-gradient(90deg, #c8841a, #e0961f);
       z-index: 10000;
       transition: width 0.3s ease;
-      box-shadow: 0 2px 8px rgba(62, 142, 11, 0.3);
+      box-shadow: 0 2px 8px rgba(200, 132, 26, 0.3);
     }
     
     #app-loading-bar.complete {
@@ -84,7 +84,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: #f5f5dc;
+      background: #0d2b12;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -105,25 +105,17 @@
       font-family: 'Poppins', sans-serif;
       font-size: 1.8rem;
       font-weight: 700;
-      color: hsl(125, 89%, 31%);
+      color: #c8841a;
       text-align: center;
       opacity: 0;
       animation: fadeIn 0.8s ease forwards 0.3s;
     }
     
-    /* Minimal spinner */
-    .minimal-spinner {
-      width: 60px;
-      height: 60px;
-      border: 4px solid rgba(62, 142, 11, 0.1);
-      border-radius: 50%;
-      border-top-color: hsl(125, 89%, 31%);
-      border-right-color: hsl(31, 100%, 47%);
-      animation: spin 1.2s ease-in-out infinite;
-    }
-    
-    @keyframes spin {
-      to { transform: rotate(360deg); }
+    /* Lottie Loader */
+    .lottie-loader {
+      width: 120px;
+      height: 120px;
+      margin-bottom: 20px;
     }
     
     @keyframes fadeIn {
@@ -149,8 +141,8 @@
       position: absolute;
       top: -40px;
       left: 0;
-      background: hsl(125, 89%, 31%);
-      color: white;
+      background: #c8841a;
+      color: #0d2b12;
       padding: 8px 16px;
       z-index: 10001;
       text-decoration: none;
@@ -200,11 +192,6 @@
         transition-duration: 0.01ms !important;
       }
       
-      .minimal-spinner {
-        animation: none;
-        border-top-color: rgba(62, 142, 11, 0.3);
-      }
-      
       .loader-brand {
         animation: none;
         opacity: 1;
@@ -217,20 +204,20 @@
         font-size: 1.5rem;
       }
       
-      .minimal-spinner {
-        width: 50px;
-        height: 50px;
+      .lottie-loader {
+        width: 90px;
+        height: 90px;
       }
     }
 
     /* ============ WORKING ACCESSIBILITY STYLES ============ */
    
-    .font-normal h1 { font-size: 3rem; } /* Original hero title */
-    .font-normal h2 { font-size: 2.5rem; } /* Original section titles */
-    .font-normal h3 { font-size: 1.5rem; } /* Original feature titles */
-    .font-normal p { font-size: 1.2rem; } /* Original hero description */
-    .font-normal .nav-link { font-size: 0.9rem; } /* Original nav links */
-    .font-normal .category-name { font-size: 1.1rem; } /* Original category names */
+    .font-normal h1 { font-size: 3rem; }
+    .font-normal h2 { font-size: 2.5rem; }
+    .font-normal h3 { font-size: 1.5rem; }
+    .font-normal p { font-size: 1.2rem; }
+    .font-normal .nav-link { font-size: 0.9rem; }
+    .font-normal .category-name { font-size: 1.1rem; }
     
     /* Small font - 10% smaller than original */
     .font-small h1 { font-size: 2.7rem !important; }
@@ -312,10 +299,6 @@
       transition-duration: 0.001ms !important;
       scroll-behavior: auto !important;
     }
-    
-    .reduced-motion .minimal-spinner {
-      animation: none !important;
-    }
 
     /* Line Spacing */
     .line-spacing-relaxed,
@@ -378,10 +361,17 @@
   <!-- App loading progress bar -->
   <div id="app-loading-bar"></div>
   
-  <!-- Initial loader - shown before Angular app loads -->
+  <!-- Initial loader with Lottie animation -->
   <div id="initial-loader">
     <div class="loader-brand">Mzuri Organics</div>
-    <div class="minimal-spinner"></div>
+    <lottie-player
+      class="lottie-loader"
+      src="/assets/animations/lottieflow-loading-08-c8841a-easey.json"
+      background="transparent"
+      speed="1"
+      loop
+      autoplay>
+    </lottie-player>
   </div>
   
   <!-- Angular app root -->
@@ -492,7 +482,7 @@
     // This ensures all accessibility features work with your Angular component
     window.AccessibilityManager = {
       settings: {
-        fontSize: 'normal', // Changed from 'medium' to 'normal' to match original
+        fontSize: 'normal',
         highContrast: false,
         reducedMotion: false,
         lineSpacing: 'normal',
@@ -501,7 +491,7 @@
         focusIndicators: false
       },
       
-      fontSizeLevels: ['small', 'normal', 'medium', 'large', 'xlarge'], // 5 levels now
+      fontSizeLevels: ['small', 'normal', 'medium', 'large', 'xlarge'],
       
       init: function() {
         this.loadSettings();

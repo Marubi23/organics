@@ -116,6 +116,14 @@
   margin: 0 auto;
   padding: 0 20px;
 }
+/* Add to your existing CSS */
+.hero-lottie {
+  margin-bottom: 1.5rem;
+}
+
+.hero-lottie lottie-player {
+  filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.2));
+}
 
 /* Impact Overview */
 .impact-overview {
@@ -281,8 +289,8 @@
   border: 2px solid transparent;
   border-radius: 16px;
   background: linear-gradient(135deg, 
-    #88c431 0%, 
-    #88c431 25%, 
+    #0b0b0b 0%, 
+    #0b0b0b 25%, 
     transparent 25%, 
     transparent 75%, 
     #d49a42 75%, 
