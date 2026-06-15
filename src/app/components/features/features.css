@@ -116,6 +116,11 @@
   margin-top: 12px;
   letter-spacing: 0.5px;
 }
+.lottie-caption a {
+  color: #c8841a;
+  text-decoration: none;
+  font-weight: 600;
+}
 
 .stat-label {
   color: rgba(255, 255, 255, 0.8);
