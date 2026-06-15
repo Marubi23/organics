@@ -1,11 +1,9 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { CartComponent } from '../cart/cart';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as L from 'leaflet';
 
-// Fix for Leaflet marker icons in Angular
+// Fix for Leaflet marker icons
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
@@ -16,7 +14,7 @@ L.Icon.Default.mergeOptions({
 @Component({
   selector: 'app-contact',
   standalone: true,
-  imports: [CommonModule, RouterModule, ReactiveFormsModule, CartComponent],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './contact.html',
   styleUrls: ['./contact.css']
 })
@@ -26,41 +24,26 @@ export class ContactComponent implements OnInit, AfterViewInit {
   showSuccessMessage = false;
   errorMessage = '';
   
-  // Contact Details
   readonly displayPhone = '+254 701 934 918';
   readonly whatsappNumber = '254701934918';
   readonly email = 'info@mzuriorganics.co.ke';
   
-  // Location Details - Mzuri Organics (Exact coordinates from Google Maps)
-  readonly location = {
-    address: 'Mzuri Organics, Musembe Shopping Center, Eldoret – Malaba Road, Kakamega, Kenya',
-    shortAddress: 'Mzuri Organics, Kakamega, Kenya',
-    coordinates: { lat: 0.6023014, lng: 34.9352222 }, // Exact coordinates from your link
-    placeId: '0x1781b7fa30d11c23:0xc93f21f2aa1af070',
-    market: 'Mzuri Organics, Musembe Market'
-  };
-
-  // Business Hours
   businessHours = [
     { day: 'Monday - Friday', hours: '8:00 AM - 6:00 PM' },
     { day: 'Saturday', hours: '9:00 AM - 4:00 PM' },
     { day: 'Sunday', hours: 'Closed' },
     { day: 'Public Holidays', hours: '10:00 AM - 2:00 PM' }
   ];
-
-  // Social Media
-socialLinks = [
-    { platform: 'WhatsApp', icon: 'fab fa-whatsapp', url: `https://wa.me/${this.whatsappNumber}`, color: '#25D366' },
-    { platform: 'Facebook', icon: 'fab fa-facebook', url: 'https://facebook.com/mzuriorganics', color: '#1877F2' },
-    { platform: 'Twitter', icon: 'fab fa-twitter', url: 'https://twitter.com/mzuriorganics', color: '#1DA1F2' },
-    { platform: 'Instagram', icon: 'fab fa-instagram', url: 'https://instagram.com/mzuriorganics', color: '#E4405F' },
-    { platform: 'YouTube', icon: 'fab fa-youtube', url: 'https://www.youtube.com/@mzuriorganics', color: '#FF0000' },
-    { platform: 'LinkedIn', icon: 'fab fa-linkedin', url: 'https://www.linkedin.com/company/mzuri-organics/', color: '#0077B5' }
-];
-  // Leaflet map
+  
+  socialLinks = [
+    { platform: 'WhatsApp', icon: 'fab fa-whatsapp', url: `https://wa.me/${this.whatsappNumber}`, color: '#25D366', lottieId: 'whatsappSocialLottie' },
+    { platform: 'Facebook', icon: 'fab fa-facebook', url: 'https://facebook.com/mzuriorganics', color: '#1877F2', lottieId: 'facebookLottie' },
+    { platform: 'Twitter', icon: 'fab fa-twitter', url: 'https://twitter.com/mzuriorganics', color: '#1DA1F2', lottieId: 'twitterLottie' },
+    { platform: 'Instagram', icon: 'fab fa-instagram', url: 'https://instagram.com/mzuriorganics', color: '#E4405F', lottieId: 'instagramLottie' }
+  ];
+  
   private map: any;
-  private marker: any;
-
+  
   constructor(private fb: FormBuilder) {
     this.contactForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
@@ -70,32 +53,141 @@ socialLinks = [
       inquiryType: ['general', Validators.required]
     });
   }
-
+  
   ngOnInit() {}
-
-  ngAfterViewInit() {
+  
+  async ngAfterViewInit() {
     setTimeout(() => {
       this.initMap();
     }, 500);
+    await this.loadLottieAnimations();
   }
-
+  
+  private async loadLottieAnimations() {
+    try {
+      const lottie = await import('lottie-web');
+      
+      // Hero badge lottie
+      const heroBadge = document.getElementById('heroBadgeLottie');
+      if (heroBadge) {
+        lottie.default.loadAnimation({
+          container: heroBadge,
+          path: 'assets/lottie/lottieflow-loading-08-c8841a-easey.json',
+          renderer: 'svg',
+          loop: true,
+          autoplay: true
+        });
+      }
+      
+      // Hero main lottie (replaces "Let's Grow Together" text)
+      const heroMain = document.getElementById('heroMainLottie');
+      if (heroMain) {
+        lottie.default.loadAnimation({
+          container: heroMain,
+          path: 'assets/lottie/lottieflow-loading-08-c8841a-easey.json',
+          renderer: 'svg',
+          loop: true,
+          autoplay: true
+        });
+      }
+      
+      // Phone card lottie
+      const phoneCard = document.getElementById('phoneCardLottie');
+      if (phoneCard) {
+        lottie.default.loadAnimation({
+          container: phoneCard,
+          path: 'assets/lottie/phone-icon.json',
+          renderer: 'svg',
+          loop: true,
+          autoplay: true
+        });
+      }
+      
+      // WhatsApp card lottie
+      const whatsappCard = document.getElementById('whatsappCardLottie');
+      if (whatsappCard) {
+        lottie.default.loadAnimation({
+          container: whatsappCard,
+          path: 'assets/lottie/whatsapplottie.json',
+          renderer: 'svg',
+          loop: true,
+          autoplay: true
+        });
+      }
+      
+      // Email card lottie
+      const emailCard = document.getElementById('emailCardLottie');
+      if (emailCard) {
+        lottie.default.loadAnimation({
+          container: emailCard,
+          path: 'assets/lottie/email-icon.json',
+          renderer: 'svg',
+          loop: true,
+          autoplay: true
+        });
+      }
+      
+      // Social media lotties
+      const whatsappSocial = document.getElementById('whatsappSocialLottie');
+      if (whatsappSocial) {
+        lottie.default.loadAnimation({
+          container: whatsappSocial,
+          path: 'assets/lottieflow-social-networks-16-11-2d6a2e-easey.json',
+          renderer: 'svg',
+          loop: true,
+          autoplay: true
+        });
+      }
+      
+      const facebookLottie = document.getElementById('facebookLottie');
+      if (facebookLottie) {
+        lottie.default.loadAnimation({
+          container: facebookLottie,
+          path: 'assets/animations/facebooklottie.json',
+          renderer: 'svg',
+          loop: true,
+          autoplay: true
+        });
+      }
+      
+      const twitterLottie = document.getElementById('twitterLottie');
+      if (twitterLottie) {
+        lottie.default.loadAnimation({
+          container: twitterLottie,
+          path: 'assets/lottie/twitter-icon.json',
+          renderer: 'svg',
+          loop: true,
+          autoplay: true
+        });
+      }
+      
+      const instagramLottie = document.getElementById('instagramLottie');
+      if (instagramLottie) {
+        lottie.default.loadAnimation({
+          container: instagramLottie,
+          path: 'assets/animations/instagramlottie.json',
+          renderer: 'svg',
+          loop: true,
+          autoplay: true
+        });
+      }
+      
+    } catch (error) {
+      console.log('Lottie loading error:', error);
+    }
+  }
+  
   private initMap(): void {
     const mapElement = document.getElementById('location-map');
     if (!mapElement) return;
-
-    // Initialize the map with exact coordinates
-    this.map = L.map('location-map').setView(
-      [this.location.coordinates.lat, this.location.coordinates.lng], 
-      17 // Zoom level 17 for closer view
-    );
-
-    // Add OpenStreetMap tiles (completely free)
+    
+    this.map = L.map('location-map').setView([0.6023014, 34.9352222], 17);
+    
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      attribution: '© OpenStreetMap contributors',
       maxZoom: 19
     }).addTo(this.map);
-
-    // Custom green icon to match Mzuri brand
+    
     const customIcon = L.divIcon({
       className: 'custom-marker',
       html: '<div class="marker-pulse"><i class="fas fa-map-marker-alt" style="color: #88c431; font-size: 2.5rem; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));"></i></div>',
@@ -103,76 +195,49 @@ socialLinks = [
       iconAnchor: [20, 40],
       popupAnchor: [0, -40]
     });
-
-    // Add marker at exact location
-    this.marker = L.marker(
-      [this.location.coordinates.lat, this.location.coordinates.lng], 
-      { icon: customIcon }
-    ).addTo(this.map);
-
-    // Add a circle to highlight the area
-    L.circle([this.location.coordinates.lat, this.location.coordinates.lng], {
+    
+    const marker = L.marker([0.6023014, 34.9352222], { icon: customIcon }).addTo(this.map);
+    
+    L.circle([0.6023014, 34.9352222], {
       color: '#88c431',
       fillColor: '#88c431',
       fillOpacity: 0.1,
       radius: 50
     }).addTo(this.map);
-
-    // Add popup with business info
-    this.marker.bindPopup(`
-      <div style="text-align: center; min-width: 250px; font-family: 'Poppins', sans-serif;">
-        <div style="background: #88c431; color: white; padding: 10px; margin: -12px -12px 10px -12px; border-radius: 8px 8px 0 0;">
-          <h4 style="margin:0; font-size: 1.1rem;"> Mzuri Organics</h4>
+    
+    marker.bindPopup(`
+      <div style="text-align: center; min-width: 250px;">
+        <div style="background: #88c431; color: #0d2b12; padding: 12px; border-radius: 12px 12px 0 0;">
+          <h4 style="margin:0; font-weight:700;">🌱 Mzuri Organics</h4>
         </div>
-        <p style="margin:5px 0; color:#1a2e1f; font-weight: 500;">Musembe Market</p>
-        <p style="margin:0 0 5px; color:#5a6b5a; font-size:13px;">Eldoret – Malaba Road</p>
-        <p style="margin:0 0 5px; color:#5a6b5a; font-size:13px;">Kakamega, Kenya</p>
-        <hr style="margin:8px 0; border-color:#e8ede8;">
-        <div style="display: flex; justify-content: center; gap: 15px; margin-top: 8px;">
-          <a href="tel:+254701934918" style="color: #88c431; text-decoration: none; font-size: 12px;">
-            <i class="fas fa-phone"></i> Call
-          </a>
-          <a href="https://wa.me/254701934918" target="_blank" style="color: #25D366; text-decoration: none; font-size: 12px;">
-            <i class="fab fa-whatsapp"></i> WhatsApp
-          </a>
-          <a href="https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(this.location.address)}" target="_blank" style="color: #d49a42; text-decoration: none; font-size: 12px;">
-            <i class="fas fa-directions"></i> Directions
-          </a>
+        <p style="margin:12px 0 5px;"><strong>📍 Musembe Market</strong></p>
+        <p style="margin:0 0 5px; color:#666;">Eldoret – Malaba Road</p>
+        <p style="margin:0 0 12px; color:#666;">Kakamega, Kenya</p>
+        <div style="display: flex; justify-content: center; gap: 15px; padding: 8px 0;">
+          <a href="tel:+254701934918" style="color: #88c431; text-decoration: none; font-weight:600;">📞 Call</a>
+          <a href="https://wa.me/254701934918" target="_blank" style="color: #25D366; text-decoration: none; font-weight:600;">💬 WhatsApp</a>
         </div>
       </div>
     `).openPopup();
   }
-
+  
   openDirections() {
-    const destination = encodeURIComponent(this.location.address);
-    window.open(`https://www.google.com/maps/dir/?api=1&destination=${destination}&destination_place_id=${this.location.placeId}`, '_blank');
+    window.open('https://www.google.com/maps/dir/?api=1&destination=Mzuri+Organics+Musembe+Market+Kakamega', '_blank');
   }
-
-  openStreetView() {
-    const lat = this.location.coordinates.lat;
-    const lng = this.location.coordinates.lng;
-    window.open(`https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${lat},${lng}`, '_blank');
-  }
-
+  
   viewLargerMap() {
-    const destination = encodeURIComponent(this.location.address);
-    window.open(`https://www.google.com/maps/search/?api=1&query=${destination}&query_place_id=${this.location.placeId}`, '_blank');
+    window.open('https://www.google.com/maps/place/Mzuri+Organics/@0.6023014,34.9352222,17z', '_blank');
   }
-
-  viewOnGoogleMaps() {
-    window.open(`https://www.google.com/maps/place/Mzuri+Organics/@${this.location.coordinates.lat},${this.location.coordinates.lng},17z/data=!3m1!4b1!4m6!3m5!1s0x1781b7fa30d11c23:0xc93f21f2aa1af070!8m2!3d${this.location.coordinates.lat}!4d${this.location.coordinates.lng}!16s%2Fg%2F11syz0ctlv`, '_blank');
+  
+  openStreetView() {
+    window.open('https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=0.6023014,34.9352222', '_blank');
   }
-
+  
   copyAddress() {
-    navigator.clipboard.writeText(this.location.address);
-    this.showToast('Address copied to clipboard!');
+    navigator.clipboard.writeText('Mzuri Organics, Musembe Shopping Center, Eldoret – Malaba Road, Kakamega, Kenya');
+    alert(' Address copied to clipboard!');
   }
-
-  private showToast(message: string) {
-    // You can implement a proper toast notification here
-    alert(message);
-  }
-
+  
   onSubmit() {
     if (this.contactForm.valid) {
       this.isSubmitting = true;
@@ -205,7 +270,7 @@ socialLinks = [
       });
     }
   }
-
+  
   openWhatsAppWithFormData(): boolean {
     const formData = this.contactForm.value;
     const message = this.formatWhatsAppMessage(formData);
@@ -229,7 +294,7 @@ socialLinks = [
     window.open(`https://web.whatsapp.com/send?phone=${this.whatsappNumber}&text=${encodedMessage}`, '_blank');
     return true;
   }
-
+  
   private formatWhatsAppMessage(data: any): string {
     const currentDate = new Date().toLocaleDateString('en-KE', {
       day: '2-digit',
@@ -267,27 +332,26 @@ ${data.message}
 
 ━━━━━━━━━━━━━━━━━━━━━
 📍 *Location:* Mzuri Organics, Musembe Market, Kakamega
-🔗 *Google Maps:* https://maps.app.goo.gl/[your-shortlink]
 ✅ *Sent from Mzuri Organics Website`;
   }
-
+  
   openDirectWhatsApp() {
     const message = encodeURIComponent(
-      `Hello Mzuri Organics! 👋\n\nI'm interested in learning more about your products. I'm located near ${this.location.market}.`
+      `Hello Mzuri Organics! 👋\n\nI'm interested in learning more about your products.`
     );
     window.open(`https://wa.me/${this.whatsappNumber}?text=${message}`, '_blank');
   }
-
+  
   callUs() {
     window.location.href = `tel:${this.displayPhone.replace(/\s/g, '')}`;
   }
-
+  
   sendEmail() {
     const subject = encodeURIComponent('Inquiry from Mzuri Organics Website');
-    const body = encodeURIComponent(`Hello Mzuri Organics Team,\n\nI'm interested in learning more about your products and services.\n\nLocation: ${this.location.market}\n\nRegards,`);
+    const body = encodeURIComponent(`Hello Mzuri Organics Team,\n\nI'm interested in learning more about your products and services.\n\nRegards,`);
     window.location.href = `mailto:${this.email}?subject=${subject}&body=${body}`;
   }
-
+  
   formatPhoneInput(event: any) {
     let value = event.target.value.replace(/\D/g, '');
     
@@ -310,9 +374,8 @@ ${data.message}
     
     this.contactForm.patchValue({ phone: value }, { emitEvent: false });
   }
-
+  
   trackSocialClick(platform: string) {
     console.log(`Social click: ${platform}`);
-    // Add analytics tracking here
   }
 }
