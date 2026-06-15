@@ -207,7 +207,7 @@ export class ContactComponent implements OnInit, AfterViewInit {
     
     marker.bindPopup(`
       <div style="text-align: center; min-width: 250px;">
-        <div style="background: #88c431; color: #0d2b12; padding: 12px; border-radius: 12px 12px 0 0;">
+        <div style="background: #c8841a; color: #0d2b12; padding: 12px; border-radius: 12px 12px 0 0;">
           <h4 style="margin:0; font-weight:700;"> Mzuri Organics</h4>
         </div> Musembe Market</strong></p>
         <p style="margin:0 0 5px; color:#666;">Eldoret – Malaba Road</p>
