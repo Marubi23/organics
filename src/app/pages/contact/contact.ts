@@ -84,7 +84,7 @@ export class ContactComponent implements OnInit, AfterViewInit {
       if (heroMain) {
         lottie.default.loadAnimation({
           container: heroMain,
-          path: 'assets/lottie/lottieflow-loading-08-c8841a-easey.json',
+          path: '/assets/animations/lottieflow-ecommerce-14-18-c8841a-easey.json',
           renderer: 'svg',
           loop: true,
           autoplay: true
@@ -96,7 +96,7 @@ export class ContactComponent implements OnInit, AfterViewInit {
       if (phoneCard) {
         lottie.default.loadAnimation({
           container: phoneCard,
-          path: 'assets/lottie/phone-icon.json',
+          path: 'assets/animations/lottieflow-ecommerce-14-18-c8841a-easey.json',
           renderer: 'svg',
           loop: true,
           autoplay: true
@@ -108,7 +108,7 @@ export class ContactComponent implements OnInit, AfterViewInit {
       if (whatsappCard) {
         lottie.default.loadAnimation({
           container: whatsappCard,
-          path: 'assets/lottie/whatsapplottie.json',
+          path: 'assets/animations/lottieflow-social-networks-16-11-2d6a2e-easey.json',
           renderer: 'svg',
           loop: true,
           autoplay: true
@@ -120,7 +120,7 @@ export class ContactComponent implements OnInit, AfterViewInit {
       if (emailCard) {
         lottie.default.loadAnimation({
           container: emailCard,
-          path: 'assets/lottie/email-icon.json',
+          path: 'assets/animations/maillottie.json',
           renderer: 'svg',
           loop: true,
           autoplay: true
@@ -132,7 +132,7 @@ export class ContactComponent implements OnInit, AfterViewInit {
       if (whatsappSocial) {
         lottie.default.loadAnimation({
           container: whatsappSocial,
-          path: 'assets/lottieflow-social-networks-16-11-2d6a2e-easey.json',
+          path: '/assets/animations/lottieflow-social-networks-16-11-2d6a2e-easey.json',
           renderer: 'svg',
           loop: true,
           autoplay: true
@@ -154,7 +154,7 @@ export class ContactComponent implements OnInit, AfterViewInit {
       if (twitterLottie) {
         lottie.default.loadAnimation({
           container: twitterLottie,
-          path: 'assets/lottie/twitter-icon.json',
+          path: 'assets/animations/twitterlottie.json',
           renderer: 'svg',
           loop: true,
           autoplay: true
