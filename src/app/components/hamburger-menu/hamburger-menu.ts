@@ -5,14 +5,6 @@ import { RouterModule, Router } from '@angular/router';
 import { CartService } from '../../services/cart';
 import { AuthService, User } from '../../services/auth.service';
 
-interface MenuItem {
-  text: string;
-  icon: string;
-  route?: string;
-  children?: MenuItem[];
-  isOpen?: boolean;
-}
-
 @Component({
   selector: 'app-hamburger-menu',
   standalone: true,
@@ -27,42 +19,36 @@ export class HamburgerMenuComponent implements OnInit, OnDestroy {
   currentUser: User | null = null;
   cartCount = 0;
   currentYear = new Date().getFullYear();
+  isProductsOpen = false;
+  isAboutOpen = false;
   private subscriptions: any[] = [];
 
-  // Menu items with dropdowns
-  menuItems: MenuItem[] = [
-    { text: 'Home', icon: 'fas fa-home', route: '/home' },
-    { 
-      text: 'Products', 
-      icon: 'fas fa-seedling', 
-      children: [
-        { text: 'Biofertilizers', icon: 'fas fa-leaf', route: '/products' },
-        { text: 'Animal Feeds', icon: 'fas fa-paw', route: '/products' },
-        { text: 'Shop All', icon: 'fas fa-shopping-bag', route: '/products' }
-      ]
-    },
-    { 
-      text: 'About Us', 
-      icon: 'fas fa-info-circle',
-      children: [
-        { text: 'Overview', icon: 'fas fa-eye', route: '/about' },
-        { text: 'What We Do', icon: 'fas fa-hands-helping', route: '/what-we-do' },
-        { text: 'Challenges', icon: 'fas fa-exclamation-triangle', route: '/challenges' },
-        { text: 'Impacts', icon: 'fas fa-chart-line', route: '/impacts' }
-      ]
-    },
-    { text: 'Blog', icon: 'fas fa-newspaper', route: '/blog' },
-    { text: 'Testimonials', icon: 'fas fa-star', route: '/testimonials' },
-    { text: 'FAQ', icon: 'fas fa-question-circle', route: '/faq' },
-    { text: 'Contact', icon: 'fas fa-envelope', route: '/contact' }
+  menuItems = [
+    { text: 'Home', route: '/home' },
+    { text: 'Blog', route: '/blog' },
+    { text: 'Testimonials', route: '/testimonials' },
+    { text: 'FAQ', route: '/faq' },
+    { text: 'Contact', route: '/contact' }
   ];
 
-  // Account items for logged in users
+  productChildren = [
+    { text: 'Biofertilizers', route: '/products' },
+    { text: 'Animal Feeds', route: '/products' },
+    { text: 'Shop All', route: '/products' }
+  ];
+
+  aboutChildren = [
+    { text: 'Overview', route: '/about' },
+    { text: 'What We Do', route: '/what-we-do' },
+    { text: 'Challenges', route: '/challenges' },
+    { text: 'Impacts', route: '/impacts' }
+  ];
+
   accountItems = [
-    { text: 'My Profile', icon: 'fas fa-user', route: '/account' },
-    { text: 'My Orders', icon: 'fas fa-shopping-bag', route: '/orders' },
-    { text: 'Wishlist', icon: 'fas fa-heart', route: '/wishlist' },
-    { text: 'Settings', icon: 'fas fa-cog', route: '/settings' }
+    { text: 'My Profile', route: '/account' },
+    { text: 'My Orders', route: '/orders' },
+    { text: 'Wishlist', route: '/wishlist' },
+    { text: 'Settings', route: '/settings' }
   ];
 
   constructor(
@@ -91,6 +77,9 @@ export class HamburgerMenuComponent implements OnInit, OnDestroy {
 
   onClose() {
     this.closeMenu.emit();
+    // Close dropdowns when closing
+    this.isProductsOpen = false;
+    this.isAboutOpen = false;
   }
 
   navigate(route: string) {
@@ -98,9 +87,19 @@ export class HamburgerMenuComponent implements OnInit, OnDestroy {
     this.onClose();
   }
 
-  toggleSubmenu(item: MenuItem) {
-    if (item.children) {
-      item.isOpen = !item.isOpen;
+  toggleProducts() {
+    this.isProductsOpen = !this.isProductsOpen;
+    // Close other dropdown
+    if (this.isProductsOpen) {
+      this.isAboutOpen = false;
+    }
+  }
+
+  toggleAbout() {
+    this.isAboutOpen = !this.isAboutOpen;
+    // Close other dropdown
+    if (this.isAboutOpen) {
+      this.isProductsOpen = false;
     }
   }
 
@@ -124,8 +123,7 @@ export class HamburgerMenuComponent implements OnInit, OnDestroy {
     this.onClose();
   }
 
-  isActive(route: string | undefined): boolean {
-    if (!route) return false;
+  isActive(route: string): boolean {
     return this.router.url === route || this.router.url.startsWith(route + '/');
   }
 }

@@ -8,10 +8,20 @@
         <img src="/images/mzuri-logo.JPG" alt="Mzuri Organics" class="menu-logo">
       </div>
       <button class="close-btn" (click)="onClose()">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
         </svg>
       </button>
+    </div>
+
+    <!-- Brand Statement -->
+    <div class="brand-statement">
+      <span class="brand-tagline">Circular Bioeconomy · Kenya</span>
+      <h2 class="brand-headline">
+        Your One-Stop Shop for<br>
+        <span class="brand-highlight">100% Organic</span><br>
+        Farming Solution
+      </h2>
     </div>
 
     <!-- User Section -->
@@ -25,12 +35,7 @@
     
     <ng-template #guestSection>
       <div class="guest-section">
-        <div class="guest-avatar">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="1.5"/>
-          </svg>
-        </div>
+        <div class="guest-avatar">G</div>
         <div class="guest-details">
           <span class="guest-name">Welcome Guest</span>
           <div class="guest-actions">
@@ -42,41 +47,53 @@
       </div>
     </ng-template>
 
-    <!-- Navigation with Dropdowns -->
+    <!-- Navigation -->
     <nav class="menu-nav">
-      <div *ngFor="let item of menuItems" class="nav-item">
-        <!-- Simple link (no children) -->
-        <a *ngIf="!item.children" 
-           [routerLink]="item.route" 
-           class="nav-link"
-           [class.active]="isActive(item.route)"
-           (click)="onClose()">
-          <i [class]="item.icon"></i>
-          <span>{{ item.text }}</span>
-        </a>
+      <!-- Simple links -->
+      <a *ngFor="let item of menuItems" 
+         [routerLink]="item.route" 
+         class="nav-link"
+         [class.active]="isActive(item.route)"
+         (click)="onClose()">
+        <span class="nav-text">{{ item.text }}</span>
+        <span class="nav-arrow">→</span>
+      </a>
 
-        <!-- Dropdown item (has children) -->
-        <div *ngIf="item.children" class="dropdown-item">
-          <button class="nav-link dropdown-toggle" 
-                  (click)="toggleSubmenu(item)"
-                  [class.active]="item.isOpen">
-            <i [class]="item.icon"></i>
-            <span>{{ item.text }}</span>
-            <svg class="dropdown-chevron" [class.rotated]="item.isOpen" width="14" height="14" viewBox="0 0 24 24" fill="none">
-              <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-          
-          <div class="dropdown-submenu" [class.open]="item.isOpen">
-            <a *ngFor="let child of item.children" 
-               [routerLink]="child.route" 
-               class="submenu-link"
-               [class.active]="isActive(child.route)"
-               (click)="onClose()">
-              <i [class]="child.icon"></i>
-              <span>{{ child.text }}</span>
-            </a>
-          </div>
+      <!-- Products with dropdown -->
+      <div class="nav-item">
+        <button class="nav-link dropdown-toggle" 
+                (click)="toggleProducts()"
+                [class.active]="isProductsOpen">
+          <span class="nav-text">Products</span>
+          <span class="dropdown-indicator">{{ isProductsOpen ? '−' : '+' }}</span>
+        </button>
+        <div class="dropdown-submenu" [class.open]="isProductsOpen">
+          <a *ngFor="let child of productChildren" 
+             [routerLink]="child.route" 
+             class="submenu-link"
+             [class.active]="isActive(child.route)"
+             (click)="onClose()">
+            <span class="submenu-text">{{ child.text }}</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- About Us with dropdown -->
+      <div class="nav-item">
+        <button class="nav-link dropdown-toggle" 
+                (click)="toggleAbout()"
+                [class.active]="isAboutOpen">
+          <span class="nav-text">About Us</span>
+          <span class="dropdown-indicator">{{ isAboutOpen ? '−' : '+' }}</span>
+        </button>
+        <div class="dropdown-submenu" [class.open]="isAboutOpen">
+          <a *ngFor="let child of aboutChildren" 
+             [routerLink]="child.route" 
+             class="submenu-link"
+             [class.active]="isActive(child.route)"
+             (click)="onClose()">
+            <span class="submenu-text">{{ child.text }}</span>
+          </a>
         </div>
       </div>
     </nav>
@@ -84,66 +101,40 @@
     <!-- Divider -->
     <div class="menu-divider"></div>
 
-    <!-- Account Section (only for logged in users) -->
+    <!-- Account Section -->
     <div class="account-section" *ngIf="currentUser">
-      <div class="section-title">My Account</div>
+      <p class="section-title">My Account</p>
       <a *ngFor="let item of accountItems" 
          [routerLink]="item.route" 
          class="account-link"
          (click)="onClose()">
-        <i [class]="item.icon"></i>
-        <span>{{ item.text }}</span>
+        <span class="account-text">{{ item.text }}</span>
+        <span class="account-arrow">→</span>
       </a>
       <button class="logout-btn" (click)="logout()">
-        <i class="fas fa-sign-out-alt"></i>
         <span>Sign Out</span>
+        <span>→</span>
       </button>
     </div>
 
     <!-- Quick Actions -->
     <div class="quick-actions">
       <button class="action-btn cart-btn" (click)="toggleCart()">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke="currentColor" stroke-width="1.5"/>
-          <line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="1.5"/>
-          <path d="M16 10a4 4 0 01-8 0" stroke="currentColor" stroke-width="1.5"/>
-        </svg>
-        <span>Cart</span>
+        <span>🛒 Cart</span>
         <span class="cart-badge" *ngIf="cartCount > 0">{{ cartCount }}</span>
       </button>
-      
       <a routerLink="/contact" class="action-btn" (click)="onClose()">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-          <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.362 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0122 16.92z" stroke="currentColor" stroke-width="1.5"/>
-        </svg>
-        <span>Contact</span>
+        <span>✉ Contact</span>
       </a>
     </div>
 
     <!-- Footer -->
     <div class="menu-footer">
       <div class="social-links">
-        <a href="#" class="social-link">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-            <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" fill="currentColor"/>
-          </svg>
-        </a>
-        <a href="#" class="social-link">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-            <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z" fill="currentColor"/>
-          </svg>
-        </a>
-        <a href="#" class="social-link">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-            <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z" fill="currentColor"/>
-            <circle cx="4" cy="4" r="2" fill="currentColor"/>
-          </svg>
-        </a>
-        <a href="#" class="social-link">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-            <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" fill="currentColor"/>
-          </svg>
-        </a>
+        <a href="#" class="social-link">fb</a>
+        <a href="#" class="social-link">tw</a>
+        <a href="#" class="social-link">ig</a>
+        <a href="#" class="social-link">yt</a>
       </div>
       <p class="copyright">© {{ currentYear }} Mzuri Organics</p>
     </div>
