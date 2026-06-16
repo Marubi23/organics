@@ -98,7 +98,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       icon: 'fas fa-box-open',
       children: [
         { text: 'Biofertilizers', icon: 'fas fa-vial', route: '/products', description: 'Organic soil enhancers' },
-        { text: 'Animal Feeds', icon: 'fas fa-paw', route: '/products', description: 'High-protein nutrition' },
+ 
         { text: 'Shop All', icon: 'fas fa-shopping-bag', route: '/products', description: 'Complete catalog' }
       ]
     },
