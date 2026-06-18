@@ -76,7 +76,7 @@
 .cart-icon {
   width: 60px;
   height: 60px;
-  background: #88c431;
+  background: #075E54;
   border-radius: 50px;
   display: flex;
   align-items: center;
@@ -327,7 +327,7 @@
 }
 
 .qty-btn:hover {
-  background: #88c431;
+  background: #075E54;
   color: white;
   transform: scale(1.1);
 }
@@ -395,7 +395,7 @@
 .empty-icon {
   width: 100px;
   height: 100px;
-  background: #88c431;
+  background: #075E54;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -435,7 +435,7 @@
   align-items: center;
   gap: 10px;
   padding: 14px 28px;
-  background: linear-gradient(135deg, #88c431, #5e8c1f);
+  background: #075E54;
   color: white;
   text-decoration: none;
   border-radius: 50px;
@@ -443,12 +443,12 @@
   font-size: 0.9rem;
   font-family: 'Poppins', sans-serif;
   transition: all 0.3s ease;
-  box-shadow: 0 8px 25px rgba(136, 196, 49, 0.3);
-  border: 2px solid #88c431;
+
+  border: 2px solid #075E54;
 }
 
 .continue-shopping:hover {
-  background: linear-gradient(135deg, #9cd85a, #88c431);
+  background: #044139;
   transform: translateY(-2px);
   box-shadow: 0 12px 35px rgba(136, 196, 49, 0.4);
 }
