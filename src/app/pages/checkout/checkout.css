@@ -34,7 +34,7 @@
 .checkout-page {
   width: 100%;
   min-height: 100vh;
-  background: var(--bg-light);
+  background: #fafaf7;
   font-family: 'Inter', 'Segoe UI', sans-serif;
   padding: 0;
   margin: 0;
@@ -91,7 +91,7 @@
 
 /* Progress bar animation */
 .step-line.active {
-  background: var(--green);
+  background: #0d2b12;
   transition: width 0.5s ease;
 }
 
@@ -297,7 +297,7 @@
    PROGRESS SECTION
    ============================================ */
 .progress-section {
-  background: var(--white);
+  background:#0b9347;
   padding: 2rem 3rem;
   border-bottom: 1px solid var(--gray-light);
   width: 100%;
@@ -324,7 +324,7 @@
   height: 40px;
   border-radius: 50%;
   background: var(--gray-light);
-  color: var(--gray);
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -340,34 +340,34 @@
 }
 
 .step.completed .step-circle {
-  background: var(--green);
+  background: #c8841a;
   color: var(--white);
 }
 
 .step-label {
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--gray);
+  color: white;
   transition: all 0.3s ease;
 }
 
 .step.active .step-label {
-  color: var(--forest);
+  color: white;
 }
 
 .step.completed .step-label {
-  color: var(--green);
+  color: white;
 }
 
 .step-line {
   width: 50px;
   height: 2px;
-  background: var(--gray-light);
+  background: white;
   transition: all 0.3s ease;
 }
 
 .step-line.active {
-  background: var(--green);
+  background: white;
 }
 
 /* ============================================
@@ -397,7 +397,7 @@
   border-radius: 20px;
   padding: 1.5rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-  border: 1px solid var(--gray-light);
+  border: 1px solid #c8841a;
 }
 
 .summary-title {
@@ -405,30 +405,30 @@
   align-items: center;
   gap: 0.75rem;
   padding-bottom: 1rem;
-  border-bottom: 2px solid var(--gray-light);
+  border-bottom: 2px solid #c8841a;
   margin-bottom: 1rem;
   flex-wrap: wrap;
 }
 
 .summary-title i {
-  color: var(--green);
+  color: #c8841a;  
   font-size: 1.3rem;
 }
 
 .summary-title h3 {
-  font-size: 1.1rem;
+  font-size: 1.4rem;
   font-weight: 700;
-  color: var(--forest);
+  color: #0d2b12;
   margin: 0;
   flex: 1;
 }
 
 .order-badge {
-  background: var(--forest);
+  background:#c8841a;
   color: var(--white);
   padding: 0.25rem 0.75rem;
   border-radius: 20px;
-  font-size: 0.65rem;
+  font-size: 0.95rem;
   font-weight: 600;
 }
 
@@ -449,7 +449,7 @@
 }
 
 .summary-items::-webkit-scrollbar-thumb {
-  background: var(--green);
+  background: #c8841a;
   border-radius: 4px;
 }
 
@@ -458,7 +458,7 @@
   align-items: center;
   gap: 0.75rem;
   padding: 0.75rem 0;
-  border-bottom: 1px solid var(--gray-light);
+  border-bottom: 1px solid #c8841a;
 }
 
 .summary-item:last-child {
@@ -496,7 +496,7 @@
 }
 
 .summary-totals {
-  border-top: 2px solid var(--gray-light);
+  border-top: 2px solid #c8841a;
   padding-top: 1rem;
 }
 
@@ -575,27 +575,27 @@
   border-top: 2px solid var(--forest);
   margin-top: 0.5rem;
   padding-top: 0.75rem;
-  font-size: 1.1rem;
+  font-size: 1.9rem;
 }
 
 .total-row.grand-total strong {
-  color: var(--forest);
+  color: #c8841a;
 }
 
 .total-amount {
-  color: var(--gold);
-  font-size: 1.3rem;
+  color: #c8841a;
+  font-size: 1.9rem;
   font-weight: 800;
 }
 
 .payment-note {
   font-size: 0.7rem;
-  color: var(--gray);
+  color:green;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 0;
-  border-top: 1px solid var(--gray-light);
+  border-top: 1px solid #856404;
   margin-top: 0.5rem;
 }
 
@@ -638,7 +638,7 @@
   border-radius: 20px;
   padding: 2rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-  border: 1px solid var(--gray-light);
+  border: 1px solid #c8841a;
 }
 
 .step-header {
@@ -647,14 +647,14 @@
   gap: 1.5rem;
   margin-bottom: 2rem;
   padding-bottom: 1.5rem;
-  border-bottom: 2px solid var(--gray-light);
+  border-bottom: 2px solid #c8841a;
   flex-wrap: wrap;
 }
 
 .step-icon {
   width: 60px;
   height: 60px;
-  background: rgba(136, 196, 49, 0.1);
+  background:white;
   border-radius: 16px;
   display: flex;
   align-items: center;
@@ -663,7 +663,7 @@
 
 .step-icon i {
   font-size: 1.8rem;
-  color: var(--green);
+  color: #88c431;
 }
 
 .step-header h2 {
@@ -1765,6 +1765,154 @@
   transform: translateY(-2px);
 }
 
+
+/* Add these styles to your existing checkout.component.css */
+
+/* ============================================
+   COLLAPSIBLE SECTIONS
+   ============================================ */
+
+.collapsible-section {
+  background: var(--white);
+  border: 1px solid #c8841a;
+  border-radius: 16px;
+  margin-bottom: 1.25rem;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.collapsible-section:hover {
+  border-color: var(--green);
+}
+
+.collapsible-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.3s ease;
+  background: var(--bg-light);
+}
+
+.collapsible-header:hover {
+  background: rgba(136, 196, 49, 0.05);
+}
+
+.collapsible-header .header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.collapsible-header .header-left i {
+  color: var(--gold);
+  font-size: 1.1rem;
+}
+
+.collapsible-header .header-left span {
+  font-weight: 600;
+  color: var(--forest);
+  font-size: 0.9rem;
+}
+
+.required-badge {
+  background: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+  font-size: 0.6rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.optional-badge {
+  background: rgba(108, 117, 125, 0.1);
+  color: var(--gray);
+  font-size: 0.6rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.collapsible-header .header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.status-badge {
+  font-size: 0.6rem;
+  color: var(--gray);
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  background: var(--gray-light);
+  transition: all 0.3s ease;
+}
+
+.status-badge.filled {
+  background: rgba(136, 196, 49, 0.15);
+  color: var(--green);
+}
+
+.collapsible-header .header-right i {
+  color: var(--gray);
+  font-size: 0.9rem;
+  transition: transform 0.3s ease;
+}
+
+.collapsible-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+}
+
+.collapsible-body.open {
+  max-height: 600px;
+  padding: 1.25rem;
+}
+
+/* Responsive Collapsible */
+@media (max-width: 768px) {
+  .collapsible-header {
+    padding: 0.75rem 1rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .collapsible-header .header-left {
+    flex: 1;
+  }
+  
+  .collapsible-header .header-right .status-badge {
+    display: none;
+  }
+  
+  .collapsible-body.open {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .collapsible-header .header-left span {
+    font-size: 0.8rem;
+  }
+  
+  .collapsible-header .header-left i {
+    font-size: 0.9rem;
+  }
+  
+  .required-badge,
+  .optional-badge {
+    font-size: 0.5rem;
+    padding: 0.1rem 0.4rem;
+  }
+}
 /* ============================================
    RESPONSIVE
    ============================================ */

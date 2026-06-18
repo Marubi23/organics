@@ -36,6 +36,10 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   subtotal: number = 0;
   orderCode: string = '';
   
+  // ===== COLLAPSIBLE STATE =====
+  addressSectionOpen: boolean = true;  // Start open since it's required
+  instructionsSectionOpen: boolean = false;
+  
   // Updated delivery options with WhatsApp notes
   deliveryOptions = [
     { 
@@ -125,7 +129,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       ]],
       phoneNumber: ['', [
         Validators.required,
-        Validators.pattern(/^(0?7|0?1)\d{8}$/) // Accepts 07XXXXXXXX, 01XXXXXXXX, 7XXXXXXXX, 1XXXXXXXX
+        Validators.pattern(/^(0?7|0?1)\d{8}$/)
       ]],
       confirmPhone: ['', Validators.required]
     }, { 
@@ -222,18 +226,33 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     }
   }
 
+  // ===== COLLAPSIBLE METHODS =====
+  toggleAddressSection(): void {
+    this.addressSectionOpen = !this.addressSectionOpen;
+  }
+
+  toggleInstructionsSection(): void {
+    this.instructionsSectionOpen = !this.instructionsSectionOpen;
+  }
+
+  isAddressSectionFilled(): boolean {
+    const county = this.getCountyValue();
+    const town = this.deliveryForm.get('town')?.value;
+    const address = this.deliveryForm.get('address')?.value;
+    return !!(county && town && address);
+  }
+
+  isInstructionsFilled(): boolean {
+    const notes = this.deliveryForm.get('deliveryNotes')?.value;
+    return !!(notes && notes.trim().length > 0);
+  }
+
+  // Updated: Only check address section fields
   isDeliveryFormValid(): boolean {
-    if (this.countyInputMode === 'select') {
-      const countyValid = this.deliveryForm.get('county')?.valid === true;
-      const townValid = this.deliveryForm.get('town')?.valid === true;
-      const addressValid = this.deliveryForm.get('address')?.valid === true;
-      return countyValid && townValid && addressValid;
-    } else {
-      const countyManualValid = this.deliveryForm.get('countyManual')?.valid === true;
-      const townValid = this.deliveryForm.get('town')?.valid === true;
-      const addressValid = this.deliveryForm.get('address')?.valid === true;
-      return countyManualValid && townValid && addressValid;
-    }
+    const county = this.getCountyValue();
+    const town = this.deliveryForm.get('town')?.value;
+    const address = this.deliveryForm.get('address')?.value;
+    return !!(county && town && address);
   }
 
   nextStep(): void {
@@ -299,7 +318,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   // Format phone number for display (with leading 0)
   formatPhoneForDisplay(phone: string): string {
     if (!phone) return '';
-    // If it starts with 7 or 1, add leading 0
     if (phone.match(/^[71]/)) {
       return '0' + phone;
     }
@@ -309,11 +327,10 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   // Format phone number for storage (without leading 0)
   formatPhoneForStorage(phone: string): string {
     if (!phone) return '';
-    // Remove leading 0 if present
     return phone.replace(/^0/, '');
   }
 
-  // Generate WhatsApp message with properly formatted phone numbers
+  // Generate WhatsApp message
   generateWhatsAppMessage(): string {
     const customer = this.checkoutForm.value;
     const delivery = this.deliveryForm.value;
@@ -426,7 +443,7 @@ Thank you for choosing Mzuri Organics! 🌱
         firstName: this.checkoutForm.value.firstName,
         lastName: this.checkoutForm.value.lastName,
         email: this.checkoutForm.value.email,
-        phoneNumber: storedPhone // Store without leading 0
+        phoneNumber: storedPhone
       },
       delivery: {
         county: countyValue,
@@ -532,20 +549,15 @@ Thank you for choosing Mzuri Organics! 🌱
   formatPhoneInput(event: any): void {
     let value = event.target.value.replace(/\D/g, '');
     
-    // Handle Kenyan phone number formats
     if (value.length > 0) {
-      // If starts with 0, remove it (we'll store without leading 0)
       if (value.startsWith('0')) {
         value = value.substring(1);
       }
       
-      // Ensure it starts with either 7 or 1 (Safaricom or Airtel)
       if (!value.startsWith('7') && !value.startsWith('1')) {
-        // If user starts typing something else, default to 7
         value = '7' + value;
       }
       
-      // Limit to 9 digits (after removing leading 0)
       if (value.length > 9) {
         value = value.substring(0, 9);
       }
@@ -553,7 +565,6 @@ Thank you for choosing Mzuri Organics! 🌱
     
     this.checkoutForm.patchValue({ phoneNumber: value });
     
-    // Auto-update confirm phone if it matches the old value
     const confirmPhone = this.checkoutForm.get('confirmPhone')?.value;
     const oldValueWithZero = '0' + value.substring(0, value.length - 1);
     if (confirmPhone === oldValueWithZero || confirmPhone === value) {
@@ -719,9 +730,4 @@ Thank you for choosing Mzuri Organics! 🌱
       }
     };
   }
-  // Add this import at the top
-
-
-// Add to @Component decorator
-
 }

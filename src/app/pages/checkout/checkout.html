@@ -5,7 +5,7 @@
 
 <div class="checkout-page">
 
-  <!-- Progress Steps with Lazy Loader -->
+  <!-- Progress Steps -->
   <div class="progress-section">
     <div class="progress-steps">
       <div class="step" [class.active]="currentStep === 1" [class.completed]="currentStep > 1">
@@ -159,13 +159,13 @@
         </form>
       </div>
 
-      <!-- STEP 2: Delivery -->
+      <!-- STEP 2: Delivery - With Collapsible Sections -->
       <div *ngIf="currentStep === 2" class="step-panel" [@fadeIn]>
         <div class="step-header">
           <div class="step-icon"><i class="fas fa-truck"></i></div>
           <div>
             <h2>Where to deliver?</h2>
-            <p>We'll confirm delivery on WhatsApp</p>
+            <p>We'll confirm delivery on WhatsApp — just tell us where you are</p>
           </div>
         </div>
 
@@ -179,91 +179,93 @@
         </div>
 
         <form [formGroup]="deliveryForm">
-          <div class="delivery-methods">
-            <h3><i class="fas fa-shipping-fast"></i> Choose delivery</h3>
-            <div class="method-cards">
-              <div class="method-card" [class.selected]="selectedDelivery === 'standard'" (click)="selectDelivery('standard')">
-                <div class="method-icon"><i class="fas fa-truck"></i></div>
-                <div class="method-info">
-                  <h4>Standard</h4>
-                  <p>2-3 days</p>
-                </div>
-                <div class="method-badge" [class.whatsapp]="subtotal < 25000" [class.free]="subtotal >= 25000">
-                  {{ subtotal >= 25000 ? 'FREE' : 'TBC' }}
-                </div>
+          
+          <!-- COLLAPSIBLE: Address Section -->
+          <div class="collapsible-section">
+            <div class="collapsible-header" (click)="toggleAddressSection()">
+              <div class="header-left">
+                <i class="fas fa-map-pin"></i>
+                <span>Delivery Address</span>
+                <span class="required-badge">Required</span>
               </div>
-              <div class="method-card" [class.selected]="selectedDelivery === 'express'" (click)="selectDelivery('express')">
-                <div class="method-icon"><i class="fas fa-bolt"></i></div>
-                <div class="method-info">
-                  <h4>Express</h4>
-                  <p>24 hours</p>
-                </div>
-                <div class="method-badge" [class.whatsapp]="subtotal < 25000" [class.free]="subtotal >= 25000">
-                  {{ subtotal >= 25000 ? 'FREE' : 'TBC' }}
-                </div>
-              </div>
-              <div class="method-card" [class.selected]="selectedDelivery === 'pickup'" (click)="selectDelivery('pickup')">
-                <div class="method-icon"><i class="fas fa-store"></i></div>
-                <div class="method-info">
-                  <h4>Pickup</h4>
-                  <p>Ready in 2 hours</p>
-                </div>
-                <div class="method-badge free">FREE</div>
+              <div class="header-right">
+                <span class="status-badge" [class.filled]="isAddressSectionFilled()">
+                  {{ isAddressSectionFilled() ? '✓ Filled' : 'Empty' }}
+                </span>
+                <i class="fas" [class.fa-chevron-down]="!addressSectionOpen" [class.fa-chevron-up]="addressSectionOpen"></i>
               </div>
             </div>
-            <div class="method-note">
-              <i class="fab fa-whatsapp"></i>
-              <span>Delivery fee confirmed on WhatsApp</span>
-            </div>
-          </div>
+            
+            <div class="collapsible-body" [class.open]="addressSectionOpen">
+              <div class="address-form">
+                <div class="form-group">
+                  <label><i class="fas fa-map-marker-alt"></i> County *</label>
+                  <div class="county-toggle">
+                    <button type="button" class="toggle-btn" [class.active]="countyInputMode === 'select'" (click)="setCountyInputMode('select')">
+                      <i class="fas fa-list"></i> Select
+                    </button>
+                    <button type="button" class="toggle-btn" [class.active]="countyInputMode === 'manual'" (click)="setCountyInputMode('manual')">
+                      <i class="fas fa-pencil-alt"></i> Type
+                    </button>
+                  </div>
+                  <div *ngIf="countyInputMode === 'select'">
+                    <select formControlName="county" class="form-input">
+                      <option value="">Select your county</option>
+                      <option *ngFor="let county of counties" [value]="county.toLowerCase()">{{ county }}</option>
+                    </select>
+                  </div>
+                  <div *ngIf="countyInputMode === 'manual'">
+                    <input type="text" formControlName="countyManual" placeholder="Enter county name" class="form-input">
+                    <div class="county-suggestions" *ngIf="countySuggestions.length > 0">
+                      <div *ngFor="let suggestion of countySuggestions" class="suggestion" (click)="selectCountySuggestion(suggestion)">
+                        {{ suggestion }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-          <div class="address-form">
-            <div class="form-group">
-              <label><i class="fas fa-map-marker-alt"></i> County *</label>
-              <div class="county-toggle">
-                <button type="button" class="toggle-btn" [class.active]="countyInputMode === 'select'" (click)="setCountyInputMode('select')">
-                  <i class="fas fa-list"></i> Select
-                </button>
-                <button type="button" class="toggle-btn" [class.active]="countyInputMode === 'manual'" (click)="setCountyInputMode('manual')">
-                  <i class="fas fa-pencil-alt"></i> Type
-                </button>
-              </div>
-              <div *ngIf="countyInputMode === 'select'">
-                <select formControlName="county" class="form-input">
-                  <option value="">Select your county</option>
-                  <option *ngFor="let county of counties" [value]="county.toLowerCase()">{{ county }}</option>
-                </select>
-              </div>
-              <div *ngIf="countyInputMode === 'manual'">
-                <input type="text" formControlName="countyManual" placeholder="Enter county name" class="form-input">
-                <div class="county-suggestions" *ngIf="countySuggestions.length > 0">
-                  <div *ngFor="let suggestion of countySuggestions" class="suggestion" (click)="selectCountySuggestion(suggestion)">
-                    {{ suggestion }}
+                <div class="form-group">
+                  <label><i class="fas fa-city"></i> Town/City *</label>
+                  <input type="text" formControlName="town" placeholder="Kakamega Town" class="form-input">
+                  <div class="form-error" *ngIf="deliveryControls['town'].touched && deliveryControls['town'].invalid">
+                    <i class="fas fa-exclamation-circle"></i> Required
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label><i class="fas fa-home"></i> Full Address *</label>
+                  <textarea formControlName="address" rows="2" placeholder="House, street, estate, landmark" class="form-input"></textarea>
+                  <div class="form-hint">Be specific for easy delivery</div>
+                  <div class="form-error" *ngIf="deliveryControls['address'].touched && deliveryControls['address'].invalid">
+                    <i class="fas fa-exclamation-circle"></i> Required
                   </div>
                 </div>
               </div>
             </div>
+          </div>
 
-            <div class="form-group">
-              <label><i class="fas fa-city"></i> Town/City *</label>
-              <input type="text" formControlName="town" placeholder="Kakamega Town" class="form-input">
-              <div class="form-error" *ngIf="deliveryControls['town'].touched && deliveryControls['town'].invalid">
-                <i class="fas fa-exclamation-circle"></i> Required
+          <!-- COLLAPSIBLE: Special Instructions -->
+          <div class="collapsible-section">
+            <div class="collapsible-header" (click)="toggleInstructionsSection()">
+              <div class="header-left">
+                <i class="fas fa-sticky-note"></i>
+                <span>Special Instructions</span>
+                <span class="optional-badge">Optional</span>
+              </div>
+              <div class="header-right">
+                <span class="status-badge" [class.filled]="isInstructionsFilled()">
+                  {{ isInstructionsFilled() ? '✓ Added' : 'Optional' }}
+                </span>
+                <i class="fas" [class.fa-chevron-down]="!instructionsSectionOpen" [class.fa-chevron-up]="instructionsSectionOpen"></i>
               </div>
             </div>
-
-            <div class="form-group">
-              <label><i class="fas fa-home"></i> Full Address *</label>
-              <textarea formControlName="address" rows="2" placeholder="House, street, estate, landmark" class="form-input"></textarea>
-              <div class="form-hint">Be specific for easy delivery</div>
-              <div class="form-error" *ngIf="deliveryControls['address'].touched && deliveryControls['address'].invalid">
-                <i class="fas fa-exclamation-circle"></i> Required
+            
+            <div class="collapsible-body" [class.open]="instructionsSectionOpen">
+              <div class="form-group">
+                <label><i class="fas fa-sticky-note"></i> Special instructions</label>
+                <textarea formControlName="deliveryNotes" rows="2" placeholder="Best time to deliver, landmark, gate code, etc." class="form-input"></textarea>
+                <div class="form-hint">This helps us deliver faster and more accurately</div>
               </div>
-            </div>
-
-            <div class="form-group">
-              <label><i class="fas fa-sticky-note"></i> Special instructions</label>
-              <textarea formControlName="deliveryNotes" rows="1" placeholder="Best time, landmark, etc." class="form-input"></textarea>
             </div>
           </div>
 
