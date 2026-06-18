@@ -1452,7 +1452,7 @@
 }
 
 .btn-back:hover {
-  background: #0d2b12;
+  background: hsla(142, 79%, 23%, 0.3);;
   transform: translateY(-2px);
 }
 
@@ -1462,7 +1462,7 @@
 }
 
 .btn-next:hover:not(:disabled) {
-  background: var(--green-dark);
+  background: #7a500c;
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(136, 196, 49, 0.3);
 }
@@ -1478,7 +1478,7 @@
 }
 
 .btn-confirm:hover {
-  background: var(--whatsapp-dark);
+  background:#1ba84f4d; ;
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
 }
