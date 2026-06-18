@@ -54,7 +54,7 @@
 /* Header - Dark green like Mzuri's mission content */
 .cart-header {
   padding: 30px;
-  background: #1a3c07;
+  background: #075E54;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   position: sticky;
   top: 0;
@@ -504,7 +504,7 @@
 }
 
 .free-shipping {
-  color: #88c431;
+  color: #075E54;
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -519,8 +519,8 @@
 }
 
 .total-price {
-  color: #d49a42;
-  font-size: 1.3rem;
+  color:#075E54;
+  font-size: 1.8rem;
   font-weight: 700;
 }
 
@@ -547,7 +547,7 @@
 }
 
 .btn-primary {
-  background:  hsl(137, 94%, 34%);
+  background: #075E54;
   color: white;
   
 }
