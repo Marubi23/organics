@@ -272,7 +272,7 @@
           <div class="form-actions">
             <button type="button" class="btn-back" (click)="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
             <button type="button" class="btn-next" (click)="nextStep()" [disabled]="!isDeliveryFormValid()">
-              Continue <i class="fas fa-lock"></i>
+              Continue 
             </button>
           </div>
         </form>
@@ -281,7 +281,7 @@
       <!-- STEP 3: Payment -->
       <div *ngIf="currentStep === 3" class="step-panel" [@fadeIn]>
         <div class="step-header">
-          <div class="step-icon"><i class="fas fa-lock"></i></div>
+          <div class="step-icon"></div>
           <div>
             <h2>Pay securely</h2>
             <p>M-Pesa Till — simple & trusted</p>
