@@ -87,9 +87,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
       text: 'About Us',
       icon: 'fas fa-globe',
       children: [
-        { text: 'Overview', icon: 'fas fa-globe', route: '/about', description: 'Our mission and vision' },
+        { text: 'Who we are', icon: 'fas fa-globe', route: '/about', description: 'Get to know our story' },
         { text: 'What We Do', icon: 'fas fa-tools', route: '/what-we-do', description: 'Our innovative solutions' },
-        { text: 'Challenges', icon: 'fas fa-balance-scale', route: '/challenges', description: 'Agricultural challenges we address' },
+        { text: 'Challenges we Address', icon: 'fas fa-balance-scale', route: '/challenges', description: 'Agricultural challenges we address' },
         { text: 'Impacts', icon: 'fas fa-tree', route: '/impacts', description: 'Our environmental impact' }
       ]
     },

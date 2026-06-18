@@ -33,14 +33,13 @@ export class HamburgerMenuComponent implements OnInit, OnDestroy {
 
   productChildren = [
     { text: 'Biofertilizers', route: '/products' },
-    { text: 'Animal Feeds', route: '/products' },
     { text: 'Shop All', route: '/products' }
   ];
 
   aboutChildren = [
-    { text: 'Overview', route: '/about' },
+    { text: 'Who we are', route: '/about' },
     { text: 'What We Do', route: '/what-we-do' },
-    { text: 'Challenges', route: '/challenges' },
+    { text: 'Challenges we Address', route: '/challenges' },
     { text: 'Impacts', route: '/impacts' }
   ];
 

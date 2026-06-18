@@ -25,27 +25,7 @@
     </div>
 
     <!-- User Section -->
-    <div class="user-section" *ngIf="currentUser; else guestSection">
-      <div class="user-avatar">{{ getUserInitials() }}</div>
-      <div class="user-details">
-        <span class="user-name">{{ currentUser.fullName }}</span>
-        <span class="user-email">{{ currentUser.email }}</span>
-      </div>
-    </div>
-    
-    <ng-template #guestSection>
-      <div class="guest-section">
-        <div class="guest-avatar">G</div>
-        <div class="guest-details">
-          <span class="guest-name">Welcome Guest</span>
-          <div class="guest-actions">
-            <a routerLink="/login" (click)="onClose()">Sign In</a>
-            <span class="dot">•</span>
-            <a routerLink="/signup" (click)="onClose()">Register</a>
-          </div>
-        </div>
-      </div>
-    </ng-template>
+  
 
     <!-- Navigation -->
     <nav class="menu-nav">
