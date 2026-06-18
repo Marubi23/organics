@@ -9,6 +9,9 @@
         Your browser does not support HTML5 video.
       </video>
       <div class="video-overlay"></div>
+      
+      <!-- Click overlay to toggle video -->
+      <div class="video-click-overlay" (click)="toggleVideoPlay()"></div>
     </div>
 
     <div class="hero-content">
@@ -30,48 +33,50 @@
           <h1 class="brand-title">Mzuri Organics</h1>
         </div>
 
-        <!-- Control Cards at Bottom Left and Bottom Right -->
-        <div class="hero-controls">
-          <!-- Left Control - Watch with Sound -->
-          <div class="media-card watch-card" (click)="toggleVideoSound()">
-            <div class="media-icon">
-              <lottie-player
-                src="assets/animations/lottieflow-multimedia-8-14-000000-easey.json"
-                background="transparent"
-                speed="1"
-                style="width: 50px; height: 50px;"
-                loop
-                autoplay>
-              </lottie-player>
-            </div>
-            <div class="media-content">
-              <h3>Watch with Sound</h3>
-              <div class="media-badge" [class.sound-on]="!isVideoMuted" [class.sound-off]="isVideoMuted">
-                <i class="fas" [class.fa-volume-up]="!isVideoMuted" [class.fa-volume-mute]="isVideoMuted"></i>
-                <span>{{ isVideoMuted ? 'Click to unmute' : 'Sound enabled' }}</span>
-              </div>
-            </div>
+        <!-- Video Control Icons - Bottom Right -->
+        <div class="hero-control-icons">
+          <!-- Play/Pause Icon -->
+          <div class="control-icon" (click)="toggleVideoPlay(); $event.stopPropagation()" title="Play/Pause">
+            <lottie-player
+              *ngIf="isVideoPlaying"
+              src="assets/animations/playpause.json"
+              background="transparent"
+              speed="1"
+              style="width: 55px; height: 55px;"
+              loop
+              autoplay>
+            </lottie-player>
+            <lottie-player
+              *ngIf="!isVideoPlaying"
+              src="assets/animations/playpause.json"
+              background="transparent"
+              speed="1"
+              style="width: 55px; height: 55px;"
+              loop
+              autoplay>
+            </lottie-player>
           </div>
 
-          <!-- Right Control - Video Controls -->
-          <div class="media-card play-card" (click)="toggleVideoPlay()">
-            <div class="media-icon">
-              <lottie-player
-                src="/assets/animations/lottieflow-multimedia-8-10-000000-easey.json"
-                background="transparent"
-                speed="1"
-                style="width: 50px; height: 50px;"
-                loop
-                autoplay>
-              </lottie-player>
-            </div>
-            <div class="media-content">
-              <h3>Video Controls</h3>
-              <div class="media-badge" [class.playing]="isVideoPlaying" [class.paused]="!isVideoPlaying">
-                <i class="fas" [class.fa-pause]="isVideoPlaying" [class.fa-play]="!isVideoPlaying"></i>
-                <span>{{ isVideoPlaying ? 'Playing' : 'Paused' }}</span>
-              </div>
-            </div>
+          <!-- Sound Icon -->
+          <div class="control-icon" (click)="toggleVideoSound(); $event.stopPropagation()" title="Toggle Sound">
+            <lottie-player
+              *ngIf="isVideoMuted"
+              src="assets/animations/sound.json"
+              background="transparent"
+              speed="1"
+              style="width: 55px; height: 55px;"
+              loop
+              autoplay>
+            </lottie-player>
+            <lottie-player
+              *ngIf="!isVideoMuted"
+              src="assets/animations/sound.json"
+              background="transparent"
+              speed="1"
+              style="width: 55px; height: 55px;"
+              loop
+              autoplay>
+            </lottie-player>
           </div>
         </div>
       </div>
@@ -79,31 +84,11 @@
   </div>
 </section>
 
-<!-- Mission & Vision Section -->
-<section class="mission-vision">
+<!-- New Simplified Mission Statement -->
+<section class="mission-statement">
   <div class="container">
-    <div class="mv-grid">
-      <div class="mv-card mission-card">
-        <div class="mv-icon">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="1.5"/>
-            <path d="M12 16V12" stroke="currentColor" stroke-width="1.5"/>
-            <path d="M12 8H12.01" stroke="currentColor" stroke-width="1.5"/>
-          </svg>
-        </div>
-        <h3>Our Mission</h3>
-        <p>To build smallholder farmers' resilience to climate change through regenerative agricultural practices.</p>
-      </div>
-      <div class="mv-card vision-card">
-        <div class="mv-icon">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-            <path d="M1 12S5 4 12 4S23 12 23 12S19 20 12 20S1 12 1 12Z" stroke="currentColor" stroke-width="1.5"/>
-            <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-width="1.5"/>
-          </svg>
-        </div>
-        <h3>Our Vision</h3>
-        <p>To empower smallholder farmers through sustainable regenerative agriculture for a resilient food system.</p>
-      </div>
+    <div class="mission-content">
+      <h3 class="mission-headline">Basically we cut across <span class="gold-accent">soil health</span>, <span class="gold-accent">animal feed</span> and <span class="gold-accent">processing</span></h3>
     </div>
   </div>
 </section>
