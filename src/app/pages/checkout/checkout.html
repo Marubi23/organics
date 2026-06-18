@@ -1,19 +1,16 @@
 <!-- ============================================
-   CHECKOUT PAGE - MZURI ORGANICS THEME
-   Full Width Design with Premium Look
+   CHECKOUT - MZURI ORGANICS
+   Simple, Trustworthy, Pay-as-You-Go
    ============================================ -->
 
 <div class="checkout-page">
 
-  <!-- Trust Header -->
-
-
-  <!-- Progress Steps -->
+  <!-- Progress Steps with Lazy Loader -->
   <div class="progress-section">
     <div class="progress-steps">
       <div class="step" [class.active]="currentStep === 1" [class.completed]="currentStep > 1">
         <div class="step-circle">1</div>
-        <span class="step-label">Your Details</span>
+        <span class="step-label">Details</span>
       </div>
       <div class="step-line" [class.active]="currentStep > 1"></div>
       <div class="step" [class.active]="currentStep === 2" [class.completed]="currentStep > 2">
@@ -23,7 +20,7 @@
       <div class="step-line" [class.active]="currentStep > 2"></div>
       <div class="step" [class.active]="currentStep === 3" [class.completed]="currentStep > 3">
         <div class="step-circle">3</div>
-        <span class="step-label">Payment</span>
+        <span class="step-label">Pay</span>
       </div>
     </div>
   </div>
@@ -36,7 +33,7 @@
       <div class="summary-card">
         <div class="summary-title">
           <i class="fas fa-receipt"></i>
-          <h3>Order Summary</h3>
+          <h3>Your Order</h3>
           <span class="order-badge">#{{ orderCode }}</span>
         </div>
 
@@ -60,24 +57,17 @@
             <span>Delivery</span>
             <span class="delivery-status">
               <i class="fab fa-whatsapp"></i>
-              <span>TBC via WhatsApp</span>
+              <span>Via WhatsApp</span>
             </span>
           </div>
 
-          <!-- Free Delivery Message -->
           <div class="free-delivery-note" *ngIf="subtotal >= 25000">
             <i class="fas fa-check-circle"></i>
-            <div>
-              <strong>Free Delivery Applied!</strong>
-              <span>Your order qualifies for free delivery</span>
-            </div>
+            <span><strong>Free delivery</strong> — you qualify!</span>
           </div>
           <div class="free-delivery-note threshold" *ngIf="subtotal < 25000">
             <i class="fas fa-info-circle"></i>
-            <div>
-              <strong>Free Delivery on orders over KES 25,000</strong>
-              <span>Add KES {{ 25000 - subtotal | number }} more to qualify</span>
-            </div>
+            <span>Free delivery over <strong>KES 25,000</strong></span>
           </div>
 
           <div class="total-row grand-total">
@@ -86,14 +76,14 @@
           </div>
 
           <div class="payment-note">
-            <i class="fas fa-info-circle"></i>
-            <span>Pay subtotal now. Delivery fee confirmed on WhatsApp.</span>
+            <i class="fas fa-lock"></i>
+            <span>Pay subtotal now. Delivery confirmed on WhatsApp.</span>
           </div>
         </div>
 
         <div class="summary-guarantees">
           <div class="guarantee"><i class="fas fa-leaf"></i> 100% Organic</div>
-          <div class="guarantee"><i class="fas fa-truck"></i> Free Delivery over 25K</div>
+          <div class="guarantee"><i class="fas fa-truck"></i> Free over 25K</div>
           <div class="guarantee"><i class="fas fa-undo"></i> 30-Day Return</div>
           <div class="guarantee"><i class="fab fa-whatsapp"></i> WhatsApp Support</div>
         </div>
@@ -104,101 +94,99 @@
     <main class="checkout-content">
 
       <!-- STEP 1: Your Details -->
-      <div *ngIf="currentStep === 1" class="step-panel">
+      <div *ngIf="currentStep === 1" class="step-panel" [@fadeIn]>
         <div class="step-header">
-          <div class="step-icon"><i class="fas fa-user-circle"></i></div>
+          <div class="step-icon"><i class="fas fa-user"></i></div>
           <div>
-            <h2>Your Information</h2>
-            <p>Tell us who you are so we can process your order</p>
+            <h2>Who are you?</h2>
+            <p>Just a few details to get started</p>
           </div>
         </div>
 
         <form [formGroup]="checkoutForm">
           <div class="form-row">
             <div class="form-group">
-              <label><i class="fas fa-user"></i> First Name *</label>
-              <input type="text" formControlName="firstName" placeholder="Enter first name" class="form-input">
+              <label>First Name *</label>
+              <input type="text" formControlName="firstName" placeholder="John" class="form-input">
               <div class="form-error" *ngIf="formControls['firstName'].touched && formControls['firstName'].invalid">
-                <i class="fas fa-exclamation-circle"></i> Please enter your first name
+                <i class="fas fa-exclamation-circle"></i> Required
               </div>
             </div>
             <div class="form-group">
-              <label><i class="fas fa-user"></i> Last Name *</label>
-              <input type="text" formControlName="lastName" placeholder="Enter last name" class="form-input">
+              <label>Last Name *</label>
+              <input type="text" formControlName="lastName" placeholder="Mwangi" class="form-input">
               <div class="form-error" *ngIf="formControls['lastName'].touched && formControls['lastName'].invalid">
-                <i class="fas fa-exclamation-circle"></i> Please enter your last name
+                <i class="fas fa-exclamation-circle"></i> Required
               </div>
             </div>
           </div>
 
           <div class="form-group">
-            <label><i class="fas fa-envelope"></i> Email Address *</label>
+            <label>Email *</label>
             <input type="email" formControlName="email" placeholder="you@example.com" class="form-input">
-            <div class="form-hint">Order confirmation will be sent to this email</div>
+            <div class="form-hint">Order confirmation sent here</div>
             <div class="form-error" *ngIf="formControls['email'].touched && formControls['email'].invalid">
-              <i class="fas fa-exclamation-circle"></i> Please enter a valid email
+              <i class="fas fa-exclamation-circle"></i> Valid email needed
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group">
-              <label><i class="fas fa-phone-alt"></i> Phone Number *</label>
+              <label>Phone *</label>
               <div class="phone-input-wrapper">
                 <span class="phone-prefix">+254</span>
                 <input type="tel" formControlName="phoneNumber" placeholder="712345678" class="form-input phone-input">
               </div>
-              <div class="form-hint"><i class="fas fa-info-circle"></i> Enter number without leading 0 (e.g., 712345678)</div>
+              <div class="form-hint"><i class="fas fa-info-circle"></i> Without leading 0</div>
               <div class="form-error" *ngIf="formControls['phoneNumber'].touched && formControls['phoneNumber'].invalid">
-                <i class="fas fa-exclamation-circle"></i> Please enter a valid phone number
+                <i class="fas fa-exclamation-circle"></i> Valid number needed
               </div>
             </div>
             <div class="form-group">
-              <label><i class="fas fa-check-circle"></i> Confirm Phone *</label>
+              <label>Confirm Phone *</label>
               <input type="tel" formControlName="confirmPhone" placeholder="712345678" class="form-input">
               <div class="form-error" *ngIf="formControls['confirmPhone'].touched && checkoutForm.hasError('phoneMismatch')">
-                <i class="fas fa-exclamation-circle"></i> Phone numbers do not match
+                <i class="fas fa-exclamation-circle"></i> Numbers don't match
               </div>
             </div>
           </div>
 
           <div class="form-actions">
             <button type="button" class="btn-next" (click)="nextStep()" [disabled]="checkoutForm.invalid">
-              Continue to Delivery <i class="fas fa-arrow-right"></i>
+              Continue <i class="fas fa-arrow-right"></i>
             </button>
           </div>
         </form>
       </div>
 
       <!-- STEP 2: Delivery -->
-      <div *ngIf="currentStep === 2" class="step-panel">
+      <div *ngIf="currentStep === 2" class="step-panel" [@fadeIn]>
         <div class="step-header">
           <div class="step-icon"><i class="fas fa-truck"></i></div>
           <div>
-            <h2>Delivery Information</h2>
-            <p>Where should we deliver your organic products?</p>
+            <h2>Where to deliver?</h2>
+            <p>We'll confirm delivery on WhatsApp</p>
           </div>
         </div>
 
-        <!-- Delivery Notice -->
         <div class="delivery-notice">
           <i class="fas fa-info-circle"></i>
           <div>
-            <strong>Delivery Fee Confirmation</strong>
-            <p *ngIf="subtotal < 25000">Your delivery fee will be calculated based on your location and confirmed via WhatsApp.</p>
-            <p *ngIf="subtotal >= 25000" class="free-text">✅ Your order qualifies for <strong>FREE DELIVERY</strong>!</p>
+            <strong *ngIf="subtotal < 25000">Delivery fee: TBC on WhatsApp</strong>
+            <strong *ngIf="subtotal >= 25000">✅ Free delivery applied!</strong>
+            <p *ngIf="subtotal < 25000">Based on your location — we'll confirm after payment</p>
           </div>
         </div>
 
         <form [formGroup]="deliveryForm">
-          <!-- Delivery Method Cards -->
           <div class="delivery-methods">
-            <h3><i class="fas fa-shipping-fast"></i> Select Delivery Method</h3>
+            <h3><i class="fas fa-shipping-fast"></i> Choose delivery</h3>
             <div class="method-cards">
               <div class="method-card" [class.selected]="selectedDelivery === 'standard'" (click)="selectDelivery('standard')">
                 <div class="method-icon"><i class="fas fa-truck"></i></div>
                 <div class="method-info">
-                  <h4>Standard Delivery</h4>
-                  <p>2-3 business days</p>
+                  <h4>Standard</h4>
+                  <p>2-3 days</p>
                 </div>
                 <div class="method-badge" [class.whatsapp]="subtotal < 25000" [class.free]="subtotal >= 25000">
                   {{ subtotal >= 25000 ? 'FREE' : 'TBC' }}
@@ -207,7 +195,7 @@
               <div class="method-card" [class.selected]="selectedDelivery === 'express'" (click)="selectDelivery('express')">
                 <div class="method-icon"><i class="fas fa-bolt"></i></div>
                 <div class="method-info">
-                  <h4>Express Delivery</h4>
+                  <h4>Express</h4>
                   <p>24 hours</p>
                 </div>
                 <div class="method-badge" [class.whatsapp]="subtotal < 25000" [class.free]="subtotal >= 25000">
@@ -217,7 +205,7 @@
               <div class="method-card" [class.selected]="selectedDelivery === 'pickup'" (click)="selectDelivery('pickup')">
                 <div class="method-icon"><i class="fas fa-store"></i></div>
                 <div class="method-info">
-                  <h4>Store Pickup</h4>
+                  <h4>Pickup</h4>
                   <p>Ready in 2 hours</p>
                 </div>
                 <div class="method-badge free">FREE</div>
@@ -225,20 +213,19 @@
             </div>
             <div class="method-note">
               <i class="fab fa-whatsapp"></i>
-              <span>Delivery fee confirmed via WhatsApp after order placement</span>
+              <span>Delivery fee confirmed on WhatsApp</span>
             </div>
           </div>
 
-          <!-- Address Form -->
           <div class="address-form">
             <div class="form-group">
               <label><i class="fas fa-map-marker-alt"></i> County *</label>
               <div class="county-toggle">
                 <button type="button" class="toggle-btn" [class.active]="countyInputMode === 'select'" (click)="setCountyInputMode('select')">
-                  <i class="fas fa-list"></i> Select County
+                  <i class="fas fa-list"></i> Select
                 </button>
                 <button type="button" class="toggle-btn" [class.active]="countyInputMode === 'manual'" (click)="setCountyInputMode('manual')">
-                  <i class="fas fa-pencil-alt"></i> Type County
+                  <i class="fas fa-pencil-alt"></i> Type
                 </button>
               </div>
               <div *ngIf="countyInputMode === 'select'">
@@ -248,7 +235,7 @@
                 </select>
               </div>
               <div *ngIf="countyInputMode === 'manual'">
-                <input type="text" formControlName="countyManual" placeholder="Enter your county name" class="form-input">
+                <input type="text" formControlName="countyManual" placeholder="Enter county name" class="form-input">
                 <div class="county-suggestions" *ngIf="countySuggestions.length > 0">
                   <div *ngFor="let suggestion of countySuggestions" class="suggestion" (click)="selectCountySuggestion(suggestion)">
                     {{ suggestion }}
@@ -259,124 +246,95 @@
 
             <div class="form-group">
               <label><i class="fas fa-city"></i> Town/City *</label>
-              <input type="text" formControlName="town" placeholder="e.g., Kakamega Town" class="form-input">
+              <input type="text" formControlName="town" placeholder="Kakamega Town" class="form-input">
               <div class="form-error" *ngIf="deliveryControls['town'].touched && deliveryControls['town'].invalid">
-                <i class="fas fa-exclamation-circle"></i> Please enter your town
+                <i class="fas fa-exclamation-circle"></i> Required
               </div>
             </div>
 
             <div class="form-group">
-              <label><i class="fas fa-home"></i> Delivery Address *</label>
-              <textarea formControlName="address" rows="3" placeholder="House number, street, estate, landmark" class="form-input"></textarea>
-              <div class="form-hint">Provide detailed address for easy delivery</div>
+              <label><i class="fas fa-home"></i> Full Address *</label>
+              <textarea formControlName="address" rows="2" placeholder="House, street, estate, landmark" class="form-input"></textarea>
+              <div class="form-hint">Be specific for easy delivery</div>
               <div class="form-error" *ngIf="deliveryControls['address'].touched && deliveryControls['address'].invalid">
-                <i class="fas fa-exclamation-circle"></i> Please enter your full address
+                <i class="fas fa-exclamation-circle"></i> Required
               </div>
             </div>
 
             <div class="form-group">
-              <label><i class="fas fa-sticky-note"></i> Delivery Notes <span>(Optional)</span></label>
-              <textarea formControlName="deliveryNotes" rows="2" placeholder="Any special instructions? (e.g., landmark, best time to deliver)" class="form-input"></textarea>
+              <label><i class="fas fa-sticky-note"></i> Special instructions</label>
+              <textarea formControlName="deliveryNotes" rows="1" placeholder="Best time, landmark, etc." class="form-input"></textarea>
             </div>
           </div>
 
           <div class="form-actions">
             <button type="button" class="btn-back" (click)="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
             <button type="button" class="btn-next" (click)="nextStep()" [disabled]="!isDeliveryFormValid()">
-              Continue to Payment <i class="fas fa-lock"></i>
+              Continue <i class="fas fa-lock"></i>
             </button>
           </div>
         </form>
       </div>
 
       <!-- STEP 3: Payment -->
-      <div *ngIf="currentStep === 3" class="step-panel">
+      <div *ngIf="currentStep === 3" class="step-panel" [@fadeIn]>
         <div class="step-header">
           <div class="step-icon"><i class="fas fa-lock"></i></div>
           <div>
-            <h2>Complete Payment</h2>
-            <p>Pay securely via M-Pesa Till Number</p>
+            <h2>Pay securely</h2>
+            <p>M-Pesa Till — simple & trusted</p>
           </div>
         </div>
 
-        <!-- Payment Notice -->
         <div class="payment-notice" [class.free]="subtotal >= 25000">
           <i class="fas" [class.fa-gift]="subtotal >= 25000" [class.fa-info-circle]="subtotal < 25000"></i>
           <div>
-            <strong *ngIf="subtotal >= 25000">🎉 Free Shipping Applied!</strong>
-            <strong *ngIf="subtotal < 25000">Pay Subtotal Only</strong>
-            <p>Amount to pay: <span class="highlight-amount">KES {{ subtotal | number }}</span></p>
-            <p class="delivery-note" *ngIf="subtotal < 25000"><i class="fab fa-whatsapp"></i> Delivery fee will be confirmed on WhatsApp</p>
-            <p class="delivery-note free" *ngIf="subtotal >= 25000"><i class="fas fa-check-circle"></i> FREE delivery included!</p>
+            <strong>Pay: <span class="highlight-amount">KES {{ subtotal | number }}</span></strong>
+            <p *ngIf="subtotal < 25000"><i class="fab fa-whatsapp"></i> Delivery confirmed on WhatsApp</p>
+            <p *ngIf="subtotal >= 25000"><i class="fas fa-check-circle"></i> Free delivery included!</p>
           </div>
         </div>
 
-        <!-- M-Pesa Instructions -->
         <div class="mpesa-instructions">
-          <h3><i class="fas fa-list-ol"></i> How to Pay via M-Pesa</h3>
+          <h3><i class="fas fa-mobile-alt"></i> M-Pesa Till</h3>
           
           <div class="instruction-steps">
             <div class="step-item">
               <div class="step-num">1</div>
               <div class="step-content">
-                <h4>Open M-Pesa</h4>
-                <p>Go to <strong>Lipa na M-Pesa</strong> → <strong>Buy Goods and Services</strong></p>
+                <p>Open M-Pesa → <strong>Lipa na M-Pesa</strong> → <strong>Buy Goods</strong></p>
               </div>
             </div>
 
             <div class="step-item highlight">
               <div class="step-num">2</div>
               <div class="step-content">
-                <h4>Enter Till Number</h4>
-                <div class="till-box">
-                  <span class="till-label">Mzuri Organics Till:</span>
+                <p><strong>Till:</strong> 
                   <code class="till-number">8589836</code>
                   <button class="copy-btn" (click)="copyToClipboard('8589836')">
                     <i class="fas fa-copy"></i> Copy
                   </button>
-                </div>
+                </p>
               </div>
             </div>
 
             <div class="step-item">
               <div class="step-num">3</div>
               <div class="step-content">
-                <h4>Enter Exact Amount</h4>
                 <p>Pay <strong class="amount-highlight">KES {{ subtotal | number }}</strong></p>
-                <p class="amount-note" *ngIf="subtotal < 25000">This is your subtotal. Delivery fee confirmed on WhatsApp.</p>
-                <p class="amount-note free" *ngIf="subtotal >= 25000">FREE delivery applied to this order!</p>
+                <p class="amount-note" *ngIf="subtotal < 25000">Delivery fee confirmed on WhatsApp</p>
+                <p class="amount-note free" *ngIf="subtotal >= 25000">✅ Free delivery applied</p>
               </div>
             </div>
 
             <div class="step-item">
               <div class="step-num">4</div>
               <div class="step-content">
-                <h4>Confirm Payment</h4>
-                <p>Enter your M-Pesa PIN and save the confirmation message</p>
+                <p>Send confirmation on WhatsApp</p>
                 <div class="tip-box">
                   <i class="fas fa-lightbulb"></i>
-                  <span>You'll need the confirmation for WhatsApp verification</span>
+                  <span>Keep the M-Pesa confirmation message</span>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Payment Summary -->
-        <div class="payment-summary">
-          <div class="summary-box">
-            <h4><i class="fas fa-file-invoice"></i> Order Summary</h4>
-            <div class="summary-details">
-              <div class="detail"><span>Order #</span><strong>{{ orderCode }}</strong></div>
-              <div class="detail"><span>Amount to Pay</span><strong class="total-highlight">KES {{ subtotal | number }}</strong></div>
-              <div class="detail"><span>Delivery</span>
-                <span class="delivery-badge" [class.whatsapp]="subtotal < 25000" [class.free]="subtotal >= 25000">
-                  {{ subtotal >= 25000 ? '✅ FREE' : '⏳ TBC on WhatsApp' }}
-                </span>
-              </div>
-              <div class="detail payment-method">
-                <span>Payment Method</span>
-                <span><i class="fas fa-store"></i> M-Pesa Till 8589836</span>
               </div>
             </div>
           </div>
@@ -388,28 +346,16 @@
             <div class="whatsapp-header">
               <i class="fab fa-whatsapp"></i>
               <div>
-                <h3>Confirm via WhatsApp</h3>
-                <p>Send payment confirmation to complete your order</p>
+                <h3>Confirm on WhatsApp</h3>
+                <p>Send payment confirmation to complete</p>
               </div>
             </div>
             <div class="whatsapp-body">
-              <div class="confirmation-message">
-                <p><strong>Your pre-filled WhatsApp message:</strong></p>
-                <div class="message-preview">
-                  <p><strong>MZURI ORGANICS - NEW ORDER</strong></p>
-                  <p>Order #: {{ orderCode }}</p>
-                  <p>Amount Paid: KES {{ subtotal | number }}</p>
-                  <p>Paid via: M-Pesa Till 8589836</p>
-                  <p>Items: {{ getItemSummary() }}</p>
-                  <p>Customer: {{ checkoutForm.get('firstName')?.value }} {{ checkoutForm.get('lastName')?.value }}</p>
-                  <p class="delivery-msg">{{ subtotal >= 25000 ? '✅ FREE DELIVERY ELIGIBLE' : '⏳ Please confirm delivery fee' }}</p>
-                </div>
-                <button class="whatsapp-btn" (click)="openWhatsAppWithMessage()">
-                  <i class="fab fa-whatsapp"></i> Open WhatsApp
-                </button>
-              </div>
+              <button class="whatsapp-btn" (click)="openWhatsAppWithMessage()">
+                <i class="fab fa-whatsapp"></i> Open WhatsApp
+              </button>
               <div class="whatsapp-notes">
-                <div class="note"><i class="fab fa-whatsapp"></i> We'll confirm delivery fee on WhatsApp</div>
+                <div class="note"><i class="fab fa-whatsapp"></i> We confirm delivery fee</div>
                 <div class="note free" *ngIf="subtotal >= 25000"><i class="fas fa-gift"></i> Free shipping applied!</div>
               </div>
             </div>
@@ -419,7 +365,7 @@
         <div class="form-actions">
           <button type="button" class="btn-back" (click)="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
           <button type="button" class="btn-confirm" (click)="proceedToPaymentConfirmation()">
-            <i class="fas fa-check-circle"></i> I've Made Payment
+            <i class="fas fa-check-circle"></i> I've Paid
           </button>
         </div>
       </div>
@@ -427,24 +373,24 @@
     </main>
   </div>
 
-  <!-- Payment Confirmation Modal -->
+  <!-- Confirmation Modal -->
   <div class="confirmation-modal" [class.active]="showConfirmationModal">
     <div class="modal-overlay" (click)="closeConfirmationModal()"></div>
     <div class="modal-content">
       <div class="modal-header">
         <div class="modal-icon"><i class="fas fa-check-circle"></i></div>
-        <h2>Payment Instructions Sent!</h2>
-        <p>Your order is ready for confirmation</p>
+        <h2>🎉 Order Placed!</h2>
+        <p>We'll confirm delivery on WhatsApp</p>
       </div>
       <div class="modal-body">
         <div class="order-details">
-          <div class="detail-item"><span>Order Number</span><strong>{{ orderCode }}</strong></div>
-          <div class="detail-item"><span>Amount Paid</span><strong class="amount">KES {{ subtotal | number }}</strong></div>
-          <div class="detail-item"><span>Till Number</span><code>8589836</code></div>
+          <div class="detail-item"><span>Order</span><strong>{{ orderCode }}</strong></div>
+          <div class="detail-item"><span>Amount</span><strong class="amount">KES {{ subtotal | number }}</strong></div>
+          <div class="detail-item"><span>Till</span><code>8589836</code></div>
           <div class="detail-item highlight" [class.free]="subtotal >= 25000">
             <span>Delivery</span>
             <span class="delivery-status">
-              {{ subtotal >= 25000 ? '✅ FREE DELIVERY' : '⏳ TBC on WhatsApp' }}
+              {{ subtotal >= 25000 ? '✅ Free' : '⏳ TBC on WhatsApp' }}
             </span>
           </div>
         </div>
@@ -454,14 +400,13 @@
           <div class="steps">
             <div class="step"><span class="num">1</span> Pay KES {{ subtotal | number }} to Till 8589836</div>
             <div class="step"><span class="num">2</span> WhatsApp confirmation to +254 701 934918</div>
-            <div class="step"><span class="num">3</span> {{ subtotal >= 25000 ? '✅ We\'ll confirm delivery' : 'We\'ll confirm delivery fee' }}</div>
-            <div class="step"><span class="num">4</span> We deliver within 24-48 hours</div>
+            <div class="step"><span class="num">3</span> {{ subtotal >= 25000 ? '✅ Free delivery confirmed' : 'We confirm delivery fee' }}</div>
           </div>
         </div>
 
         <div class="support-actions">
           <a href="https://wa.me/254701934918" target="_blank" class="support-btn whatsapp">
-            <i class="fab fa-whatsapp"></i> WhatsApp Support
+            <i class="fab fa-whatsapp"></i> WhatsApp
           </a>
           <button class="support-btn email" (click)="sendOrderEmail()">
             <i class="fas fa-envelope"></i> Email Receipt
@@ -470,7 +415,7 @@
       </div>
       <div class="modal-footer">
         <button class="btn-continue" (click)="closeConfirmationModal()">
-          <i class="fas fa-shopping-cart"></i> Continue Shopping
+          <i class="fas fa-shopping-cart"></i> Continue
         </button>
         <button class="btn-view" (click)="viewOrderSummary()">
           <i class="fas fa-eye"></i> View Order
