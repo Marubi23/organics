@@ -208,7 +208,7 @@
 }
 
 .cart-item:hover .item-image {
-  border-color: #88c431;
+  border-color: #075E54;
   transform: scale(1.05);
   box-shadow: 0 10px 25px rgba(26, 60, 7, 0.15);
 }
@@ -377,9 +377,9 @@
   margin: 0;
   font-size: 0.85rem;
   font-weight: 600;
-  color: #d49a42;
+  color: #075E54;
   font-family: 'Poppins', sans-serif;
-  background: rgba(212, 154, 66, 0.1);
+  background: rgb(247, 148, 0);
   padding: 4px 10px;
   border-radius: 10px;
   display: inline-block;
