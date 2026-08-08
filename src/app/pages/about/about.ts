@@ -35,13 +35,9 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     if (this.heroVideo && this.heroVideo.nativeElement) {
       const video = this.heroVideo.nativeElement;
-      
-      // Preload video metadata
       video.preload = 'metadata';
-      // Sound always on
       video.muted = false;
 
-      // Event listeners
       video.addEventListener('play', () => {
         this.isVideoPlaying = true;
       });
@@ -51,7 +47,6 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
       });
 
       video.addEventListener('ended', () => {
-        // Loop the video
         video.currentTime = 0;
         video.play();
       });
@@ -59,7 +54,6 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // Clean up video to prevent memory leaks
     if (this.heroVideo && this.heroVideo.nativeElement) {
       const video = this.heroVideo.nativeElement;
       video.pause();
@@ -72,8 +66,6 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
   playVideo(): void {
     if (this.heroVideo && this.heroVideo.nativeElement) {
       const video = this.heroVideo.nativeElement;
-      
-      // Attempt to play
       video.play()
         .then(() => {
           this.isVideoPlaying = true;

@@ -1,16 +1,14 @@
 <!-- about.component.html - Complete About Page -->
 
-<!-- Video Hero Section -->
+<!-- Video Hero Section (UNTOUCHED) -->
 <section class="about-hero">
   <div class="video-hero-container">
     <div class="video-wrapper">
-      <!-- Video element - NO autoplay -->
       <video #heroVideo class="hero-video" playsinline loop preload="metadata">
         <source src="videos/miniplay.mp4" type="video/mp4">
         Your browser does not support HTML5 video.
       </video>
       
-      <!-- Thumbnail Overlay (shown until video plays) -->
       <div class="thumbnail-overlay" *ngIf="!isVideoPlaying" (click)="playVideo()">
         <img src="/images/video-thumbnail.jpg" alt="Play Video" class="thumbnail-image">
         <div class="play-button-overlay">
@@ -24,17 +22,14 @@
         </div>
       </div>
       
-      <!-- Click overlay for pause/play when video is playing -->
       <div class="video-click-overlay" *ngIf="isVideoPlaying" (click)="toggleVideoPlay()"></div>
     </div>
 
     <div class="hero-content">
       <div class="container">
-        <!-- Brand -->
-    
-        <!-- Video Control Icons - Bottom Right (only shown when playing) -->
+ 
+
         <div class="hero-control-icons" *ngIf="isVideoPlaying">
-          <!-- Play/Pause Icon -->
           <div class="control-icon" (click)="toggleVideoPlay(); $event.stopPropagation()" title="Play/Pause">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
               <path *ngIf="isVideoPlaying" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
@@ -56,140 +51,137 @@
   </div>
 </section>
 
-<!-- Impact Stats -->
-<section class="impact-stats">
-  <div class="container">
-    <div class="stats-grid">
-      <div class="stat-card">
+<!-- Gallery Section: Stats + Solutions Combined -->
+<section class="gallery-section">
+  <div class="gallery-grid">
+    <!-- Stat Card 1 -->
+    <div class="gallery-item stat-item">
+      <div class="stat-content">
         <div class="stat-number">55+</div>
         <div class="stat-label">Tons Waste Monthly</div>
       </div>
-      <div class="stat-card">
+    </div>
+
+    <!-- Stat Card 2 -->
+    <div class="gallery-item stat-item">
+      <div class="stat-content">
         <div class="stat-number">1000L+</div>
         <div class="stat-label">Liquid Fertilizer</div>
       </div>
-      <div class="stat-card">
+    </div>
+
+    <!-- Stat Card 3 -->
+    <div class="gallery-item stat-item">
+      <div class="stat-content">
         <div class="stat-number">5T+</div>
         <div class="stat-label">Solid Fertilizer</div>
       </div>
-      <div class="stat-card">
+    </div>
+
+    <!-- Stat Card 4 -->
+    <div class="gallery-item stat-item">
+      <div class="stat-content">
         <div class="stat-number">40%</div>
         <div class="stat-label">Cost Savings</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-number">60%↑</div>
-        <div class="stat-label">Yield Increase</div>
+    </div>
+
+    <!-- Stat Card 5 -->
+  
+
+    <!-- Solution Card 1: Bioconversion -->
+    <div class="gallery-item solution-item">
+      <div class="solution-image">
+        <img src="/images/mzuri8.jpg" alt="Bioconversion">
+      </div>
+      <div class="solution-overlay">
+        <h3>Bioconversion</h3>
+        <p>Converting organic waste into premium biofertilizers using BSF larvae technology.</p>
+      </div>
+    </div>
+
+    <!-- Solution Card 2: PREFarm -->
+    <div class="gallery-item solution-item">
+      <div class="solution-image">
+        <img src="/images/mzurislide2.JPG" alt="PREFarm">
+      </div>
+      <div class="solution-overlay">
+        <h3>PREFarm</h3>
+        <p>Data-driven precision dosing for maximum efficiency and yield.</p>
+      </div>
+    </div>
+
+    <!-- Solution Card 3: Regen-Kilimo -->
+    <div class="gallery-item solution-item">
+      <div class="solution-image">
+        <img src="/images/mzurislide3.JPG" alt="Regen-Kilimo">
+      </div>
+      <div class="solution-overlay">
+        <h3>Regen-Kilimo</h3>
+        <p>Training and market access for sustainable farmer livelihoods.</p>
+      </div>
+    </div>
+
+    <!-- Solution Card 4: Circular Economy -->
+    <div class="gallery-item solution-item">
+      <div class="solution-image">
+        <img src="/images/mzuri6.jpg" alt="Circular Economy">
+      </div>
+      <div class="solution-overlay">
+        <h3>Circular Economy</h3>
+        <p>Community-led waste-to-value with guaranteed buy-back systems.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Solutions Gallery -->
-<section class="solutions-gallery">
-  <div class="container">
-    <div class="section-header">
-      <h2>Our Core <span class="gold-accent">Solutions</span></h2>
-      <p>Innovative approaches to sustainable agriculture</p>
-    </div>
-    <div class="solutions-grid">
-      <div class="solution-card">
-        <div class="card-image">
-          <img src="/images/mzuri8.jpg" alt="Bioconversion">
-        </div>
-        <div class="card-overlay">
-          <h3>Bioconversion Initiative</h3>
-          <p>Converting organic waste into premium biofertilizers using BSF larvae technology.</p>
-        </div>
-      </div>
-      <div class="solution-card">
-        <div class="card-image">
-          <img src="/images/mzurislide2.JPG" alt="PREFarm">
-        </div>
-        <div class="card-overlay">
-          <h3>PREFarm Initiative</h3>
-          <p>Data-driven precision dosing for maximum efficiency and yield.</p>
-        </div>
-      </div>
-      <div class="solution-card">
-        <div class="card-image">
-          <img src="/images/mzurislide3.JPG" alt="Regen-Kilimo">
-        </div>
-        <div class="card-overlay">
-          <h3>Regen-Kilimo Program</h3>
-          <p>Training and market access for sustainable farmer livelihoods.</p>
-        </div>
-      </div>
-      <div class="solution-card">
-        <div class="card-image">
-          <img src="/images/mzuri6.jpg" alt="Circular Economy">
-        </div>
-        <div class="card-overlay">
-          <h3>Circular Economy</h3>
-          <p>Community-led waste-to-value with guaranteed buy-back systems.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Products Section -->
+<!-- Products Section - Gallery Style -->
 <section class="products-section">
   <div class="container">
     <div class="section-header">
       <h2>Premium <span class="gold-accent">Products</span></h2>
       <p>Science-backed solutions for healthier soils</p>
     </div>
-    <div class="products-grid">
-      <div class="product-card">
+    <div class="products-gallery">
+      <div class="product-item">
         <div class="product-image">
           <img src="/images/vermifrassprod.jpeg" alt="VermiFrass">
         </div>
         <div class="product-info">
           <h3>VermiFrass Active</h3>
           <p>100% organic biofertilizer with living microbes</p>
-          <span class="price">KSh 1,500 / 25kg</span>
+    
+  
         </div>
       </div>
-      <div class="product-card">
+
+      <div class="product-item">
         <div class="product-image">
           <img src="/images/product6.jpg" alt="BioVeg Plus">
         </div>
         <div class="product-info">
           <h3>BioVeg Plus</h3>
           <p>Liquid organic nitrogen booster for vegetables</p>
-          <span class="price">KSh 400 / half-litre</span>
+ 
+  
         </div>
       </div>
-      <div class="product-card">
+
+      <div class="product-item">
         <div class="product-image">
           <img src="/images/product1.jpg" alt="BioFruity Plus">
         </div>
         <div class="product-info">
           <h3>BioFruity Plus</h3>
           <p>Balanced nutrition for flowering & fruit set</p>
-          <span class="price">KSh 400 / half-litre</span>
+
+
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SDG Section -->
-<section class="sdg-section">
-  <div class="container">
-    <div class="section-header">
-      <h2>Sustainable Development <span class="gold-accent">Goals</span></h2>
-      <p>Contributing to Kenya's sustainable future</p>
-    </div>
-    <div class="sdg-grid">
-      <div class="sdg-card" *ngFor="let sdg of sdgs">
-        <div class="sdg-number">{{ sdg.number }}</div>
-        <h4>{{ sdg.title }}</h4>
-        <p>{{ sdg.description }}</p>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- CTA Section -->
 <section class="cta-section">
