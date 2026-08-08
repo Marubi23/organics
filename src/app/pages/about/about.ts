@@ -1,5 +1,5 @@
 // about.component.ts
-import { Component, CUSTOM_ELEMENTS_SCHEMA, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CartComponent } from '../cart/cart';
@@ -18,11 +18,10 @@ interface SDG {
   templateUrl: './about.html',
   styleUrls: ['./about.css']
 })
-export class AboutComponent implements AfterViewInit {
+export class AboutComponent implements AfterViewInit, OnDestroy {
   @ViewChild('heroVideo') heroVideo!: ElementRef<HTMLVideoElement>;
 
-  isVideoPlaying: boolean = true;
-  isVideoMuted: boolean = true;
+  isVideoPlaying: boolean = false;
 
   sdgs: SDG[] = [
     { number: '1', title: 'No Poverty', description: 'Creating new income streams for farmers, youth, and women' },
@@ -34,36 +33,66 @@ export class AboutComponent implements AfterViewInit {
   ];
 
   ngAfterViewInit() {
-    setTimeout(() => {
-      if (this.heroVideo && this.heroVideo.nativeElement) {
-        const video = this.heroVideo.nativeElement;
-        video.muted = true;
-        video.play().catch(e => console.log('Video autoplay prevented:', e));
-        
-        video.onpause = () => { this.isVideoPlaying = false; };
-        video.onplay = () => { this.isVideoPlaying = true; };
-      }
-    }, 100);
+    if (this.heroVideo && this.heroVideo.nativeElement) {
+      const video = this.heroVideo.nativeElement;
+      
+      // Preload video metadata
+      video.preload = 'metadata';
+      // Sound always on
+      video.muted = false;
+
+      // Event listeners
+      video.addEventListener('play', () => {
+        this.isVideoPlaying = true;
+      });
+
+      video.addEventListener('pause', () => {
+        this.isVideoPlaying = false;
+      });
+
+      video.addEventListener('ended', () => {
+        // Loop the video
+        video.currentTime = 0;
+        video.play();
+      });
+    }
+  }
+
+  ngOnDestroy() {
+    // Clean up video to prevent memory leaks
+    if (this.heroVideo && this.heroVideo.nativeElement) {
+      const video = this.heroVideo.nativeElement;
+      video.pause();
+      video.removeEventListener('play', () => {});
+      video.removeEventListener('pause', () => {});
+      video.removeEventListener('ended', () => {});
+    }
+  }
+
+  playVideo(): void {
+    if (this.heroVideo && this.heroVideo.nativeElement) {
+      const video = this.heroVideo.nativeElement;
+      
+      // Attempt to play
+      video.play()
+        .then(() => {
+          this.isVideoPlaying = true;
+        })
+        .catch(error => {
+          console.error('Error playing video:', error);
+        });
+    }
   }
 
   toggleVideoPlay(): void {
     if (this.heroVideo && this.heroVideo.nativeElement) {
       const video = this.heroVideo.nativeElement;
       if (video.paused) {
-        video.play();
-        this.isVideoPlaying = true;
+        this.playVideo();
       } else {
         video.pause();
         this.isVideoPlaying = false;
       }
-    }
-  }
-
-  toggleVideoSound(): void {
-    if (this.heroVideo && this.heroVideo.nativeElement) {
-      const video = this.heroVideo.nativeElement;
-      video.muted = !video.muted;
-      this.isVideoMuted = video.muted;
     }
   }
 }

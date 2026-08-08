@@ -4,79 +4,42 @@
 <section class="about-hero">
   <div class="video-hero-container">
     <div class="video-wrapper">
-      <video #heroVideo class="hero-video" playsinline autoplay muted loop>
+      <!-- Video element - NO autoplay -->
+      <video #heroVideo class="hero-video" playsinline loop preload="metadata">
         <source src="videos/miniplay.mp4" type="video/mp4">
         Your browser does not support HTML5 video.
       </video>
-      <div class="video-overlay"></div>
       
-      <!-- Click overlay to toggle video -->
-      <div class="video-click-overlay" (click)="toggleVideoPlay()"></div>
+      <!-- Thumbnail Overlay (shown until video plays) -->
+      <div class="thumbnail-overlay" *ngIf="!isVideoPlaying" (click)="playVideo()">
+        <img src="/images/video-thumbnail.jpg" alt="Play Video" class="thumbnail-image">
+        <div class="play-button-overlay">
+          <div class="play-icon">
+            <svg width="80" height="80" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="11" stroke="white" stroke-width="2" opacity="0.9"/>
+              <path d="M10 8L16 12L10 16V8Z" fill="white"/>
+            </svg>
+          </div>
+          <span class="play-label">Watch Our Story</span>
+        </div>
+      </div>
+      
+      <!-- Click overlay for pause/play when video is playing -->
+      <div class="video-click-overlay" *ngIf="isVideoPlaying" (click)="toggleVideoPlay()"></div>
     </div>
 
     <div class="hero-content">
       <div class="container">
-        <!-- Centered Lottie Icon -->
-        <div class="hero-lottie-center">
-          <lottie-player
-            src="/assets/animations/lottieflow-chat-17-12-c8841a-easey.json"
-            background="transparent"
-            speed="1"
-            style="width: 120px; height: 120px; margin: 0 auto;"
-            loop
-            autoplay>
-          </lottie-player>
-        </div>
-
-        <div class="hero-brand">
-          <span class="brand-pre-title">Welcome to</span>
-          <h1 class="brand-title">Mzuri Organics</h1>
-        </div>
-
-        <!-- Video Control Icons - Bottom Right -->
-        <div class="hero-control-icons">
+        <!-- Brand -->
+    
+        <!-- Video Control Icons - Bottom Right (only shown when playing) -->
+        <div class="hero-control-icons" *ngIf="isVideoPlaying">
           <!-- Play/Pause Icon -->
           <div class="control-icon" (click)="toggleVideoPlay(); $event.stopPropagation()" title="Play/Pause">
-            <lottie-player
-              *ngIf="isVideoPlaying"
-              src="assets/animations/playpause.json"
-              background="transparent"
-              speed="1"
-              style="width: 55px; height: 55px;"
-              loop
-              autoplay>
-            </lottie-player>
-            <lottie-player
-              *ngIf="!isVideoPlaying"
-              src="assets/animations/playpause.json"
-              background="transparent"
-              speed="1"
-              style="width: 55px; height: 55px;"
-              loop
-              autoplay>
-            </lottie-player>
-          </div>
-
-          <!-- Sound Icon -->
-          <div class="control-icon" (click)="toggleVideoSound(); $event.stopPropagation()" title="Toggle Sound">
-            <lottie-player
-              *ngIf="isVideoMuted"
-              src="assets/animations/sound.json"
-              background="transparent"
-              speed="1"
-              style="width: 55px; height: 55px;"
-              loop
-              autoplay>
-            </lottie-player>
-            <lottie-player
-              *ngIf="!isVideoMuted"
-              src="assets/animations/sound.json"
-              background="transparent"
-              speed="1"
-              style="width: 55px; height: 55px;"
-              loop
-              autoplay>
-            </lottie-player>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+              <path *ngIf="isVideoPlaying" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+              <path *ngIf="!isVideoPlaying" d="M8 5v14l11-7z"/>
+            </svg>
           </div>
         </div>
       </div>
@@ -84,7 +47,7 @@
   </div>
 </section>
 
-<!-- New Simplified Mission Statement -->
+<!-- Mission Statement -->
 <section class="mission-statement">
   <div class="container">
     <div class="mission-content">
@@ -121,7 +84,7 @@
   </div>
 </section>
 
-<!-- Solutions Gallery - Hover Cards -->
+<!-- Solutions Gallery -->
 <section class="solutions-gallery">
   <div class="container">
     <div class="section-header">
@@ -219,7 +182,7 @@
       <p>Contributing to Kenya's sustainable future</p>
     </div>
     <div class="sdg-grid">
-      <div class="sdg-card" *ngFor="let sdg of sdgs; let i = index">
+      <div class="sdg-card" *ngFor="let sdg of sdgs">
         <div class="sdg-number">{{ sdg.number }}</div>
         <h4>{{ sdg.title }}</h4>
         <p>{{ sdg.description }}</p>
