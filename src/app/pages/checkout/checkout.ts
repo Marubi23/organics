@@ -45,9 +45,10 @@ export class CheckoutComponent implements OnInit, OnDestroy, AfterViewInit {
   isLocating: boolean = false;
   locationError: string | null = null;
   locationCaptured: boolean = false;
+  locationBannerVisible: boolean = false;
   
-  // Collapsible state
-  addressSectionOpen: boolean = true;
+  // Collapsible state - start closed, show + icon
+  addressSectionOpen: boolean = false;
   instructionsSectionOpen: boolean = false;
   
   selectedDelivery: string = 'standard';
@@ -160,6 +161,12 @@ export class CheckoutComponent implements OnInit, OnDestroy, AfterViewInit {
         this.isLocating = false;
         this.locationError = null;
         
+        // Show location banner
+        this.locationBannerVisible = true;
+        setTimeout(() => {
+          this.locationBannerVisible = false;
+        }, 8000);
+        
         if (this.toastService) {
           this.toastService.showSuccess('📍 Location detected!');
         }
@@ -184,6 +191,11 @@ export class CheckoutComponent implements OnInit, OnDestroy, AfterViewInit {
   getLocationDisplay(): string {
     if (!this.userLocation) return 'Location not captured';
     return `${this.userLocation.lat.toFixed(6)}, ${this.userLocation.lng.toFixed(6)}`;
+  }
+
+  getLocationMapLink(): string {
+    if (!this.userLocation) return '#';
+    return `https://www.google.com/maps?q=${this.userLocation.lat},${this.userLocation.lng}`;
   }
 
   // ============================================
