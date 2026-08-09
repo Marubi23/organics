@@ -1,6 +1,6 @@
-<!-- about.component.html - Complete About Page -->
+<!-- about.html -->
 
-<!-- Video Hero Section (UNTOUCHED) -->
+<!-- Video Hero Section -->
 <section class="about-hero">
   <div class="video-hero-container">
     <div class="video-wrapper">
@@ -8,9 +8,18 @@
         <source src="videos/miniplay.mp4" type="video/mp4">
         Your browser does not support HTML5 video.
       </video>
-      
+
       <div class="thumbnail-overlay" *ngIf="!isVideoPlaying" (click)="playVideo()">
-        <img src="/images/video-thumbnail.jpg" alt="Play Video" class="thumbnail-image">
+        <div class="img-skeleton hero-skeleton">
+          <img
+            src="/images/video-thumbnail.jpg"
+            alt="Play Video"
+            class="thumbnail-image lazy-img"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+            (load)="onImgLoad($event)">
+        </div>
         <div class="play-button-overlay">
           <div class="play-icon">
             <svg width="80" height="80" viewBox="0 0 24 24" fill="none">
@@ -21,14 +30,12 @@
           <span class="play-label">Watch Our Story</span>
         </div>
       </div>
-      
+
       <div class="video-click-overlay" *ngIf="isVideoPlaying" (click)="toggleVideoPlay()"></div>
     </div>
 
     <div class="hero-content">
       <div class="container">
- 
-
         <div class="hero-control-icons" *ngIf="isVideoPlaying">
           <div class="control-icon" (click)="toggleVideoPlay(); $event.stopPropagation()" title="Play/Pause">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
@@ -54,7 +61,6 @@
 <!-- Gallery Section: Stats + Solutions Combined -->
 <section class="gallery-section">
   <div class="gallery-grid">
-    <!-- Stat Card 1 -->
     <div class="gallery-item stat-item">
       <div class="stat-content">
         <div class="stat-number">55+</div>
@@ -62,7 +68,6 @@
       </div>
     </div>
 
-    <!-- Stat Card 2 -->
     <div class="gallery-item stat-item">
       <div class="stat-content">
         <div class="stat-number">1000L+</div>
@@ -70,7 +75,6 @@
       </div>
     </div>
 
-    <!-- Stat Card 3 -->
     <div class="gallery-item stat-item">
       <div class="stat-content">
         <div class="stat-number">5T+</div>
@@ -78,7 +82,6 @@
       </div>
     </div>
 
-    <!-- Stat Card 4 -->
     <div class="gallery-item stat-item">
       <div class="stat-content">
         <div class="stat-number">40%</div>
@@ -86,13 +89,9 @@
       </div>
     </div>
 
-    <!-- Stat Card 5 -->
-  
-
-    <!-- Solution Card 1: Bioconversion -->
     <div class="gallery-item solution-item">
-      <div class="solution-image">
-        <img src="/images/mzuri8.jpg" alt="Bioconversion">
+      <div class="solution-image img-skeleton">
+        <img src="/images/mzuri8.jpg" alt="Bioconversion" class="lazy-img" loading="lazy" decoding="async" (load)="onImgLoad($event)">
       </div>
       <div class="solution-overlay">
         <h3>Bioconversion</h3>
@@ -100,10 +99,9 @@
       </div>
     </div>
 
-    <!-- Solution Card 2: PREFarm -->
     <div class="gallery-item solution-item">
-      <div class="solution-image">
-        <img src="/images/mzurislide2.JPG" alt="PREFarm">
+      <div class="solution-image img-skeleton">
+        <img src="/images/mzurislide2.JPG" alt="PREFarm" class="lazy-img" loading="lazy" decoding="async" (load)="onImgLoad($event)">
       </div>
       <div class="solution-overlay">
         <h3>PREFarm</h3>
@@ -111,10 +109,9 @@
       </div>
     </div>
 
-    <!-- Solution Card 3: Regen-Kilimo -->
     <div class="gallery-item solution-item">
-      <div class="solution-image">
-        <img src="/images/mzurislide3.JPG" alt="Regen-Kilimo">
+      <div class="solution-image img-skeleton">
+        <img src="/images/mzurislide3.JPG" alt="Regen-Kilimo" class="lazy-img" loading="lazy" decoding="async" (load)="onImgLoad($event)">
       </div>
       <div class="solution-overlay">
         <h3>Regen-Kilimo</h3>
@@ -122,10 +119,9 @@
       </div>
     </div>
 
-    <!-- Solution Card 4: Circular Economy -->
     <div class="gallery-item solution-item">
-      <div class="solution-image">
-        <img src="/images/mzuri6.jpg" alt="Circular Economy">
+      <div class="solution-image img-skeleton">
+        <img src="/images/mzuri6.jpg" alt="Circular Economy" class="lazy-img" loading="lazy" decoding="async" (load)="onImgLoad($event)">
       </div>
       <div class="solution-overlay">
         <h3>Circular Economy</h3>
@@ -135,7 +131,7 @@
   </div>
 </section>
 
-<!-- Products Section - Gallery Style -->
+<!-- Products Section -->
 <section class="products-section">
   <div class="container">
     <div class="section-header">
@@ -144,44 +140,37 @@
     </div>
     <div class="products-gallery">
       <div class="product-item">
-        <div class="product-image">
-          <img src="/images/vermifrassprod.jpeg" alt="VermiFrass">
+        <div class="product-image img-skeleton">
+          <img src="/images/vermifrassprod.jpeg" alt="VermiFrass" class="lazy-img" loading="lazy" decoding="async" (load)="onImgLoad($event)">
         </div>
         <div class="product-info">
           <h3>VermiFrass Active</h3>
           <p>100% organic biofertilizer with living microbes</p>
-    
-  
         </div>
       </div>
 
       <div class="product-item">
-        <div class="product-image">
-          <img src="/images/product6.jpg" alt="BioVeg Plus">
+        <div class="product-image img-skeleton">
+          <img src="/images/product6.jpg" alt="BioVeg Plus" class="lazy-img" loading="lazy" decoding="async" (load)="onImgLoad($event)">
         </div>
         <div class="product-info">
           <h3>BioVeg Plus</h3>
           <p>Liquid organic nitrogen booster for vegetables</p>
- 
-  
         </div>
       </div>
 
       <div class="product-item">
-        <div class="product-image">
-          <img src="/images/product1.jpg" alt="BioFruity Plus">
+        <div class="product-image img-skeleton">
+          <img src="/images/product1.jpg" alt="BioFruity Plus" class="lazy-img" loading="lazy" decoding="async" (load)="onImgLoad($event)">
         </div>
         <div class="product-info">
           <h3>BioFruity Plus</h3>
           <p>Balanced nutrition for flowering & fruit set</p>
-
-
         </div>
       </div>
     </div>
   </div>
 </section>
-
 
 <!-- CTA Section -->
 <section class="cta-section">
@@ -190,7 +179,6 @@
       <h2>Shop Our Products</h2>
       <p>Discover our range of premium organic fertilizers and solutions</p>
       <div class="cta-buttons">
-    
         <a routerLink="/products" class="btn-outline">Shop Products</a>
       </div>
     </div>

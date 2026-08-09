@@ -1,14 +1,17 @@
 // about.component.ts
-import { Component, CUSTOM_ELEMENTS_SCHEMA, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  CUSTOM_ELEMENTS_SCHEMA,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
+  OnDestroy,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CartComponent } from '../cart/cart';
-
-interface SDG {
-  number: string;
-  title: string;
-  description: string;
-}
 
 @Component({
   selector: 'app-about',
@@ -16,75 +19,79 @@ interface SDG {
   imports: [CommonModule, RouterModule, CartComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './about.html',
-  styleUrls: ['./about.css']
+  styleUrls: ['./about.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AboutComponent implements AfterViewInit, OnDestroy {
   @ViewChild('heroVideo') heroVideo!: ElementRef<HTMLVideoElement>;
 
-  isVideoPlaying: boolean = false;
+  isVideoPlaying = false;
 
-  sdgs: SDG[] = [
-    { number: '1', title: 'No Poverty', description: 'Creating new income streams for farmers, youth, and women' },
-    { number: '2', title: 'Zero Hunger', description: 'Boosting food security by regenerating soils and increasing yields' },
-    { number: '3', title: 'Gender Equality', description: 'Empowering women in agriculture through training and leadership' },
-    { number: '4', title: 'Responsible Consumption', description: 'Transforming organic waste into high-value fertilizers' },
-    { number: '5', title: 'Climate Action', description: 'Reducing emissions and building climate-resilient farms' },
-    { number: '6', title: 'Life on Land', description: 'Restoring degraded soils and improving biodiversity' }
-  ];
+  // Bound references so removeEventListener actually works
+  private onPlay = () => {
+    this.isVideoPlaying = true;
+    this.cdr.markForCheck();
+  };
 
-  ngAfterViewInit() {
-    if (this.heroVideo && this.heroVideo.nativeElement) {
-      const video = this.heroVideo.nativeElement;
-      video.preload = 'metadata';
-      video.muted = false;
+  private onPause = () => {
+    this.isVideoPlaying = false;
+    this.cdr.markForCheck();
+  };
 
-      video.addEventListener('play', () => {
-        this.isVideoPlaying = true;
-      });
+  constructor(private cdr: ChangeDetectorRef) {}
 
-      video.addEventListener('pause', () => {
-        this.isVideoPlaying = false;
-      });
+  ngAfterViewInit(): void {
+    const video = this.heroVideo?.nativeElement;
+    if (!video) return;
 
-      video.addEventListener('ended', () => {
-        video.currentTime = 0;
-        video.play();
-      });
-    }
+    video.preload = 'metadata';
+    video.muted = false;
+
+    // 'loop' attribute on the <video> tag already handles replay —
+    // no manual 'ended' listener needed, that was doing duplicate work.
+    video.addEventListener('play', this.onPlay);
+    video.addEventListener('pause', this.onPause);
   }
 
-  ngOnDestroy() {
-    if (this.heroVideo && this.heroVideo.nativeElement) {
-      const video = this.heroVideo.nativeElement;
-      video.pause();
-      video.removeEventListener('play', () => {});
-      video.removeEventListener('pause', () => {});
-      video.removeEventListener('ended', () => {});
-    }
+  ngOnDestroy(): void {
+    const video = this.heroVideo?.nativeElement;
+    if (!video) return;
+
+    video.pause();
+    video.removeEventListener('play', this.onPlay);
+    video.removeEventListener('pause', this.onPause);
   }
 
   playVideo(): void {
-    if (this.heroVideo && this.heroVideo.nativeElement) {
-      const video = this.heroVideo.nativeElement;
-      video.play()
-        .then(() => {
-          this.isVideoPlaying = true;
-        })
-        .catch(error => {
-          console.error('Error playing video:', error);
-        });
-    }
+    const video = this.heroVideo?.nativeElement;
+    if (!video) return;
+
+    video.play()
+      .then(() => {
+        this.isVideoPlaying = true;
+        this.cdr.markForCheck();
+      })
+      .catch(err => console.error('Error playing video:', err));
   }
 
   toggleVideoPlay(): void {
-    if (this.heroVideo && this.heroVideo.nativeElement) {
-      const video = this.heroVideo.nativeElement;
-      if (video.paused) {
-        this.playVideo();
-      } else {
-        video.pause();
-        this.isVideoPlaying = false;
-      }
+    const video = this.heroVideo?.nativeElement;
+    if (!video) return;
+
+    if (video.paused) {
+      this.playVideo();
+    } else {
+      video.pause();
+      this.isVideoPlaying = false;
+      this.cdr.markForCheck();
     }
+  }
+
+  // Single handler reused by every lazy image — pure DOM class toggle,
+  // deliberately NOT touching Angular state so it costs nothing on OnPush.
+  onImgLoad(event: Event): void {
+    const img = event.target as HTMLImageElement;
+    img.classList.add('loaded');
+    img.parentElement?.classList.add('loaded');
   }
 }
