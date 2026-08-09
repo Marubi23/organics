@@ -1,122 +1,65 @@
-<!-- src/app/components/hamburger-menu/hamburger-menu.html -->
+<!-- Simple Dropdown Menu -->
 <div class="menu-overlay" [class.open]="isOpen" (click)="onClose()">
-  <div class="hamburger-menu" [class.open]="isOpen" (click)="$event.stopPropagation()">
+  <div class="dropdown-menu" [class.open]="isOpen" (click)="$event.stopPropagation()">
     
-    <!-- Header -->
-    <div class="menu-header">
-      <div class="logo-area" (click)="navigate('/home')">
-        <img src="/images/new-mzuri-logo.png" alt="Mzuri Organics" class="menu-logo">
-      </div>
-      <button class="close-btn" (click)="onClose()">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-      </button>
-    </div>
+    <!-- Close Button -->
+    <button class="close-btn" (click)="onClose()">
+      <i class="fas fa-times"></i>
+    </button>
 
-    <!-- Brand Statement -->
-    <div class="brand-statement">
-      <span class="brand-tagline">Circular Bioeconomy · Kenya</span>
-      <h2 class="brand-headline">
-        Your One-Stop Shop for<br>
-        <span class="brand-highlight">100% Organic</span><br>
-        Farming Solution
-      </h2>
-    </div>
-
-    <!-- User Section -->
-  
-
-    <!-- Navigation -->
+    <!-- Menu Items -->
     <nav class="menu-nav">
-      <!-- Simple links -->
+      <!-- Simple Links -->
       <a *ngFor="let item of menuItems" 
          [routerLink]="item.route" 
          class="nav-link"
          [class.active]="isActive(item.route)"
          (click)="onClose()">
-        <span class="nav-text">{{ item.text }}</span>
-        <span class="nav-arrow">→</span>
+        {{ item.text }}
       </a>
 
-      <!-- Products with dropdown -->
-      <div class="nav-item">
-        <button class="nav-link dropdown-toggle" 
-                (click)="toggleProducts()"
-                [class.active]="isProductsOpen">
-          <span class="nav-text">Products</span>
-          <span class="dropdown-indicator">{{ isProductsOpen ? '−' : '+' }}</span>
-        </button>
-        <div class="dropdown-submenu" [class.open]="isProductsOpen">
-          <a *ngFor="let child of productChildren" 
-             [routerLink]="child.route" 
-             class="submenu-link"
-             [class.active]="isActive(child.route)"
-             (click)="onClose()">
-            <span class="submenu-text">{{ child.text }}</span>
-          </a>
-        </div>
-      </div>
-
-      <!-- About Us with dropdown -->
+      <!-- About with Dropdown -->
       <div class="nav-item">
         <button class="nav-link dropdown-toggle" 
                 (click)="toggleAbout()"
                 [class.active]="isAboutOpen">
-          <span class="nav-text">About Us</span>
-          <span class="dropdown-indicator">{{ isAboutOpen ? '−' : '+' }}</span>
+          About
+          <span class="dropdown-icon">{{ isAboutOpen ? '−' : '+' }}</span>
         </button>
         <div class="dropdown-submenu" [class.open]="isAboutOpen">
           <a *ngFor="let child of aboutChildren" 
              [routerLink]="child.route" 
              class="submenu-link"
-             [class.active]="isActive(child.route)"
              (click)="onClose()">
-            <span class="submenu-text">{{ child.text }}</span>
+            {{ child.text }}
+          </a>
+        </div>
+      </div>
+
+      <!-- Products with Dropdown -->
+      <div class="nav-item">
+        <button class="nav-link dropdown-toggle" 
+                (click)="toggleProducts()"
+                [class.active]="isProductsOpen">
+          Products
+          <span class="dropdown-icon">{{ isProductsOpen ? '−' : '+' }}</span>
+        </button>
+        <div class="dropdown-submenu" [class.open]="isProductsOpen">
+          <a *ngFor="let child of productChildren" 
+             [routerLink]="child.route" 
+             class="submenu-link"
+             (click)="onClose()">
+            {{ child.text }}
           </a>
         </div>
       </div>
     </nav>
 
-    <!-- Divider -->
-    <div class="menu-divider"></div>
-
-    <!-- Account Section -->
-    <div class="account-section" *ngIf="currentUser">
-      <p class="section-title">My Account</p>
-      <a *ngFor="let item of accountItems" 
-         [routerLink]="item.route" 
-         class="account-link"
-         (click)="onClose()">
-        <span class="account-text">{{ item.text }}</span>
-        <span class="account-arrow">→</span>
-      </a>
-      <button class="logout-btn" (click)="logout()">
-        <span>Sign Out</span>
-        <span>→</span>
-      </button>
-    </div>
-
-    <!-- Quick Actions -->
-    <div class="quick-actions">
-      <button class="action-btn cart-btn" (click)="toggleCart()">
-        <span>🛒 Cart</span>
-        <span class="cart-badge" *ngIf="cartCount > 0">{{ cartCount }}</span>
-      </button>
-      <a routerLink="/contact" class="action-btn" (click)="onClose()">
-        <span>✉ Contact</span>
-      </a>
-    </div>
-
-    <!-- Footer -->
+    <!-- Footer Links -->
     <div class="menu-footer">
-      <div class="social-links">
-        <a href="#" class="social-link">fb</a>
-        <a href="#" class="social-link">tw</a>
-        <a href="#" class="social-link">ig</a>
-        <a href="#" class="social-link">yt</a>
-      </div>
-      <p class="copyright">© {{ currentYear }} Mzuri Organics</p>
+      <a routerLink="/contact" class="footer-link" (click)="onClose()">Contact</a>
+      <a routerLink="/faq" class="footer-link" (click)="onClose()">FAQ</a>
+      <a routerLink="/testimonials" class="footer-link" (click)="onClose()">Testimonials</a>
     </div>
 
   </div>
