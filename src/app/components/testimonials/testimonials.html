@@ -1,194 +1,56 @@
-<!-- Hero Section - Matching Your Theme -->
-<section class="testimonials-hero">
-  <div class="hero-bg"></div>
-  <div class="hero-overlay"></div>
-  
-  <div class="hero-body">
-    <div class="hero-inner">
-      <div class="hero-left">
-        <div class="hero-eyebrow">
-          <span class="eyebrow-line"></span>
-          <span>Real Voices • Real Impact</span>
-          <span class="eyebrow-line"></span>
-        </div>
-        <h1 class="hero-headline">
-          Stories That <em>Inspire</em>
-        </h1>
-        
-        <div class="hero-ctas">
-          <a routerLink="/products" class="cta-primary">
-            <i class="fas fa-seedling"></i> Shop Now
-          </a>
-          <a routerLink="/contact" class="cta-ghost">
-            <i class="fas fa-comment"></i> Share Your Story
-          </a>
-        </div>
-      </div>
-      
-      <div class="hero-right">
-        <div class="lottie-icon-wrapper">
-          <div id="testimonialsLottie" class="hero-lottie"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  <div class="hero-fade-bottom"></div>
-</section>
+<!-- Simple Testimonials Section -->
 
-<!-- Impact Stats Bar -->
-
-
-<!-- Filters Section -->
-<section class="filters-section">
+<section class="testimonials-section">
   <div class="container">
-    <div class="filters-wrapper">
-      <!-- Category Filters -->
-      <div class="category-filters">
-        <button class="filter-btn" [class.active]="activeCategory === 'all'" (click)="filterTestimonials('all')">
-          <i class="fas fa-star"></i> All Stories
-        </button>
-        <button class="filter-btn" [class.active]="activeCategory === 'farmer'" (click)="filterTestimonials('farmer')">
-          <i class="fas fa-tractor"></i> Farmers
-        </button>
-        <button class="filter-btn" [class.active]="activeCategory === 'customer'" (click)="filterTestimonials('customer')">
-          <i class="fas fa-shopping-bag"></i> Customers
-        </button>
-        <button class="filter-btn" [class.active]="activeCategory === 'partner'" (click)="filterTestimonials('partner')">
-          <i class="fas fa-handshake"></i> Partners
-        </button>
-      </div>
-
-      <!-- Region Filters -->
-      <div class="region-filters">
-        <button class="region-btn" [class.active]="activeRegion === 'all'" (click)="filterByRegion('all')">
-          All Regions
-        </button>
-        <button class="region-btn western" [class.active]="activeRegion === 'Western'" (click)="filterByRegion('Western')">
-          <i class="fas fa-mountain"></i> Western
-        </button>
-        <button class="region-btn rift" [class.active]="activeRegion === 'Rift Valley'" (click)="filterByRegion('Rift Valley')">
-          <i class="fas fa-mountain-sun"></i> Rift Valley
-        </button>
-        <button class="region-btn nyanza" [class.active]="activeRegion === 'Nyanza'" (click)="filterByRegion('Nyanza')">
-          <i class="fas fa-water"></i> Nyanza
-        </button>
-      </div>
+    <!-- Heading -->
+    <div class="section-header">
+      <span class="subtitle">Real Voices</span>
+      <h2>What Our <span class="gold">Community</span> Says</h2>
     </div>
-  </div>
-</section>
 
-<!-- Testimonials Grid -->
-<section class="testimonials-grid-section">
-  <div class="container">
-    <div class="testimonials-grid">
-      <div *ngFor="let testimonial of filteredTestimonials" class="testimonial-card" [class.featured]="testimonial.featured">
-        
-        <!-- Featured Badge -->
-        <div class="featured-badge" *ngIf="testimonial.featured">
-          <i class="fas fa-crown"></i> Featured Story
+    <!-- Testimonial Carousel -->
+    <div class="testimonial-wrapper">
+      <div class="testimonial-card" [@fadeSlide]="currentIndex">
+        <!-- Quote -->
+        <div class="quote-icon">
+          <i class="fas fa-quote-left"></i>
         </div>
+        
+        <blockquote class="testimonial-quote">
+          "{{ currentTestimonial.quote }}"
+        </blockquote>
 
-        <!-- Profile Section -->
-        <div class="profile-section">
-          <div class="profile-image">
-            <img [src]="testimonial.image" [alt]="testimonial.name" (error)="testimonial.image = 'images/avatar-placeholder.jpg'">
-            <div class="profile-verified">
-              <i class="fas fa-check-circle"></i>
-            </div>
+        <!-- Profile -->
+        <div class="profile">
+          <div class="profile-image-wrapper">
+            <!-- Skeleton -->
+     
           </div>
           <div class="profile-info">
-            <h3 class="profile-name">{{ testimonial.name }}</h3>
-            <p class="profile-location">
-              <i class="fas fa-map-marker-alt" [style.color]="getRegionColor(testimonial.region)"></i>
-              {{ testimonial.location }}, {{ testimonial.county }}
-            </p>
-            <div class="profile-tags">
-              <span class="tag tribe" [class]="testimonial.tribe.toLowerCase()">
-                <i [class]="getTribeIcon(testimonial.tribe)"></i> {{ testimonial.tribe }}
-              </span>
-              <span class="tag region" [class]="testimonial.region.toLowerCase().replace(' ', '-')">
-                <i [class]="getRegionIcon(testimonial.region)"></i> {{ testimonial.region }}
-              </span>
-              <span class="tag category" [class]="testimonial.category">
-                <i [class]="getCategoryIcon(testimonial.category)"></i> {{ testimonial.category }}
-              </span>
-            </div>
+            <h4 class="name">{{ currentTestimonial.name }}</h4>
+            <p class="role">{{ currentTestimonial.role }}</p>
           </div>
-          <div class="profile-rating">
-            <div class="stars">
-              <i class="fas fa-star" *ngFor="let star of getRatingStars(testimonial.rating)"></i>
-            </div>
-            <span class="member-since">
-              <i class="fas fa-calendar-alt"></i> Since {{ testimonial.joinDate }}
-            </span>
-          </div>
-        </div>
-
-        <!-- Quote Section -->
-        <div class="quote-section">
-          <div class="quote-mark">
-            <i class="fas fa-quote-left"></i>
-          </div>
-          <blockquote class="testimonial-quote">
-            "{{ testimonial.quote }}"
-          </blockquote>
-        </div>
-
-        <!-- Story Section -->
-        <div class="story-section">
-          <p class="story-text">{{ testimonial.story }}</p>
-        </div>
-
-        <!-- Results Grid -->
-        <div class="results-section">
-          <h4><i class="fas fa-chart-simple"></i> Impact Results</h4>
-          <div class="results-grid">
-            <div *ngFor="let result of testimonial.results" class="result-card">
-              <div class="result-icon">
-                <i [class]="result.icon"></i>
-              </div>
-              <div class="result-details">
-                <span class="result-value">{{ result.value }}</span>
-                <span class="result-label">{{ result.label }}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Role Badge -->
-        <div class="role-badge" [class]="testimonial.role.includes('Farmer') ? 'farmer' : (testimonial.role.includes('Owner') ? 'owner' : 'partner')">
-          <i class="fas" [class]="testimonial.role.includes('Farmer') ? 'fa-tractor' : (testimonial.role.includes('Owner') ? 'fa-store' : 'fa-handshake')"></i>
-          {{ testimonial.role }}
         </div>
       </div>
-    </div>
 
-    <!-- Empty State -->
-    <div class="empty-state" *ngIf="filteredTestimonials.length === 0">
-      <i class="fas fa-comments"></i>
-      <h3>No stories found</h3>
-      <p>Try adjusting your filters to see more inspiring stories</p>
-      <button class="reset-btn" (click)="activeCategory = 'all'; activeRegion = 'all'; applyFilters()">
-        <i class="fas fa-redo-alt"></i> Reset Filters
-      </button>
-    </div>
-  </div>
-</section>
-
-<!-- CTA Section -->
-<section class="cta-section">
-  <div class="container">
-    <div class="cta-content">
-      <h2>Ready to Write Your Success Story?</h2>
-      <p>Join hundreds of farmers from Western, Rift Valley, and beyond who are transforming their lives with Mzuri Organics.</p>
-      <div class="cta-buttons">
-        <a routerLink="/products" class="btn-primary">
-          <i class="fas fa-shopping-bag"></i> Shop Products
-        </a>
-        <a routerLink="/contact" class="btn-secondary">
-          <i class="fas fa-user-plus"></i> Become a Partner
-        </a>
+      <!-- Controls -->
+      <div class="controls">
+        <button class="control-btn prev" (click)="previousTestimonial()">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        
+        <div class="dots">
+          <span 
+            class="dot" 
+            *ngFor="let t of testimonials; let i = index"
+            [class.active]="i === currentIndex"
+            (click)="goToTestimonial(i)"
+          ></span>
+        </div>
+        
+        <button class="control-btn next" (click)="nextTestimonial()">
+          <i class="fas fa-chevron-right"></i>
+        </button>
       </div>
     </div>
   </div>
