@@ -43,11 +43,11 @@
         <div class="map-controls">
           <button class="map-control-btn" (click)="openDirections()">
             <i class="fas fa-directions"></i>
-            <span>Get Directions</span>
+            <span>Directions</span>
           </button>
           <button class="map-control-btn" (click)="viewLargerMap()">
             <i class="fas fa-expand"></i>
-            <span>View Larger</span>
+            <span>Larger</span>
           </button>
           <button class="map-control-btn" (click)="openStreetView()">
             <i class="fas fa-street-view"></i>
@@ -55,31 +55,15 @@
           </button>
           <button class="map-control-btn" (click)="copyAddress()">
             <i class="fas fa-copy"></i>
-            <span>Copy Address</span>
+            <span>Copy</span>
+          </button>
+          <button class="map-control-btn" (click)="refreshMap()" style="background:#88c431; color:#0d2b12;">
+            <i class="fas fa-sync-alt"></i>
+            <span>Refresh</span>
           </button>
         </div>
         
-        <div class="location-info-card">
-          <div class="info-card-content">
-            <div class="info-icon">
-              <i class="fas fa-store"></i>
-            </div>
-            <div class="info-details">
-              <h4>Musembe Shopping Center</h4>
-              <p class="address-line">Eldoret – Malaba Road</p>
-              <p class="address-line">P.O Box 254711949520 – 50100</p>
-              <p class="address-line">Kakamega, Kenya</p>
-              <div class="info-actions">
-                <a href="tel:0701934918" class="info-action">
-                  <i class="fas fa-phone-alt"></i> Call
-                </a>
-                <a href="https://wa.me/254701934918" class="info-action" target="_blank">
-                  <i class="fab fa-whatsapp"></i> WhatsApp
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
+
       </div>
     </div>
     
