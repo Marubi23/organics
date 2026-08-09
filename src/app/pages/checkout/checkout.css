@@ -34,7 +34,7 @@
 .checkout-page {
   width: 100%;
   min-height: 100vh;
-  background: #fafaf7;
+  background: var(--forest);
   font-family: 'Inter', 'Segoe UI', sans-serif;
   padding: 0;
   margin: 0;
@@ -1114,7 +1114,7 @@
 }
 
 .till-box {
-  background: #075E54;
+  background: #25D366;
   border-radius: 10px;
   padding: 0.75rem 1rem;
   margin-top: 0.5rem;
@@ -1126,12 +1126,12 @@
 }
 
 .till-label {
-  font-size: 1.75rem;
+  font-size: 2.75rem;
   color: var(--gray);
 }
 
 .till-number {
-  font-size: 2.5rem;
+  font-size: 3.5rem;
   font-weight: 800;
   color: var(--whatsapp);
   font-family: 'Courier New', monospace;
@@ -1164,7 +1164,7 @@
 }
 
 .amount-note {
-  font-size: 0.7rem;
+  font-size: 1.7rem;
   color: var(--gray);
   font-style: italic;
   margin-top: 0.2rem !important;
@@ -1306,14 +1306,14 @@
 }
 
 .whatsapp-header h3 {
-  font-size: 1rem;
+  font-size: 2rem;
   font-weight: 700;
   color: var(--white);
   margin: 0;
 }
 
 .whatsapp-header p {
-  font-size: 0.75rem;
+  font-size: 1.75rem;
   color: rgba(255, 255, 255, 0.85);
   margin: 0;
 }
@@ -1365,8 +1365,8 @@
 
 .whatsapp-btn {
   width: 100%;
-  background: var(--whatsapp);
-  color: var(--white);
+  background: #25D366;
+  color: var(--green);
   border: none;
   padding: 0.75rem;
   border-radius: 12px;
@@ -1397,7 +1397,7 @@
   align-items: center;
   gap: 0.5rem;
   font-size: 0.75rem;
-  color: var(--text-mid);
+  color: white;
   padding: 0.5rem;
   background: var(--bg-light);
   border-radius: 8px;
@@ -2159,5 +2159,355 @@
   
   .form-input {
     font-size: 16px !important;
+  }
+}
+/* ============================================
+   LOCATION SECTION
+   ============================================ */
+.location-section {
+  background: rgba(136, 196, 49, 0.05);
+  border: 2px solid #c8841a;
+  border-radius: 16px;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.location-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.location-header i {
+  color: var(--gold);
+  font-size: 1.2rem;
+}
+
+.location-header h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--forest);
+  margin: 0;
+  flex: 1;
+}
+
+.location-status {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.75rem;
+  border-radius: 20px;
+  background: #e8ebe8;
+  color: var(--gray);
+  font-weight: 600;
+}
+
+.location-status.captured {
+  background: rgba(136, 196, 49, 0.15);
+  color: var(--green);
+}
+
+.location-content {
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+}
+
+.location-loading {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--gray);
+  font-size: 0.85rem;
+}
+
+.location-loading i {
+  color: var(--gold);
+  font-size: 1rem;
+}
+
+.location-success {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.location-success i {
+  color: var(--green);
+  font-size: 1.1rem;
+}
+
+.location-success span {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--forest);
+  font-family: 'Courier New', monospace;
+}
+
+.location-note {
+  font-size: 0.7rem !important;
+  color: var(--gray) !important;
+  font-weight: 400 !important;
+  font-family: inherit !important;
+}
+
+.location-error {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.location-error i {
+  color: #dc3545;
+  font-size: 1rem;
+}
+
+.location-error span {
+  font-size: 0.85rem;
+  color: #dc3545;
+}
+
+.retry-btn {
+  background: var(--gray-light);
+  border: none;
+  padding: 0.3rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-mid);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.retry-btn:hover {
+  background: var(--gray);
+  color: white;
+}
+
+.locate-btn {
+  background: var(--green);
+  color: white;
+  border: none;
+  padding: 0.5rem 1.25rem;
+  border-radius: 40px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.locate-btn:hover {
+  background: var(--green-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(136, 196, 49, 0.3);
+}
+
+.location-prompt {
+  width: 100%;
+}
+
+/* ============================================
+   ORDER REVIEW
+   ============================================ */
+.order-review {
+  background: var(--bg-light);
+  border-radius: 16px;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.order-review h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--forest);
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.order-review h4 i {
+  color: var(--gold);
+}
+
+.review-items {
+  border-bottom: 1px solid var(--gray-light);
+  padding-bottom: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.review-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.3rem 0;
+  font-size: 0.85rem;
+  color: var(--text-mid);
+}
+
+.review-total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.1rem;
+  padding: 0.5rem 0;
+}
+
+.review-total .total-amount {
+  color: var(--gold);
+}
+
+.review-delivery {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--gray);
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--gray-light);
+}
+
+.review-delivery.free {
+  color: var(--green);
+}
+
+.review-delivery i {
+  color: var(--whatsapp);
+}
+
+.review-delivery.free i {
+  color: var(--green);
+}
+
+/* ============================================
+   PAYMENT INFO
+   ============================================ */
+.payment-info {
+  background: rgba(255, 193, 7, 0.05);
+  border: 1px solid rgba(255, 193, 7, 0.2);
+  border-radius: 16px;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.payment-info h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--forest);
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.payment-info h4 i {
+  color: var(--gold);
+}
+
+.till-display {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  background: var(--white);
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  margin-bottom: 0.75rem;
+  border: 1px solid var(--gray-light);
+}
+
+.till-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--gray);
+}
+
+.till-number {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--whatsapp);
+  font-family: 'Courier New', monospace;
+  letter-spacing: 2px;
+}
+
+.amount-display {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+.amount-display span {
+  font-size: 0.85rem;
+  color: var(--text-mid);
+}
+
+.amount-display strong {
+  font-size: 1.3rem;
+  color: var(--gold);
+}
+
+.location-coords {
+  font-family: 'Courier New', monospace;
+  font-size: 0.75rem;
+  color: var(--green);
+  background: rgba(136, 196, 49, 0.08);
+  padding: 0.15rem 0.6rem;
+  border-radius: 12px;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+  .location-success {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+  }
+  
+  .location-success span {
+    font-size: 0.75rem;
+  }
+  
+  .till-number {
+    font-size: 1.4rem;
+  }
+  
+  .amount-display strong {
+    font-size: 1.1rem;
+  }
+  
+  .review-item {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .location-section {
+    padding: 1rem;
+  }
+  
+  .location-header {
+    flex-wrap: wrap;
+  }
+  
+  .location-content {
+    min-height: 50px;
+  }
+  
+  .till-display {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+  
+  .copy-btn {
+    align-self: center;
   }
 }

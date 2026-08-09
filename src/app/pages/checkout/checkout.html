@@ -1,6 +1,6 @@
 <!-- ============================================
    CHECKOUT - MZURI ORGANICS
-   Simple, Trustworthy, Pay-as-You-Go
+   Simple 3-Step Checkout
    ============================================ -->
 
 <div class="checkout-page">
@@ -20,7 +20,7 @@
       <div class="step-line" [class.active]="currentStep > 2"></div>
       <div class="step" [class.active]="currentStep === 3" [class.completed]="currentStep > 3">
         <div class="step-circle">3</div>
-        <span class="step-label">Pay</span>
+        <span class="step-label">Confirm</span>
       </div>
     </div>
   </div>
@@ -57,15 +57,15 @@
             <span>Delivery</span>
             <span class="delivery-status">
               <i class="fab fa-whatsapp"></i>
-              <span>Via WhatsApp</span>
+              <span>{{ isFreeDeliveryEligible() ? 'Free' : 'TBC' }}</span>
             </span>
           </div>
 
-          <div class="free-delivery-note" *ngIf="subtotal >= 25000">
+          <div class="free-delivery-note" *ngIf="isFreeDeliveryEligible()">
             <i class="fas fa-check-circle"></i>
             <span><strong>Free delivery</strong> — you qualify!</span>
           </div>
-          <div class="free-delivery-note threshold" *ngIf="subtotal < 25000">
+          <div class="free-delivery-note threshold" *ngIf="!isFreeDeliveryEligible()">
             <i class="fas fa-info-circle"></i>
             <span>Free delivery over <strong>KES 25,000</strong></span>
           </div>
@@ -77,7 +77,7 @@
 
           <div class="payment-note">
             <i class="fas fa-lock"></i>
-            <span>Pay subtotal now. Delivery confirmed on WhatsApp.</span>
+            <span>Pay via M-Pesa Till {{ tillNumber }}</span>
           </div>
         </div>
 
@@ -98,8 +98,8 @@
         <div class="step-header">
           <div class="step-icon"><i class="fas fa-user"></i></div>
           <div>
-            <h2>Customer Details?</h2>
-            <p>Just a few details to get started</p>
+            <h2>Your Details</h2>
+            <p>We need a few details to process your order</p>
           </div>
         </div>
 
@@ -135,7 +135,7 @@
               <label>Phone *</label>
               <div class="phone-input-wrapper">
                 <span class="phone-prefix">+254</span>
-                <input type="tel" formControlName="phoneNumber" placeholder="712345678" class="form-input phone-input">
+                <input type="tel" formControlName="phoneNumber" placeholder="712345678" class="form-input phone-input" (input)="formatPhoneInput($event)">
               </div>
               <div class="form-hint"><i class="fas fa-info-circle"></i> Without leading 0</div>
               <div class="form-error" *ngIf="formControls['phoneNumber'].touched && formControls['phoneNumber'].invalid">
@@ -159,22 +159,60 @@
         </form>
       </div>
 
-      <!-- STEP 2: Delivery - With Collapsible Sections -->
+      <!-- STEP 2: Delivery + Location -->
       <div *ngIf="currentStep === 2" class="step-panel" [@fadeIn]>
         <div class="step-header">
           <div class="step-icon"><i class="fas fa-truck"></i></div>
           <div>
-            <h2>Where to deliver?</h2>
-            <p>We'll confirm delivery on WhatsApp — just tell us where you are</p>
+            <h2>Delivery & Location</h2>
+            <p>Tell us where to deliver — we'll confirm on WhatsApp</p>
+          </div>
+        </div>
+
+        <!-- Location Capture -->
+        <div class="location-section">
+          <div class="location-header">
+            <i class="fas fa-location-dot"></i>
+            <h4>Your Location</h4>
+            <span class="location-status" [class.captured]="locationCaptured">
+              {{ locationCaptured ? '✓ Captured' : 'Not captured' }}
+            </span>
+          </div>
+          
+          <div class="location-content">
+            <div *ngIf="isLocating" class="location-loading">
+              <i class="fas fa-spinner fa-spin"></i>
+              <span>Detecting your location...</span>
+            </div>
+            
+            <div *ngIf="locationError" class="location-error">
+              <i class="fas fa-exclamation-triangle"></i>
+              <span>{{ locationError }}</span>
+              <button class="retry-btn" (click)="retryLocation()">
+                <i class="fas fa-sync-alt"></i> Retry
+              </button>
+            </div>
+            
+            <div *ngIf="locationCaptured && userLocation" class="location-success">
+              <i class="fas fa-check-circle"></i>
+              <span>{{ getLocationDisplay() }}</span>
+              <span class="location-note">Used for faster delivery</span>
+            </div>
+            
+            <div *ngIf="!isLocating && !locationCaptured && !locationError" class="location-prompt">
+              <button class="locate-btn" (click)="autoDetectLocation()">
+                <i class="fas fa-location-dot"></i> Detect My Location
+              </button>
+            </div>
           </div>
         </div>
 
         <div class="delivery-notice">
           <i class="fas fa-info-circle"></i>
           <div>
-            <strong *ngIf="subtotal < 25000">Delivery fee: TBC on WhatsApp</strong>
-            <strong *ngIf="subtotal >= 25000">✅ Free delivery applied!</strong>
-            <p *ngIf="subtotal < 25000">Based on your location — we'll confirm after payment</p>
+            <strong *ngIf="isFreeDeliveryEligible()">✅ Free delivery applied!</strong>
+            <strong *ngIf="!isFreeDeliveryEligible()">Delivery fee: TBC on WhatsApp</strong>
+            <p>Based on your location — we'll confirm after payment</p>
           </div>
         </div>
 
@@ -272,73 +310,54 @@
           <div class="form-actions">
             <button type="button" class="btn-back" (click)="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
             <button type="button" class="btn-next" (click)="nextStep()" [disabled]="!isDeliveryFormValid()">
-              Continue 
+              Continue <i class="fas fa-arrow-right"></i>
             </button>
           </div>
         </form>
       </div>
 
-      <!-- STEP 3: Payment -->
+      <!-- STEP 3: Confirm & Pay -->
       <div *ngIf="currentStep === 3" class="step-panel" [@fadeIn]>
         <div class="step-header">
-          <div class="step-icon"></div>
+          <div class="step-icon"><i class="fas fa-check-circle"></i></div>
           <div>
-            <h2>Pay securely</h2>
-            <p>M-Pesa Till — simple & trusted</p>
+            <h2>Confirm & Pay</h2>
+            <p>Review your order and pay via M-Pesa</p>
           </div>
         </div>
 
-        <div class="payment-notice" [class.free]="subtotal >= 25000">
-          <i class="fas" [class.fa-gift]="subtotal >= 25000" [class.fa-info-circle]="subtotal < 25000"></i>
-          <div>
-            <strong>Pay: <span class="highlight-amount">KES {{ subtotal | number }}</span></strong>
-            <p *ngIf="subtotal < 25000"><i class="fab fa-whatsapp"></i> Delivery confirmed on WhatsApp</p>
-            <p *ngIf="subtotal >= 25000"><i class="fas fa-check-circle"></i> Free delivery included!</p>
+        <!-- Order Summary -->
+        <div class="order-review">
+          <h4><i class="fas fa-receipt"></i> Order Summary</h4>
+          <div class="review-items">
+            <div *ngFor="let item of cartItems" class="review-item">
+              <span>{{ item.quantity }}x {{ item.name }}</span>
+              <span>KES {{ (item.price * item.quantity) | number }}</span>
+            </div>
+          </div>
+          <div class="review-total">
+            <strong>Total:</strong>
+            <strong class="total-amount">KES {{ subtotal | number }}</strong>
+          </div>
+          <div class="review-delivery" [class.free]="isFreeDeliveryEligible()">
+            <i class="fas" [class.fa-check-circle]="isFreeDeliveryEligible()" [class.fa-info-circle]="!isFreeDeliveryEligible()"></i>
+            <span>{{ isFreeDeliveryEligible() ? '✅ Free Delivery' : 'Delivery: TBC on WhatsApp' }}</span>
           </div>
         </div>
 
-        <div class="mpesa-instructions">
-          <h3><i class="fas fa-mobile-alt"></i> M-Pesa Till</h3>
-          
-          <div class="instruction-steps">
-            <div class="step-item">
-              <div class="step-num">1</div>
-              <div class="step-content">
-                <p>Open M-Pesa → <strong>Lipa na M-Pesa</strong> → <strong>Buy Goods</strong></p>
-              </div>
-            </div>
-
-            <div class="step-item highlight">
-              <div class="step-num">2</div>
-              <div class="step-content">
-                <p><strong>Till:</strong> 
-                  <code class="till-number">8589836</code>
-                  <button class="copy-btn" (click)="copyToClipboard('8589836')">
-                    <i class="fas fa-copy"></i> Copy
-                  </button>
-                </p>
-              </div>
-            </div>
-
-            <div class="step-item">
-              <div class="step-num">3</div>
-              <div class="step-content">
-                <p>Pay <strong class="amount-highlight">KES {{ subtotal | number }}</strong></p>
-                <p class="amount-note" *ngIf="subtotal < 25000">Delivery fee confirmed on WhatsApp</p>
-                <p class="amount-note free" *ngIf="subtotal >= 25000">✅ Free delivery applied</p>
-              </div>
-            </div>
-
-            <div class="step-item">
-              <div class="step-num">4</div>
-              <div class="step-content">
-                <p>Send confirmation on WhatsApp</p>
-                <div class="tip-box">
-                  <i class="fas fa-lightbulb"></i>
-                  <span>Keep the M-Pesa confirmation message</span>
-                </div>
-              </div>
-            </div>
+        <!-- Payment Info -->
+        <div class="payment-info">
+          <h4><i class="fas fa-mobile-alt"></i> M-Pesa Payment</h4>
+          <div class="till-display">
+            <span class="till-label">Till Number</span>
+            <code class="till-number">{{ tillNumber }}</code>
+            <button class="copy-btn" (click)="copyToClipboard(tillNumber)">
+              <i class="fas fa-copy"></i> Copy
+            </button>
+          </div>
+          <div class="amount-display">
+            <span>Amount to Pay</span>
+            <strong>KES {{ subtotal | number }}</strong>
           </div>
         </div>
 
@@ -348,17 +367,19 @@
             <div class="whatsapp-header">
               <i class="fab fa-whatsapp"></i>
               <div>
-                <h3>Confirm on WhatsApp</h3>
-                <p>Send payment confirmation to complete</p>
+                <h3>Confirm via WhatsApp</h3>
+                <p>Send all details with one click</p>
               </div>
             </div>
             <div class="whatsapp-body">
               <button class="whatsapp-btn" (click)="openWhatsAppWithMessage()">
-                <i class="fab fa-whatsapp"></i> Open WhatsApp
+                <i class="fab fa-whatsapp"></i> Send Order Details
               </button>
               <div class="whatsapp-notes">
-                <div class="note"><i class="fab fa-whatsapp"></i> We confirm delivery fee</div>
-                <div class="note free" *ngIf="subtotal >= 25000"><i class="fas fa-gift"></i> Free shipping applied!</div>
+                <div class="note"><i class="fas fa-check-circle"></i> All order details included</div>
+                <div class="note"><i class="fas fa-location-dot"></i> Location coordinates attached</div>
+                <div class="note" *ngIf="isFreeDeliveryEligible()"><i class="fas fa-gift"></i> Free delivery applied!</div>
+                <div class="note"><i class="fas fa-image"></i> Don't forget M-Pesa screenshot</div>
               </div>
             </div>
           </div>
@@ -381,34 +402,38 @@
     <div class="modal-content">
       <div class="modal-header">
         <div class="modal-icon"><i class="fas fa-check-circle"></i></div>
-        <h2> Order Placed!</h2>
-        <p>We'll confirm delivery on WhatsApp</p>
+        <h2>Order Placed! 🎉</h2>
+        <p>Your order has been sent to WhatsApp</p>
       </div>
       <div class="modal-body">
         <div class="order-details">
           <div class="detail-item"><span>Order</span><strong>{{ orderCode }}</strong></div>
           <div class="detail-item"><span>Amount</span><strong class="amount">KES {{ subtotal | number }}</strong></div>
-          <div class="detail-item"><span>Till</span><code>8589836</code></div>
-          <div class="detail-item highlight" [class.free]="subtotal >= 25000">
+          <div class="detail-item"><span>Till</span><code>{{ tillNumber }}</code></div>
+          <div class="detail-item highlight" [class.free]="isFreeDeliveryEligible()">
             <span>Delivery</span>
             <span class="delivery-status">
-              {{ subtotal >= 25000 ? 'Free' : ' TBC on WhatsApp' }}
+              {{ isFreeDeliveryEligible() ? 'Free ✅' : 'TBC on WhatsApp' }}
             </span>
+          </div>
+          <div class="detail-item" *ngIf="locationCaptured">
+            <span>Location</span>
+            <span class="location-coords">{{ getLocationDisplay() }}</span>
           </div>
         </div>
 
         <div class="next-steps">
           <h4><i class="fas fa-list-check"></i> Next Steps</h4>
           <div class="steps">
-            <div class="step"><span class="num">1</span> Pay KES {{ subtotal | number }} to Till 8589836</div>
-            <div class="step"><span class="num">2</span> WhatsApp confirmation to +254 701 934918</div>
-            <div class="step"><span class="num">3</span> {{ subtotal >= 25000 ? '✅ Free delivery confirmed' : 'We confirm delivery fee' }}</div>
+            <div class="step"><span class="num">1</span> Pay KES {{ subtotal | number }} to Till {{ tillNumber }}</div>
+            <div class="step"><span class="num">2</span> Send M-Pesa screenshot on WhatsApp</div>
+            <div class="step"><span class="num">3</span> We confirm delivery and send your order</div>
           </div>
         </div>
 
         <div class="support-actions">
-          <a href="https://wa.me/254701934918" target="_blank" class="support-btn whatsapp">
-            <i class="fab fa-whatsapp"></i> WhatsApp
+          <a href="https://wa.me/{{ whatsappNumber }}" target="_blank" class="support-btn whatsapp">
+            <i class="fab fa-whatsapp"></i> Open WhatsApp
           </a>
           <button class="support-btn email" (click)="sendOrderEmail()">
             <i class="fas fa-envelope"></i> Email Receipt
@@ -417,7 +442,7 @@
       </div>
       <div class="modal-footer">
         <button class="btn-continue" (click)="closeConfirmationModal()">
-          <i class="fas fa-shopping-cart"></i> Continue
+          <i class="fas fa-shopping-cart"></i> Continue Shopping
         </button>
         <button class="btn-view" (click)="viewOrderSummary()">
           <i class="fas fa-eye"></i> View Order
