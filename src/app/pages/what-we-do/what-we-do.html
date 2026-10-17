@@ -2,18 +2,24 @@
 <section class="page-hero" @fadeIn>
   <div class="container">
     <div class="hero-content">
+      <span class="hero-eyebrow"><span class="eyebrow-line"></span>What We Do</span>
+
+      <h1>Our Innovative Solutions at <span class="gold-accent">Mzuri Organics</span></h1>
+      <p class="hero-sub">
+        We turn organic waste into healthier soils, safer food and stronger farm economies, in a loop where nothing is wasted.
+      </p>
+
       <!-- Lottie Animation Icon -->
-      <div class="hero-lottie">
+      <div class="hero-lottie" aria-hidden="true">
         <lottie-player
           src="/assets/animations/lottieflow-chat-17-7-c8841a-easey.json"
           background="transparent"
           speed="1"
-          style="width: 120px; height: 120px; margin: 0 auto 20px;"
+          style="width: 120px; height: 120px; margin: 0 auto;"
           loop
           autoplay>
         </lottie-player>
       </div>
-      <h1>Our Innovative Solutions at Mzuri Organics</h1>
     </div>
   </div>
 </section>
@@ -22,13 +28,14 @@
 <section class="solutions-overview" @staggerAnimation>
   <div class="container">
     <div class="section-header">
-      <h2>Our Core Solutions</h2>
+      <h2>Our Core <span class="gold-accent">Solutions</span></h2>
       <p>Comprehensive approaches to sustainable agriculture and circular economy</p>
     </div>
-    
+
     <div class="overview-grid">
       <!-- Solution 1 -->
       <div class="overview-card">
+        <span class="overview-number">01</span>
         <div class="overview-icon">
           <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M22 12a10 10 0 0 1-10 10"></path>
@@ -50,6 +57,7 @@
 
       <!-- Solution 2 -->
       <div class="overview-card">
+        <span class="overview-number">02</span>
         <div class="overview-icon">
           <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="10"></circle>
@@ -71,6 +79,7 @@
 
       <!-- Solution 3 -->
       <div class="overview-card">
+        <span class="overview-number">03</span>
         <div class="overview-icon">
           <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
@@ -96,10 +105,10 @@
 <section class="circular-model" @staggerAnimation>
   <div class="container">
     <div class="section-header">
-      <h2>The Mzuri Organics Circular Model</h2>
+      <h2>The Mzuri Organics <span class="gold-accent">Circular Model</span></h2>
       <p>Complete waste-to-wealth transformation system</p>
     </div>
-    
+
     <div class="circular-flow">
       <ng-container *ngFor="let step of circularSteps; let i = index">
         <div class="flow-step">
@@ -107,7 +116,7 @@
           <h4>{{ step.title }}</h4>
           <p>{{ step.description }}</p>
         </div>
-        <div class="flow-arrow" *ngIf="i < circularSteps.length - 1">
+        <div class="flow-arrow" *ngIf="i < circularSteps.length - 1" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M5 12h14"></path>
             <path d="m12 5 7 7-7 7"></path>
@@ -115,6 +124,11 @@
         </div>
       </ng-container>
     </div>
+
+    <p class="loop-note">
+      <span class="loop-icon" aria-hidden="true">↻</span>
+      The loop closes: premium fertilizer returns to the community, and the cycle begins again.
+    </p>
   </div>
 </section>
 
@@ -122,10 +136,10 @@
 <section class="impact-metrics" @staggerAnimation>
   <div class="container">
     <div class="section-header">
-      <h2>Our Measurable Impact</h2>
+      <h2>Our Measurable <span class="gold-accent">Impact</span></h2>
       <p>Tangible results from our circular agriculture solutions</p>
     </div>
-    
+
     <div class="metrics-grid">
       <div class="metric-card" *ngFor="let metric of metrics">
         <div class="metric-value">{{ metric.value }}</div>
@@ -145,13 +159,27 @@
 <section class="partnerships" @staggerAnimation>
   <div class="container">
     <div class="section-header">
-      <h2>Strategic Partnerships</h2>
-    
+      <h2>Strategic <span class="gold-accent">Partnerships</span></h2>
+      <p>Organisations that share our mission for regenerative agriculture</p>
     </div>
-    
+
     <div class="partners-grid">
       <div class="partner-logo" [class]="partner.customClass || ''" *ngFor="let partner of partnerships">
         <img [src]="partner.logo" [alt]="partner.name">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Closing call to action -->
+<section class="what-cta">
+  <div class="container">
+    <div class="cta-card">
+      <h2>See the results in <span class="gold-accent">your soil</span></h2>
+      <p>Explore our premium organic fertilizers and animal feeds, or talk to our team for expert advice.</p>
+      <div class="cta-buttons">
+        <a href="/products" class="btn-primary">Shop Products</a>
+        <a href="/contact" class="btn-outline">Contact Us</a>
       </div>
     </div>
   </div>

@@ -1,468 +1,466 @@
 <!-- ============================================
-   CHECKOUT - MZURI ORGANICS
-   Simple 3-Step Checkout
-   ============================================ -->
-
+     CHECKOUT — Mzuri Organics
+     Cream paper · deep green · muted gold
+     3-step flow with always-visible order summary
+     ============================================ -->
 <div class="checkout-page">
 
-  <!-- Progress Steps -->
-  <div class="progress-section">
-    <div class="progress-steps">
-      <div class="step" [class.active]="currentStep === 1" [class.completed]="currentStep > 1">
-        <div class="step-circle">1</div>
-        <span class="step-label">DETAILS</span>
-      </div>
-      <div class="step-line" [class.active]="currentStep > 1"></div>
-      <div class="step" [class.active]="currentStep === 2" [class.completed]="currentStep > 2">
-        <div class="step-circle">2</div>
-        <span class="step-label">DELIVERY</span>
-      </div>
-      <div class="step-line" [class.active]="currentStep > 2"></div>
-      <div class="step" [class.active]="currentStep === 3" [class.completed]="currentStep > 3">
-        <div class="step-circle">3</div>
-        <span class="step-label">CONFIRM</span>
+  <!-- ============================================
+       TOP BAR — logo + progress + help (cream, not dark)
+       ============================================ -->
+  <header class="checkout-topbar">
+    <div class="topbar-inner">
+      <a class="brand" routerLink="/home" title="Mzuri Organics Home">
+        <img
+          src="/images/new-mzuri-logo.png"
+          alt="Mzuri Organics"
+          class="brand-logo"
+          onerror="this.src='/images/logo-placeholder.png'">
+      </a>
+
+      <nav class="progress" aria-label="Checkout progress">
+        <div class="progress-step" [class.active]="currentStep === 1" [class.done]="currentStep > 1">
+          <span class="progress-dot">
+            <i class="fas fa-check" *ngIf="currentStep > 1"></i>
+            <span *ngIf="currentStep <= 1">1</span>
+          </span>
+          <span class="progress-label">Your details</span>
+        </div>
+        <span class="progress-line" [class.done]="currentStep > 1"></span>
+        <div class="progress-step" [class.active]="currentStep === 2" [class.done]="currentStep > 2">
+          <span class="progress-dot">
+            <i class="fas fa-check" *ngIf="currentStep > 2"></i>
+            <span *ngIf="currentStep <= 2">2</span>
+          </span>
+          <span class="progress-label">Delivery</span>
+        </div>
+        <span class="progress-line" [class.done]="currentStep > 2"></span>
+        <div class="progress-step" [class.active]="currentStep === 3" [class.done]="currentStep > 3">
+          <span class="progress-dot">3</span>
+          <span class="progress-label">Payment</span>
+        </div>
+      </nav>
+
+      <div class="topbar-help">
+        <a [href]="'https://wa.me/' + whatsappNumber" target="_blank" rel="noopener" class="help-link">
+          <i class="fab fa-whatsapp"></i>
+          <span>Need help?</span>
+        </a>
       </div>
     </div>
-  </div>
+  </header>
 
-  <!-- Main Checkout Wrapper -->
-  <div class="checkout-wrapper">
+  <!-- ============================================
+       MAIN GRID — form on the left, summary sticky right
+       ============================================ -->
+  <div class="checkout-main">
 
-    <!-- Order Summary Sidebar -->
-    <aside class="order-summary">
-      <div class="summary-card">
-        <div class="summary-title">
-          <i class="fas fa-receipt"></i>
-          <h3>YOUR ORDER</h3>
-          <span class="order-badge">#{{ orderCode }}</span>
+    <!-- LEFT: step content -->
+    <section class="checkout-form-area">
+
+      <!-- ============================================
+           STEP 1 — WHO ARE YOU
+           ============================================ -->
+      <div *ngIf="currentStep === 1" class="step-card" [@fadeIn]>
+        <div class="step-intro">
+          <span class="step-eyebrow">Step 1 of 3</span>
+          <h2>Who's this order for?</h2>
+          <p>We only use these details to confirm your order. Nothing else.</p>
         </div>
 
-        <div class="summary-items">
-          <div *ngFor="let item of cartItems" class="summary-item">
-            <img [src]="item.image" [alt]="item.name" class="item-thumb">
-            <div class="item-info">
-              <h4>{{ item.name }}</h4>
-              <span class="item-qty">{{ item.quantity }} × KES {{ item.price | number }}</span>
+        <form [formGroup]="checkoutForm" class="step-form">
+          <div class="field-row">
+            <div class="field">
+              <label for="firstName">First name</label>
+              <input id="firstName" type="text" formControlName="firstName" placeholder="John" autocomplete="given-name" class="input">
+              <span class="field-error" *ngIf="formControls['firstName'].touched && formControls['firstName'].invalid">
+                <i class="fas fa-exclamation-circle"></i> Required
+              </span>
             </div>
-            <span class="item-total">KES {{ (item.price * item.quantity) | number }}</span>
+            <div class="field">
+              <label for="lastName">Last name</label>
+              <input id="lastName" type="text" formControlName="lastName" placeholder="Mwangi" autocomplete="family-name" class="input">
+              <span class="field-error" *ngIf="formControls['lastName'].touched && formControls['lastName'].invalid">
+                <i class="fas fa-exclamation-circle"></i> Required
+              </span>
+            </div>
           </div>
-        </div>
 
-        <div class="summary-totals">
-          <div class="total-row">
-            <span>SUBTOTAL</span>
-            <span>KES {{ subtotal | number }}</span>
-          </div>
-          <div class="total-row delivery-row">
-            <span>DELIVERY</span>
-            <span class="delivery-status">
-              <i class="fab fa-whatsapp"></i>
-              <span>{{ isFreeDeliveryEligible() ? 'FREE' : 'TBC' }}</span>
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" type="email" formControlName="email" placeholder="you@example.com" autocomplete="email" class="input">
+            <span class="field-hint">We'll email your receipt here</span>
+            <span class="field-error" *ngIf="formControls['email'].touched && formControls['email'].invalid">
+              <i class="fas fa-exclamation-circle"></i> Enter a valid email
             </span>
           </div>
 
-          <div class="free-delivery-note" *ngIf="isFreeDeliveryEligible()">
-            <i class="fas fa-check-circle"></i>
-            <span><strong>🎉 FREE DELIVERY</strong> — You qualify!</span>
-          </div>
-          <div class="free-delivery-note threshold" *ngIf="!isFreeDeliveryEligible()">
-            <i class="fas fa-info-circle"></i>
-            <span>Free delivery over <strong>KES 25,000</strong></span>
-          </div>
-
-          <div class="total-row grand-total">
-            <strong>TOTAL</strong>
-            <strong class="total-amount">KES {{ subtotal | number }}</strong>
-          </div>
-
-          <div class="payment-note">
-            <i class="fas fa-lock"></i>
-            <span>Pay via M-Pesa Till {{ tillNumber }}</span>
-          </div>
-        </div>
-
-        <div class="summary-guarantees">
-          <div class="guarantee"><i class="fas fa-leaf"></i> 100% Organic</div>
-          <div class="guarantee"><i class="fas fa-truck"></i> Free over 25K</div>
-          <div class="guarantee"><i class="fas fa-undo"></i> 30-Day Return</div>
-          <div class="guarantee"><i class="fab fa-whatsapp"></i> WhatsApp Support</div>
-        </div>
-      </div>
-    </aside>
-
-    <!-- Checkout Steps Content -->
-    <main class="checkout-content">
-
-      <!-- STEP 1: Your Details -->
-      <div *ngIf="currentStep === 1" class="step-panel" [@fadeIn]>
-        <div class="step-header">
-          <div class="step-icon"><i class="fas fa-user"></i></div>
-          <div>
-            <h2>YOUR DETAILS</h2>
-            <p>We need a few details to process your order</p>
-          </div>
-        </div>
-
-        <form [formGroup]="checkoutForm">
-          <div class="form-row">
-            <div class="form-group">
-              <label>FIRST NAME *</label>
-              <input type="text" formControlName="firstName" placeholder="John" class="form-input">
-              <div class="form-error" *ngIf="formControls['firstName'].touched && formControls['firstName'].invalid">
-                <i class="fas fa-exclamation-circle"></i> Required
-              </div>
-            </div>
-            <div class="form-group">
-              <label>LAST NAME *</label>
-              <input type="text" formControlName="lastName" placeholder="Mwangi" class="form-input">
-              <div class="form-error" *ngIf="formControls['lastName'].touched && formControls['lastName'].invalid">
-                <i class="fas fa-exclamation-circle"></i> Required
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>EMAIL *</label>
-            <input type="email" formControlName="email" placeholder="you@example.com" class="form-input">
-            <div class="form-hint">Order confirmation sent here</div>
-            <div class="form-error" *ngIf="formControls['email'].touched && formControls['email'].invalid">
-              <i class="fas fa-exclamation-circle"></i> Valid email needed
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label>PHONE *</label>
-              <div class="phone-input-wrapper">
+          <div class="field-row">
+            <div class="field">
+              <label for="phone">Phone number</label>
+              <div class="phone-input">
                 <span class="phone-prefix">+254</span>
-                <input type="tel" formControlName="phoneNumber" placeholder="712345678" class="form-input phone-input" (input)="formatPhoneInput($event)">
+                <input id="phone" type="tel" formControlName="phoneNumber" placeholder="712345678" autocomplete="tel-national" (input)="formatPhoneInput($event)" class="input phone-field">
               </div>
-              <div class="form-hint"><i class="fas fa-info-circle"></i> Without leading 0</div>
-              <div class="form-error" *ngIf="formControls['phoneNumber'].touched && formControls['phoneNumber'].invalid">
-                <i class="fas fa-exclamation-circle"></i> Valid number needed
-              </div>
+              <span class="field-hint">Without the leading 0</span>
+              <span class="field-error" *ngIf="formControls['phoneNumber'].touched && formControls['phoneNumber'].invalid">
+                <i class="fas fa-exclamation-circle"></i> Valid Kenyan number needed
+              </span>
             </div>
-            <div class="form-group">
-              <label>CONFIRM PHONE *</label>
-              <input type="tel" formControlName="confirmPhone" placeholder="712345678" class="form-input">
-              <div class="form-error" *ngIf="formControls['confirmPhone'].touched && checkoutForm.hasError('phoneMismatch')">
+            <div class="field">
+              <label for="confirmPhone">Confirm phone</label>
+              <input id="confirmPhone" type="tel" formControlName="confirmPhone" placeholder="712345678" autocomplete="tel-national" class="input">
+              <span class="field-error" *ngIf="formControls['confirmPhone'].touched && checkoutForm.hasError('phoneMismatch')">
                 <i class="fas fa-exclamation-circle"></i> Numbers don't match
-              </div>
+              </span>
             </div>
           </div>
 
-          <div class="form-actions">
-            <button type="button" class="btn-next" (click)="nextStep()" [disabled]="checkoutForm.invalid">
-              CONTINUE <i class="fas fa-arrow-right"></i>
+          <div class="step-actions">
+            <span></span>
+            <button type="button" class="btn-primary" (click)="nextStep()" [disabled]="checkoutForm.invalid">
+              Continue to delivery <i class="fas fa-arrow-right"></i>
             </button>
           </div>
         </form>
       </div>
 
-      <!-- STEP 2: Delivery + Location -->
-      <div *ngIf="currentStep === 2" class="step-panel" [@fadeIn]>
-        <div class="step-header">
-          <div class="step-icon"><i class="fas fa-truck"></i></div>
-          <div>
-            <h2>DELIVERY & LOCATION</h2>
-            <p>Tell us where to deliver — we'll confirm on WhatsApp</p>
-          </div>
+      <!-- ============================================
+           STEP 2 — WHERE DOES IT GO
+           ============================================ -->
+      <div *ngIf="currentStep === 2" class="step-card" [@fadeIn]>
+        <div class="step-intro">
+          <span class="step-eyebrow">Step 2 of 3</span>
+          <h2>Where should we deliver?</h2>
+          <p>We deliver across Kenya. Delivery fee is confirmed on WhatsApp based on your location.</p>
         </div>
 
-        <!-- Location Capture with Banner -->
-        <div class="location-section">
-          <div class="location-header">
-            <i class="fas fa-location-dot"></i>
-            <h4>YOUR LOCATION</h4>
-            <span class="location-status" [class.captured]="locationCaptured">
-              {{ locationCaptured ? '✓ CAPTURED' : 'NOT CAPTURED' }}
+        <div class="location-block" [class.captured]="locationCaptured">
+          <div class="location-block-header">
+            <div class="location-block-title">
+              <i class="fas fa-location-dot"></i>
+              <span>Current location</span>
+            </div>
+            <span class="location-badge" [class.on]="locationCaptured">
+              {{ locationCaptured ? 'Captured' : 'Optional' }}
             </span>
           </div>
-          
-          <div class="location-content">
-            <div *ngIf="isLocating" class="location-loading">
+
+          <div class="location-block-body">
+            <div *ngIf="isLocating" class="location-state">
               <i class="fas fa-spinner fa-spin"></i>
-              <span>Detecting your location...</span>
+              <span>Finding you...</span>
             </div>
-            
-            <div *ngIf="locationError" class="location-error">
+
+            <div *ngIf="locationError && !isLocating" class="location-state error">
               <i class="fas fa-exclamation-triangle"></i>
               <span>{{ locationError }}</span>
-              <button class="retry-btn" (click)="retryLocation()">
-                <i class="fas fa-sync-alt"></i> Retry
-              </button>
+              <button type="button" class="link-btn" (click)="retryLocation()">Retry</button>
             </div>
-            
-            <div *ngIf="locationCaptured && userLocation" class="location-success">
+
+            <div *ngIf="locationCaptured && userLocation && !isLocating" class="location-state success">
               <i class="fas fa-check-circle"></i>
-              <span>{{ getLocationDisplay() }}</span>
-              <a [href]="getLocationMapLink()" target="_blank" class="map-link">
-                <i class="fas fa-map-marked-alt"></i> View Map
+              <div>
+                <strong>Location captured</strong>
+                <span class="location-coords">{{ getLocationDisplay() }}</span>
+              </div>
+              <a [href]="getLocationMapLink()" target="_blank" rel="noopener" class="link-btn">
+                View map <i class="fas fa-external-link-alt"></i>
               </a>
             </div>
-            
-            <div *ngIf="!isLocating && !locationCaptured && !locationError" class="location-prompt">
-              <button class="locate-btn" (click)="autoDetectLocation()">
-                <i class="fas fa-location-dot"></i> DETECT MY LOCATION
+
+            <div *ngIf="!isLocating && !locationCaptured && !locationError" class="location-state empty">
+              <p>Share your current GPS location so the delivery team can find you faster.</p>
+              <button type="button" class="btn-secondary" (click)="autoDetectLocation()">
+                <i class="fas fa-location-dot"></i> Detect my location
               </button>
             </div>
           </div>
 
-          <!-- LOCATION BANNER - Shows when location is captured -->
-          <div *ngIf="locationBannerVisible && locationCaptured" class="location-banner">
-            <div class="banner-content">
-              <i class="fas fa-map-pin"></i>
-              <div>
-                <strong>📍 LOCATION CAPTURED!</strong>
-                <p>This is where you are standing right now. Please ensure this is your <strong>HOME DELIVERY ADDRESS</strong> for drop shipping.</p>
-                <span class="banner-hint">If you're not at home, please update your address below.</span>
-              </div>
-              <button class="banner-close" (click)="locationBannerVisible = false">
-                <i class="fas fa-times"></i>
+          <div *ngIf="locationBannerVisible && locationCaptured" class="location-tip">
+            <i class="fas fa-info-circle"></i>
+            <span>Make sure this is your <strong>home address</strong>. If you're somewhere else, update the address below.</span>
+            <button type="button" class="tip-close" (click)="locationBannerVisible = false" aria-label="Dismiss">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+
+        <form [formGroup]="deliveryForm" class="step-form">
+
+          <div class="field">
+            <label>County</label>
+            <div class="segmented">
+              <button type="button" class="seg-btn" [class.active]="countyInputMode === 'select'" (click)="setCountyInputMode('select')">
+                Choose from list
+              </button>
+              <button type="button" class="seg-btn" [class.active]="countyInputMode === 'manual'" (click)="setCountyInputMode('manual')">
+                Type it in
               </button>
             </div>
-          </div>
-        </div>
 
-        <div class="delivery-notice">
-          <i class="fas fa-info-circle"></i>
-          <div>
-            <strong *ngIf="isFreeDeliveryEligible()">✅ FREE DELIVERY APPLIED!</strong>
-            <strong *ngIf="!isFreeDeliveryEligible()">DELIVERY FEE: TBC ON WHATSAPP</strong>
-            <p>Based on your location — we'll confirm after payment</p>
-          </div>
-        </div>
+            <ng-container *ngIf="countyInputMode === 'select'">
+              <select formControlName="county" class="input">
+                <option value="">Select a county</option>
+                <option *ngFor="let county of counties" [value]="county.toLowerCase()">{{ county }}</option>
+              </select>
+            </ng-container>
 
-        <form [formGroup]="deliveryForm">
-          
-          <!-- COLLAPSIBLE: Address Section - Starts CLOSED with + icon -->
-          <div class="collapsible-section">
-            <div class="collapsible-header" (click)="toggleAddressSection()">
-              <div class="header-left">
-                <i class="fas fa-map-pin"></i>
-                <span>DELIVERY ADDRESS</span>
-                <span class="required-badge">REQUIRED</span>
+            <ng-container *ngIf="countyInputMode === 'manual'">
+              <input type="text" formControlName="countyManual" placeholder="Start typing your county" class="input">
+              <div class="suggestions" *ngIf="countySuggestions.length > 0">
+                <button type="button" *ngFor="let s of countySuggestions" class="suggestion" (click)="selectCountySuggestion(s)">
+                  {{ s }}
+                </button>
               </div>
-              <div class="header-right">
-                <span class="status-badge" [class.filled]="isAddressSectionFilled()">
-                  {{ isAddressSectionFilled() ? '✓ FILLED' : 'EMPTY' }}
-                </span>
-                <i class="fas" [class.fa-plus]="!addressSectionOpen" [class.fa-minus]="addressSectionOpen"></i>
-              </div>
-            </div>
-            
-            <div class="collapsible-body" [class.open]="addressSectionOpen">
-              <div class="address-form">
-                <div class="form-group">
-                  <label><i class="fas fa-map-marker-alt"></i> COUNTY *</label>
-                  <div class="county-toggle">
-                    <button type="button" class="toggle-btn" [class.active]="countyInputMode === 'select'" (click)="setCountyInputMode('select')">
-                      <i class="fas fa-list"></i> Select
-                    </button>
-                    <button type="button" class="toggle-btn" [class.active]="countyInputMode === 'manual'" (click)="setCountyInputMode('manual')">
-                      <i class="fas fa-pencil-alt"></i> Type
-                    </button>
-                  </div>
-                  <div *ngIf="countyInputMode === 'select'">
-                    <select formControlName="county" class="form-input">
-                      <option value="">Select your county</option>
-                      <option *ngFor="let county of counties" [value]="county.toLowerCase()">{{ county }}</option>
-                    </select>
-                  </div>
-                  <div *ngIf="countyInputMode === 'manual'">
-                    <input type="text" formControlName="countyManual" placeholder="Enter county name" class="form-input">
-                    <div class="county-suggestions" *ngIf="countySuggestions.length > 0">
-                      <div *ngFor="let suggestion of countySuggestions" class="suggestion" (click)="selectCountySuggestion(suggestion)">
-                        {{ suggestion }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label><i class="fas fa-city"></i> TOWN/CITY *</label>
-                  <input type="text" formControlName="town" placeholder="Kakamega Town" class="form-input">
-                  <div class="form-error" *ngIf="deliveryControls['town'].touched && deliveryControls['town'].invalid">
-                    <i class="fas fa-exclamation-circle"></i> Required
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label><i class="fas fa-home"></i> FULL ADDRESS *</label>
-                  <textarea formControlName="address" rows="2" placeholder="House number, street, estate, landmark" class="form-input"></textarea>
-                  <div class="form-hint">Be specific for easy delivery</div>
-                  <div class="form-error" *ngIf="deliveryControls['address'].touched && deliveryControls['address'].invalid">
-                    <i class="fas fa-exclamation-circle"></i> Required
-                  </div>
-                </div>
-              </div>
-            </div>
+            </ng-container>
           </div>
 
-          <!-- COLLAPSIBLE: Special Instructions - Starts CLOSED with + icon -->
-          <div class="collapsible-section">
-            <div class="collapsible-header" (click)="toggleInstructionsSection()">
-              <div class="header-left">
-                <i class="fas fa-sticky-note"></i>
-                <span>SPECIAL INSTRUCTIONS</span>
-                <span class="optional-badge">OPTIONAL</span>
-              </div>
-              <div class="header-right">
-                <span class="status-badge" [class.filled]="isInstructionsFilled()">
-                  {{ isInstructionsFilled() ? '✓ ADDED' : 'OPTIONAL' }}
-                </span>
-                <i class="fas" [class.fa-plus]="!instructionsSectionOpen" [class.fa-minus]="instructionsSectionOpen"></i>
-              </div>
-            </div>
-            
-            <div class="collapsible-body" [class.open]="instructionsSectionOpen">
-              <div class="form-group">
-                <label><i class="fas fa-sticky-note"></i> SPECIAL INSTRUCTIONS</label>
-                <textarea formControlName="deliveryNotes" rows="2" placeholder="Best time to deliver, landmark, gate code, etc." class="form-input"></textarea>
-                <div class="form-hint">This helps us deliver faster and more accurately</div>
-              </div>
-            </div>
+          <div class="field">
+            <label for="town">Town or city</label>
+            <input id="town" type="text" formControlName="town" placeholder="Kakamega Town" autocomplete="address-level2" class="input">
+            <span class="field-error" *ngIf="deliveryControls['town'].touched && deliveryControls['town'].invalid">
+              <i class="fas fa-exclamation-circle"></i> Required
+            </span>
           </div>
 
-          <div class="form-actions">
-            <button type="button" class="btn-back" (click)="prevStep()"><i class="fas fa-arrow-left"></i> BACK</button>
-            <button type="button" class="btn-next" (click)="nextStep()" [disabled]="!isDeliveryFormValid()">
-              CONTINUE <i class="fas fa-arrow-right"></i>
+          <div class="field">
+            <label for="address">Full delivery address</label>
+            <textarea id="address" formControlName="address" rows="2" placeholder="House number, street, estate, landmark..." autocomplete="street-address" class="input"></textarea>
+            <span class="field-hint">The more specific, the faster we deliver</span>
+            <span class="field-error" *ngIf="deliveryControls['address'].touched && deliveryControls['address'].invalid">
+              <i class="fas fa-exclamation-circle"></i> Required
+            </span>
+          </div>
+
+          <div class="field">
+            <label for="deliveryNotes">Anything we should know? <span class="optional">Optional</span></label>
+            <textarea id="deliveryNotes" formControlName="deliveryNotes" rows="2" placeholder="Gate code, best time to deliver, specific instructions..." class="input"></textarea>
+          </div>
+
+          <div class="step-actions">
+            <button type="button" class="btn-ghost" (click)="prevStep()">
+              <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <button type="button" class="btn-primary" (click)="nextStep()" [disabled]="!isDeliveryFormValid()">
+              Continue to payment <i class="fas fa-arrow-right"></i>
             </button>
           </div>
         </form>
       </div>
 
-      <!-- STEP 3: Confirm & Pay -->
-      <div *ngIf="currentStep === 3" class="step-panel" [@fadeIn]>
-        <div class="step-header">
-          <div class="step-icon"><i class="fas fa-check-circle"></i></div>
-          <div>
-            <h2>CONFIRM & PAY</h2>
-            <p>Review your order and pay via M-Pesa</p>
-          </div>
+      <!-- ============================================
+           STEP 3 — PAY
+           ============================================ -->
+      <div *ngIf="currentStep === 3" class="step-card" [@fadeIn]>
+        <div class="step-intro">
+          <span class="step-eyebrow">Step 3 of 3</span>
+          <h2>Pay via M-Pesa</h2>
+          <p>Send the exact amount to the till below, then share the confirmation on WhatsApp.</p>
         </div>
 
-        <!-- Order Summary -->
-        <div class="order-review">
-          <h4><i class="fas fa-receipt"></i> ORDER SUMMARY</h4>
-          <div class="review-items">
-            <div *ngFor="let item of cartItems" class="review-item">
-              <span>{{ item.quantity }}x {{ item.name }}</span>
-              <span>KES {{ (item.price * item.quantity) | number }}</span>
+        <div class="pay-block">
+          <div class="pay-row">
+            <span class="pay-label">Till number</span>
+            <div class="pay-till">
+              <code>{{ tillNumber }}</code>
+              <button type="button" class="copy-inline" (click)="copyToClipboard(tillNumber)" aria-label="Copy till number">
+                <i class="fas fa-copy"></i>
+              </button>
             </div>
           </div>
-          <div class="review-total">
-            <strong>TOTAL:</strong>
-            <strong class="total-amount">KES {{ subtotal | number }}</strong>
+
+          <div class="pay-row pay-row-amount">
+            <span class="pay-label">Amount to pay</span>
+            <strong class="pay-amount">KES {{ subtotal | number }}</strong>
           </div>
-          <div class="review-delivery" [class.free]="isFreeDeliveryEligible()">
-            <i class="fas" [class.fa-check-circle]="isFreeDeliveryEligible()" [class.fa-info-circle]="!isFreeDeliveryEligible()"></i>
-            <span>{{ isFreeDeliveryEligible() ? '✅ FREE DELIVERY' : 'DELIVERY: TBC ON WHATSAPP' }}</span>
+
+          <div class="pay-row pay-row-method">
+            <span class="pay-label">Method</span>
+            <span class="pay-method">
+              <i class="fas fa-mobile-alt"></i> M-Pesa Buy Goods
+            </span>
           </div>
         </div>
 
-        <!-- Payment Info -->
-        <div class="payment-info">
-          <h4><i class="fas fa-mobile-alt"></i> M-PESA PAYMENT</h4>
-          <div class="till-display">
-            <span class="till-label">TILL NUMBER</span>
-            <code class="till-number">{{ tillNumber }}</code>
-            <button class="copy-btn" (click)="copyToClipboard(tillNumber)">
-              <i class="fas fa-copy"></i> COPY
-            </button>
+        <ol class="pay-steps">
+          <li>
+            <span class="num">1</span>
+            <div>
+              <strong>Open M-Pesa</strong>
+              <p>Select <em>Lipa na M-Pesa</em> → <em>Buy Goods and Services</em>.</p>
+            </div>
+          </li>
+          <li>
+            <span class="num">2</span>
+            <div>
+              <strong>Enter the till</strong>
+              <p>Use till <code>{{ tillNumber }}</code> and the amount shown above.</p>
+            </div>
+          </li>
+          <li>
+            <span class="num">3</span>
+            <div>
+              <strong>Send us the confirmation</strong>
+              <p>Tap the button below. We'll verify and dispatch your order.</p>
+            </div>
+          </li>
+        </ol>
+
+        <button type="button" class="btn-whatsapp" (click)="openWhatsAppWithMessage()">
+          <i class="fab fa-whatsapp"></i>
+          Send order details on WhatsApp
+        </button>
+
+        <div class="pay-note">
+          <i class="fas fa-shield-alt"></i>
+          <span>
+            We only confirm delivery after verifying your M-Pesa receipt.
+            <strong *ngIf="isFreeDeliveryEligible()"> You qualify for free delivery.</strong>
+          </span>
+        </div>
+
+        <div class="step-actions">
+          <button type="button" class="btn-ghost" (click)="prevStep()">
+            <i class="fas fa-arrow-left"></i> Back
+          </button>
+          <button type="button" class="btn-primary" (click)="proceedToPaymentConfirmation()" [disabled]="isLoading">
+            <i class="fas fa-check-circle" *ngIf="!isLoading"></i>
+            <i class="fas fa-spinner fa-spin" *ngIf="isLoading"></i>
+            {{ isLoading ? 'Placing order...' : "I've sent the payment" }}
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- RIGHT: sticky order summary -->
+    <aside class="order-summary" [class.open]="summaryOpenMobile">
+      <button type="button" class="summary-toggle" (click)="toggleSummaryMobile()">
+        <span class="summary-toggle-left">
+          <i class="fas fa-shopping-bag"></i>
+          <span *ngIf="!summaryOpenMobile">
+            {{ getCartItemCount() }} item{{ getCartItemCount() === 1 ? '' : 's' }} · KES {{ subtotal | number }}
+          </span>
+          <span *ngIf="summaryOpenMobile">Hide order summary</span>
+        </span>
+        <i class="fas" [class.fa-chevron-down]="!summaryOpenMobile" [class.fa-chevron-up]="summaryOpenMobile"></i>
+      </button>
+
+      <div class="summary-body">
+        <div class="summary-heading">
+          <h3>Your order</h3>
+          <span class="order-code">#{{ orderCode }}</span>
+        </div>
+
+        <ul class="summary-list">
+          <li *ngFor="let item of cartItems" class="summary-line">
+            <img [src]="item.image" [alt]="item.name" class="line-thumb">
+            <div class="line-info">
+              <span class="line-name">{{ item.name }}</span>
+              <span class="line-meta">{{ item.quantity }} × KES {{ item.price | number }}</span>
+            </div>
+            <span class="line-total">KES {{ (item.price * item.quantity) | number }}</span>
+          </li>
+        </ul>
+
+        <div class="summary-totals">
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span>KES {{ subtotal | number }}</span>
           </div>
-          <div class="amount-display">
-            <span>AMOUNT TO PAY</span>
+          <div class="summary-row">
+            <span>Delivery</span>
+            <span class="delivery-pill" [class.free]="isFreeDeliveryEligible()">
+              {{ isFreeDeliveryEligible() ? 'Free' : 'Confirmed on WhatsApp' }}
+            </span>
+          </div>
+          <div class="summary-row summary-row-total">
+            <span>Total</span>
             <strong>KES {{ subtotal | number }}</strong>
           </div>
         </div>
 
-        <!-- WhatsApp Confirmation -->
-        <div class="whatsapp-section">
-          <div class="whatsapp-card">
-            <div class="whatsapp-header">
-              <i class="fab fa-whatsapp"></i>
-              <div>
-                <h3>CONFIRM VIA WHATSAPP</h3>
-                <p>Send all details with one click</p>
-              </div>
-            </div>
-            <div class="whatsapp-body">
-              <button class="whatsapp-btn" (click)="openWhatsAppWithMessage()">
-                <i class="fab fa-whatsapp"></i> SEND ORDER DETAILS
-              </button>
-              <div class="whatsapp-notes">
-                <div class="note"><i class="fas fa-check-circle"></i> All order details included</div>
-                <div class="note"><i class="fas fa-location-dot"></i> Location coordinates attached</div>
-                <div class="note" *ngIf="isFreeDeliveryEligible()"><i class="fas fa-gift"></i> FREE DELIVERY APPLIED!</div>
-                <div class="note"><i class="fas fa-image"></i> Don't forget M-Pesa screenshot</div>
-              </div>
-            </div>
-          </div>
+        <div class="summary-footnote" *ngIf="!isFreeDeliveryEligible()">
+          <i class="fas fa-info-circle"></i>
+          <span>Add KES {{ 25000 - subtotal | number }} more for free delivery</span>
+        </div>
+        <div class="summary-footnote success" *ngIf="isFreeDeliveryEligible()">
+          <i class="fas fa-check-circle"></i>
+          <span>You qualify for free delivery</span>
         </div>
 
-        <div class="form-actions">
-          <button type="button" class="btn-back" (click)="prevStep()"><i class="fas fa-arrow-left"></i> BACK</button>
-          <button type="button" class="btn-confirm" (click)="proceedToPaymentConfirmation()">
-            <i class="fas fa-check-circle"></i> I'VE PAID
-          </button>
+        <div class="summary-trust">
+          <span><i class="fas fa-leaf"></i> 100% organic</span>
+          <span><i class="fas fa-truck"></i> Countrywide</span>
+          <span><i class="fas fa-lock"></i> Secure payment</span>
         </div>
       </div>
+    </aside>
 
-    </main>
   </div>
 
-  <!-- Confirmation Modal -->
-  <div class="confirmation-modal" [class.active]="showConfirmationModal">
-    <div class="modal-overlay" (click)="closeConfirmationModal()"></div>
-    <div class="modal-content">
-      <div class="modal-header">
-        <div class="modal-icon"><i class="fas fa-check-circle"></i></div>
-        <h2>ORDER PLACED! 🎉</h2>
-        <p>Your order has been sent to WhatsApp</p>
+  <!-- ============================================
+       CONFIRMATION MODAL
+       ============================================ -->
+  <div class="confirm-modal" [class.active]="showConfirmationModal">
+    <div class="confirm-overlay" (click)="closeConfirmationModal()"></div>
+    <div class="confirm-card" role="dialog" aria-modal="true" aria-label="Order placed">
+      <div class="confirm-head">
+        <div class="confirm-icon">
+          <i class="fas fa-check"></i>
+        </div>
+        <h2>Order placed</h2>
+        <p>Save the details below — we'll confirm on WhatsApp.</p>
       </div>
-      <div class="modal-body">
-        <div class="order-details">
-          <div class="detail-item"><span>ORDER</span><strong>{{ orderCode }}</strong></div>
-          <div class="detail-item"><span>AMOUNT</span><strong class="amount">KES {{ subtotal | number }}</strong></div>
-          <div class="detail-item"><span>TILL</span><code>{{ tillNumber }}</code></div>
-          <div class="detail-item highlight" [class.free]="isFreeDeliveryEligible()">
-            <span>DELIVERY</span>
-            <span class="delivery-status">
-              {{ isFreeDeliveryEligible() ? 'FREE ✅' : 'TBC ON WHATSAPP' }}
-            </span>
+
+      <div class="confirm-body">
+        <div class="confirm-grid">
+          <div class="confirm-item">
+            <span class="confirm-label">Order code</span>
+            <strong>{{ orderCode }}</strong>
           </div>
-          <div class="detail-item" *ngIf="locationCaptured">
-            <span>LOCATION</span>
-            <span class="location-coords">{{ getLocationDisplay() }}</span>
+          <div class="confirm-item">
+            <span class="confirm-label">Amount</span>
+            <strong class="confirm-amount">KES {{ subtotal | number }}</strong>
+          </div>
+          <div class="confirm-item">
+            <span class="confirm-label">Till</span>
+            <code>{{ tillNumber }}</code>
+          </div>
+          <div class="confirm-item">
+            <span class="confirm-label">Delivery</span>
+            <strong [class.free]="isFreeDeliveryEligible()">
+              {{ isFreeDeliveryEligible() ? 'Free' : 'TBC on WhatsApp' }}
+            </strong>
           </div>
         </div>
 
-        <div class="next-steps">
-          <h4><i class="fas fa-list-check"></i> NEXT STEPS</h4>
-          <div class="steps">
-            <div class="step"><span class="num">1</span> Pay KES {{ subtotal | number }} to Till {{ tillNumber }}</div>
-            <div class="step"><span class="num">2</span> Send M-Pesa screenshot on WhatsApp</div>
-            <div class="step"><span class="num">3</span> We confirm delivery and send your order</div>
-          </div>
+        <div class="confirm-steps">
+          <h4>What happens next</h4>
+          <ol>
+            <li>Pay KES {{ subtotal | number }} to till {{ tillNumber }}.</li>
+            <li>Send the M-Pesa screenshot on WhatsApp.</li>
+            <li>We confirm delivery time and dispatch your order.</li>
+          </ol>
         </div>
 
-        <div class="support-actions">
-          <a href="https://wa.me/{{ whatsappNumber }}" target="_blank" class="support-btn whatsapp">
-            <i class="fab fa-whatsapp"></i> OPEN WHATSAPP
+        <div class="confirm-actions">
+          <a [href]="'https://wa.me/' + whatsappNumber + '?text=' + generateWhatsAppMessage()" target="_blank" rel="noopener" class="btn-whatsapp">
+            <i class="fab fa-whatsapp"></i> Open WhatsApp
           </a>
-          <button class="support-btn email" (click)="sendOrderEmail()">
-            <i class="fas fa-envelope"></i> EMAIL RECEIPT
+          <button type="button" class="btn-ghost" (click)="sendOrderEmail()">
+            <i class="fas fa-envelope"></i> Email me the receipt
           </button>
         </div>
       </div>
-      <div class="modal-footer">
-        <button class="btn-continue" (click)="closeConfirmationModal()">
-          <i class="fas fa-shopping-cart"></i> CONTINUE SHOPPING
+
+      <div class="confirm-foot">
+        <button type="button" class="btn-link" (click)="viewOrderSummary()">
+          View order details
         </button>
-        <button class="btn-view" (click)="viewOrderSummary()">
-          <i class="fas fa-eye"></i> VIEW ORDER
+        <button type="button" class="btn-primary" (click)="closeConfirmationModal()">
+          Continue shopping <i class="fas fa-arrow-right"></i>
         </button>
       </div>
     </div>

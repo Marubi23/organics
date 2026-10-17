@@ -1,188 +1,141 @@
-/* Features Section - Clean & Professional */
+/* features.component.css — Mzuri Organics
+   Cream paper · deep green type · gold accents
+   (variables live on .features-section, not :root, so Angular scoping can't break them) */
+
 .features-section {
-  padding: 80px 20px;
-  background: #0d2b12;
+  --paper: #f8f1e3;
+  --ink: #20361e;
+  --ink-soft: #4b5e45;
+  --green-700: #35552f;
+  --gold: #b5852a;
+  --gold-text: #9a6b14;
+  --gold-bright: #d3a23c;
+  --line: rgba(32, 54, 30, 0.12);
+
   position: relative;
+  padding: 6rem 1.25rem;
+  background:
+    radial-gradient(ellipse 50% 60% at 0% 0%, rgba(224, 178, 80, 0.22) 0%, transparent 70%),
+    radial-gradient(ellipse 45% 55% at 100% 100%, rgba(107, 143, 71, 0.16) 0%, transparent 70%),
+    var(--paper);
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-}
+.container { max-width: 1200px; margin: 0 auto; }
 
-/* Section Header */
-.features-header {
-  text-align: center;
-  margin-bottom: 40px;
-  padding: 0 20px;
-}
+/* ── Header ── */
+.features-header { text-align: center; margin-bottom: 3rem; padding: 0 1.25rem; }
 
 .section-title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #ffffff;
-  margin-bottom: 15px;
-  font-family: 'Poppins', sans-serif;
-  position: relative;
-  display: inline-block;
+  position: relative; display: inline-block;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(2.2rem, 4.4vw, 3.6rem);
+  font-weight: 700; line-height: 1.08; letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 0 0 1.1rem;
 }
-
 .section-title::after {
-  content: '';
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100px;
-  height: 3px;
-  background: #c8841a;
-  border-radius: 2px;
+  content: ''; position: absolute; left: 50%; bottom: -14px; transform: translateX(-50%);
+  width: 72px; height: 3px; border-radius: 3px;
+  background: linear-gradient(90deg, var(--gold-bright), var(--gold));
 }
 
 .section-subtitle {
-  font-size: 1rem;
-  color: rgba(255, 255, 255, 0.7);
-  font-family: 'Roboto', sans-serif;
-  margin-top: 20px;
+  margin: 1.6rem auto 0; max-width: 560px;
+  font-family: 'Inter', sans-serif; font-size: 1.05rem; line-height: 1.7;
+  color: var(--ink-soft);
 }
 
-/* Lottie WhatsApp Icon */
+/* ── Lottie WhatsApp card (whole card is clickable via the link) ── */
 .lottie-whatsapp {
-  text-align: center;
-  margin-bottom: 60px;
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 50%;
-  width: fit-content;
-  margin-left: auto;
-  margin-right: auto;
-  transition: all 0.3s ease;
-  cursor: pointer;
+  position: relative;
+  width: fit-content; margin: 0 auto 4rem; padding: 2rem 2.5rem 1.75rem;
+  text-align: center; cursor: pointer;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(211, 162, 60, 0.4);
+  border-radius: 32px;
+  box-shadow: 0 0 0 8px rgba(211, 162, 60, 0.08), 0 20px 44px rgba(53, 85, 47, 0.12);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
 }
-
 .lottie-whatsapp:hover {
-  background: rgba(255, 255, 255, 0.1);
-  transform: scale(1.05);
+  background: #fff; transform: translateY(-5px);
+  box-shadow: 0 0 0 8px rgba(211, 162, 60, 0.14), 0 28px 56px rgba(53, 85, 47, 0.18);
 }
 
-.lottie-caption {
-  font-size: 0.85rem;
-  color: #c8841a;
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
-  margin-top: 12px;
-  letter-spacing: 0.5px;
+.lottie-caption { margin-top: 1rem; }
+.lottie-caption a {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.85rem 1.7rem; border-radius: 999px;
+  background: var(--green-700); color: #fdf8ec;
+  font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none;
+  box-shadow: 0 10px 22px rgba(53, 85, 47, 0.25);
+  transition: background 0.25s ease, color 0.25s ease;
 }
+.lottie-caption a::after { content: ''; position: absolute; inset: 0; border-radius: 32px; } /* stretched link */
+.lottie-whatsapp:hover .lottie-caption a { background: var(--gold-bright); color: var(--ink); }
+.lottie-caption a:focus-visible { outline: 3px solid var(--gold-bright); outline-offset: 3px; }
 
-/* Stats Counter */
+/* ── Stats ── */
 .features-stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 40px;
-  padding: 60px 0 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  margin-top: 20px;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem; padding-top: 3.5rem; margin-top: 1.25rem;
+  border-top: 1px solid var(--line);
 }
 
 .stat-item {
-  text-align: center;
-  padding: 20px;
+  text-align: center; padding: 1.75rem 1rem;
+  background: #fff; border: 1px solid var(--line); border-radius: 24px;
+  box-shadow: 0 6px 22px rgba(53, 85, 47, 0.06);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  animation: fadeInUp 0.6s ease-out forwards; opacity: 0;
 }
+.stat-item:hover { transform: translateY(-6px); border-color: rgba(211, 162, 60, 0.5); box-shadow: 0 18px 40px rgba(53, 85, 47, 0.14); }
 
 .stat-number {
-  font-size: 2.8rem;
-  font-weight: 700;
-  color: #c8841a;
-  margin-bottom: 10px;
-  font-family: 'Poppins', sans-serif;
-  line-height: 1;
-  position: relative;
-  display: inline-block;
+  position: relative; display: inline-block;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(2.6rem, 4vw, 3.4rem); font-weight: 700; line-height: 1;
+  margin-bottom: 0.6rem; padding-right: 0.45em;
+  background: linear-gradient(100deg, #9a6b14, #d3a23c 60%, #b5852a);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
 }
-
 .stat-number::after {
-  content: '+';
-  position: absolute;
-  right: -20px;
-  top: 0;
-  font-size: 2rem;
-  color: #c8841a;
-}
-.lottie-caption{
-  font-size: 0.85rem;
-  color: #c8841a;
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
-  margin-top: 12px;
-  letter-spacing: 0.5px;
-}
-.lottie-caption a {
-  color: #c8841a;
-  text-decoration: none;
-  font-weight: 600;
+  content: '+'; position: absolute; right: 0; top: 0;
+  font-size: 0.7em;
+  background: inherit; -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .stat-label {
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 1rem;
-  font-weight: 500;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft);
 }
 
-/* Animation */
+/* ── Animation ── */
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.stat-item:nth-child(1) { animation-delay: 0.3s; }
+.stat-item:nth-child(2) { animation-delay: 0.4s; }
+.stat-item:nth-child(3) { animation-delay: 0.5s; }
+.stat-item:nth-child(4) { animation-delay: 0.6s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .stat-item { animation: none; opacity: 1; }
+  * { transition: none !important; }
 }
 
-.stat-item {
-  animation: fadeInUp 0.6s ease-out forwards;
-  opacity: 0;
-}
-
-.stat-item:nth-child(1) { animation-delay: 0.5s; }
-.stat-item:nth-child(2) { animation-delay: 0.6s; }
-.stat-item:nth-child(3) { animation-delay: 0.7s; }
-.stat-item:nth-child(4) { animation-delay: 0.8s; }
-
-/* Responsive */
+/* ── Responsive ── */
 @media (max-width: 768px) {
-  .stat-number {
-    font-size: 2.5rem;
-  }
-  
-  .lottie-whatsapp lottie-player {
-    width: 80px !important;
-    height: 80px !important;
-  }
+  .features-section { padding: 4rem 1rem; }
+  .lottie-whatsapp lottie-player { width: 80px !important; height: 80px !important; }
 }
 
 @media (max-width: 480px) {
-  .section-title {
-    font-size: 1.8rem;
-  }
-  
-  .stat-number {
-    font-size: 2.2rem;
-  }
-  
-  .stat-label {
-    font-size: 0.9rem;
-  }
-  
-  .features-stats {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  }
-  
-  .lottie-whatsapp lottie-player {
-    width: 60px !important;
-    height: 60px !important;
-  }
+  .features-stats { grid-template-columns: repeat(2, 1fr); gap: 0.9rem; }
+  .stat-item { padding: 1.25rem 0.6rem; border-radius: 20px; }
+  .stat-label { font-size: 0.72rem; }
+  .lottie-whatsapp lottie-player { width: 60px !important; height: 60px !important; }
 }

@@ -1,66 +1,89 @@
-<!-- Simple Dropdown Menu -->
+<!-- ============================================
+     DROPDOWN MENU — cream paper, teal accents
+     ============================================ -->
 <div class="menu-overlay" [class.open]="isOpen" (click)="onClose()">
   <div class="dropdown-menu" [class.open]="isOpen" (click)="$event.stopPropagation()">
-    
-    <!-- Close Button -->
-    <button class="close-btn" (click)="onClose()">
-      <i class="fas fa-times"></i>
-    </button>
 
-    <!-- Menu Items -->
+    <!-- Header: brand mark + close -->
+    <header class="menu-header">
+      <div class="menu-brand">
+        <span class="brand-eyebrow">Mzuri Organics</span>
+        <span class="brand-sub">Menu</span>
+      </div>
+
+      <button class="close-btn" (click)="onClose()" aria-label="Close menu">
+        <i class="fas fa-times"></i>
+      </button>
+    </header>
+
+    <!-- Menu items -->
     <nav class="menu-nav">
-      <!-- Simple Links -->
-      <a *ngFor="let item of menuItems" 
-         [routerLink]="item.route" 
+      <!-- Simple links -->
+      <a *ngFor="let item of menuItems"
+         [routerLink]="item.route"
          class="nav-link"
          [class.active]="isActive(item.route)"
          (click)="onClose()">
-        {{ item.text }}
+        <span class="nav-link-text">{{ item.text }}</span>
+        <i class="fas fa-arrow-right nav-link-arrow"></i>
       </a>
 
-      <!-- About with Dropdown -->
+      <!-- About dropdown -->
       <div class="nav-item">
-        <button class="nav-link dropdown-toggle" 
+        <button class="nav-link dropdown-toggle"
                 (click)="toggleAbout()"
                 [class.active]="isAboutOpen">
-          About
+          <span class="nav-link-text">About</span>
           <span class="dropdown-icon">{{ isAboutOpen ? '−' : '+' }}</span>
         </button>
+
         <div class="dropdown-submenu" [class.open]="isAboutOpen">
-          <a *ngFor="let child of aboutChildren" 
-             [routerLink]="child.route" 
+          <a *ngFor="let child of aboutChildren"
+             [routerLink]="child.route"
              class="submenu-link"
              (click)="onClose()">
-            {{ child.text }}
+            <i class="fas fa-circle submenu-dot"></i>
+            <span>{{ child.text }}</span>
           </a>
         </div>
       </div>
 
-      <!-- Products with Dropdown -->
+      <!-- Products dropdown -->
       <div class="nav-item">
-        <button class="nav-link dropdown-toggle" 
+        <button class="nav-link dropdown-toggle"
                 (click)="toggleProducts()"
                 [class.active]="isProductsOpen">
-          Products
+          <span class="nav-link-text">Products</span>
           <span class="dropdown-icon">{{ isProductsOpen ? '−' : '+' }}</span>
         </button>
+
         <div class="dropdown-submenu" [class.open]="isProductsOpen">
-          <a *ngFor="let child of productChildren" 
-             [routerLink]="child.route" 
+          <a *ngFor="let child of productChildren"
+             [routerLink]="child.route"
              class="submenu-link"
              (click)="onClose()">
-            {{ child.text }}
+            <i class="fas fa-circle submenu-dot"></i>
+            <span>{{ child.text }}</span>
           </a>
         </div>
       </div>
     </nav>
 
-    <!-- Footer Links -->
-    <div class="menu-footer">
-      <a routerLink="/contact" class="footer-link" (click)="onClose()">Contact</a>
-      <a routerLink="/faq" class="footer-link" (click)="onClose()">FAQ</a>
-      <a routerLink="/testimonials" class="footer-link" (click)="onClose()">Testimonials</a>
-    </div>
+    <!-- Footer links -->
+    <footer class="menu-footer">
+      <a routerLink="/contact" class="footer-link" (click)="onClose()">
+        <i class="fas fa-headset"></i>
+        <span>Contact</span>
+      </a>
+      <a routerLink="/faq" class="footer-link" (click)="onClose()">
+        <i class="fas fa-circle-question"></i>
+        <span>FAQ</span>
+      </a>
+      <a routerLink="/testimonials" class="footer-link" (click)="onClose()">
+        <i class="fas fa-quote-left"></i>
+        <span>Testimonials</span>
+      </a>
+    </footer>
 
   </div>
 </div>

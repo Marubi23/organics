@@ -2,88 +2,122 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Mzuri Organics - Regenerative Agriculture & Circular Economy Solutions</title>
+  <title>Mzuri Organics — Regenerative Agriculture &amp; Circular Economy Solutions</title>
   <base href="/">
-  <!-- UPDATED: Added user-scalable=no and maximum-scale=1.0 to prevent zoom -->
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="description" content="Mzuri Organics transforms Kenyan agriculture through circular bioeconomy, precision farming, and regenerative models. Organic waste to premium biofertilizers.">
   <meta name="keywords" content="organic farming, biofertilizers, circular economy, Kenya agriculture, regenerative farming, organic waste management">
   <meta name="author" content="Mzuri Organics">
-  
+  <meta name="theme-color" content="#f8f1e3">
+
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://organics-wvl5.onrender.com/">
-  <meta property="og:title" content="Mzuri Organics - Transforming Kenyan Agriculture">
+  <meta property="og:title" content="Mzuri Organics — Transforming Kenyan Agriculture">
   <meta property="og:description" content="Circular bioeconomy solutions for regenerative agriculture in Kenya">
   <meta property="og:image" content="https://organics-wvl5.onrender.com/images/mzuri5.jpg">
-  
+
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image">
   <meta property="twitter:url" content="https://organics-wvl5.onrender.com/">
-  <meta property="twitter:title" content="Mzuri Organics - Transforming Kenyan Agriculture">
+  <meta property="twitter:title" content="Mzuri Organics — Transforming Kenyan Agriculture">
   <meta property="twitter:description" content="Circular bioeconomy solutions for regenerative agriculture in Kenya">
   <meta property="twitter:image" content="https://organics-wvl5.onrender.com/images/mzuri5.jpg">
-  
+
   <!-- Favicon -->
-  <link rel="icon" type="image/JPG" href="/images/favicon.ico">
-  <link rel="icon" sizes="180x180" href="/images/favicon-16x16.png">
+  <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon-192x192.png"> 
-  <link rel="icon" type="image/png" sizes="512x512" href="/images/favicon-512x512.png"> 
+  <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/images/favicon-512x512.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-192x192.png">
 
   <link rel="manifest" href="/site.webmanifest">
-  
+
   <!-- Preconnect for performance -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  
+
+  <!-- Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;0,800;1,700&family=Inter:wght@400;500;600;700&display=swap">
+
   <!-- OpenDyslexic Font for accessibility -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/open-dyslexic-regular.min.css">
-  
-  <!-- Loading system styles -->
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+  <!-- ============================================
+       CRITICAL LOADING STYLES
+       Cream paper · ink type · muted gold · deep teal
+       ============================================ -->
   <style>
-    /* Critical loading styles - Inlined for immediate rendering */
+    :root {
+      --paper: #f8f1e3;
+      --paper-soft: #fcf8ef;
+      --sage-tint: #eef1e2;
+      --white: #ffffff;
+      --ink: #20361e;
+      --ink-soft: #4b5e45;
+      --teal: #0f4d4a;
+      --teal-dark: #0a3a38;
+      --teal-500: #2d7a76;
+      --gold: #b5852a;
+      --gold-text: #9a6b14;
+      --gold-bright: #d3a23c;
+      --gold-soft: rgba(211, 162, 60, 0.38);
+      --line: rgba(32, 54, 30, 0.12);
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-    
+
+    html, body {
+      background: var(--paper);
+      color: var(--ink);
+    }
+
     body {
       margin: 0;
       padding: 0;
-      font-family: 'Roboto', sans-serif;
-      background: #0d2b12;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
-    
-    /* App loading progress bar */
+
+    /* ============ App loading progress bar ============ */
     #app-loading-bar {
       position: fixed;
       top: 0;
       left: 0;
       width: 0%;
       height: 3px;
-      background: linear-gradient(90deg, #c8841a, #e0961f);
+      background: linear-gradient(90deg, var(--teal), var(--gold-bright));
       z-index: 10000;
       transition: width 0.3s ease;
     }
-    
     #app-loading-bar.complete {
       opacity: 0;
       transition: opacity 0.5s ease 0.3s;
       pointer-events: none;
     }
-    
-    /* Full page loader - only Lottie on dark background */
+
+    /* ============ Initial loader ============ */
     #initial-loader {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: #0d2b12;
+      background:
+        radial-gradient(ellipse 55% 70% at 8% 10%, rgba(211, 162, 60, 0.18) 0%, transparent 70%),
+        radial-gradient(ellipse 45% 60% at 96% 0%, rgba(15, 77, 74, 0.14) 0%, transparent 70%),
+        var(--paper);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -92,62 +126,68 @@
       transition: opacity 0.5s ease, visibility 0.5s ease;
       gap: 20px;
     }
-    
     #initial-loader.hidden {
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
     }
-    
-    /* Lottie Loader */
+
     .lottie-loader {
       width: 140px;
       height: 140px;
     }
-    
-    /* App root styling */
+
+    /* Thin ink underline beneath the loader for a bit of polish */
+    #initial-loader::after {
+      content: '';
+      display: block;
+      width: 72px;
+      height: 3px;
+      border-radius: 3px;
+      background: linear-gradient(90deg, var(--gold-bright), var(--gold));
+    }
+
+    /* ============ App root ============ */
     app-root {
       display: block;
       min-height: 100vh;
     }
-    
-    /* Performance optimizations */
+
+    /* ============ Performance optimizations ============ */
     img {
       max-width: 100%;
       height: auto;
       display: block;
     }
-    
-    /* Skip to content for accessibility */
+
+    /* ============ Accessibility: skip link ============ */
     .skip-to-content {
       position: absolute;
       top: -40px;
       left: 0;
-      background: #c8841a;
-      color: #0d2b12;
+      background: var(--gold-bright);
+      color: var(--ink);
       padding: 8px 16px;
       z-index: 10001;
       text-decoration: none;
-      font-weight: 500;
+      font-weight: 600;
+      border-radius: 0 0 8px 0;
+      transition: top 0.2s ease;
     }
-    
     .skip-to-content:focus {
       top: 0;
     }
-    
-    /* ===== CART Z-INDEX FIX ===== */
+
+    /* ============ Cart z-index fix ============ */
     .cart-overlay {
       z-index: 999999 !important;
     }
-    
     .cart-sidebar {
       z-index: 1000000 !important;
     }
-    
     body.cart-open {
       overflow: hidden;
     }
-    
     body.cart-open .main-nav,
     body.cart-open .hero,
     body.cart-open .hero-slider-container,
@@ -160,8 +200,8 @@
     body.cart-open .add-success-message {
       z-index: auto !important;
     }
-    
-    /* Reduced motion preference */
+
+    /* ============ Reduced motion preference ============ */
     @media (prefers-reduced-motion: reduce) {
       *,
       *::before,
@@ -171,45 +211,48 @@
         transition-duration: 0.01ms !important;
       }
     }
-    
-    /* Mobile responsiveness */
+
+    /* ============ Mobile responsiveness ============ */
     @media (max-width: 480px) {
       .lottie-loader {
         width: 100px;
         height: 100px;
       }
+      #initial-loader::after { width: 56px; }
     }
 
-    /* ============ ACCESSIBILITY STYLES ============ */
-   
+    /* ============================================
+       ACCESSIBILITY STYLES
+       ============================================ */
+
     .font-normal h1 { font-size: 3rem; }
     .font-normal h2 { font-size: 2.5rem; }
     .font-normal h3 { font-size: 1.5rem; }
     .font-normal p { font-size: 1.2rem; }
     .font-normal .nav-link { font-size: 0.9rem; }
     .font-normal .category-name { font-size: 1.1rem; }
-    
+
     .font-small h1 { font-size: 2.7rem !important; }
     .font-small h2 { font-size: 2.25rem !important; }
     .font-small h3 { font-size: 1.35rem !important; }
     .font-small p { font-size: 1.08rem !important; }
     .font-small .nav-link { font-size: 0.81rem !important; }
     .font-small .category-name { font-size: 0.99rem !important; }
-    
+
     .font-medium h1 { font-size: 3.3rem !important; }
     .font-medium h2 { font-size: 2.75rem !important; }
     .font-medium h3 { font-size: 1.65rem !important; }
     .font-medium p { font-size: 1.32rem !important; }
     .font-medium .nav-link { font-size: 0.99rem !important; }
     .font-medium .category-name { font-size: 1.21rem !important; }
-    
+
     .font-large h1 { font-size: 3.6rem !important; }
     .font-large h2 { font-size: 3.0rem !important; }
     .font-large h3 { font-size: 1.8rem !important; }
     .font-large p { font-size: 1.44rem !important; }
     .font-large .nav-link { font-size: 1.08rem !important; }
     .font-large .category-name { font-size: 1.32rem !important; }
-    
+
     .font-xlarge h1 { font-size: 3.9rem !important; }
     .font-xlarge h2 { font-size: 3.25rem !important; }
     .font-xlarge h3 { font-size: 1.95rem !important; }
@@ -220,12 +263,10 @@
     .high-contrast {
       filter: contrast(1.4) brightness(1.1);
     }
-    
     .high-contrast body {
       background: #000000 !important;
       color: #ffffff !important;
     }
-    
     .high-contrast a,
     .high-contrast button,
     .high-contrast .nav-link,
@@ -235,7 +276,6 @@
       color: #ffff00 !important;
       border-color: #ffff00 !important;
     }
-    
     .high-contrast .main-nav,
     .high-contrast .top-bar,
     .high-contrast .hero,
@@ -245,12 +285,10 @@
       background: #000000 !important;
       border-bottom: 2px solid #ffff00;
     }
-    
     .high-contrast img {
       filter: brightness(0.9) contrast(1.3);
       border: 2px solid #ffff00;
     }
-    
     .high-contrast .container {
       background: #000000;
     }
@@ -272,7 +310,7 @@
     .line-spacing-relaxed .feature-item p {
       line-height: 1.8 !important;
     }
-    
+
     .line-spacing-loose,
     .line-spacing-loose p,
     .line-spacing-loose li,
@@ -286,7 +324,7 @@
     .letter-spacing-wide * {
       letter-spacing: 0.05em !important;
     }
-    
+
     .letter-spacing-wider,
     .letter-spacing-wider * {
       letter-spacing: 0.1em !important;
@@ -300,28 +338,28 @@
     }
 
     .focus-indicators :focus {
-      outline: 4px solid #ff0000 !important;
+      outline: 4px solid var(--gold-bright) !important;
       outline-offset: 4px !important;
-      box-shadow: 0 0 0 8px rgba(255, 255, 0, 0.3) !important;
+      box-shadow: 0 0 0 8px rgba(211, 162, 60, 0.3) !important;
       transition: outline 0.1s ease;
     }
-    
     .focus-indicators button:focus,
     .focus-indicators a:focus,
     .focus-indicators input:focus,
     .focus-indicators select:focus {
-      outline: 4px solid #ff0000 !important;
+      outline: 4px solid var(--gold-bright) !important;
     }
   </style>
 </head>
+
 <body>
   <!-- Skip to content link for accessibility -->
   <a href="#main-content" class="skip-to-content">Skip to main content</a>
-  
+
   <!-- App loading progress bar -->
   <div id="app-loading-bar"></div>
-  
-  <!-- Initial loader - Only Lottie on #0d2b12 background -->
+
+  <!-- Initial loader -->
   <div id="initial-loader">
     <lottie-player
       class="lottie-loader"
@@ -332,80 +370,57 @@
       autoplay>
     </lottie-player>
   </div>
-  
+
   <!-- Angular app root -->
   <app-root></app-root>
-  
+
   <!-- Loading system scripts -->
   <script>
-    // Performance monitoring
     const startTime = performance.now();
-    
-    // Initial loader and progress bar
     const initialLoader = document.getElementById('initial-loader');
     const appLoadingBar = document.getElementById('app-loading-bar');
-    
-    // App loading progress bar
+
     let appProgress = 0;
     const appProgressInterval = setInterval(() => {
       appProgress += Math.random() * 12;
-      if (appProgress >= 80) {
-        appProgress = 80;
-      }
+      if (appProgress >= 80) appProgress = 80;
       appLoadingBar.style.width = appProgress + '%';
     }, 150);
-    
-    // Hide initial loader when Angular is ready
+
     window.addEventListener('AngularReady', () => {
-      // Complete progress bar
       appLoadingBar.style.width = '100%';
-      
-      // Clear interval
       clearInterval(appProgressInterval);
-      
-      // Hide initial loader
       setTimeout(() => {
         initialLoader.classList.add('hidden');
-        
-        // Complete app loading bar
         setTimeout(() => {
           appLoadingBar.classList.add('complete');
-          
-          // Log performance
           const loadTime = performance.now() - startTime;
-          console.log(`🚀 Mzuri Organics loaded in ${Math.round(loadTime)}ms`);
+          console.log(`🌱 Mzuri Organics loaded in ${Math.round(loadTime)}ms`);
         }, 300);
       }, 500);
     });
-    
-    // Safety timeout - hide loader after 6 seconds max
+
     setTimeout(() => {
       if (!initialLoader.classList.contains('hidden')) {
-        console.log('Safety timeout triggered - forcing loader hide');
+        console.log('Safety timeout triggered — forcing loader hide');
         initialLoader.classList.add('hidden');
         appLoadingBar.style.width = '100%';
-        setTimeout(() => {
-          appLoadingBar.classList.add('complete');
-        }, 300);
+        setTimeout(() => appLoadingBar.classList.add('complete'), 300);
       }
     }, 6000);
-    
-    // Error handling
-    window.addEventListener('error', (event) => {
-      console.error('Page error:', event.error);
+
+    window.addEventListener('error', () => {
       setTimeout(() => {
         initialLoader.classList.add('hidden');
         appLoadingBar.classList.add('complete');
       }, 1000);
     });
-    
-    // Before unload event
+
     window.addEventListener('beforeunload', () => {
       appLoadingBar.style.width = '0%';
       appLoadingBar.classList.remove('complete');
     });
-    
-    // Performance observer
+
     if ('PerformanceObserver' in window) {
       const observer = new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
@@ -414,26 +429,19 @@
       });
       observer.observe({ entryTypes: ['largest-contentful-paint', 'first-input'] });
     }
-    
-    // ===== CART Z-INDEX FIX =====
-    document.addEventListener('cart-opened', function() {
-      document.body.classList.add('cart-open');
-    });
-    
-    document.addEventListener('cart-closed', function() {
-      document.body.classList.remove('cart-open');
-    });
-    
-    setInterval(function() {
+
+    // Cart z-index fix
+    document.addEventListener('cart-opened', () => document.body.classList.add('cart-open'));
+    document.addEventListener('cart-closed', () => document.body.classList.remove('cart-open'));
+    setInterval(() => {
       const cartOverlay = document.querySelector('.cart-overlay.active');
-      if (cartOverlay) {
-        document.body.classList.add('cart-open');
-      } else {
-        document.body.classList.remove('cart-open');
-      }
+      if (cartOverlay) document.body.classList.add('cart-open');
+      else document.body.classList.remove('cart-open');
     }, 500);
 
-    // ===== ACCESSIBILITY MANAGER =====
+    // ============================================
+    // ACCESSIBILITY MANAGER
+    // ============================================
     window.AccessibilityManager = {
       settings: {
         fontSize: 'normal',
@@ -444,30 +452,28 @@
         readableFont: false,
         focusIndicators: false
       },
-      
+
       fontSizeLevels: ['small', 'normal', 'medium', 'large', 'xlarge'],
-      
+
       init: function() {
         this.loadSettings();
         this.applyAll();
         console.log('✅ Accessibility Manager initialized');
       },
-      
+
       loadSettings: function() {
         try {
           const saved = localStorage.getItem('mzuri_accessibility');
-          if (saved) {
-            this.settings = JSON.parse(saved);
-          }
+          if (saved) this.settings = JSON.parse(saved);
         } catch (e) {
           console.error('Error loading settings:', e);
         }
       },
-      
+
       saveSettings: function() {
         localStorage.setItem('mzuri_accessibility', JSON.stringify(this.settings));
       },
-      
+
       applyAll: function() {
         const classes = [
           'font-small', 'font-normal', 'font-medium', 'font-large', 'font-xlarge',
@@ -477,9 +483,9 @@
           'readable-font', 'focus-indicators'
         ];
         document.body.classList.remove(...classes);
-        
+
         document.body.classList.add(`font-${this.settings.fontSize}`);
-        
+
         if (this.settings.highContrast) document.body.classList.add('high-contrast');
         if (this.settings.reducedMotion) document.body.classList.add('reduced-motion');
         if (this.settings.lineSpacing !== 'normal') document.body.classList.add(`line-spacing-${this.settings.lineSpacing}`);
@@ -487,75 +493,66 @@
         if (this.settings.readableFont) document.body.classList.add('readable-font');
         if (this.settings.focusIndicators) document.body.classList.add('focus-indicators');
       },
-      
+
       increaseFontSize: function() {
-        const currentIndex = this.fontSizeLevels.indexOf(this.settings.fontSize);
-        if (currentIndex < this.fontSizeLevels.length - 1) {
-          this.settings.fontSize = this.fontSizeLevels[currentIndex + 1];
-          this.applyAll();
-          this.saveSettings();
+        const i = this.fontSizeLevels.indexOf(this.settings.fontSize);
+        if (i < this.fontSizeLevels.length - 1) {
+          this.settings.fontSize = this.fontSizeLevels[i + 1];
+          this.applyAll(); this.saveSettings();
         }
         return this.getFontSizeLabel();
       },
-      
+
       decreaseFontSize: function() {
-        const currentIndex = this.fontSizeLevels.indexOf(this.settings.fontSize);
-        if (currentIndex > 0) {
-          this.settings.fontSize = this.fontSizeLevels[currentIndex - 1];
-          this.applyAll();
-          this.saveSettings();
+        const i = this.fontSizeLevels.indexOf(this.settings.fontSize);
+        if (i > 0) {
+          this.settings.fontSize = this.fontSizeLevels[i - 1];
+          this.applyAll(); this.saveSettings();
         }
         return this.getFontSizeLabel();
       },
-      
+
       setFontSize: function(size) {
         if (this.fontSizeLevels.includes(size)) {
           this.settings.fontSize = size;
-          this.applyAll();
-          this.saveSettings();
+          this.applyAll(); this.saveSettings();
         }
       },
-      
+
       setHighContrast: function(enabled) {
         this.settings.highContrast = enabled;
-        this.applyAll();
-        this.saveSettings();
+        this.applyAll(); this.saveSettings();
       },
-      
+
       setReducedMotion: function(enabled) {
         this.settings.reducedMotion = enabled;
-        this.applyAll();
-        this.saveSettings();
+        this.applyAll(); this.saveSettings();
       },
-      
+
       setLineSpacing: function(spacing) {
         if (['normal', 'relaxed', 'loose'].includes(spacing)) {
           this.settings.lineSpacing = spacing;
-          this.applyAll();
-          this.saveSettings();
+          this.applyAll(); this.saveSettings();
         }
       },
-      
+
       setLetterSpacing: function(spacing) {
         if (['normal', 'wide', 'wider'].includes(spacing)) {
           this.settings.letterSpacing = spacing;
-          this.applyAll();
-          this.saveSettings();
+          this.applyAll(); this.saveSettings();
         }
       },
-      
+
       setReadableFont: function(enabled) {
         this.settings.readableFont = enabled;
-        this.applyAll();
-        this.saveSettings();
+        this.applyAll(); this.saveSettings();
       },
-      
+
       setFocusIndicators: function(enabled) {
         this.settings.focusIndicators = enabled;
-        this.applyAll();
-        this.saveSettings();
+        this.applyAll(); this.saveSettings();
       },
-      
+
       resetAll: function() {
         this.settings = {
           fontSize: 'normal',
@@ -566,52 +563,41 @@
           readableFont: false,
           focusIndicators: false
         };
-        this.applyAll();
-        this.saveSettings();
+        this.applyAll(); this.saveSettings();
       },
-      
+
       getFontSizeLabel: function() {
         const labels = { small: 'A-', normal: 'A', medium: 'A+', large: 'A++', xlarge: 'A+++' };
         return labels[this.settings.fontSize] || 'A';
       },
-      
+
       canIncrease: function() {
-        const currentIndex = this.fontSizeLevels.indexOf(this.settings.fontSize);
-        return currentIndex < this.fontSizeLevels.length - 1;
+        return this.fontSizeLevels.indexOf(this.settings.fontSize) < this.fontSizeLevels.length - 1;
       },
-      
+
       canDecrease: function() {
-        const currentIndex = this.fontSizeLevels.indexOf(this.settings.fontSize);
-        return currentIndex > 0;
+        return this.fontSizeLevels.indexOf(this.settings.fontSize) > 0;
       }
     };
-    
+
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', () => window.AccessibilityManager.init());
     } else {
       window.AccessibilityManager.init();
     }
   </script>
-  
-  <!-- Fonts -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" media="print" onload="this.media='all'">
-  
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  
+
   <!-- Service Worker Registration -->
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js').then(registration => {
-          console.log('ServiceWorker registration successful');
-        }).catch(err => {
-          console.log('ServiceWorker registration failed: ', err);
-        });
+        navigator.serviceWorker.register('/service-worker.js')
+          .then(() => console.log('ServiceWorker registration successful'))
+          .catch(err => console.log('ServiceWorker registration failed: ', err));
       });
     }
   </script>
-  
+
   <!-- Lottie Player -->
   <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 </body>

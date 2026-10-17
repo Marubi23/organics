@@ -1,70 +1,138 @@
 /* ============================================
-   SIMPLE TESTIMONIALS
+   TESTIMONIALS — Mzuri Organics
+   Cream paper · deep green type · muted gold accents
+   Tone matched to impact.component.css and contact.component.css
    ============================================ */
 
-:root {
-  --forest: #0d2b12;
-  --gold: #c8841a;
-  --green: #88c431;
+:host {
+  display: block;
+  --paper: #f8f1e3;
+  --paper-soft: #fcf8ef;
+  --sage-tint: #eef1e2;
   --white: #ffffff;
-  --shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  --ink: #20361e;
+  --ink-soft: #4b5e45;
+  --green-700: #35552f;
+  --green-500: #6b8f47;
+  --gold: #b5852a;
+  --gold-text: #9a6b14;
+  --gold-bright: #d3a23c;
+  --gold-soft: rgba(211, 162, 60, 0.38);
+  --gold-tint: rgba(211, 162, 60, 0.16);
+  --line: rgba(32, 54, 30, 0.12);
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans: 'Inter', system-ui, sans-serif;
+
+  font-family: var(--sans);
+  color: var(--ink);
+  background: var(--paper);
 }
 
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
 .container {
-  max-width: 800px;
+  max-width: 820px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
 
-/* ===== SECTION ===== */
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes skeleton-loading {
+  0%   { background-position: 100% 50%; }
+  100% { background-position: 0 50%; }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================
+   SECTION — cream band with gradient top edge
+   ============================================ */
 .testimonials-section {
-  padding: 5rem 0;
-  background: var(--green);
-  min-height: 100vh;
+  position: relative;
+  padding: 6rem 0;
+  background: var(--paper-soft);
+  min-height: 90vh;
   display: flex;
   align-items: center;
 }
+.testimonials-section::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--green-500), var(--gold-bright), var(--green-700));
+}
 
-/* ===== HEADER ===== */
+/* ============================================
+   HEADER — eyebrow pill + serif h2 with gold underline
+   ============================================ */
 .section-header {
   text-align: center;
   margin-bottom: 3rem;
 }
 
 .subtitle {
-  display: block;
-  font-size: 0.7rem;
-  font-weight: 600;
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: 999px;
+  background: var(--gold-tint);
+  border: 1px solid var(--gold-soft);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  letter-spacing: 3px;
-  color: var(--white);
-  margin-bottom: 0.5rem;
-  font-family: 'Inter', sans-serif;
+  color: var(--gold-text);
+  font-family: var(--sans);
 }
 
 .section-header h2 {
-  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-family: var(--serif);
+  font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 700;
-  color: var(--white);
-  font-family: 'Cormorant Garamond', 'Georgia', serif;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
   margin: 0;
 }
-
 .section-header h2 .gold {
-  color: var(--gold);
+  color: var(--gold-text);
   font-style: italic;
 }
-
-/* ===== TESTIMONIAL WRAPPER ===== */
-.testimonial-wrapper {
-  background: var(--white);
-  border-radius: 20px;
-  padding: 3rem;
-  box-shadow: var(--shadow);
-  border: 1px solid rgba(136, 196, 49, 0.08);
+.section-header h2::after {
+  content: '';
+  display: block;
+  width: 64px;
+  height: 3px;
+  margin: 1.2rem auto 0;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--gold-bright), var(--gold));
 }
 
-/* ===== TESTIMONIAL CARD ===== */
+/* ============================================
+   WRAPPER — solid white card on cream
+   ============================================ */
+.testimonial-wrapper {
+  position: relative;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  padding: 3rem 3rem 2.5rem;
+  box-shadow: 0 20px 50px rgba(53, 85, 47, 0.10);
+  animation: fadeInUp 0.5s ease-out;
+}
+
+/* ============================================
+   CARD — centered quote + profile
+   ============================================ */
 .testimonial-card {
   text-align: center;
   min-height: 280px;
@@ -72,33 +140,35 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 0 0.5rem;
 }
 
 .quote-icon {
-  margin-bottom: 1.5rem;
-  opacity: 0.15;
+  margin-bottom: 1.4rem;
+  color: var(--gold-bright);
+  opacity: 0.55;
 }
-
-.quote-icon i {
-  font-size: 2.5rem;
-  color: var(--gold);
-}
+.quote-icon i { font-size: 2.4rem; }
 
 .testimonial-quote {
-  font-size: clamp(1.1rem, 1.8vw, 1.9rem);
-  line-height: 1.7;
-  color: #2d3748;
+  font-family: var(--serif);
+  font-size: clamp(1.15rem, 1.9vw, 1.7rem);
+  line-height: 1.55;
+  font-weight: 500;
   font-style: italic;
-  font-family: 'Georgia', serif;
+  color: var(--ink);
   margin: 0 0 2rem 0;
-  max-width: 650px;
+  max-width: 640px;
 }
 
-/* ===== PROFILE ===== */
+/* ============================================
+   PROFILE — avatar (with skeleton) + name + role
+   ============================================ */
 .profile {
   display: flex;
   align-items: center;
   gap: 1rem;
+  justify-content: center;
 }
 
 .profile-image-wrapper {
@@ -113,157 +183,186 @@
   inset: 0;
   border-radius: 50%;
   overflow: hidden;
-  background: linear-gradient(90deg, #e8ebe8 25%, #f0f3f0 37%, #e8ebe8 63%);
+  background: linear-gradient(90deg, var(--sage-tint) 25%, var(--paper-soft) 37%, var(--sage-tint) 63%);
   background-size: 400% 100%;
   animation: skeleton-loading 1.4s ease infinite;
 }
-
-.skeleton-circle {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-}
-
-@keyframes skeleton-loading {
-  0% { background-position: 100% 50%; }
-  100% { background-position: 0 50%; }
-}
+.skeleton-circle { width: 100%; height: 100%; border-radius: 50%; }
 
 .profile-image {
+  position: relative;
   width: 56px;
   height: 56px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid var(--green);
+  border: 2px solid var(--green-500);
+  box-shadow: 0 4px 12px rgba(53, 85, 47, 0.15);
   opacity: 0;
   transition: opacity 0.4s ease;
+  z-index: 1;
+  display: block;
 }
-
-.profile-image.loaded {
-  opacity: 1;
-}
+.profile-image.loaded { opacity: 1; }
 
 .profile-info {
   text-align: left;
 }
 
 .name {
-  font-size: 2.05rem;
+  font-family: var(--sans);
+  font-size: 1.05rem;
   font-weight: 700;
-  color: var(--forest);
+  letter-spacing: 0.02em;
+  color: var(--ink);
   margin: 0 0 2px 0;
-  font-family: 'Inter', sans-serif;
+  line-height: 1.2;
 }
 
 .role {
-  font-size: 0.8rem;
-  color: var(--green);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold-text);
   margin: 0;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--sans);
 }
 
-/* ===== CONTROLS ===== */
+/* ============================================
+   CONTROLS — prev/next circles + dots
+   ============================================ */
 .controls {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 1.5rem;
-  margin-top: 2.5rem;
+  margin-top: 2rem;
   padding-top: 2rem;
-  border-top: 1px solid #f0f0f0;
+  border-top: 1px solid var(--line);
 }
 
 .control-btn {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  border: 1px solid #e0e0e0;
-  background: transparent;
-  color: #4a5568;
+  border: 1px solid var(--line);
+  background: var(--paper-soft);
+  color: var(--ink-soft);
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-family: inherit;
 }
+.control-btn i { font-size: 0.85rem; }
 
 .control-btn:hover {
-  background: var(--forest);
-  border-color: var(--forest);
-  color: var(--white);
+  background: var(--green-700);
+  border-color: var(--green-700);
+  color: #fdf8ec;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(53, 85, 47, 0.25);
 }
-
-.control-btn i {
-  font-size: 0.8rem;
+.control-btn:active {
+  transform: translateY(0);
+}
+.control-btn:focus-visible {
+  outline: 3px solid var(--gold-soft);
+  outline-offset: 2px;
 }
 
 .dots {
   display: flex;
   gap: 8px;
+  align-items: center;
 }
 
 .dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #d0d0d0;
+  background: var(--line);
   cursor: pointer;
   transition: all 0.3s ease;
+  display: inline-block;
 }
-
-.dot:hover {
-  background: #a0a0a0;
-}
-
+.dot:hover { background: var(--gold-soft); }
 .dot.active {
-  background: var(--green);
+  background: var(--gold-bright);
   width: 24px;
   border-radius: 4px;
 }
+.dot:focus-visible {
+  outline: 2px solid var(--gold-soft);
+  outline-offset: 3px;
+}
 
-/* ===== RESPONSIVE ===== */
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 900px) {
+  .testimonials-section { padding: 5rem 0; min-height: 0; }
+  .testimonial-wrapper { padding: 2.5rem 2rem 2rem; border-radius: 24px; }
+}
+
 @media (max-width: 768px) {
-  .testimonials-section {
-    padding: 3rem 0;
-  }
-
-  .testimonial-wrapper {
-    padding: 2rem 1.5rem;
-  }
-
-  .testimonial-quote {
-    font-size: 1rem;
-  }
-
-  .profile {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .profile-info {
-    text-align: center;
-  }
+  .testimonials-section { padding: 4rem 0; }
+  .container { padding: 0 1.25rem; }
+  .section-header { margin-bottom: 2.4rem; }
+  .testimonial-wrapper { padding: 2rem 1.5rem 1.75rem; border-radius: 22px; }
+  .testimonial-card { min-height: 0; padding: 0.5rem 0; }
+  .testimonial-quote { font-size: 1.05rem; line-height: 1.6; margin-bottom: 1.5rem; }
+  .profile { flex-direction: column; text-align: center; gap: 0.75rem; }
+  .profile-info { text-align: center; }
+  .controls { gap: 1rem; margin-top: 1.6rem; padding-top: 1.6rem; }
+  .control-btn { width: 40px; height: 40px; }
 }
 
 @media (max-width: 480px) {
-  .testimonial-wrapper {
-    padding: 1.5rem 1rem;
-  }
-
-  .controls {
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
+  .testimonials-section { padding: 3rem 0; }
+  .testimonial-wrapper { padding: 1.75rem 1.1rem 1.5rem; border-radius: 20px; }
+  .subtitle { font-size: 0.68rem; letter-spacing: 0.14em; }
+  .quote-icon i { font-size: 2rem; }
+  .testimonial-quote { font-size: 1rem; }
+  .controls { flex-wrap: wrap; gap: 0.9rem; }
+  .name { font-size: 0.98rem; }
 }
 
-/* ===== REDUCED MOTION ===== */
+/* ============================================
+   TOUCH DEVICES — no hover-lift, gentle press
+   ============================================ */
+@media (hover: none) and (pointer: coarse) {
+  .control-btn:hover {
+    transform: none;
+    box-shadow: none;
+    background: var(--paper-soft);
+    border-color: var(--line);
+    color: var(--ink-soft);
+  }
+  .control-btn:active {
+    transform: scale(0.94);
+    background: var(--green-700);
+    border-color: var(--green-700);
+    color: #fdf8ec;
+  }
+  .control-btn { min-width: 44px; min-height: 44px; }
+}
+
+/* ============================================
+   REDUCED MOTION
+   ============================================ */
 @media (prefers-reduced-motion: reduce) {
   .image-skeleton {
     animation: none;
-    background: #e8ebe8;
+    background: var(--sage-tint);
   }
-
-  .control-btn:hover {
-    transform: none;
+  .testimonial-wrapper,
+  .control-btn,
+  .dot,
+  .profile-image {
+    animation: none;
+    transition: none;
   }
+  .control-btn:hover { transform: none; }
 }

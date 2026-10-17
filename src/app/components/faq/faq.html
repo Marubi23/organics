@@ -1,427 +1,511 @@
-<!-- FAQ Hero Section -->
+<!-- ============================================
+     FAQ HERO — two-column: intro left, search + stats right
+     ============================================ -->
 <section class="faq-hero">
   <div class="container">
-    <div class="faq-hero-content">
-      
-      <!-- Badge -->
-      <div class="faq-badge">
-        <span class="badge-text">Knowledge Hub</span>
+    <div class="faq-hero-grid">
+
+      <!-- LEFT: title, eyebrow, subtitle, quick chips -->
+      <div class="hero-intro">
+        <span class="hero-eyebrow">Knowledge Hub</span>
+
+        <h1 class="hero-title">
+          <span class="hero-title-lead">Mzuri Organics</span>
+          Frequently Asked Questions
+        </h1>
+
+        <p class="hero-subtitle">
+          Everything you need to know about our products, applications,
+          and impact — answered by the team behind the farm.
+        </p>
+
+        <!-- Quick category shortcuts, one row -->
+        <div class="hero-chips">
+          <button class="chip primary" (click)="scrollToCategory('about')">
+            <i class="fas fa-leaf"></i> About Us
+          </button>
+          <button class="chip" (click)="scrollToCategory('products')">
+            <i class="fas fa-flask"></i> Products
+          </button>
+          <button class="chip" (click)="scrollToCategory('application')">
+            <i class="fas fa-hand-sparkles"></i> Application
+          </button>
+          <button class="chip" (click)="scrollToCategory('buying')">
+            <i class="fas fa-shopping-cart"></i> Buying
+          </button>
+        </div>
       </div>
-      
-      <!-- Title -->
-      <h1 class="faq-title">
-        <span class="title-line">Mzuri Organics</span>
-        <span class="title-gradient">Frequently Asked Questions</span>
-      </h1>
-      
-      <!-- Subtitle -->
-      <p class="faq-subtitle">
-        Everything you need to know about our products, applications, and impact
-      </p>
-      
-      <!-- Search -->
-      <div class="search-container">
-        <div class="search-wrapper">
-          <i class="fas fa-search search-icon"></i>
-          <input 
-            type="text" 
-            class="search-input" 
-            placeholder="Search questions..."
-            [(ngModel)]="searchQuery"
-            (input)="onSearch()"
-            (focus)="showSuggestions = true"
-            #searchInput
-          />
-          <button class="search-clear" (click)="clearSearch()" *ngIf="searchQuery">
-            <i class="fas fa-times"></i>
-          </button>
-          <button class="search-voice" (click)="startVoiceSearch()">
-            <i class="fas fa-microphone"></i>
-          </button>
-        </div>
-        
-        <!-- Suggestions -->
-        <div class="search-suggestions" *ngIf="showSuggestions && !searchQuery">
-          <div class="suggestion-header">
-            <i class="fas fa-bolt" style="color: #d49a42;"></i>
-            <span>Popular Searches:</span>
+
+      <!-- RIGHT: search + stats card -->
+      <div class="hero-panel">
+        <!-- Search -->
+        <div class="search-block">
+          <div class="search-wrapper">
+            <i class="fas fa-search search-icon"></i>
+            <input
+              type="text"
+              class="search-input"
+              placeholder="Ask anything — try 'compost'"
+              [(ngModel)]="searchQuery"
+              (input)="onSearch()"
+              (focus)="showSuggestions = true"
+              #searchInput
+            />
+            <button
+              *ngIf="searchQuery"
+              class="search-clear"
+              (click)="clearSearch()"
+              aria-label="Clear search">
+              <i class="fas fa-times"></i>
+            </button>
+            <button
+              class="search-voice"
+              (click)="startVoiceSearch()"
+              aria-label="Voice search">
+              <i class="fas fa-microphone"></i>
+            </button>
           </div>
-          <div class="suggestion-tags">
-            <span class="tag" *ngFor="let suggestion of popularSuggestions" 
-                  (click)="selectSuggestion(suggestion)">
-              {{suggestion}}
-            </span>
-          </div>
-        </div>
-        
-        <!-- Quick Answer -->
-        <div class="quick-answer" *ngIf="quickAnswer">
-          <div class="quick-answer-card">
-            <i class="fas fa-bolt quick-icon"></i>
-            <div class="quick-content">
-              <h4>Quick Answer:</h4>
-              <p>{{quickAnswer}}</p>
-              <button class="btn-view" (click)="scrollToQuestion(quickAnswerId)">
-                View Full Answer <i class="fas fa-arrow-right"></i>
+
+          <!-- Popular searches -->
+          <div class="search-suggestions" *ngIf="showSuggestions && !searchQuery">
+            <div class="suggestion-header">
+              <i class="fas fa-bolt"></i>
+              <span>Popular searches</span>
+            </div>
+            <div class="suggestion-tags">
+              <button
+                *ngFor="let suggestion of popularSuggestions"
+                class="suggestion-chip"
+                (click)="selectSuggestion(suggestion)">
+                {{ suggestion }}
               </button>
             </div>
           </div>
+
+          <!-- Quick answer -->
+          <div class="quick-answer" *ngIf="quickAnswer">
+            <div class="quick-answer-card">
+              <i class="fas fa-bolt quick-icon"></i>
+              <div class="quick-content">
+                <span class="quick-label">Quick answer</span>
+                <p>{{ quickAnswer }}</p>
+                <button class="link-btn" (click)="scrollToQuestion(quickAnswerId)">
+                  Read the full answer <i class="fas fa-arrow-right"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats grid -->
+        <div class="stats-grid">
+          <div class="stat-card" *ngFor="let stat of stats">
+            <div class="stat-icon">
+              <i [class]="stat.icon"></i>
+            </div>
+            <div class="stat-body">
+              <div class="stat-value">{{ stat.value }}</div>
+              <div class="stat-label">{{ stat.label }}</div>
+            </div>
+            <span class="stat-trend" *ngIf="stat.trend">
+              <i [class]="stat.trendIcon"></i> {{ stat.trend }}%
+            </span>
+          </div>
         </div>
       </div>
-      
-      <!-- Stats -->
-      <div class="stats-grid">
-        <div class="stat-card" *ngFor="let stat of stats">
-          <i [class]="stat.icon" class="stat-icon"></i>
-          <div class="stat-info">
-            <div class="stat-value">{{stat.value}}</div>
-            <div class="stat-label">{{stat.label}}</div>
-          </div>
-          <div class="stat-trend" *ngIf="stat.trend">
-            <i [class]="stat.trendIcon"></i>
-            {{stat.trend}}%
-          </div>
-        </div>
-      </div>
-      
-      <!-- Quick Actions -->
-      <div class="quick-actions">
-        <button class="action-btn primary" (click)="scrollToCategory('about')">
-          <i class="fas fa-leaf"></i> About Us
-        </button>
-        <button class="action-btn secondary" (click)="scrollToCategory('products')">
-          <i class="fas fa-flask"></i> Products
-        </button>
-        <button class="action-btn secondary" (click)="scrollToCategory('application')">
-          <i class="fas fa-hand-sparkles"></i> Application
-        </button>
-        <button class="action-btn secondary" (click)="scrollToCategory('buying')">
-          <i class="fas fa-shopping-cart"></i> Buying
-        </button>
-      </div>
+
     </div>
   </div>
 </section>
 
-<!-- Main Content -->
+<!-- ============================================
+     MAIN — sticky category index + questions
+     ============================================ -->
 <section class="faq-main">
   <div class="container">
-    
-    <!-- Category Filter -->
-    <div class="category-filter">
-      <div class="filter-progress">
-        <div class="progress-bar">
-          <div class="progress-fill" [style.width.%]="getProgressPercentage()"></div>
-        </div>
-        <div class="progress-text">
-          Viewing {{activeCategory === 'all' ? 'All' : (activeCategory | titlecase)}} Questions
-          <span class="progress-count">({{activeCategory === 'all' ? totalQuestions : getCategoryCount(activeCategory)}} of {{totalQuestions}})</span>
-        </div>
-      </div>
-      
-      <div class="filter-scroll">
-        <button class="filter-btn" [class.active]="activeCategory === 'all'" (click)="filterByCategory('all')">
-          <i class="fas fa-layer-group filter-icon"></i>
-          <span>All Questions</span>
-          <span class="filter-count">{{totalQuestions}}</span>
-        </button>
-        
-        <button class="filter-btn" [class.active]="activeCategory === 'about'" (click)="filterByCategory('about')">
-          <i class="fas fa-leaf filter-icon"></i>
-          <span>About</span>
-          <span class="filter-count">{{getCategoryCount('about')}}</span>
-        </button>
-        
-        <button class="filter-btn" [class.active]="activeCategory === 'products'" (click)="filterByCategory('products')">
-          <i class="fas fa-flask filter-icon"></i>
-          <span>Products</span>
-          <span class="filter-count">{{getCategoryCount('products')}}</span>
-        </button>
-        
-        <button class="filter-btn" [class.active]="activeCategory === 'application'" (click)="filterByCategory('application')">
-          <i class="fas fa-hand-sparkles filter-icon"></i>
-          <span>Application</span>
-          <span class="filter-count">{{getCategoryCount('application')}}</span>
-        </button>
-        
-        <button class="filter-btn" [class.active]="activeCategory === 'performance'" (click)="filterByCategory('performance')">
-          <i class="fas fa-chart-line filter-icon"></i>
-          <span>Performance</span>
-          <span class="filter-count">{{getCategoryCount('performance')}}</span>
-        </button>
-        
-        <button class="filter-btn" [class.active]="activeCategory === 'safety'" (click)="filterByCategory('safety')">
-          <i class="fas fa-shield-alt filter-icon"></i>
-          <span>Safety</span>
-          <span class="filter-count">{{getCategoryCount('safety')}}</span>
-        </button>
-        
-        <button class="filter-btn" [class.active]="activeCategory === 'sustainability'" (click)="filterByCategory('sustainability')">
-          <i class="fas fa-globe-africa filter-icon"></i>
-          <span>Sustainability</span>
-          <span class="filter-count">{{getCategoryCount('sustainability')}}</span>
-        </button>
-        
-        <button class="filter-btn" [class.active]="activeCategory === 'buying'" (click)="filterByCategory('buying')">
-          <i class="fas fa-shopping-cart filter-icon"></i>
-          <span>Buying</span>
-          <span class="filter-count">{{getCategoryCount('buying')}}</span>
-        </button>
-        
-        <button class="filter-btn" [class.active]="activeCategory === 'general'" (click)="filterByCategory('general')">
-          <i class="fas fa-handshake filter-icon"></i>
-          <span>General</span>
-          <span class="filter-count">{{getCategoryCount('general')}}</span>
-        </button>
-      </div>
-    </div>
-    
-    <!-- FAQ Accordion -->
-    <div class="faq-accordion">
-      <div class="faq-section" *ngFor="let category of filteredCategories">
-        
-        <!-- Section Header -->
-        <div class="section-header">
-          <div class="section-icon">
-            <i [class]="category.icon"></i>
-          </div>
-          <div class="section-title">
-            <h2>{{category.name}}</h2>
-            <p>{{category.description}}</p>
-          </div>
-        </div>
-        
-        <!-- Questions -->
-        <div class="questions-list">
-          <div class="faq-item" 
-               *ngFor="let question of category.questions; let i = index"
-               [class.active]="isQuestionActive(question.id)"
-               [attr.id]="'question-' + question.id">
-            
-            <!-- Question -->
-            <div class="faq-question" (click)="toggleQuestion(question.id)">
-              <div class="question-number">{{i + 1}}</div>
-              <div class="question-content">
-                <h3>{{question.question}}</h3>
-                <div class="question-tags">
-                  <span class="tag" *ngFor="let tag of question.tags">{{tag}}</span>
-                </div>
-              </div>
-              <div class="question-actions">
-                <button class="bookmark-btn" (click)="toggleBookmark(question.id, $event)">
-                  <i [class]="isBookmarked(question.id) ? 'fas fa-bookmark' : 'far fa-bookmark'"></i>
-                </button>
-                <i class="fas fa-chevron-down arrow"></i>
-              </div>
-            </div>
-            
-            <!-- Answer -->
-            <div class="faq-answer" *ngIf="isQuestionActive(question.id)" @slideDown>
-              <div class="answer-content">
-                <p>{{question.answer}}</p>
-                
-                <div class="answer-meta">
-                  <span><i class="fas fa-user-check"></i> {{question.answeredBy}}</span>
-                  <span><i class="fas fa-calendar"></i> Updated: {{question.updatedDate}}</span>
-                  <span><i class="fas fa-clock"></i> {{question.readTime}} min read</span>
-                </div>
-                
-                <!-- Helpful Buttons -->
-                <div class="helpful-section">
-                  <p>Was this helpful?</p>
-                  <div class="helpful-buttons">
-                    <button class="helpful-btn" 
-                            [class.active]="question.userVote === 'yes'"
-                            (click)="voteOnQuestion(question.id, 'yes', $event)">
-                      <i class="fas fa-thumbs-up"></i>
-                      Yes ({{question.yesVotes}})
-                    </button>
-                    <button class="helpful-btn"
-                            [class.active]="question.userVote === 'no'"
-                            (click)="voteOnQuestion(question.id, 'no', $event)">
-                      <i class="fas fa-thumbs-down"></i>
-                      No ({{question.noVotes}})
-                    </button>
-                  </div>
-                  <div class="helpful-stats" *ngIf="question.yesVotes + question.noVotes > 0">
-                    <div class="stat-bar">
-                      <div class="stat-fill" [style.width.%]="getHelpfulPercentage(question)"></div>
-                    </div>
-                    <span>{{getHelpfulPercentage(question)}}% found this helpful</span>
-                  </div>
-                </div>
-                
-                <!-- Share -->
-                <div class="share-section">
-                  <button class="share-btn" (click)="shareQuestion(question, $event)">
-                    <i class="fas fa-share-alt"></i> Share
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    
+    <div class="faq-layout">
 
-<!-- Download Resources -->
-<div class="download-section">
-  <div class="section-header">
-    <span class="section-subtitle">Free Resources</span>
-    <h2>Training Manuals & Guides</h2>
-    <p>Download comprehensive training materials for sustainable farming</p>
-  </div>
-  
-  <div class="download-grid">
-    <!-- BSF Training Manual -->
-    <div class="download-card" (click)="downloadResource('bsf-manual')">
-      <div class="card-badge">Popular</div>
-      <div class="download-icon bsf">
-        <i class="fas fa-bug"></i>
-      </div>
-      <h3>BSF Training Manual</h3>
-      <p class="card-description">Complete guide to Black Soldier Fly farming, bioconversion processes, and best practices</p>
-      <div class="download-features">
-        <span><i class="fas fa-check-circle"></i> 45+ Pages</span>
-        <span><i class="fas fa-check-circle"></i> Step-by-step guide</span>
-        <span><i class="fas fa-check-circle"></i> Illustrations included</span>
-      </div>
-      <div class="download-meta">
-        <span><i class="fas fa-file-pdf"></i> PDF</span>
-        <span><i class="fas fa-layer-group"></i> 4.2 MB</span>
-        <span><i class="fas fa-calendar"></i> Updated 2025</span>
-      </div>
-      <button class="btn-download" [class.downloading]="downloading === 'bsf-manual'">
-        <i class="fas fa-download"></i>
-        <span>{{downloading === 'bsf-manual' ? 'Downloading...' : 'Download BSF Manual'}}</span>
-      </button>
-      <div class="download-progress" *ngIf="downloading === 'bsf-manual'">
-        <div class="progress-bar" [style.width.%]="downloadProgress"></div>
+      <!-- CATEGORY INDEX — sticky on desktop, scrollable pills on mobile -->
+      <aside class="category-index">
+        <div class="index-header">
+          <span class="index-eyebrow">Browse by topic</span>
+          <div class="index-progress">
+            <div class="index-progress-bar">
+              <div class="index-progress-fill" [style.width.%]="getProgressPercentage()"></div>
+            </div>
+            <span class="index-progress-label">
+              {{ activeCategory === 'all' ? 'All' : (activeCategory | titlecase) }}
+              · {{ activeCategory === 'all' ? totalQuestions : getCategoryCount(activeCategory) }} of {{ totalQuestions }}
+            </span>
+          </div>
+        </div>
+
+        <nav class="index-list">
+          <button
+            class="index-item"
+            [class.active]="activeCategory === 'all'"
+            (click)="filterByCategory('all')">
+            <i class="fas fa-layer-group index-icon"></i>
+            <span class="index-label">All Questions</span>
+            <span class="index-count">{{ totalQuestions }}</span>
+          </button>
+
+          <button
+            class="index-item"
+            [class.active]="activeCategory === 'about'"
+            (click)="filterByCategory('about')">
+            <i class="fas fa-leaf index-icon"></i>
+            <span class="index-label">About</span>
+            <span class="index-count">{{ getCategoryCount('about') }}</span>
+          </button>
+
+          <button
+            class="index-item"
+            [class.active]="activeCategory === 'products'"
+            (click)="filterByCategory('products')">
+            <i class="fas fa-flask index-icon"></i>
+            <span class="index-label">Products</span>
+            <span class="index-count">{{ getCategoryCount('products') }}</span>
+          </button>
+
+          <button
+            class="index-item"
+            [class.active]="activeCategory === 'application'"
+            (click)="filterByCategory('application')">
+            <i class="fas fa-hand-sparkles index-icon"></i>
+            <span class="index-label">Application</span>
+            <span class="index-count">{{ getCategoryCount('application') }}</span>
+          </button>
+
+          <button
+            class="index-item"
+            [class.active]="activeCategory === 'performance'"
+            (click)="filterByCategory('performance')">
+            <i class="fas fa-chart-line index-icon"></i>
+            <span class="index-label">Performance</span>
+            <span class="index-count">{{ getCategoryCount('performance') }}</span>
+          </button>
+
+          <button
+            class="index-item"
+            [class.active]="activeCategory === 'safety'"
+            (click)="filterByCategory('safety')">
+            <i class="fas fa-shield-alt index-icon"></i>
+            <span class="index-label">Safety</span>
+            <span class="index-count">{{ getCategoryCount('safety') }}</span>
+          </button>
+
+          <button
+            class="index-item"
+            [class.active]="activeCategory === 'sustainability'"
+            (click)="filterByCategory('sustainability')">
+            <i class="fas fa-globe-africa index-icon"></i>
+            <span class="index-label">Sustainability</span>
+            <span class="index-count">{{ getCategoryCount('sustainability') }}</span>
+          </button>
+
+          <button
+            class="index-item"
+            [class.active]="activeCategory === 'buying'"
+            (click)="filterByCategory('buying')">
+            <i class="fas fa-shopping-cart index-icon"></i>
+            <span class="index-label">Buying</span>
+            <span class="index-count">{{ getCategoryCount('buying') }}</span>
+          </button>
+
+          <button
+            class="index-item"
+            [class.active]="activeCategory === 'general'"
+            (click)="filterByCategory('general')">
+            <i class="fas fa-handshake index-icon"></i>
+            <span class="index-label">General</span>
+            <span class="index-count">{{ getCategoryCount('general') }}</span>
+          </button>
+        </nav>
+      </aside>
+
+      <!-- QUESTIONS — the accordion -->
+      <div class="questions-area">
+        <div class="questions-empty" *ngIf="filteredCategories.length === 0">
+          <i class="fas fa-search"></i>
+          <h3>No questions match</h3>
+          <p>Try a different search term, or browse another category from the index.</p>
+        </div>
+
+        <div class="faq-section" *ngFor="let category of filteredCategories">
+
+          <header class="section-head">
+            <div class="section-head-icon">
+              <i [class]="category.icon"></i>
+            </div>
+            <div class="section-head-text">
+              <h2>{{ category.name }}</h2>
+              <p>{{ category.description }}</p>
+            </div>
+          </header>
+
+          <div class="questions-list">
+            <article
+              class="faq-item"
+              *ngFor="let question of category.questions; let i = index"
+              [class.active]="isQuestionActive(question.id)"
+              [attr.id]="'question-' + question.id">
+
+              <button class="faq-question" (click)="toggleQuestion(question.id)">
+                <span class="question-number">{{ i + 1 }}</span>
+
+                <div class="question-content">
+                  <h3>{{ question.question }}</h3>
+                  <div class="question-tags" *ngIf="question.tags?.length">
+                    <span class="mini-tag" *ngFor="let tag of question.tags">{{ tag }}</span>
+                  </div>
+                </div>
+
+                <span class="question-actions">
+                  <button
+                    class="bookmark-btn"
+                    (click)="toggleBookmark(question.id, $event)"
+                    aria-label="Bookmark this question">
+                    <i [class]="isBookmarked(question.id) ? 'fas fa-bookmark' : 'far fa-bookmark'"></i>
+                  </button>
+                  <i class="fas fa-chevron-down arrow"></i>
+                </span>
+              </button>
+
+              <div class="faq-answer" *ngIf="isQuestionActive(question.id)" @slideDown>
+                <div class="answer-content">
+                  <p>{{ question.answer }}</p>
+
+                  <div class="answer-meta">
+                    <span><i class="fas fa-user-check"></i> {{ question.answeredBy }}</span>
+                    <span><i class="fas fa-calendar"></i> Updated {{ question.updatedDate }}</span>
+                    <span><i class="fas fa-clock"></i> {{ question.readTime }} min read</span>
+                  </div>
+
+                  <div class="helpful-section">
+                    <span class="helpful-label">Was this helpful?</span>
+                    <div class="helpful-buttons">
+                      <button
+                        class="helpful-btn"
+                        [class.active]="question.userVote === 'yes'"
+                        (click)="voteOnQuestion(question.id, 'yes', $event)">
+                        <i class="fas fa-thumbs-up"></i>
+                        Yes ({{ question.yesVotes }})
+                      </button>
+                      <button
+                        class="helpful-btn"
+                        [class.active]="question.userVote === 'no'"
+                        (click)="voteOnQuestion(question.id, 'no', $event)">
+                        <i class="fas fa-thumbs-down"></i>
+                        No ({{ question.noVotes }})
+                      </button>
+                    </div>
+
+                    <div class="helpful-stats" *ngIf="question.yesVotes + question.noVotes > 0">
+                      <div class="stat-bar">
+                        <div class="stat-fill" [style.width.%]="getHelpfulPercentage(question)"></div>
+                      </div>
+                      <span>{{ getHelpfulPercentage(question) }}% found this helpful</span>
+                    </div>
+                  </div>
+
+                  <div class="share-section">
+                    <button class="share-btn" (click)="shareQuestion(question, $event)">
+                      <i class="fas fa-share-alt"></i> Share this question
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
       </div>
     </div>
-    
-    <!-- Vermicomposting Training Manual -->
-    <div class="download-card" (click)="downloadResource('vermicomposting-manual')">
-      <div class="card-badge featured">Featured</div>
-      <div class="download-icon vermi">
-        <i class="fas fa-worm"></i>
+
+    <!-- ============================================
+         DOWNLOAD RESOURCES
+         ============================================ -->
+    <div class="download-section">
+      <header class="section-header">
+        <span class="section-eyebrow">Free Resources</span>
+        <h2>Training Manuals &amp; Guides</h2>
+        <p>Download comprehensive training materials for sustainable farming</p>
+      </header>
+
+      <div class="download-grid">
+        <div class="download-card" (click)="downloadResource('bsf-manual')">
+          <span class="card-badge">Popular</span>
+          <div class="download-icon bsf">
+            <i class="fas fa-bug"></i>
+          </div>
+          <h3>BSF Training Manual</h3>
+          <p class="card-description">
+            Complete guide to Black Soldier Fly farming, bioconversion
+            processes, and best practices for Kenyan conditions.
+          </p>
+          <div class="download-features">
+            <span><i class="fas fa-check-circle"></i> 45+ pages</span>
+            <span><i class="fas fa-check-circle"></i> Step-by-step</span>
+            <span><i class="fas fa-check-circle"></i> Illustrations</span>
+          </div>
+          <div class="download-meta">
+            <span><i class="fas fa-file-pdf"></i> PDF</span>
+            <span><i class="fas fa-layer-group"></i> 4.2 MB</span>
+            <span><i class="fas fa-calendar"></i> 2025</span>
+          </div>
+          <button class="btn-download" [class.downloading]="downloading === 'bsf-manual'">
+            <i class="fas fa-download"></i>
+            <span>{{ downloading === 'bsf-manual' ? 'Downloading...' : 'Download manual' }}</span>
+          </button>
+          <div class="download-progress" *ngIf="downloading === 'bsf-manual'">
+            <div class="progress-bar" [style.width.%]="downloadProgress"></div>
+          </div>
+        </div>
+
+        <div class="download-card" (click)="downloadResource('vermicomposting-manual')">
+          <span class="card-badge featured">Featured</span>
+          <div class="download-icon vermi">
+            <i class="fas fa-worm"></i>
+          </div>
+          <h3>Vermicomposting Manual</h3>
+          <p class="card-description">
+            Essential guide to vermicomposting, worm farming, and
+            organic fertilizer production at any scale.
+          </p>
+          <div class="download-features">
+            <span><i class="fas fa-check-circle"></i> 52+ pages</span>
+            <span><i class="fas fa-check-circle"></i> Practical</span>
+            <span><i class="fas fa-check-circle"></i> Troubleshooting</span>
+          </div>
+          <div class="download-meta">
+            <span><i class="fas fa-file-pdf"></i> PDF</span>
+            <span><i class="fas fa-layer-group"></i> 3.8 MB</span>
+            <span><i class="fas fa-calendar"></i> 2025</span>
+          </div>
+          <button class="btn-download" [class.downloading]="downloading === 'vermicomposting-manual'">
+            <i class="fas fa-download"></i>
+            <span>{{ downloading === 'vermicomposting-manual' ? 'Downloading...' : 'Download manual' }}</span>
+          </button>
+          <div class="download-progress" *ngIf="downloading === 'vermicomposting-manual'">
+            <div class="progress-bar" [style.width.%]="downloadProgress"></div>
+          </div>
+        </div>
       </div>
-      <h3>Vermicomposting Manual</h3>
-      <p class="card-description">Essential guide to vermicomposting, worm farming, and organic fertilizer production</p>
-      <div class="download-features">
-        <span><i class="fas fa-check-circle"></i> 52+ Pages</span>
-        <span><i class="fas fa-check-circle"></i> Practical techniques</span>
-        <span><i class="fas fa-check-circle"></i> Troubleshooting guide</span>
-      </div>
-      <div class="download-meta">
-        <span><i class="fas fa-file-pdf"></i> PDF</span>
-        <span><i class="fas fa-layer-group"></i> 3.8 MB</span>
-        <span><i class="fas fa-calendar"></i> Updated 2025</span>
-      </div>
-      <button class="btn-download" [class.downloading]="downloading === 'vermicomposting-manual'">
-        <i class="fas fa-download"></i>
-        <span>{{downloading === 'vermicomposting-manual' ? 'Downloading...' : 'Download Vermicomposting Manual'}}</span>
-      </button>
-      <div class="download-progress" *ngIf="downloading === 'vermicomposting-manual'">
-        <div class="progress-bar" [style.width.%]="downloadProgress"></div>
+
+      <div class="download-footer">
+        <p>
+          <i class="fas fa-info-circle"></i>
+          These manuals are free for all Kenyan farmers — share them with your community.
+        </p>
       </div>
     </div>
-  </div>
-  
-  <!-- Additional Info -->
-  <div class="download-footer">
-    <p><i class="fas fa-info-circle"></i> These manuals are free for all Kenyan farmers. Share with your farming community!</p>
-  </div>
-</div>
-    <!-- Ask Question Form -->
+
+    <!-- ============================================
+         ASK A QUESTION
+         ============================================ -->
     <div class="ask-section">
-      <h2>Still Have Questions?</h2>
-      <p>Ask our team of Kenyan agricultural experts</p>
-      
+      <header class="section-header">
+        <span class="section-eyebrow">Direct line</span>
+        <h2>Still have a question?</h2>
+        <p>Ask our team of Kenyan agricultural experts — we reply within 24 hours.</p>
+      </header>
+
       <form #questionForm="ngForm" (ngSubmit)="submitQuestion(questionForm)" class="ask-form">
         <div class="form-row">
           <div class="form-group">
-            <label>Your Name *</label>
+            <label>Your name *</label>
             <input type="text" [(ngModel)]="newQuestion.name" name="name" required>
           </div>
           <div class="form-group">
-            <label>Email Address *</label>
+            <label>Email address *</label>
             <input type="email" [(ngModel)]="newQuestion.email" name="email" required email>
           </div>
         </div>
-        
+
         <div class="form-row">
           <div class="form-group">
-            <label>Phone Number</label>
+            <label>Phone number <span class="optional">Optional</span></label>
             <input type="tel" [(ngModel)]="newQuestion.phone" name="phone">
           </div>
           <div class="form-group">
-            <label>Question Category *</label>
+            <label>Category *</label>
             <select [(ngModel)]="newQuestion.category" name="category" required>
               <option value="">Select a category</option>
               <option value="about">About Mzuri Organics</option>
-              <option value="products">Products & Composition</option>
-              <option value="application">Application & Usage</option>
-              <option value="performance">Performance & Results</option>
-              <option value="safety">Safety & Certification</option>
-              <option value="sustainability">Sustainability & Impact</option>
-              <option value="buying">Buying & Support</option>
+              <option value="products">Products &amp; Composition</option>
+              <option value="application">Application &amp; Usage</option>
+              <option value="performance">Performance &amp; Results</option>
+              <option value="safety">Safety &amp; Certification</option>
+              <option value="sustainability">Sustainability &amp; Impact</option>
+              <option value="buying">Buying &amp; Support</option>
               <option value="general">General</option>
             </select>
           </div>
         </div>
-        
+
         <div class="form-group full-width">
-          <label>Your Question *</label>
-          <textarea [(ngModel)]="newQuestion.text" name="text" rows="4" required></textarea>
+          <label>Your question *</label>
+          <textarea
+            [(ngModel)]="newQuestion.text"
+            name="text"
+            rows="4"
+            required
+            placeholder="Tell us what you'd like to know — the more detail, the better we can help."></textarea>
         </div>
-        
+
         <div class="form-footer">
-          <p class="privacy-note">
+          <span class="privacy-note">
             <i class="fas fa-shield-alt"></i>
-            We'll respond within 24 hours
-          </p>
+            We respond within 24 hours. We never share your details.
+          </span>
           <button type="submit" class="btn-submit" [disabled]="!questionForm.valid || submitting">
-            <i class="fas fa-paper-plane"></i>
-            {{submitting ? 'Submitting...' : 'Submit Question'}}
+            <i class="fas" [class.fa-paper-plane]="!submitting" [class.fa-spinner]="submitting" [class.fa-spin]="submitting"></i>
+            {{ submitting ? 'Sending...' : 'Send question' }}
           </button>
         </div>
       </form>
     </div>
-    
-    <!-- Contact Info -->
+
+    <!-- ============================================
+         CONTACT CARDS
+         ============================================ -->
     <div class="contact-info">
-      <div class="contact-card">
+      <a class="contact-card" href="tel:0701934918">
         <i class="fas fa-phone-alt"></i>
-        <h3>Call Us</h3>
-        <p><a href="tel:0701934918">0701 934 918</a></p>
-      </div>
-      <div class="contact-card">
+        <h3>Call us</h3>
+        <p>0701 934 918</p>
+      </a>
+
+      <a class="contact-card" href="https://www.mzuriorganics.co.ke" target="_blank" rel="noopener">
         <i class="fas fa-globe"></i>
-        <h3>Visit Website</h3>
-        <p><a href="https://www.mzuriorganics.co.ke" target="_blank">www.mzuriorganics.co.ke</a></p>
-      </div>
-      <div class="contact-card">
+        <h3>Visit website</h3>
+        <p>mzuriorganics.co.ke</p>
+      </a>
+
+      <a class="contact-card" href="https://wa.me/254701934918" target="_blank" rel="noopener">
         <i class="fab fa-whatsapp"></i>
         <h3>WhatsApp</h3>
-        <p><a href="https://wa.me/254701934918" target="_blank">Chat with us</a></p>
-      </div>
+        <p>Chat with us</p>
+      </a>
     </div>
+
   </div>
 </section>
 
-<!-- Toast Notifications -->
+<!-- ============================================
+     TOASTS
+     ============================================ -->
 <div class="toast-container">
   <div *ngFor="let toast of toasts" class="toast" [class]="toast.type" @fadeInOut>
     <i [class]="getToastIcon(toast.type)" class="toast-icon"></i>
     <div class="toast-content">
-      <strong>{{toast.title}}</strong>
-      <p>{{toast.message}}</p>
+      <strong>{{ toast.title }}</strong>
+      <p>{{ toast.message }}</p>
     </div>
-    <button class="toast-close" (click)="removeToast(toast.id)">
+    <button class="toast-close" (click)="removeToast(toast.id)" aria-label="Dismiss">
       <i class="fas fa-times"></i>
     </button>
   </div>
 </div>
- <app-cart></app-cart>
+
+<app-cart></app-cart>

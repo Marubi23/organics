@@ -1,30 +1,37 @@
-<!-- Simple Testimonials Section -->
-
+<!-- ============================================
+     TESTIMONIALS — cream band, white card, gold accents
+     ============================================ -->
 <section class="testimonials-section">
   <div class="container">
-    <!-- Heading -->
+
     <div class="section-header">
       <span class="subtitle">Real Voices</span>
       <h2>What Our <span class="gold">Community</span> Says</h2>
     </div>
 
-    <!-- Testimonial Carousel -->
     <div class="testimonial-wrapper">
       <div class="testimonial-card" [@fadeSlide]="currentIndex">
-        <!-- Quote -->
-        <div class="quote-icon">
+
+        <div class="quote-icon" aria-hidden="true">
           <i class="fas fa-quote-left"></i>
         </div>
-        
+
         <blockquote class="testimonial-quote">
-          "{{ currentTestimonial.quote }}"
+          {{ currentTestimonial.quote }}
         </blockquote>
 
-        <!-- Profile -->
         <div class="profile">
           <div class="profile-image-wrapper">
-            <!-- Skeleton -->
-     
+            <div class="image-skeleton" *ngIf="!imageLoaded">
+              <div class="skeleton-circle"></div>
+            </div>
+            <img
+              [src]="currentTestimonial.image"
+              [alt]="currentTestimonial.name"
+              class="profile-image"
+              [class.loaded]="imageLoaded"
+              (load)="onImageLoad()"
+              (error)="onImageLoad()">
           </div>
           <div class="profile-info">
             <h4 class="name">{{ currentTestimonial.name }}</h4>
@@ -33,26 +40,31 @@
         </div>
       </div>
 
-      <!-- Controls -->
       <div class="controls">
-        <button class="control-btn prev" (click)="previousTestimonial()">
+        <button class="control-btn prev" (click)="previousTestimonial()" aria-label="Previous testimonial">
           <i class="fas fa-chevron-left"></i>
         </button>
-        
+
         <div class="dots">
-          <span 
-            class="dot" 
+          <span
+            class="dot"
             *ngFor="let t of testimonials; let i = index"
             [class.active]="i === currentIndex"
             (click)="goToTestimonial(i)"
-          ></span>
+            (keydown.enter)="goToTestimonial(i)"
+            (keydown.space)="goToTestimonial(i); $event.preventDefault()"
+            [attr.aria-label]="'Show testimonial ' + (i + 1)"
+            role="button"
+            tabindex="0">
+          </span>
         </div>
-        
-        <button class="control-btn next" (click)="nextTestimonial()">
+
+        <button class="control-btn next" (click)="nextTestimonial()" aria-label="Next testimonial">
           <i class="fas fa-chevron-right"></i>
         </button>
       </div>
     </div>
+
   </div>
 </section>
 

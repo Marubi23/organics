@@ -20,14 +20,14 @@ declare var navigator: any;
     trigger('fadeIn', [
       transition(':enter', [
         style({ opacity: 0, transform: 'translateY(20px)' }),
-        animate('400ms cubic-bezier(0.4, 0, 0.2, 1)', 
+        animate('400ms cubic-bezier(0.4, 0, 0.2, 1)',
           style({ opacity: 1, transform: 'translateY(0)' }))
       ])
     ]),
     trigger('slideIn', [
       transition(':enter', [
         style({ opacity: 0, transform: 'translateX(-10px)' }),
-        animate('300ms ease', 
+        animate('300ms ease',
           style({ opacity: 1, transform: 'translateX(0)' }))
       ])
     ])
@@ -39,25 +39,28 @@ export class CheckoutComponent implements OnInit, OnDestroy, AfterViewInit {
   totalAmount: number = 0;
   subtotal: number = 0;
   orderCode: string = '';
-  
+
   // Location capture
   userLocation: { lat: number; lng: number } | null = null;
   isLocating: boolean = false;
   locationError: string | null = null;
   locationCaptured: boolean = false;
   locationBannerVisible: boolean = false;
-  
-  // Collapsible state - start closed, show + icon
+
+  // Collapsible state
   addressSectionOpen: boolean = false;
   instructionsSectionOpen: boolean = false;
-  
+
+  // Mobile order-summary drawer toggle
+  summaryOpenMobile: boolean = false;
+
   selectedDelivery: string = 'standard';
   checkoutForm!: FormGroup;
   deliveryForm!: FormGroup;
   showConfirmationModal: boolean = false;
   isLoading: boolean = false;
-  
-  // WhatsApp configuration - make these public for template
+
+  // WhatsApp configuration
   readonly tillNumber: string = '8589836';
   readonly whatsappNumber: string = '254701934918';
   readonly displayPhoneNumber: string = '+254 701 934918';
@@ -160,13 +163,12 @@ export class CheckoutComponent implements OnInit, OnDestroy, AfterViewInit {
         this.locationCaptured = true;
         this.isLocating = false;
         this.locationError = null;
-        
-        // Show location banner
+
         this.locationBannerVisible = true;
         setTimeout(() => {
           this.locationBannerVisible = false;
         }, 8000);
-        
+
         if (this.toastService) {
           this.toastService.showSuccess('📍 Location detected!');
         }
@@ -204,7 +206,7 @@ export class CheckoutComponent implements OnInit, OnDestroy, AfterViewInit {
   loadCartItems(): void {
     this.cartItems = this.cartService.getCartItems();
     this.calculateSubtotal();
-    
+
     if (this.cartItems.length === 0) {
       this.router.navigate(['/cart']);
       if (this.toastService) {
@@ -263,13 +265,17 @@ export class CheckoutComponent implements OnInit, OnDestroy, AfterViewInit {
     this.instructionsSectionOpen = !this.instructionsSectionOpen;
   }
 
+  toggleSummaryMobile(): void {
+    this.summaryOpenMobile = !this.summaryOpenMobile;
+  }
+
   // ============================================
   // COUNTY METHODS
   // ============================================
   setCountyInputMode(mode: 'select' | 'manual'): void {
     this.countyInputMode = mode;
     this.countySuggestions = [];
-    
+
     if (mode === 'select') {
       this.deliveryForm.get('county')?.setValidators([Validators.required]);
       this.deliveryForm.get('countyManual')?.clearValidators();
@@ -283,7 +289,7 @@ export class CheckoutComponent implements OnInit, OnDestroy, AfterViewInit {
       this.deliveryForm.get('county')?.clearValidators();
       this.deliveryForm.get('county')?.setValue('');
     }
-    
+
     this.deliveryForm.get('county')?.updateValueAndValidity();
     this.deliveryForm.get('countyManual')?.updateValueAndValidity();
   }
@@ -294,7 +300,7 @@ export class CheckoutComponent implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
     const term = searchTerm.toLowerCase();
-    this.countySuggestions = this.counties.filter(county => 
+    this.countySuggestions = this.counties.filter(county =>
       county.toLowerCase().includes(term)
     ).slice(0, 5);
   }
@@ -319,7 +325,7 @@ export class CheckoutComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       return;
     }
-    
+
     if (this.currentStep === 2 && !this.isDeliveryFormValid()) {
       this.markFormGroupTouched(this.deliveryForm);
       if (this.toastService) {
@@ -327,7 +333,7 @@ export class CheckoutComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       return;
     }
-    
+
     if (this.currentStep < 3) {
       this.currentStep++;
       if (this.currentStep === 3) {
@@ -363,28 +369,28 @@ export class CheckoutComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   // ============================================
-  // WHATSAPP MESSAGE - FULL DETAILS
+  // WHATSAPP MESSAGE
   // ============================================
   generateWhatsAppMessage(): string {
     const customer = this.checkoutForm.value;
     const delivery = this.deliveryForm.value;
     const county = this.getCountyValue();
     const displayPhone = this.formatPhoneForDisplay(customer.phoneNumber);
-    const itemsList = this.cartItems.map(item => 
+    const itemsList = this.cartItems.map(item =>
       `• ${item.quantity}x ${item.name} - KES ${(item.price * item.quantity).toLocaleString()}`
     ).join('\n');
-    
-    const freeDeliveryNote = this.isFreeDeliveryEligible() 
-      ? '✅ ELIGIBLE FOR FREE DELIVERY (order above KES 25,000)' 
+
+    const freeDeliveryNote = this.isFreeDeliveryEligible()
+      ? '✅ ELIGIBLE FOR FREE DELIVERY (order above KES 25,000)'
       : '💰 Please assess distance and confirm delivery cost';
-    
-    const locationInfo = this.userLocation 
+
+    const locationInfo = this.userLocation
       ? `📍 Customer Location: ${this.userLocation.lat.toFixed(6)}, ${this.userLocation.lng.toFixed(6)}`
       : '📍 Location: Not captured (please request)';
 
     const message = `*🌱 MZURI ORGANICS - NEW ORDER #${this.orderCode}*
 
-📅 *Date:* ${new Date().toLocaleString('en-KE', { 
+📅 *Date:* ${new Date().toLocaleString('en-KE', {
   day: '2-digit', month: 'short', year: 'numeric',
   hour: '2-digit', minute: '2-digit'
 })}
@@ -459,11 +465,11 @@ ${itemsList}
       }
       return;
     }
-    
+
     const message = this.generateWhatsAppMessage();
     const whatsappUrl = `https://wa.me/${this.whatsappNumber}?text=${message}`;
     window.open(whatsappUrl, '_blank');
-    
+
     if (this.toastService) {
       this.toastService.showSuccess('📱 WhatsApp opened with your order details!');
     }
@@ -495,10 +501,10 @@ ${itemsList}
 
   saveOrderToStorage(): void {
     this.isLoading = true;
-    
+
     const countyValue = this.getCountyValue();
     const storedPhone = this.formatPhoneForStorage(this.checkoutForm.value.phoneNumber);
-    
+
     const orderData = {
       customer: {
         firstName: this.checkoutForm.value.firstName,
@@ -567,7 +573,7 @@ ${itemsList}
         createdAt: new Date().toISOString(),
         location: this.userLocation
       };
-      
+
       localStorage.setItem(`order_${this.orderCode}`, JSON.stringify(order));
       this.showConfirmationModal = true;
       this.openWhatsAppWithMessage();
